@@ -1,0 +1,19 @@
+# third_party.lock
+# Pinned upstream dependencies for reproducible rebuild.
+# Date: 2026-03-09
+
+[[source]]
+name = "balatro-rs"
+repo = "https://github.com/evanofslack/balatro-rs"
+path = "vendor/balatro-rs"
+commit = "1bc85b2dce8c204cb6342cac3f4bc320723626e7"
+patches = []
+notes = "Rust game engine + PyO3 pylatro binding"
+
+[[source]]
+name = "balatro-gym"
+repo = "https://github.com/cassiusfive/balatro-gym"
+path = "vendor/balatro-gym"
+commit = "e97b96e5685881695d1691b3d09e4057ce66f244"
+patches = []
+notes = "Reference Python gym/training structure"

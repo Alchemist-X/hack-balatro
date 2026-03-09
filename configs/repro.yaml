@@ -1,0 +1,115 @@
+env:
+  seed: 42
+  use_mock_engine_when_unavailable: true
+  max_steps: 2000
+  disable_reorder_actions: true
+
+reward:
+  win_reward: 10.0
+  blind_pass_reward: 0.5
+  boss_pass_reward: 1.0
+  death_penalty: 0.0
+  use_score_shaping: true
+  score_shaping_scale: 0.1
+  streak_bonus: 0.0
+
+training:
+  total_env_steps: 200000
+  num_envs: 8
+  steps_per_env: 64
+  num_epochs: 4
+  mini_batch_size: 256
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  entropy_coef: 0.01
+  value_loss_coef: 0.5
+  max_grad_norm: 0.5
+  learning_rate: 0.0002
+  scheduler: constant
+  eval_interval: 10000
+  checkpoint_interval: 20000
+  behavior_clone:
+    enabled: true
+    trajectories_games: 200
+    epochs: 4
+    batch_size: 256
+    lr: 0.001
+
+  curriculum:
+    enabled: false
+    stages:
+      - name: easy
+        max_ante: 4
+        min_win_rate: 0.1
+        min_episodes: 1000
+      - name: standard
+        max_ante: 8
+        min_win_rate: 0.05
+        min_episodes: 5000
+      - name: hard
+        max_ante: 8
+
+strategy:
+  default: strategy_stable
+  strategies:
+    strategy_stable:
+      model_type: mlp
+      optimizer:
+        learning_rate: 0.0002
+        scheduler: constant
+      reward:
+        score_shaping_scale: 0.1
+        blind_pass_reward: 0.5
+        boss_pass_reward: 1.0
+        win_reward: 10.0
+      training:
+        entropy_coef: 0.01
+
+    strategy_reward_boost:
+      model_type: mlp
+      optimizer:
+        learning_rate: 0.0002
+        scheduler: constant
+      reward:
+        score_shaping_scale: 0.5
+        blind_pass_reward: 2.0
+        boss_pass_reward: 3.0
+        win_reward: 10.0
+      training:
+        entropy_coef: 0.03
+
+    strategy_transformer:
+      model_type: transformer
+      optimizer:
+        learning_rate: 0.0001
+        scheduler: constant
+      reward:
+        score_shaping_scale: 0.2
+        blind_pass_reward: 1.0
+        boss_pass_reward: 2.0
+        win_reward: 10.0
+      training:
+        entropy_coef: 0.02
+
+checkpoint:
+  dir: checkpoints
+  best_path: checkpoints/best.pt
+  latest_path: checkpoints/latest.pt
+
+logging:
+  level: INFO
+  dir: runs
+
+eval:
+  seeds_file: eval/seeds.json
+  episodes_per_seed: 1
+  baseline_episodes: 100
+  repeat_runs_for_repro: 2
+  repro_tolerance:
+    win_rate: 0.02
+    avg_blinds_passed: 0.3
+    avg_episode_reward: 0.5
+
+report:
+  results_dir: results

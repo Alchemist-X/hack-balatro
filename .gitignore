@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Local runtime artifacts
+results/
+checkpoints/
+trajectories/
+runs/
+
+# Local upstream clones (pinned in third_party.lock)
+vendor/
+
+# IDE
+.vscode/
+.idea/
