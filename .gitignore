@@ -19,3 +19,6 @@ vendor/
 # IDE
 .vscode/
 .idea/
+
+# Rust
+target/

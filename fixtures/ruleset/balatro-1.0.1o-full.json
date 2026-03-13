@@ -1,0 +1,5836 @@
+{
+  "metadata": {
+    "version": "1.0.1o-FULL",
+    "generated_at": "2026-03-13T15:57:25.017223+00:00",
+    "source_hashes": {
+      "game_lua_sha256": "bbc67bd3fbadd1ea3f3f0aba07ef8596118d89ff1e9758718f9e17c07a96e912",
+      "wiki_jokers_sha256": "c3c4770ee2210e7a0c5d57e163e5bca04c81b14129b965237a1bbe687135917d",
+      "love_sha256": "48c7a0791796a969d2cd0891ebdc9922b2988eb5aaad8ad7a72775a02772e24e"
+    },
+    "source_paths": {
+      "love_path": "/Users/Aincrad/Library/Application Support/Steam/steamapps/common/Balatro/Balatro.app/Contents/Resources/Balatro.love",
+      "game_lua_entry": "game.lua",
+      "wiki_jokers_url": "https://balatrowiki.org/w/Module:Jokers/data?action=raw"
+    },
+    "sprite_defaults": {
+      "Joker": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "frame_w": 71,
+        "frame_h": 95
+      },
+      "Blind": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "frame_w": 68,
+        "frame_h": 68
+      },
+      "Stake": {
+        "atlas": "resources/textures/1x/chips.png",
+        "frame_w": 58,
+        "frame_h": 58
+      },
+      "Tarot": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "frame_w": 71,
+        "frame_h": 95
+      },
+      "Planet": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "frame_w": 71,
+        "frame_h": 95
+      },
+      "Spectral": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "frame_w": 71,
+        "frame_h": 95
+      },
+      "Voucher": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    }
+  },
+  "hand_specs": [
+    {
+      "key": "high_card",
+      "name": "High Card",
+      "base_chips": 5,
+      "base_mult": 1,
+      "level_chips": 10,
+      "level_mult": 1
+    },
+    {
+      "key": "pair",
+      "name": "Pair",
+      "base_chips": 10,
+      "base_mult": 2,
+      "level_chips": 15,
+      "level_mult": 1
+    },
+    {
+      "key": "two_pair",
+      "name": "Two Pair",
+      "base_chips": 20,
+      "base_mult": 2,
+      "level_chips": 20,
+      "level_mult": 1
+    },
+    {
+      "key": "three_of_kind",
+      "name": "Three of a Kind",
+      "base_chips": 30,
+      "base_mult": 3,
+      "level_chips": 20,
+      "level_mult": 2
+    },
+    {
+      "key": "straight",
+      "name": "Straight",
+      "base_chips": 30,
+      "base_mult": 4,
+      "level_chips": 30,
+      "level_mult": 3
+    },
+    {
+      "key": "flush",
+      "name": "Flush",
+      "base_chips": 35,
+      "base_mult": 4,
+      "level_chips": 15,
+      "level_mult": 2
+    },
+    {
+      "key": "full_house",
+      "name": "Full House",
+      "base_chips": 40,
+      "base_mult": 4,
+      "level_chips": 25,
+      "level_mult": 2
+    },
+    {
+      "key": "four_of_a_kind",
+      "name": "Four of a Kind",
+      "base_chips": 60,
+      "base_mult": 7,
+      "level_chips": 30,
+      "level_mult": 3
+    },
+    {
+      "key": "straight_flush",
+      "name": "Straight Flush",
+      "base_chips": 100,
+      "base_mult": 8,
+      "level_chips": 40,
+      "level_mult": 4
+    },
+    {
+      "key": "five_of_a_kind",
+      "name": "Five of a Kind",
+      "base_chips": 120,
+      "base_mult": 12,
+      "level_chips": 35,
+      "level_mult": 3
+    },
+    {
+      "key": "flush_house",
+      "name": "Flush House",
+      "base_chips": 140,
+      "base_mult": 14,
+      "level_chips": 40,
+      "level_mult": 4
+    },
+    {
+      "key": "flush_five",
+      "name": "Flush Five",
+      "base_chips": 160,
+      "base_mult": 16,
+      "level_chips": 50,
+      "level_mult": 4
+    }
+  ],
+  "ante_base_scores": [
+    300,
+    800,
+    2800,
+    6000,
+    11000,
+    20000,
+    35000,
+    50000
+  ],
+  "blinds": [
+    {
+      "id": "bl_small",
+      "name": "Small Blind",
+      "order": 1,
+      "dollars": 3,
+      "mult": 1.0,
+      "boss": false,
+      "showdown": false,
+      "min_ante": null,
+      "max_ante": null,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 0,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_big",
+      "name": "Big Blind",
+      "order": 2,
+      "dollars": 4,
+      "mult": 1.5,
+      "boss": false,
+      "showdown": false,
+      "min_ante": null,
+      "max_ante": null,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 1,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_hook",
+      "name": "The Hook",
+      "order": 3,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 7,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_ox",
+      "name": "The Ox",
+      "order": 4,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 6,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 2,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_house",
+      "name": "The House",
+      "order": 5,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 3,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_wall",
+      "name": "The Wall",
+      "order": 6,
+      "dollars": 5,
+      "mult": 4.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 9,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_wheel",
+      "name": "The Wheel",
+      "order": 7,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 10,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_arm",
+      "name": "The Arm",
+      "order": 8,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 11,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_club",
+      "name": "The Club",
+      "order": 9,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {
+        "suit": "Clubs"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 4,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_fish",
+      "name": "The Fish",
+      "order": 10,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 5,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_psychic",
+      "name": "The Psychic",
+      "order": 11,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {
+        "h_size_ge": 5
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 12,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_goad",
+      "name": "The Goad",
+      "order": 12,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {
+        "suit": "Spades"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 13,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_water",
+      "name": "The Water",
+      "order": 13,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 14,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_window",
+      "name": "The Window",
+      "order": 14,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {
+        "suit": "Diamonds"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 6,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_manacle",
+      "name": "The Manacle",
+      "order": 15,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 8,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_eye",
+      "name": "The Eye",
+      "order": 16,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 3,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 17,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_mouth",
+      "name": "The Mouth",
+      "order": 17,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 18,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_plant",
+      "name": "The Plant",
+      "order": 18,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 4,
+      "max_ante": 10,
+      "debuff": {
+        "is_face": "face"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 19,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_serpent",
+      "name": "The Serpent",
+      "order": 19,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 5,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 15,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_pillar",
+      "name": "The Pillar",
+      "order": 20,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 16,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_needle",
+      "name": "The Needle",
+      "order": 21,
+      "dollars": 5,
+      "mult": 1.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 20,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_head",
+      "name": "The Head",
+      "order": 22,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 1,
+      "max_ante": 10,
+      "debuff": {
+        "suit": "Hearts"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 21,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_tooth",
+      "name": "The Tooth",
+      "order": 23,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 3,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 22,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_flint",
+      "name": "The Flint",
+      "order": 24,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 24,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_mark",
+      "name": "The Mark",
+      "order": 25,
+      "dollars": 5,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": false,
+      "min_ante": 2,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 23,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_final_acorn",
+      "name": "Amber Acorn",
+      "order": 26,
+      "dollars": 8,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": true,
+      "min_ante": 10,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 27,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_final_leaf",
+      "name": "Verdant Leaf",
+      "order": 27,
+      "dollars": 8,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": true,
+      "min_ante": 10,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 28,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_final_vessel",
+      "name": "Violet Vessel",
+      "order": 28,
+      "dollars": 8,
+      "mult": 6.0,
+      "boss": true,
+      "showdown": true,
+      "min_ante": 10,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 29,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_final_heart",
+      "name": "Crimson Heart",
+      "order": 29,
+      "dollars": 8,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": true,
+      "min_ante": 10,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 25,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    },
+    {
+      "id": "bl_final_bell",
+      "name": "Cerulean Bell",
+      "order": 30,
+      "dollars": 8,
+      "mult": 2.0,
+      "boss": true,
+      "showdown": true,
+      "min_ante": 10,
+      "max_ante": 10,
+      "debuff": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/BlindChips.png",
+        "x": 0,
+        "y": 26,
+        "frame_w": 68,
+        "frame_h": 68
+      }
+    }
+  ],
+  "stakes": [
+    {
+      "id": "stake_white",
+      "name": "White Chip",
+      "order": 1,
+      "stake_level": 1,
+      "unlocked": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 0,
+        "y": 0,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    },
+    {
+      "id": "stake_red",
+      "name": "Red Chip",
+      "order": 2,
+      "stake_level": 2,
+      "unlocked": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 1,
+        "y": 0,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    },
+    {
+      "id": "stake_green",
+      "name": "Green Chip",
+      "order": 3,
+      "stake_level": 3,
+      "unlocked": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 2,
+        "y": 0,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    },
+    {
+      "id": "stake_black",
+      "name": "Black Chip",
+      "order": 4,
+      "stake_level": 4,
+      "unlocked": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 4,
+        "y": 0,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    },
+    {
+      "id": "stake_blue",
+      "name": "Blue Chip",
+      "order": 5,
+      "stake_level": 5,
+      "unlocked": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 3,
+        "y": 0,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    },
+    {
+      "id": "stake_purple",
+      "name": "Purple Chip",
+      "order": 6,
+      "stake_level": 6,
+      "unlocked": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 0,
+        "y": 1,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    },
+    {
+      "id": "stake_orange",
+      "name": "Orange Chip",
+      "order": 7,
+      "stake_level": 7,
+      "unlocked": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 1,
+        "y": 1,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    },
+    {
+      "id": "stake_gold",
+      "name": "Gold Chip",
+      "order": 8,
+      "stake_level": 8,
+      "unlocked": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/chips.png",
+        "x": 2,
+        "y": 1,
+        "frame_w": 58,
+        "frame_h": 58
+      }
+    }
+  ],
+  "jokers": [
+    {
+      "id": "j_joker",
+      "order": 1,
+      "name": "Joker",
+      "set": "Joker",
+      "cost": 2,
+      "rarity": 1,
+      "effect": "Mult",
+      "config": {
+        "mult": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_greedy_joker",
+      "order": 2,
+      "name": "Greedy Joker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Suit Mult",
+      "config": {
+        "extra": {
+          "s_mult": 3,
+          "suit": "Diamonds"
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_lusty_joker",
+      "order": 3,
+      "name": "Lusty Joker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Suit Mult",
+      "config": {
+        "extra": {
+          "s_mult": 3,
+          "suit": "Hearts"
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_wrathful_joker",
+      "order": 4,
+      "name": "Wrathful Joker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Suit Mult",
+      "config": {
+        "extra": {
+          "s_mult": 3,
+          "suit": "Spades"
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_gluttenous_joker",
+      "order": 5,
+      "name": "Gluttonous Joker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Suit Mult",
+      "config": {
+        "extra": {
+          "s_mult": 3,
+          "suit": "Clubs"
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_jolly",
+      "order": 6,
+      "name": "Jolly Joker",
+      "set": "Joker",
+      "cost": 3,
+      "rarity": 1,
+      "effect": "Type Mult",
+      "config": {
+        "t_mult": 8,
+        "type": "Pair"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_zany",
+      "order": 7,
+      "name": "Zany Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Type Mult",
+      "config": {
+        "t_mult": 12,
+        "type": "Three of a Kind"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_mad",
+      "order": 8,
+      "name": "Mad Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Type Mult",
+      "config": {
+        "t_mult": 10,
+        "type": "Two Pair"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_crazy",
+      "order": 9,
+      "name": "Crazy Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Type Mult",
+      "config": {
+        "t_mult": 12,
+        "type": "Straight"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_droll",
+      "order": 10,
+      "name": "Droll Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Type Mult",
+      "config": {
+        "t_mult": 10,
+        "type": "Flush"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_sly",
+      "order": 11,
+      "name": "Sly Joker",
+      "set": "Joker",
+      "cost": 3,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "t_chips": 50,
+        "type": "Pair"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_wily",
+      "order": 12,
+      "name": "Wily Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "t_chips": 100,
+        "type": "Three of a Kind"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_clever",
+      "order": 13,
+      "name": "Clever Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "t_chips": 80,
+        "type": "Two Pair"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_devious",
+      "order": 14,
+      "name": "Devious Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "t_chips": 100,
+        "type": "Straight"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_crafty",
+      "order": 15,
+      "name": "Crafty Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "t_chips": 80,
+        "type": "Flush"
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_half",
+      "order": 16,
+      "name": "Half Joker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Hand Size Mult",
+      "config": {
+        "extra": {
+          "mult": 20,
+          "size": 3
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_stencil",
+      "order": 17,
+      "name": "Joker Stencil",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 2,
+      "effect": "Hand Size Mult",
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_four_fingers",
+      "order": 18,
+      "name": "Four Fingers",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_mime",
+      "order": 19,
+      "name": "Mime",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": "Hand card double",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_credit_card",
+      "order": 20,
+      "name": "Credit Card",
+      "set": "Joker",
+      "cost": 1,
+      "rarity": 1,
+      "effect": "Credit",
+      "config": {
+        "extra": 20
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_ceremonial",
+      "order": 21,
+      "name": "Ceremonial Dagger",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "mult": 0
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_banner",
+      "order": 22,
+      "name": "Banner",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Discard Chips",
+      "config": {
+        "extra": 30
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_mystic_summit",
+      "order": 23,
+      "name": "Mystic Summit",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "No Discard Mult",
+      "config": {
+        "extra": {
+          "mult": 15,
+          "d_remaining": 0
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_marble",
+      "order": 24,
+      "name": "Marble Joker",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Stone card hands",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_loyalty_card",
+      "order": 25,
+      "name": "Loyalty Card",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": "1 in 10 mult",
+      "config": {
+        "extra": {
+          "Xmult": 4,
+          "every": 5,
+          "remaining": "5 remaining"
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_8_ball",
+      "order": 26,
+      "name": "8 Ball",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Spawn Tarot",
+      "config": {
+        "extra": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_misprint",
+      "order": 27,
+      "name": "Misprint",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Random Mult",
+      "config": {
+        "extra": {
+          "max": 23,
+          "min": 0
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_dusk",
+      "order": 28,
+      "name": "Dusk",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_raised_fist",
+      "order": 29,
+      "name": "Raised Fist",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Socialized Mult",
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_chaos",
+      "order": 30,
+      "name": "Chaos the Clown",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Bonus Rerolls",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_fibonacci",
+      "order": 31,
+      "name": "Fibonacci",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 2,
+      "effect": "Card Mult",
+      "config": {
+        "extra": 8
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_steel_joker",
+      "order": 32,
+      "name": "Steel Joker",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "Steel Card Buff",
+      "config": {
+        "extra": 0.2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_scary_face",
+      "order": 33,
+      "name": "Scary Face",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Scary Face Cards",
+      "config": {
+        "extra": 30
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_abstract",
+      "order": 34,
+      "name": "Abstract Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Joker Mult",
+      "config": {
+        "extra": 3
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_delayed_grat",
+      "order": 35,
+      "name": "Delayed Gratification",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Discard dollars",
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_hack",
+      "order": 36,
+      "name": "Hack",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Low Card double",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_pareidolia",
+      "order": 37,
+      "name": "Pareidolia",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": "All face cards",
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_gros_michel",
+      "order": 38,
+      "name": "Gros Michel",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "",
+      "config": {
+        "extra": {
+          "odds": 6,
+          "mult": 15
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_even_steven",
+      "order": 39,
+      "name": "Even Steven",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Even Card Buff",
+      "config": {
+        "extra": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_odd_todd",
+      "order": 40,
+      "name": "Odd Todd",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Odd Card Buff",
+      "config": {
+        "extra": 31
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_scholar",
+      "order": 41,
+      "name": "Scholar",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Ace Buff",
+      "config": {
+        "extra": {
+          "mult": 4,
+          "chips": 20
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_business",
+      "order": 42,
+      "name": "Business Card",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Face Card dollar Chance",
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_supernova",
+      "order": 43,
+      "name": "Supernova",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "Hand played mult",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_ride_the_bus",
+      "order": 44,
+      "name": "Ride the Bus",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 1,
+      "effect": "",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_space",
+      "order": 45,
+      "name": "Space Joker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": "Upgrade Hand chance",
+      "config": {
+        "extra": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_egg",
+      "order": 46,
+      "name": "Egg",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 3
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_burglar",
+      "order": 47,
+      "name": "Burglar",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 3
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_blackboard",
+      "order": 48,
+      "name": "Blackboard",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 3
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_runner",
+      "order": 49,
+      "name": "Runner",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "chips": 0,
+          "chip_mod": 15
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_ice_cream",
+      "order": 50,
+      "name": "Ice Cream",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "chips": 100,
+          "chip_mod": 5
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_dna",
+      "order": 51,
+      "name": "DNA",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_splash",
+      "order": 52,
+      "name": "Splash",
+      "set": "Joker",
+      "cost": 3,
+      "rarity": 1,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_blue_joker",
+      "order": 53,
+      "name": "Blue Joker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_sixth_sense",
+      "order": 54,
+      "name": "Sixth Sense",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_constellation",
+      "order": 55,
+      "name": "Constellation",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 0.1,
+        "Xmult": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 10,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_hiker",
+      "order": 56,
+      "name": "Hiker",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 5
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_faceless",
+      "order": 57,
+      "name": "Faceless Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "dollars": 5,
+          "faces": 3
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_green_joker",
+      "order": 58,
+      "name": "Green Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "hand_add": 1,
+          "discard_sub": 1
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_superposition",
+      "order": 59,
+      "name": "Superposition",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_todo_list",
+      "order": 60,
+      "name": "To Do List",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "dollars": 4,
+          "poker_hand": "High Card"
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_cavendish",
+      "order": 61,
+      "name": "Cavendish",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "odds": 1000,
+          "Xmult": 3
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_card_sharp",
+      "order": 62,
+      "name": "Card Sharp",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": {
+          "Xmult": 3
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_red_card",
+      "order": 63,
+      "name": "Red Card",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 3
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_madness",
+      "order": 64,
+      "name": "Madness",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 0.5
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_square",
+      "order": 65,
+      "name": "Square Joker",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "chips": 0,
+          "chip_mod": 4
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 11,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_seance",
+      "order": 66,
+      "name": "Seance",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": {
+          "poker_hand": "Straight Flush"
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_riff_raff",
+      "order": 67,
+      "name": "Riff-raff",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_vampire",
+      "order": 68,
+      "name": "Vampire",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 0.1,
+        "Xmult": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_shortcut",
+      "order": 69,
+      "name": "Shortcut",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_hologram",
+      "order": 70,
+      "name": "Hologram",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 0.25,
+        "Xmult": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_vagabond",
+      "order": 71,
+      "name": "Vagabond",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": null,
+      "config": {
+        "extra": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_baron",
+      "order": 72,
+      "name": "Baron",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": null,
+      "config": {
+        "extra": 1.5
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_cloud_9",
+      "order": 73,
+      "name": "Cloud 9",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_rocket",
+      "order": 74,
+      "name": "Rocket",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": {
+          "dollars": 1,
+          "increase": 2
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_obelisk",
+      "order": 75,
+      "name": "Obelisk",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": null,
+      "config": {
+        "extra": 0.2,
+        "Xmult": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 12,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_midas_mask",
+      "order": 76,
+      "name": "Midas Mask",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_luchador",
+      "order": 77,
+      "name": "Luchador",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_photograph",
+      "order": 78,
+      "name": "Photograph",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_gift",
+      "order": 79,
+      "name": "Gift Card",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_turtle_bean",
+      "order": 80,
+      "name": "Turtle Bean",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": {
+          "h_size": 5,
+          "h_mod": 1
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_erosion",
+      "order": 81,
+      "name": "Erosion",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_reserved_parking",
+      "order": 82,
+      "name": "Reserved Parking",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "odds": 2,
+          "dollars": 1
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_mail",
+      "order": 83,
+      "name": "Mail-In Rebate",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 5
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_to_the_moon",
+      "order": 84,
+      "name": "To the Moon",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_hallucination",
+      "order": 85,
+      "name": "Hallucination",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 13,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_fortune_teller",
+      "order": 86,
+      "name": "Fortune Teller",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 1,
+      "effect": "",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_juggler",
+      "order": 87,
+      "name": "Juggler",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Hand Size",
+      "config": {
+        "h_size": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_drunkard",
+      "order": 88,
+      "name": "Drunkard",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Discard Size",
+      "config": {
+        "d_size": 1
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_stone",
+      "order": 89,
+      "name": "Stone Joker",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Stone Card Buff",
+      "config": {
+        "extra": 25
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_golden",
+      "order": 90,
+      "name": "Golden Joker",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 1,
+      "effect": "Bonus dollars",
+      "config": {
+        "extra": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_lucky_cat",
+      "order": 91,
+      "name": "Lucky Cat",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "Xmult": 1,
+        "extra": 0.25
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_baseball",
+      "order": 92,
+      "name": "Baseball Card",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": null,
+      "config": {
+        "extra": 1.5
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_bull",
+      "order": 93,
+      "name": "Bull",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_diet_cola",
+      "order": 94,
+      "name": "Diet Cola",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {},
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_trading",
+      "order": 95,
+      "name": "Trading Card",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 3
+      },
+      "unlocked": true,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 14,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_flash",
+      "order": 96,
+      "name": "Flash Card",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 2,
+        "mult": 0
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_popcorn",
+      "order": 97,
+      "name": "Popcorn",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "mult": 20,
+        "extra": 4
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_trousers",
+      "order": 98,
+      "name": "Spare Trousers",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 2
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_ancient",
+      "order": 99,
+      "name": "Ancient Joker",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": null,
+      "config": {
+        "extra": 1.5
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_ramen",
+      "order": 100,
+      "name": "Ramen",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "Xmult": 2,
+        "extra": 0.01
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_walkie_talkie",
+      "order": 101,
+      "name": "Walkie Talkie",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": {
+          "chips": 10,
+          "mult": 4
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_selzer",
+      "order": 102,
+      "name": "Seltzer",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": 10
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_castle",
+      "order": 103,
+      "name": "Castle",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": null,
+      "config": {
+        "extra": {
+          "chips": 0,
+          "chip_mod": 3
+        }
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_smiley",
+      "order": 104,
+      "name": "Smiley Face",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": null,
+      "config": {
+        "extra": 5
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_campfire",
+      "order": 105,
+      "name": "Campfire",
+      "set": "Joker",
+      "cost": 9,
+      "rarity": 3,
+      "effect": null,
+      "config": {
+        "extra": 0.25
+      },
+      "unlocked": true,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 15,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_ticket",
+      "order": 106,
+      "name": "Golden Ticket",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "dollars for Gold cards",
+      "config": {
+        "extra": 4
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_mr_bones",
+      "order": 107,
+      "name": "Mr. Bones",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": "Prevent Death",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_acrobat",
+      "order": 108,
+      "name": "Acrobat",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Shop size",
+      "config": {
+        "extra": 3
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_sock_and_buskin",
+      "order": 109,
+      "name": "Sock and Buskin",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Face card double",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_swashbuckler",
+      "order": 110,
+      "name": "Swashbuckler",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "Set Mult",
+      "config": {
+        "mult": 1
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_troubadour",
+      "order": 111,
+      "name": "Troubadour",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Hand Size, Plays",
+      "config": {
+        "extra": {
+          "h_size": 2,
+          "h_plays": -1
+        }
+      },
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_certificate",
+      "order": 112,
+      "name": "Certificate",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_smeared",
+      "order": 113,
+      "name": "Smeared Joker",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_throwback",
+      "order": 114,
+      "name": "Throwback",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 0.25
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_hanging_chad",
+      "order": 115,
+      "name": "Hanging Chad",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 1,
+      "effect": "",
+      "config": {
+        "extra": 2
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_rough_gem",
+      "order": 116,
+      "name": "Rough Gem",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_bloodstone",
+      "order": 117,
+      "name": "Bloodstone",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": {
+          "odds": 2,
+          "Xmult": 1.5
+        }
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_arrowhead",
+      "order": 118,
+      "name": "Arrowhead",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 50
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_onyx_agate",
+      "order": 119,
+      "name": "Onyx Agate",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 7
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_glass",
+      "order": 120,
+      "name": "Glass Joker",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Glass Card",
+      "config": {
+        "extra": 0.75,
+        "Xmult": 1
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_ring_master",
+      "order": 121,
+      "name": "Showman",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 2,
+      "effect": "",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_flower_pot",
+      "order": 122,
+      "name": "Flower Pot",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 3
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_blueprint",
+      "order": 123,
+      "name": "Blueprint",
+      "set": "Joker",
+      "cost": 10,
+      "rarity": 3,
+      "effect": "Copycat",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_wee",
+      "order": 124,
+      "name": "Wee Joker",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "",
+      "config": {
+        "extra": {
+          "chips": 0,
+          "chip_mod": 8
+        }
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": false,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_merry_andy",
+      "order": 125,
+      "name": "Merry Andy",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "d_size": 3,
+        "h_size": -1
+      },
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_oops",
+      "order": 126,
+      "name": "Oops! All 6s",
+      "set": "Joker",
+      "cost": 4,
+      "rarity": 2,
+      "effect": "",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_idol",
+      "order": 127,
+      "name": "The Idol",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 2
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_seeing_double",
+      "order": 128,
+      "name": "Seeing Double",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "X1.5 Mult club 7",
+      "config": {
+        "extra": 2
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_matador",
+      "order": 129,
+      "name": "Matador",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 8
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_hit_the_road",
+      "order": 130,
+      "name": "Hit the Road",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "Jack Discard Effect",
+      "config": {
+        "extra": 0.5
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_duo",
+      "order": 131,
+      "name": "The Duo",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "X1.5 Mult",
+      "config": {
+        "Xmult": 2,
+        "type": "Pair"
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_trio",
+      "order": 132,
+      "name": "The Trio",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "X2 Mult",
+      "config": {
+        "Xmult": 3,
+        "type": "Three of a Kind"
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_family",
+      "order": 133,
+      "name": "The Family",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "X3 Mult",
+      "config": {
+        "Xmult": 4,
+        "type": "Four of a Kind"
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_order",
+      "order": 134,
+      "name": "The Order",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "X3 Mult",
+      "config": {
+        "Xmult": 3,
+        "type": "Straight"
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_tribe",
+      "order": 135,
+      "name": "The Tribe",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "X3 Mult",
+      "config": {
+        "Xmult": 2,
+        "type": "Flush"
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_stuntman",
+      "order": 136,
+      "name": "Stuntman",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 3,
+      "effect": "",
+      "config": {
+        "extra": {
+          "h_size": 2,
+          "chip_mod": 250
+        }
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_invisible",
+      "order": 137,
+      "name": "Invisible Joker",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "",
+      "config": {
+        "extra": 2
+      },
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": false,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 1,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_brainstorm",
+      "order": 138,
+      "name": "Brainstorm",
+      "set": "Joker",
+      "cost": 10,
+      "rarity": 3,
+      "effect": "Copycat",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_satellite",
+      "order": 139,
+      "name": "Satellite",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 8,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_shoot_the_moon",
+      "order": 140,
+      "name": "Shoot the Moon",
+      "set": "Joker",
+      "cost": 5,
+      "rarity": 1,
+      "effect": "",
+      "config": {
+        "extra": 13
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 6,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_drivers_license",
+      "order": 141,
+      "name": "Driver's License",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 3,
+      "effect": "",
+      "config": {
+        "extra": 3
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 0,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_cartomancer",
+      "order": 142,
+      "name": "Cartomancer",
+      "set": "Joker",
+      "cost": 6,
+      "rarity": 2,
+      "effect": "Tarot Buff",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_astronomer",
+      "order": 143,
+      "name": "Astronomer",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 2,
+      "effect": "",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 2,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_burnt",
+      "order": 144,
+      "name": "Burnt Joker",
+      "set": "Joker",
+      "cost": 8,
+      "rarity": 3,
+      "effect": "",
+      "config": {
+        "h_size": 0,
+        "extra": 4
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 7,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_bootstraps",
+      "order": 145,
+      "name": "Bootstraps",
+      "set": "Joker",
+      "cost": 7,
+      "rarity": 2,
+      "effect": "",
+      "config": {
+        "extra": {
+          "mult": 2,
+          "dollars": 5
+        }
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 9,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_caino",
+      "order": 146,
+      "name": "Caino",
+      "set": "Joker",
+      "cost": 20,
+      "rarity": 4,
+      "effect": "",
+      "config": {
+        "extra": 1
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 3,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_triboulet",
+      "order": 147,
+      "name": "Triboulet",
+      "set": "Joker",
+      "cost": 20,
+      "rarity": 4,
+      "effect": "",
+      "config": {
+        "extra": 2
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 4,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_yorick",
+      "order": 148,
+      "name": "Yorick",
+      "set": "Joker",
+      "cost": 20,
+      "rarity": 4,
+      "effect": "",
+      "config": {
+        "extra": {
+          "xmult": 1,
+          "discards": 23
+        }
+      },
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 5,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_chicot",
+      "order": 149,
+      "name": "Chicot",
+      "set": "Joker",
+      "cost": 20,
+      "rarity": 4,
+      "effect": "",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": false,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 6,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "j_perkeo",
+      "order": 150,
+      "name": "Perkeo",
+      "set": "Joker",
+      "cost": 20,
+      "rarity": 4,
+      "effect": "",
+      "config": {},
+      "unlocked": false,
+      "blueprint_compat": true,
+      "perishable_compat": true,
+      "eternal_compat": true,
+      "sprite": {
+        "atlas": "resources/textures/1x/Jokers.png",
+        "x": 7,
+        "y": 8,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    }
+  ],
+  "consumables": [
+    {
+      "id": "c_mercury",
+      "name": "Mercury",
+      "set": "Planet",
+      "order": 1,
+      "cost": 3,
+      "config": {
+        "hand_type": "Pair"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 0,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_venus",
+      "name": "Venus",
+      "set": "Planet",
+      "order": 2,
+      "cost": 3,
+      "config": {
+        "hand_type": "Three of a Kind"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 1,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_earth",
+      "name": "Earth",
+      "set": "Planet",
+      "order": 3,
+      "cost": 3,
+      "config": {
+        "hand_type": "Full House"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 2,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_mars",
+      "name": "Mars",
+      "set": "Planet",
+      "order": 4,
+      "cost": 3,
+      "config": {
+        "hand_type": "Four of a Kind"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 3,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_jupiter",
+      "name": "Jupiter",
+      "set": "Planet",
+      "order": 5,
+      "cost": 3,
+      "config": {
+        "hand_type": "Flush"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 4,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_saturn",
+      "name": "Saturn",
+      "set": "Planet",
+      "order": 6,
+      "cost": 3,
+      "config": {
+        "hand_type": "Straight"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 5,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_uranus",
+      "name": "Uranus",
+      "set": "Planet",
+      "order": 7,
+      "cost": 3,
+      "config": {
+        "hand_type": "Two Pair"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 6,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_neptune",
+      "name": "Neptune",
+      "set": "Planet",
+      "order": 8,
+      "cost": 3,
+      "config": {
+        "hand_type": "Straight Flush"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 7,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_pluto",
+      "name": "Pluto",
+      "set": "Planet",
+      "order": 9,
+      "cost": 3,
+      "config": {
+        "hand_type": "High Card"
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 8,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_planet_x",
+      "name": "Planet X",
+      "set": "Planet",
+      "order": 10,
+      "cost": 3,
+      "config": {
+        "hand_type": "Five of a Kind",
+        "softlock": true
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 9,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_ceres",
+      "name": "Ceres",
+      "set": "Planet",
+      "order": 11,
+      "cost": 3,
+      "config": {
+        "hand_type": "Flush House",
+        "softlock": true
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 8,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_eris",
+      "name": "Eris",
+      "set": "Planet",
+      "order": 12,
+      "cost": 3,
+      "config": {
+        "hand_type": "Flush Five",
+        "softlock": true
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 3,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_familiar",
+      "name": "Familiar",
+      "set": "Spectral",
+      "order": 1,
+      "cost": 4,
+      "config": {
+        "remove_card": true,
+        "extra": 3
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 0,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_grim",
+      "name": "Grim",
+      "set": "Spectral",
+      "order": 2,
+      "cost": 4,
+      "config": {
+        "remove_card": true,
+        "extra": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 1,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_incantation",
+      "name": "Incantation",
+      "set": "Spectral",
+      "order": 3,
+      "cost": 4,
+      "config": {
+        "remove_card": true,
+        "extra": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 2,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_talisman",
+      "name": "Talisman",
+      "set": "Spectral",
+      "order": 4,
+      "cost": 4,
+      "config": {
+        "extra": "Gold",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 3,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_aura",
+      "name": "Aura",
+      "set": "Spectral",
+      "order": 5,
+      "cost": 4,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 4,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_wraith",
+      "name": "Wraith",
+      "set": "Spectral",
+      "order": 6,
+      "cost": 4,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 5,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_sigil",
+      "name": "Sigil",
+      "set": "Spectral",
+      "order": 7,
+      "cost": 4,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 6,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_ouija",
+      "name": "Ouija",
+      "set": "Spectral",
+      "order": 8,
+      "cost": 4,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 7,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_ectoplasm",
+      "name": "Ectoplasm",
+      "set": "Spectral",
+      "order": 9,
+      "cost": 4,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 8,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_immolate",
+      "name": "Immolate",
+      "set": "Spectral",
+      "order": 10,
+      "cost": 4,
+      "config": {
+        "remove_card": true,
+        "extra": {
+          "destroy": 5,
+          "dollars": 20
+        }
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 9,
+        "y": 4,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_ankh",
+      "name": "Ankh",
+      "set": "Spectral",
+      "order": 11,
+      "cost": 4,
+      "config": {
+        "extra": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 0,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_deja_vu",
+      "name": "Deja Vu",
+      "set": "Spectral",
+      "order": 12,
+      "cost": 4,
+      "config": {
+        "extra": "Red",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 1,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_hex",
+      "name": "Hex",
+      "set": "Spectral",
+      "order": 13,
+      "cost": 4,
+      "config": {
+        "extra": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 2,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_trance",
+      "name": "Trance",
+      "set": "Spectral",
+      "order": 14,
+      "cost": 4,
+      "config": {
+        "extra": "Blue",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 3,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_medium",
+      "name": "Medium",
+      "set": "Spectral",
+      "order": 15,
+      "cost": 4,
+      "config": {
+        "extra": "Purple",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 4,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_cryptid",
+      "name": "Cryptid",
+      "set": "Spectral",
+      "order": 16,
+      "cost": 4,
+      "config": {
+        "extra": 2,
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 5,
+        "y": 5,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_soul",
+      "name": "The Soul",
+      "set": "Spectral",
+      "order": 17,
+      "cost": 4,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 2,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_black_hole",
+      "name": "Black Hole",
+      "set": "Spectral",
+      "order": 18,
+      "cost": 4,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 9,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_fool",
+      "name": "The Fool",
+      "set": "Tarot",
+      "order": 1,
+      "cost": 3,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 0,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_magician",
+      "name": "The Magician",
+      "set": "Tarot",
+      "order": 2,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_lucky",
+        "max_highlighted": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 1,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_high_priestess",
+      "name": "The High Priestess",
+      "set": "Tarot",
+      "order": 3,
+      "cost": 3,
+      "config": {
+        "planets": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 2,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_empress",
+      "name": "The Empress",
+      "set": "Tarot",
+      "order": 4,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_mult",
+        "max_highlighted": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 3,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_emperor",
+      "name": "The Emperor",
+      "set": "Tarot",
+      "order": 5,
+      "cost": 3,
+      "config": {
+        "tarots": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 4,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_heirophant",
+      "name": "The Hierophant",
+      "set": "Tarot",
+      "order": 6,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_bonus",
+        "max_highlighted": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 5,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_lovers",
+      "name": "The Lovers",
+      "set": "Tarot",
+      "order": 7,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_wild",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 6,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_chariot",
+      "name": "The Chariot",
+      "set": "Tarot",
+      "order": 8,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_steel",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 7,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_justice",
+      "name": "Justice",
+      "set": "Tarot",
+      "order": 9,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_glass",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 8,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_hermit",
+      "name": "The Hermit",
+      "set": "Tarot",
+      "order": 10,
+      "cost": 3,
+      "config": {
+        "extra": 20
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 9,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_wheel_of_fortune",
+      "name": "The Wheel of Fortune",
+      "set": "Tarot",
+      "order": 11,
+      "cost": 3,
+      "config": {
+        "extra": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 0,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_strength",
+      "name": "Strength",
+      "set": "Tarot",
+      "order": 12,
+      "cost": 3,
+      "config": {
+        "mod_conv": "up_rank",
+        "max_highlighted": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 1,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_hanged_man",
+      "name": "The Hanged Man",
+      "set": "Tarot",
+      "order": 13,
+      "cost": 3,
+      "config": {
+        "remove_card": true,
+        "max_highlighted": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 2,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_death",
+      "name": "Death",
+      "set": "Tarot",
+      "order": 14,
+      "cost": 3,
+      "config": {
+        "mod_conv": "card",
+        "max_highlighted": 2,
+        "min_highlighted": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 3,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_temperance",
+      "name": "Temperance",
+      "set": "Tarot",
+      "order": 15,
+      "cost": 3,
+      "config": {
+        "extra": 50
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 4,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_devil",
+      "name": "The Devil",
+      "set": "Tarot",
+      "order": 16,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_gold",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 5,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_tower",
+      "name": "The Tower",
+      "set": "Tarot",
+      "order": 17,
+      "cost": 3,
+      "config": {
+        "mod_conv": "m_stone",
+        "max_highlighted": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 6,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_star",
+      "name": "The Star",
+      "set": "Tarot",
+      "order": 18,
+      "cost": 3,
+      "config": {
+        "suit_conv": "Diamonds",
+        "max_highlighted": 3
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 7,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_moon",
+      "name": "The Moon",
+      "set": "Tarot",
+      "order": 19,
+      "cost": 3,
+      "config": {
+        "suit_conv": "Clubs",
+        "max_highlighted": 3
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 8,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_sun",
+      "name": "The Sun",
+      "set": "Tarot",
+      "order": 20,
+      "cost": 3,
+      "config": {
+        "suit_conv": "Hearts",
+        "max_highlighted": 3
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 9,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_judgement",
+      "name": "Judgement",
+      "set": "Tarot",
+      "order": 21,
+      "cost": 3,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 0,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "c_world",
+      "name": "The World",
+      "set": "Tarot",
+      "order": 22,
+      "cost": 3,
+      "config": {
+        "suit_conv": "Spades",
+        "max_highlighted": 3
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Tarots.png",
+        "x": 1,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_overstock_norm",
+      "name": "Overstock",
+      "set": "Voucher",
+      "order": 1,
+      "cost": 10,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 0,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_overstock_plus",
+      "name": "Overstock Plus",
+      "set": "Voucher",
+      "order": 2,
+      "cost": 10,
+      "config": {},
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 0,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_clearance_sale",
+      "name": "Clearance Sale",
+      "set": "Voucher",
+      "order": 3,
+      "cost": 10,
+      "config": {
+        "extra": 25
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 3,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_liquidation",
+      "name": "Liquidation",
+      "set": "Voucher",
+      "order": 4,
+      "cost": 10,
+      "config": {
+        "extra": 50
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 3,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_hone",
+      "name": "Hone",
+      "set": "Voucher",
+      "order": 5,
+      "cost": 10,
+      "config": {
+        "extra": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 4,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_glow_up",
+      "name": "Glow Up",
+      "set": "Voucher",
+      "order": 6,
+      "cost": 10,
+      "config": {
+        "extra": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 4,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_reroll_surplus",
+      "name": "Reroll Surplus",
+      "set": "Voucher",
+      "order": 7,
+      "cost": 10,
+      "config": {
+        "extra": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 0,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_reroll_glut",
+      "name": "Reroll Glut",
+      "set": "Voucher",
+      "order": 8,
+      "cost": 10,
+      "config": {
+        "extra": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 0,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_crystal_ball",
+      "name": "Crystal Ball",
+      "set": "Voucher",
+      "order": 9,
+      "cost": 10,
+      "config": {
+        "extra": 3
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 2,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_omen_globe",
+      "name": "Omen Globe",
+      "set": "Voucher",
+      "order": 10,
+      "cost": 10,
+      "config": {
+        "extra": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 2,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_telescope",
+      "name": "Telescope",
+      "set": "Voucher",
+      "order": 11,
+      "cost": 10,
+      "config": {
+        "extra": 3
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 3,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_observatory",
+      "name": "Observatory",
+      "set": "Voucher",
+      "order": 12,
+      "cost": 10,
+      "config": {
+        "extra": 1.5
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 3,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_grabber",
+      "name": "Grabber",
+      "set": "Voucher",
+      "order": 13,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 5,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_nacho_tong",
+      "name": "Nacho Tong",
+      "set": "Voucher",
+      "order": 14,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 5,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_wasteful",
+      "name": "Wasteful",
+      "set": "Voucher",
+      "order": 15,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 6,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_recyclomancy",
+      "name": "Recyclomancy",
+      "set": "Voucher",
+      "order": 16,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 6,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_tarot_merchant",
+      "name": "Tarot Merchant",
+      "set": "Voucher",
+      "order": 17,
+      "cost": 10,
+      "config": {
+        "extra": 2.4,
+        "extra_disp": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 1,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_tarot_tycoon",
+      "name": "Tarot Tycoon",
+      "set": "Voucher",
+      "order": 18,
+      "cost": 10,
+      "config": {
+        "extra": 8.0,
+        "extra_disp": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 1,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_planet_merchant",
+      "name": "Planet Merchant",
+      "set": "Voucher",
+      "order": 19,
+      "cost": 10,
+      "config": {
+        "extra": 2.4,
+        "extra_disp": 2
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 2,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_planet_tycoon",
+      "name": "Planet Tycoon",
+      "set": "Voucher",
+      "order": 20,
+      "cost": 10,
+      "config": {
+        "extra": 8.0,
+        "extra_disp": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 2,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_seed_money",
+      "name": "Seed Money",
+      "set": "Voucher",
+      "order": 21,
+      "cost": 10,
+      "config": {
+        "extra": 50
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 1,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_money_tree",
+      "name": "Money Tree",
+      "set": "Voucher",
+      "order": 22,
+      "cost": 10,
+      "config": {
+        "extra": 100
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 1,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_blank",
+      "name": "Blank",
+      "set": "Voucher",
+      "order": 23,
+      "cost": 10,
+      "config": {
+        "extra": 5
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 7,
+        "y": 0,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_antimatter",
+      "name": "Antimatter",
+      "set": "Voucher",
+      "order": 24,
+      "cost": 10,
+      "config": {
+        "extra": 15
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 7,
+        "y": 1,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_magic_trick",
+      "name": "Magic Trick",
+      "set": "Voucher",
+      "order": 25,
+      "cost": 10,
+      "config": {
+        "extra": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 4,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_illusion",
+      "name": "Illusion",
+      "set": "Voucher",
+      "order": 26,
+      "cost": 10,
+      "config": {
+        "extra": 4
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 4,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_hieroglyph",
+      "name": "Hieroglyph",
+      "set": "Voucher",
+      "order": 27,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 5,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_petroglyph",
+      "name": "Petroglyph",
+      "set": "Voucher",
+      "order": 28,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 5,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_directors_cut",
+      "name": "Director's Cut",
+      "set": "Voucher",
+      "order": 29,
+      "cost": 10,
+      "config": {
+        "extra": 10
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 6,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_retcon",
+      "name": "Retcon",
+      "set": "Voucher",
+      "order": 30,
+      "cost": 10,
+      "config": {
+        "extra": 10
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 6,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_paint_brush",
+      "name": "Paint Brush",
+      "set": "Voucher",
+      "order": 31,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 7,
+        "y": 2,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    },
+    {
+      "id": "v_palette",
+      "name": "Palette",
+      "set": "Voucher",
+      "order": 32,
+      "cost": 10,
+      "config": {
+        "extra": 1
+      },
+      "sprite": {
+        "atlas": "resources/textures/1x/Vouchers.png",
+        "x": 7,
+        "y": 3,
+        "frame_w": 71,
+        "frame_h": 95
+      }
+    }
+  ],
+  "sprite_manifest": {
+    "resources/textures/1x/Jokers.png": "resources/textures/1x/Jokers.png",
+    "resources/textures/1x/BlindChips.png": "resources/textures/1x/BlindChips.png",
+    "resources/textures/1x/chips.png": "resources/textures/1x/chips.png",
+    "resources/textures/1x/Tarots.png": "resources/textures/1x/Tarots.png",
+    "resources/textures/1x/Vouchers.png": "resources/textures/1x/Vouchers.png"
+  },
+  "shop_weights": {
+    "common": 70.0,
+    "uncommon": 25.0,
+    "rare": 5.0,
+    "legendary": 0.3
+  }
+}

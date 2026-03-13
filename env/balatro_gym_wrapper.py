@@ -51,6 +51,15 @@ def _maybe_import_pylatro() -> Any | None:
         return None
 
 
+def _maybe_import_balatro_native() -> Any | None:
+    try:
+        import balatro_native
+
+        return balatro_native
+    except Exception:
+        return None
+
+
 @dataclass
 class _MockCard:
     card_id: int
@@ -300,14 +309,28 @@ class MockGameEngine:
 
 
 class _EngineAdapter:
-    def __init__(self, seed: int | None, force_mock: bool = False) -> None:
+    def __init__(
+        self,
+        seed: int | None,
+        force_mock: bool = False,
+        ruleset_path: str | None = None,
+        stake: int = 1,
+    ) -> None:
         self.backend = "mock"
         self.pylatro = None
+        self.native = None
         self._engine: Any
 
         if not force_mock:
+            self.native = _maybe_import_balatro_native()
             self.pylatro = _maybe_import_pylatro()
-        if self.pylatro is None or force_mock:
+        if self.native is not None and not force_mock:
+            kwargs: dict[str, Any] = {"seed": int(seed or 42), "stake": int(stake)}
+            if ruleset_path:
+                kwargs["ruleset_path"] = ruleset_path
+            self._engine = self.native.Engine(**kwargs)
+            self.backend = "balatro_native"
+        elif self.pylatro is None or force_mock:
             self._engine = MockGameEngine(seed=seed)
             self.backend = "mock"
         else:
@@ -351,10 +374,17 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
         self.max_steps = int(env_cfg.get("max_steps", 2000))
         self.disable_reorder_actions = bool(env_cfg.get("disable_reorder_actions", True))
         self.force_mock = bool(env_cfg.get("force_mock", False))
+        self.ruleset_path = env_cfg.get("ruleset_path")
+        self.stake = int(env_cfg.get("stake", 1))
 
         self._seed = int(env_cfg.get("seed", 42))
         self._rng = np.random.default_rng(self._seed)
-        self._engine = _EngineAdapter(seed=self._seed, force_mock=self.force_mock)
+        self._engine = _EngineAdapter(
+            seed=self._seed,
+            force_mock=self.force_mock,
+            ruleset_path=self.ruleset_path,
+            stake=self.stake,
+        )
         self._step_count = 0
         self._blinds_passed = 0
         self._prev_score = 0.0
@@ -482,7 +512,12 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
             self._seed = int(seed)
             self._rng = np.random.default_rng(self._seed)
 
-        self._engine = _EngineAdapter(seed=self._seed, force_mock=self.force_mock)
+        self._engine = _EngineAdapter(
+            seed=self._seed,
+            force_mock=self.force_mock,
+            ruleset_path=self.ruleset_path,
+            stake=self.stake,
+        )
         self._step_count = 0
         self._blinds_passed = 0
         self._prev_score = float(getattr(self._engine.state, "score", 0.0) or 0.0)

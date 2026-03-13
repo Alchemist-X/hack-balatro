@@ -1,0 +1,13 @@
+[package]
+name = "balatro-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+balatro-spec = { path = "../balatro-spec" }
+rand.workspace = true
+rand_chacha.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true

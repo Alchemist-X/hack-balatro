@@ -1,0 +1,377 @@
+use balatro_engine::{action_name, ActionDescriptor, CardInstance, Engine, JokerInstance, RunConfig, Snapshot, Transition};
+use balatro_spec::RulesetBundle;
+use pyo3::exceptions::{PyFileNotFoundError, PyValueError};
+use pyo3::prelude::*;
+
+#[pyclass(name = "Card")]
+#[derive(Clone)]
+struct PyCard {
+    inner: CardInstance,
+}
+
+#[pymethods]
+impl PyCard {
+    #[getter]
+    fn card_id(&self) -> u32 {
+        self.inner.card_id
+    }
+
+    #[getter]
+    fn rank_index(&self) -> usize {
+        self.inner.rank_index()
+    }
+
+    #[getter]
+    fn suit_index(&self) -> usize {
+        self.inner.suit_index()
+    }
+
+    #[getter]
+    fn chip_value(&self) -> i32 {
+        self.inner.chip_value()
+    }
+}
+
+#[pyclass(name = "Joker")]
+#[derive(Clone)]
+struct PyJoker {
+    inner: JokerInstance,
+}
+
+#[pymethods]
+impl PyJoker {
+    #[getter]
+    fn joker_id(&self) -> &str {
+        &self.inner.joker_id
+    }
+
+    #[getter]
+    fn joker_name(&self) -> &str {
+        &self.inner.name
+    }
+
+    #[getter]
+    fn joker_cost(&self) -> i32 {
+        self.inner.cost
+    }
+
+    #[getter]
+    fn joker_rarity(&self) -> i32 {
+        self.inner.rarity
+    }
+}
+
+#[pyclass(name = "Snapshot")]
+#[derive(Clone)]
+struct PySnapshot {
+    inner: Snapshot,
+}
+
+#[pymethods]
+impl PySnapshot {
+    #[getter]
+    fn stage(&self) -> &str {
+        &self.inner.stage
+    }
+
+    #[getter]
+    fn round(&self) -> i32 {
+        self.inner.round
+    }
+
+    #[getter]
+    fn score(&self) -> i32 {
+        self.inner.score
+    }
+
+    #[getter]
+    fn required_score(&self) -> i32 {
+        self.inner.required_score
+    }
+
+    #[getter]
+    fn plays(&self) -> i32 {
+        self.inner.plays
+    }
+
+    #[getter]
+    fn discards(&self) -> i32 {
+        self.inner.discards
+    }
+
+    #[getter]
+    fn money(&self) -> i32 {
+        self.inner.money
+    }
+
+    #[getter]
+    fn ante(&self) -> i32 {
+        self.inner.ante
+    }
+
+    #[getter]
+    fn reward(&self) -> i32 {
+        self.inner.reward
+    }
+
+    #[getter]
+    fn boss_effect(&self) -> &str {
+        &self.inner.boss_effect
+    }
+
+    #[getter]
+    fn deck(&self) -> Vec<PyCard> {
+        self.inner
+            .deck
+            .iter()
+            .cloned()
+            .map(|inner| PyCard { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn available(&self) -> Vec<PyCard> {
+        self.inner
+            .available
+            .iter()
+            .cloned()
+            .map(|inner| PyCard { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn selected(&self) -> Vec<PyCard> {
+        self.inner
+            .selected
+            .iter()
+            .cloned()
+            .map(|inner| PyCard { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn discarded(&self) -> Vec<PyCard> {
+        self.inner
+            .discarded
+            .iter()
+            .cloned()
+            .map(|inner| PyCard { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn jokers(&self) -> Vec<PyJoker> {
+        self.inner
+            .jokers
+            .iter()
+            .cloned()
+            .map(|inner| PyJoker { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn shop_jokers(&self) -> Vec<PyJoker> {
+        self.inner
+            .shop_jokers
+            .iter()
+            .cloned()
+            .map(|inner| PyJoker { inner })
+            .collect()
+    }
+
+    fn to_json(&self) -> PyResult<String> {
+        serde_json::to_string(&self.inner).map_err(|err| PyValueError::new_err(err.to_string()))
+    }
+}
+
+#[pyclass(name = "ActionDescriptor")]
+#[derive(Clone)]
+struct PyActionDescriptor {
+    inner: ActionDescriptor,
+}
+
+#[pymethods]
+impl PyActionDescriptor {
+    #[getter]
+    fn index(&self) -> usize {
+        self.inner.index
+    }
+
+    #[getter]
+    fn name(&self) -> &str {
+        &self.inner.name
+    }
+
+    #[getter]
+    fn enabled(&self) -> bool {
+        self.inner.enabled
+    }
+}
+
+#[pyclass(name = "Transition")]
+#[derive(Clone)]
+struct PyTransition {
+    inner: Transition,
+}
+
+#[pymethods]
+impl PyTransition {
+    #[getter]
+    fn snapshot_before(&self) -> PySnapshot {
+        PySnapshot {
+            inner: self.inner.snapshot_before.clone(),
+        }
+    }
+
+    #[getter]
+    fn snapshot_after(&self) -> PySnapshot {
+        PySnapshot {
+            inner: self.inner.snapshot_after.clone(),
+        }
+    }
+
+    #[getter]
+    fn terminal(&self) -> bool {
+        self.inner.terminal
+    }
+
+    fn to_json(&self) -> PyResult<String> {
+        serde_json::to_string(&self.inner).map_err(|err| PyValueError::new_err(err.to_string()))
+    }
+}
+
+#[pyclass(name = "Engine")]
+struct PyEngine {
+    inner: Engine,
+}
+
+#[pymethods]
+impl PyEngine {
+    #[new]
+    #[pyo3(signature = (seed=42, ruleset_path=None, stake=1))]
+    fn new(seed: u64, ruleset_path: Option<String>, stake: i32) -> PyResult<Self> {
+        let bundle_path = ruleset_path.unwrap_or_else(default_ruleset_path);
+        let bundle = RulesetBundle::load_from_path(&bundle_path)
+            .map_err(|err| PyFileNotFoundError::new_err(err.to_string()))?;
+        Ok(Self {
+            inner: Engine::new(
+                seed,
+                bundle,
+                RunConfig {
+                    stake,
+                    ..RunConfig::default()
+                },
+            ),
+        })
+    }
+
+    #[getter]
+    fn state(&self) -> PySnapshot {
+        PySnapshot {
+            inner: self.inner.snapshot(),
+        }
+    }
+
+    #[getter]
+    fn is_over(&self) -> bool {
+        self.inner.snapshot().over
+    }
+
+    #[getter]
+    fn is_win(&self) -> bool {
+        self.inner.snapshot().won
+    }
+
+    fn snapshot(&self) -> PySnapshot {
+        PySnapshot {
+            inner: self.inner.snapshot(),
+        }
+    }
+
+    fn gen_action_space(&self) -> Vec<u8> {
+        self.inner.gen_action_space()
+    }
+
+    fn legal_actions(&self) -> Vec<PyActionDescriptor> {
+        self.inner
+            .legal_actions()
+            .into_iter()
+            .map(|inner| PyActionDescriptor { inner })
+            .collect()
+    }
+
+    fn handle_action_index(&mut self, index: usize) -> PyResult<()> {
+        self.inner
+            .step(index)
+            .map(|_| ())
+            .map_err(|err| PyValueError::new_err(err.to_string()))
+    }
+
+    fn step(&mut self, index: usize) -> PyResult<PyTransition> {
+        self.inner
+            .step(index)
+            .map(|inner| PyTransition { inner })
+            .map_err(|err| PyValueError::new_err(err.to_string()))
+    }
+
+    #[pyo3(signature = (seed=None))]
+    fn clone_seeded(&self, seed: Option<u64>) -> PyEngine {
+        PyEngine {
+            inner: self.inner.clone_seeded(seed),
+        }
+    }
+
+    #[pyo3(signature = (profile = "legacy_86x454"))]
+    fn encode_observation(&self, profile: &str) -> PyResult<PyObject> {
+        Python::with_gil(|py| {
+            let snapshot = self.inner.snapshot();
+            match profile {
+                "structured" => {
+                    let raw = serde_json::to_string(&snapshot)
+                        .map_err(|err| PyValueError::new_err(err.to_string()))?;
+                    Ok(raw.into_pyobject(py)?.unbind().into())
+                }
+                "legacy_86x454" => {
+                    let module = py.import("numpy")?;
+                    let state_encoder = py.import("env.state_encoder")?;
+                    let mask = self.inner.gen_action_space();
+                    let py_mask = module
+                        .call_method1("array", (mask,))?
+                        .call_method1("astype", ("float32",))?;
+                    let state = PySnapshot { inner: snapshot };
+                    let encoded = state_encoder.call_method1("encode_pylatro_state", (state, py_mask))?;
+                    Ok(encoded.into())
+                }
+                other => Err(PyValueError::new_err(format!("unknown observation profile {other}"))),
+            }
+        })
+    }
+}
+
+#[pyfunction]
+fn default_ruleset_path() -> String {
+    format!(
+        "{}/fixtures/ruleset/balatro-1.0.1o-full.json",
+        env!("CARGO_MANIFEST_DIR")
+            .replace("/crates/balatro-py", "")
+    )
+}
+
+#[pyfunction]
+fn action_label(index: usize) -> String {
+    action_name(index)
+}
+
+#[pymodule]
+fn balatro_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_class::<PyCard>()?;
+    m.add_class::<PyJoker>()?;
+    m.add_class::<PySnapshot>()?;
+    m.add_class::<PyActionDescriptor>()?;
+    m.add_class::<PyTransition>()?;
+    m.add_class::<PyEngine>()?;
+    m.add_function(wrap_pyfunction!(default_ruleset_path, m)?)?;
+    m.add_function(wrap_pyfunction!(action_label, m)?)?;
+    m.add("ACTION_DIM", 86)?;
+    Ok(())
+}
