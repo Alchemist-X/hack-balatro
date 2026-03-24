@@ -17,3 +17,12 @@ path = "vendor/balatro-gym"
 commit = "e97b96e5685881695d1691b3d09e4057ce66f244"
 patches = []
 notes = "Reference Python gym/training structure"
+
+[[artifact]]
+name = "balatro-steam-local"
+kind = "licensed-local-package"
+bootstrap_script = "scripts/bootstrap_balatro_source.py"
+default_source_path = "~/Library/Application Support/Steam/steamapps/common/Balatro/Balatro.app/Contents/Resources/Balatro.love"
+local_dest = "vendor/balatro/steam-local"
+expected_sha256 = "48c7a0791796a969d2cd0891ebdc9922b2988eb5aaad8ad7a72775a02772e24e"
+notes = "Local-only bootstrap target for licensed teammates. Must not be committed or pushed."

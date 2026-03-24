@@ -8,6 +8,7 @@ Reproducible Balatro RL rebuild scaffold with two-stage gate:
 ## Quick start
 
 ```bash
+python scripts/bootstrap_balatro_source.py
 python scripts/build_ruleset_bundle.py
 cargo test
 python scripts/repro.py phase1
@@ -25,6 +26,7 @@ This repo now contains a first-party Rust workspace for the Balatro rebuild:
 Bundle and asset utilities:
 
 ```bash
+python scripts/bootstrap_balatro_source.py
 python scripts/build_ruleset_bundle.py
 python scripts/extract_balatro_assets.py --dest results/assets-preview
 python scripts/record_replay.py --output results/replay.json
@@ -58,6 +60,9 @@ python scripts/repro.py report --metrics results/<run_id>/phase2_metrics.json
 
 ## Notes
 
+- The licensed Balatro package is not tracked in git. Each teammate must bootstrap it locally from their own install with `python scripts/bootstrap_balatro_source.py`.
+- The default bootstrap target is `vendor/balatro/steam-local/`, which stays ignored and can be regenerated at any time.
+- Team bootstrap details and the expected hash are documented in `docs/licensed-source-bootstrap.md`.
 - `fixtures/ruleset/balatro-1.0.1o-full.json` is generated from the local `Balatro.love` plus the Balatro Wiki joker table.
 - `BalatroEnv` now prefers `balatro_native` when the extension module is installed, then falls back to `pylatro`, then mock.
 - If `pylatro` is unavailable, env falls back to a deterministic mock engine for smoke and CI runs.
