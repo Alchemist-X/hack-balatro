@@ -68,3 +68,4 @@ python scripts/repro.py report --metrics results/<run_id>/phase2_metrics.json
 - If `pylatro` is unavailable, env falls back to a deterministic mock engine for smoke and CI runs.
 - Action/observation contracts are fixed at `86` / `454`.
 - Results are written to `results/<run_id>/` as JSON + CSV.
+- When using Codex to modify this repo, prefer working from a separate `git worktree` per session, because multiple Codex windows may be editing in parallel.
