@@ -1,0 +1,86 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="60" x2="1160" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#081B29"/>
+      <stop offset="0.5" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1A365D"/>
+    </linearGradient>
+    <linearGradient id="trace" x1="320" y1="518" x2="1060" y2="234" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F59E0B"/>
+      <stop offset="0.5" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#FB7185"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFFFFF" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.04"/>
+    </linearGradient>
+    <filter id="blurA" x="688" y="18" width="516" height="516" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="46"/>
+    </filter>
+    <filter id="blurB" x="36" y="392" width="360" height="260" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="720" rx="36" fill="url(#bg)"/>
+  <g filter="url(#blurA)">
+    <circle cx="946" cy="276" r="166" fill="#F97316" fill-opacity="0.28"/>
+  </g>
+  <g filter="url(#blurB)">
+    <ellipse cx="216" cy="522" rx="112" ry="72" fill="#22C55E" fill-opacity="0.18"/>
+  </g>
+
+  <rect x="64" y="64" width="612" height="592" rx="30" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <rect x="740" y="72" width="468" height="250" rx="28" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <rect x="740" y="350" width="468" height="300" rx="28" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+
+  <text x="108" y="144" fill="#F8FAFC" font-size="58" font-family="Arial, Helvetica, sans-serif" font-weight="700">hack-balatro</text>
+  <text x="108" y="194" fill="#93C5FD" font-size="22" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">REAL TRAJECTORY FIRST</text>
+  <text x="108" y="276" fill="#E2E8F0" font-size="28" font-family="Arial, Helvetica, sans-serif" font-weight="700">A research rig for verified Balatro intelligence</text>
+  <text x="108" y="324" fill="#CBD5E1" font-size="22" font-family="Arial, Helvetica, sans-serif">Rule agents. Replay diff. Small models. RL.</text>
+  <text x="108" y="360" fill="#CBD5E1" font-size="22" font-family="Arial, Helvetica, sans-serif">The simulator only earns trust after zero-drift trajectory match.</text>
+
+  <rect x="108" y="420" width="184" height="52" rx="16" fill="#F59E0B"/>
+  <text x="140" y="453" fill="#081B29" font-size="22" font-family="Arial, Helvetica, sans-serif" font-weight="700">Beyond Human</text>
+  <rect x="310" y="420" width="188" height="52" rx="16" fill="#0EA5E9" fill-opacity="0.18" stroke="#38BDF8"/>
+  <text x="341" y="453" fill="#E0F2FE" font-size="22" font-family="Arial, Helvetica, sans-serif" font-weight="700">Trajectory Fidelity</text>
+
+  <path d="M318 530C444 548 508 464 594 470C688 476 744 562 828 548C916 533 974 424 1060 428" stroke="url(#trace)" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="318" cy="530" r="14" fill="#FCD34D"/>
+  <circle cx="594" cy="470" r="14" fill="#FDBA74"/>
+  <circle cx="828" cy="548" r="14" fill="#FB7185"/>
+  <circle cx="1060" cy="428" r="14" fill="#FDBA74"/>
+
+  <text x="780" y="130" fill="#F8FAFC" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700">Verification Loop</text>
+  <text x="780" y="178" fill="#BFDBFE" font-size="19" font-family="Arial, Helvetica, sans-serif">Licensed Balatro.love</text>
+  <text x="780" y="210" fill="#BFDBFE" font-size="19" font-family="Arial, Helvetica, sans-serif">Lovely + Steamodded + BalatroBot</text>
+  <text x="780" y="242" fill="#BFDBFE" font-size="19" font-family="Arial, Helvetica, sans-serif">Manual and programmatic trajectory capture</text>
+  <text x="780" y="274" fill="#BFDBFE" font-size="19" font-family="Arial, Helvetica, sans-serif">Replay diff, behavior log, RNG trace</text>
+
+  <text x="780" y="408" fill="#F8FAFC" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700">Methods We Intend To Push</text>
+  <rect x="780" y="438" width="170" height="46" rx="14" fill="#10B981" fill-opacity="0.16" stroke="#34D399"/>
+  <text x="813" y="467" fill="#D1FAE5" font-size="19" font-family="Arial, Helvetica, sans-serif" font-weight="700">Rule-Based Skills</text>
+  <rect x="968" y="438" width="182" height="46" rx="14" fill="#8B5CF6" fill-opacity="0.16" stroke="#A78BFA"/>
+  <text x="1016" y="467" fill="#EDE9FE" font-size="19" font-family="Arial, Helvetica, sans-serif" font-weight="700">CoT / Agents</text>
+  <rect x="780" y="502" width="170" height="46" rx="14" fill="#F59E0B" fill-opacity="0.16" stroke="#FBBF24"/>
+  <text x="813" y="531" fill="#FEF3C7" font-size="19" font-family="Arial, Helvetica, sans-serif" font-weight="700">Replay Harness</text>
+  <rect x="968" y="502" width="182" height="46" rx="14" fill="#EF4444" fill-opacity="0.16" stroke="#FCA5A5"/>
+  <text x="1000" y="531" fill="#FEE2E2" font-size="19" font-family="Arial, Helvetica, sans-serif" font-weight="700">Small Models / RL</text>
+
+  <g transform="translate(910 560) rotate(-10)">
+    <rect x="0" y="0" width="112" height="148" rx="16" fill="#F8FAFC"/>
+    <rect x="8" y="8" width="96" height="132" rx="12" fill="#E2E8F0"/>
+    <text x="20" y="38" fill="#0F172A" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700">A</text>
+    <path d="M58 52C46 34 22 44 26 66C30 84 58 104 58 104C58 104 86 84 90 66C94 44 70 34 58 52Z" fill="#FB7185"/>
+  </g>
+  <g transform="translate(1012 546) rotate(8)">
+    <rect x="0" y="0" width="112" height="148" rx="16" fill="#F8FAFC"/>
+    <rect x="8" y="8" width="96" height="132" rx="12" fill="#E2E8F0"/>
+    <text x="20" y="38" fill="#0F172A" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700">K</text>
+    <path d="M57 46L66 66L88 66L70 80L76 102L57 88L38 102L44 80L26 66L48 66L57 46Z" fill="#38BDF8"/>
+  </g>
+
+  <circle cx="176" cy="580" r="42" fill="#F59E0B" fill-opacity="0.16" stroke="#FCD34D" stroke-width="8"/>
+  <circle cx="244" cy="598" r="34" fill="#22C55E" fill-opacity="0.14" stroke="#86EFAC" stroke-width="8"/>
+  <circle cx="300" cy="566" r="28" fill="#60A5FA" fill-opacity="0.14" stroke="#93C5FD" stroke-width="8"/>
+</svg>
