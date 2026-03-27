@@ -110,10 +110,18 @@ pub struct JokerSpec {
     pub order: i32,
     pub name: String,
     pub set: String,
+    #[serde(default)]
+    pub base_cost: i32,
     pub cost: i32,
     pub rarity: i32,
     pub effect: Option<String>,
     pub config: BTreeMap<String, serde_json::Value>,
+    #[serde(default)]
+    pub wiki_effect_text_en: String,
+    #[serde(default)]
+    pub activation_class: String,
+    #[serde(default)]
+    pub source_refs: BTreeMap<String, String>,
     pub unlocked: bool,
     pub blueprint_compat: bool,
     pub perishable_compat: bool,
@@ -183,6 +191,10 @@ mod tests {
         let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("fixture bundle");
         assert_eq!(bundle.metadata.version, "1.0.1o-FULL");
         assert!(bundle.jokers.len() >= 150);
+        assert!(bundle
+            .jokers
+            .iter()
+            .all(|joker| joker.base_cost > 0 && !joker.wiki_effect_text_en.is_empty()));
         assert!(bundle.blinds.len() >= 30);
         assert_eq!(bundle.stakes.len(), 8);
         assert_eq!(bundle.ante_base_scores.len(), 8);

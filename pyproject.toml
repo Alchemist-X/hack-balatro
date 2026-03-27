@@ -26,6 +26,17 @@ dev = [
 addopts = "-q"
 testpaths = ["tests"]
 
+[tool.setuptools.packages.find]
+include = [
+  "agents*",
+  "env*",
+  "eval*",
+  "models*",
+  "scripts*",
+  "training*",
+  "utils*",
+]
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 import random
+import json
 from dataclasses import dataclass, field
 from types import SimpleNamespace
 from typing import Any, Callable
@@ -24,6 +25,7 @@ from env.action_space import (
     SELL_JOKER_COUNT,
     SELL_JOKER_START,
     SKIP_BLIND_INDEX,
+    action_name,
 )
 from env.state_encoder import OBS_DIM, encode_pylatro_state
 
@@ -78,6 +80,7 @@ class _MockJoker:
 class _MockState:
     stage: str = "Stage_PreBlind"
     round: int = 1
+    blind_name: str = "Small Blind"
     score: int = 0
     required_score: int = 300
     plays: int = 4
@@ -94,6 +97,45 @@ class _MockState:
     shop_jokers: list[_MockJoker] = field(default_factory=list)
 
 
+_RANK_NAMES = [
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+    "Ten",
+    "Jack",
+    "Queen",
+    "King",
+    "Ace",
+]
+
+_SUIT_NAMES = ["Spades", "Hearts", "Diamonds", "Clubs"]
+
+
+def _serialize_mock_card(card: _MockCard) -> dict[str, Any]:
+    return {
+        "card_id": card.card_id,
+        "rank": _RANK_NAMES[card.rank_index],
+        "suit": _SUIT_NAMES[card.suit_index],
+        "enhancement": None,
+        "edition": None,
+        "seal": None,
+    }
+
+
+def _serialize_mock_joker(joker: _MockJoker) -> dict[str, Any]:
+    return {
+        "joker_id": joker.joker_name.lower().replace(" ", "_"),
+        "name": joker.joker_name,
+        "cost": joker.joker_cost,
+        "rarity": 1,
+    }
+
+
 class MockGameEngine:
     def __init__(self, seed: int | None = None) -> None:
         self._rng = random.Random(seed)
@@ -101,33 +143,23 @@ class MockGameEngine:
         self.is_over = False
         self.is_win = False
         self._next_card_id = 1
+        self._current_blind_index = 0
+        self._boss_name = "The Hook"
         self._build_new_run()
 
     def _build_new_run(self) -> None:
-        deck = []
-        for rank in range(13):
-            for suit in range(4):
-                deck.append(
-                    _MockCard(
-                        card_id=self._next_card_id,
-                        rank_index=rank,
-                        suit_index=suit,
-                        chip_value=min(11, rank + 2),
-                    )
-                )
-                self._next_card_id += 1
-        self._rng.shuffle(deck)
-
         self.state = _MockState(
-            deck=deck,
+            blind_name="Small Blind",
+            deck=[],
             available=[],
             selected=[],
             discarded=[],
             jokers=[],
             shop_jokers=[],
         )
-        self._draw_to_hand(8)
-        self._refresh_shop()
+        self._current_blind_index = 0
+        self._boss_name = self._rng.choice(["The Hook", "The Ox", "The Arm", "The Wall"])
+        self._set_preblind_state()
 
     def _refresh_shop(self) -> None:
         names = [
@@ -142,6 +174,87 @@ class MockGameEngine:
             _MockJoker(joker_name=self._rng.choice(names), joker_cost=self._rng.randint(2, 6)),
             _MockJoker(joker_name=self._rng.choice(names), joker_cost=self._rng.randint(2, 6)),
         ]
+
+    def _build_deck(self) -> list[_MockCard]:
+        deck = []
+        for rank in range(13):
+            for suit in range(4):
+                deck.append(
+                    _MockCard(
+                        card_id=self._next_card_id,
+                        rank_index=rank,
+                        suit_index=suit,
+                        chip_value=min(11, rank + 2),
+                    )
+                )
+                self._next_card_id += 1
+        self._rng.shuffle(deck)
+        return deck
+
+    def _blind_name(self) -> str:
+        if self._current_blind_index == 0:
+            return "Small Blind"
+        if self._current_blind_index == 1:
+            return "Big Blind"
+        return self._boss_name
+
+    def _required_score_for_blind(self) -> int:
+        base = 300 * max(1, self.state.ante)
+        if self._current_blind_index == 0:
+            return base
+        if self._current_blind_index == 1:
+            return int(round(base * 1.5))
+        return base * 2
+
+    def _blind_reward(self) -> int:
+        return [3, 4, 5][self._current_blind_index]
+
+    def _blind_states(self) -> dict[str, str]:
+        labels = ["Small", "Big", "Boss"]
+        states: dict[str, str] = {}
+        for index, label in enumerate(labels):
+            if index < self._current_blind_index:
+                states[label] = "Defeated"
+            elif index == self._current_blind_index:
+                if self.state.stage == "Stage_PreBlind":
+                    states[label] = "Select"
+                elif self.state.stage == "Stage_Blind":
+                    states[label] = "Current"
+                else:
+                    states[label] = "Defeated"
+            else:
+                states[label] = "Upcoming"
+        return states
+
+    def _set_preblind_state(self) -> None:
+        self.state.stage = "Stage_PreBlind"
+        self.state.blind_name = self._blind_name()
+        self.state.boss_effect = self._boss_name if self._current_blind_index == 2 else "None"
+        self.state.score = 0
+        self.state.required_score = self._required_score_for_blind()
+        self.state.plays = 4
+        self.state.discards = 3
+        self.state.reward = self._blind_reward()
+        self.state.deck = []
+        self.state.available = []
+        self.state.selected = []
+        self.state.discarded = []
+        self.state.shop_jokers = []
+
+    def _start_current_blind(self) -> None:
+        self.state.stage = "Stage_Blind"
+        self.state.blind_name = self._blind_name()
+        self.state.boss_effect = self._boss_name if self._current_blind_index == 2 else "None"
+        self.state.score = 0
+        self.state.required_score = self._required_score_for_blind()
+        self.state.plays = 4
+        self.state.discards = 3
+        self.state.reward = self._blind_reward()
+        self.state.deck = self._build_deck()
+        self.state.available = []
+        self.state.selected = []
+        self.state.discarded = []
+        self._draw_to_hand(8)
 
     def _draw_to_hand(self, target: int) -> None:
         while len(self.state.available) < target and self.state.deck:
@@ -206,17 +319,12 @@ class MockGameEngine:
 
     def _advance_round(self) -> None:
         self.state.round += 1
-        self.state.ante = min(8, 1 + (self.state.round - 1) // 3)
-        self.state.score = 0
-        self.state.plays = 4
-        self.state.discards = 3
-        self.state.required_score = int(self.state.required_score * 1.35)
-        self.state.stage = "Stage_PreBlind"
-        self.state.selected = []
-        self.state.discarded = []
-        self._draw_to_hand(8)
+        self.state.ante = min(8, self.state.ante + 1)
+        self._current_blind_index = 0
+        self._boss_name = self._rng.choice(["The Hook", "The Ox", "The Arm", "The Wall"])
+        self._set_preblind_state()
 
-        if self.state.ante >= 8 and self.state.round > 10:
+        if self.state.ante >= 8 and self.state.round > 8:
             self.state.stage = "Stage_End"
             self.is_over = True
             self.is_win = True
@@ -226,9 +334,9 @@ class MockGameEngine:
         stage = self.state.stage
 
         if stage == "Stage_PreBlind":
-            for i in range(SELECT_BLIND_START, SELECT_BLIND_START + SELECT_BLIND_COUNT):
-                mask[i] = 1
-            mask[SKIP_BLIND_INDEX] = 1
+            mask[SELECT_BLIND_START + self._current_blind_index] = 1
+            if self._current_blind_index < 2:
+                mask[SKIP_BLIND_INDEX] = 1
 
         elif stage == "Stage_Blind":
             for i in range(SELECT_CARD_START, SELECT_CARD_START + min(SELECT_CARD_COUNT, len(self.state.available))):
@@ -265,9 +373,11 @@ class MockGameEngine:
             raise ValueError(f"Illegal action for stage {self.state.stage}: {index}")
 
         if self.state.stage == "Stage_PreBlind":
-            if index in range(SELECT_BLIND_START, SELECT_BLIND_START + SELECT_BLIND_COUNT) or index == SKIP_BLIND_INDEX:
-                self.state.stage = "Stage_Blind"
-                self.state.selected = []
+            if index == SELECT_BLIND_START + self._current_blind_index:
+                self._start_current_blind()
+            elif index == SKIP_BLIND_INDEX and self._current_blind_index < 2:
+                self._current_blind_index += 1
+                self._set_preblind_state()
 
         elif self.state.stage == "Stage_Blind":
             if SELECT_CARD_START <= index < SELECT_CARD_START + SELECT_CARD_COUNT and index - SELECT_CARD_START < len(self.state.available):
@@ -285,7 +395,12 @@ class MockGameEngine:
         elif self.state.stage == "Stage_PostBlind":
             if index == CASHOUT_INDEX:
                 self.state.money += self.state.reward
-                self.state.stage = "Stage_Shop"
+                if self._current_blind_index < 2:
+                    self._current_blind_index += 1
+                    self._set_preblind_state()
+                else:
+                    self.state.stage = "Stage_Shop"
+                    self._refresh_shop()
 
         elif self.state.stage == "Stage_Shop":
             if BUY_JOKER_START <= index < BUY_JOKER_START + BUY_JOKER_COUNT and self.state.shop_jokers:
@@ -307,6 +422,35 @@ class MockGameEngine:
         elif self.state.stage == "Stage_CashOut" and index == NEXT_ROUND_INDEX:
             self._advance_round()
 
+    def snapshot_dict(self) -> dict[str, Any]:
+        selected_ids = {card.card_id for card in self.state.selected}
+        selected_slots = [index for index, card in enumerate(self.state.available) if card.card_id in selected_ids]
+        return {
+            "phase": self.state.stage.replace("Stage_", ""),
+            "stage": self.state.stage,
+            "round": self.state.round,
+            "ante": self.state.ante,
+            "stake": 1,
+            "blind_name": self.state.blind_name,
+            "boss_effect": self.state.boss_effect,
+            "score": self.state.score,
+            "required_score": self.state.required_score,
+            "plays": self.state.plays,
+            "discards": self.state.discards,
+            "money": self.state.money,
+            "reward": self.state.reward,
+            "deck": [_serialize_mock_card(card) for card in self.state.deck],
+            "available": [_serialize_mock_card(card) for card in self.state.available],
+            "selected": [_serialize_mock_card(card) for card in self.state.selected],
+            "discarded": [_serialize_mock_card(card) for card in self.state.discarded],
+            "jokers": [_serialize_mock_joker(joker) for joker in self.state.jokers],
+            "shop_jokers": [_serialize_mock_joker(joker) for joker in self.state.shop_jokers] if self.state.stage == "Stage_Shop" else [],
+            "blind_states": self._blind_states(),
+            "selected_slots": selected_slots,
+            "won": self.is_win,
+            "over": self.is_over,
+        }
+
 
 class _EngineAdapter:
     def __init__(
@@ -320,6 +464,7 @@ class _EngineAdapter:
         self.pylatro = None
         self.native = None
         self._engine: Any
+        self._last_transition: dict[str, Any] | None = None
 
         if not force_mock:
             self.native = _maybe_import_balatro_native()
@@ -357,11 +502,72 @@ class _EngineAdapter:
             raw = raw[:ACTION_DIM]
         return [1 if x else 0 for x in raw]
 
+    def snapshot_dict(self) -> dict[str, Any]:
+        if self.backend == "balatro_native" and hasattr(self._engine, "snapshot"):
+            return json.loads(self._engine.snapshot().to_json())
+        if self.backend == "mock" and hasattr(self._engine, "snapshot_dict"):
+            return self._engine.snapshot_dict()
+
+        state = self.state
+        return {
+            "phase": str(getattr(state, "phase", self._stage_name())),
+            "stage": self._stage_name(),
+            "round": int(getattr(state, "round", 0) or 0),
+            "ante": int(getattr(state, "ante", 0) or 0),
+            "stake": int(getattr(state, "stake", 1) or 1),
+            "blind_name": str(getattr(state, "blind_name", "Unknown Blind") or "Unknown Blind"),
+            "boss_effect": str(getattr(state, "boss_effect", "None") or "None"),
+            "score": int(getattr(state, "score", 0) or 0),
+            "required_score": int(getattr(state, "required_score", 0) or 0),
+            "plays": int(getattr(state, "plays", 0) or 0),
+            "discards": int(getattr(state, "discards", 0) or 0),
+            "money": int(getattr(state, "money", 0) or 0),
+            "reward": int(getattr(state, "reward", 0) or 0),
+            "deck": [],
+            "available": [],
+            "selected": [],
+            "discarded": [],
+            "jokers": [],
+            "shop_jokers": [],
+            "blind_states": {},
+            "selected_slots": [],
+            "won": self.is_win,
+            "over": self.is_over,
+        }
+
+    def _stage_name(self) -> str:
+        stage = getattr(self.state, "stage", "Stage_Other")
+        if isinstance(stage, str):
+            return stage
+        return stage.__class__.__name__
+
+    @property
+    def last_transition(self) -> dict[str, Any] | None:
+        return self._last_transition
+
     def handle_action_index(self, action: int) -> None:
         raw = list(self._engine.gen_action_space())
         if action >= len(raw):
             raise ValueError(f"Action {action} exceeds backend action space {len(raw)}")
+        self._last_transition = None
+        before = self.snapshot_dict()
+        if self.backend == "balatro_native" and hasattr(self._engine, "step"):
+            self._last_transition = json.loads(self._engine.step(int(action)).to_json())
+            return
+
         self._engine.handle_action_index(int(action))
+        after = self.snapshot_dict()
+        self._last_transition = {
+            "snapshot_before": before,
+            "action": {
+                "index": int(action),
+                "name": action_name(int(action)),
+                "enabled": True,
+            },
+            "events": [],
+            "snapshot_after": after,
+            "terminal": bool(after.get("over", False)),
+        }
 
 
 class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[misc]
@@ -376,6 +582,8 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
         self.force_mock = bool(env_cfg.get("force_mock", False))
         self.ruleset_path = env_cfg.get("ruleset_path")
         self.stake = int(env_cfg.get("stake", 1))
+        self.include_state_snapshot_in_info = bool(env_cfg.get("include_state_snapshot_in_info", False))
+        self.include_transition_in_info = bool(env_cfg.get("include_transition_in_info", False))
 
         self._seed = int(env_cfg.get("seed", 42))
         self._rng = np.random.default_rng(self._seed)
@@ -426,11 +634,16 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
             "num_jokers": len(getattr(state, "jokers", []) or []),
             "num_deck": len(getattr(state, "deck", []) or []),
             "step_count": self._step_count,
+            "seed": self._seed,
             "blinds_passed": self._blinds_passed,
             "game_won": bool(self._engine.is_win),
             "is_over": bool(self._engine.is_over),
             "engine_backend": self._engine.backend,
         }
+        if self.include_state_snapshot_in_info:
+            info["state_snapshot"] = self._engine.snapshot_dict()
+        if self.include_transition_in_info and self._engine.last_transition is not None:
+            info["transition"] = self._engine.last_transition
         return info
 
     def _compute_reward(self, prev_stage: str, new_stage: str, terminated: bool) -> float:
@@ -534,29 +747,47 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
 class ParallelBalatroEnvs:
     """Synchronous vectorized environment wrapper used by PPO rollout."""
 
-    def __init__(self, config: dict[str, Any], num_envs: int, seed: int = 0) -> None:
+    def __init__(self, config: dict[str, Any], num_envs: int, seed: int = 0, auto_reset: bool = True) -> None:
         self.envs = [BalatroEnv(config) for _ in range(num_envs)]
         self.num_envs = num_envs
         self.seed = seed
+        self.auto_reset = auto_reset
 
-    def reset(self) -> tuple[np.ndarray, list[dict[str, Any]]]:
+    def reset(self, seeds: list[int] | None = None) -> tuple[np.ndarray, list[dict[str, Any]]]:
         obs = []
         infos = []
         for i, env in enumerate(self.envs):
-            o, info = env.reset(seed=self.seed + i)
+            seed = seeds[i] if seeds is not None else self.seed + i
+            o, info = env.reset(seed=seed)
             obs.append(o)
             infos.append(info)
         return np.asarray(obs, dtype=np.float32), infos
 
-    def step(self, actions: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, list[dict[str, Any]]]:
+    def step(
+        self,
+        actions: np.ndarray,
+        active_mask: np.ndarray | None = None,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, list[dict[str, Any]]]:
         next_obs = []
         rewards = []
         terminated = []
         truncated = []
         infos = []
-        for env, action in zip(self.envs, actions.tolist()):
+        if active_mask is None:
+            active_mask = np.ones(len(self.envs), dtype=bool)
+        for env, action, is_active in zip(self.envs, actions.tolist(), active_mask.tolist()):
+            if not is_active:
+                o = env._obs()
+                info = env._info()
+                info["skipped_step"] = True
+                next_obs.append(o)
+                rewards.append(0.0)
+                terminated.append(True)
+                truncated.append(False)
+                infos.append(info)
+                continue
             o, r, t, tr, info = env.step(int(action))
-            if t or tr:
+            if self.auto_reset and (t or tr):
                 o, reset_info = env.reset()
                 info["auto_reset"] = True
                 info["reset_info"] = reset_info
@@ -577,5 +808,5 @@ class ParallelBalatroEnvs:
         return np.asarray([env.get_action_mask() for env in self.envs], dtype=bool)
 
 
-def make_vec_env(config: dict[str, Any], num_envs: int, seed: int = 0) -> ParallelBalatroEnvs:
-    return ParallelBalatroEnvs(config=config, num_envs=num_envs, seed=seed)
+def make_vec_env(config: dict[str, Any], num_envs: int, seed: int = 0, auto_reset: bool = True) -> ParallelBalatroEnvs:
+    return ParallelBalatroEnvs(config=config, num_envs=num_envs, seed=seed, auto_reset=auto_reset)

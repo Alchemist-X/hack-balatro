@@ -96,6 +96,9 @@ class GreedyAgent:
         plays = float(obs[OFF_SCALARS + 3]) * 10.0
         discards = float(obs[OFF_SCALARS + 4]) * 10.0
 
+        if action_mask[PLAY_INDEX] and (best_type >= self.play_threshold or discards <= 0 or plays <= 1):
+            return PLAY_INDEX
+
         # Select up to 5 high-value cards before playing to avoid weak single-card plays.
         if action_mask[PLAY_INDEX] and len(selected_cards) < min(5, len(cards)) and unselected_cards:
             best = max(unselected_cards, key=lambda c: c.chip_value)
@@ -103,8 +106,6 @@ class GreedyAgent:
             if candidate < ACTION_MASK_SIZE and action_mask[candidate]:
                 return candidate
 
-        if action_mask[PLAY_INDEX] and (best_type >= self.play_threshold or discards <= 0 or plays <= 1):
-            return PLAY_INDEX
         if action_mask[DISCARD_INDEX]:
             return DISCARD_INDEX
 

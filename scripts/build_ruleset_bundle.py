@@ -3,9 +3,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+from html import unescape
+from html.parser import HTMLParser
 import json
 import re
 import sys
+import unicodedata
 import urllib.request
 import zipfile
 from dataclasses import dataclass
@@ -17,8 +20,19 @@ ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_LOVE = Path.home() / "Library/Application Support/Steam/steamapps/common/Balatro/Balatro.app/Contents/Resources/Balatro.love"
 DEFAULT_OUTPUT = ROOT / "fixtures/ruleset/balatro-1.0.1o-full.json"
 WIKI_JOKERS_URL = "https://balatrowiki.org/w/Module:Jokers/data?action=raw"
+WIKI_PAGE_BASE = "https://balatrowiki.org/w/"
 GAME_LUA_ENTRY = "game.lua"
 VERSION = "1.0.1o-FULL"
+WIKI_JOKER_TABLE_PAGES = {
+    "Common": "Common_Jokers",
+    "Uncommon": "Uncommon_Jokers",
+    "Rare": "Rare_Jokers",
+    "Legendary": "Legendary_Jokers",
+}
+WIKI_JOKER_NAME_ALIASES = {
+    # Local game.lua remains authoritative for the emitted name field.
+    "Caino": "Canio",
+}
 
 ANTE_BASE_SCORES = [300, 800, 2800, 6000, 11000, 20000, 35000, 50000]
 HAND_SPECS = [
@@ -54,7 +68,7 @@ SPRITE_MANIFEST = {
     "resources/textures/1x/Vouchers.png": "resources/textures/1x/Vouchers.png",
 }
 
-SHOP_WEIGHTS = {"common": 70.0, "uncommon": 25.0, "rare": 5.0, "legendary": 0.3}
+SHOP_WEIGHTS = {"common": 70.0, "uncommon": 25.0, "rare": 5.0, "legendary": 0.0}
 
 
 @dataclass
@@ -296,6 +310,70 @@ class LuaParser:
         return array
 
 
+class JokerTableParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.rows: list[list[dict[str, str]]] = []
+        self._row: list[dict[str, str]] | None = None
+        self._cell: dict[str, str] | None = None
+        self._text: list[str] = []
+        self._ignore_depth = 0
+        self._anchor_depth = 0
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attr_map = {key: value or "" for key, value in attrs}
+        if tag in {"style", "script"}:
+            self._ignore_depth += 1
+            return
+        if tag == "tr":
+            self._row = []
+            return
+        if self._row is None:
+            return
+        if tag in {"td", "th"}:
+            self._cell = {"text": "", "anchor_title": "", "anchor_text": ""}
+            self._text = []
+            return
+        if self._cell is None:
+            return
+        if tag == "a":
+            self._anchor_depth += 1
+            if not self._cell["anchor_title"]:
+                self._cell["anchor_title"] = attr_map.get("title", "")
+            return
+        if tag == "br":
+            self._text.append(" ")
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in {"style", "script"} and self._ignore_depth > 0:
+            self._ignore_depth -= 1
+            return
+        if self._ignore_depth > 0:
+            return
+        if tag == "a" and self._anchor_depth > 0:
+            self._anchor_depth -= 1
+            return
+        if tag in {"td", "th"} and self._cell is not None and self._row is not None:
+            self._cell["text"] = normalize_html_text("".join(self._text))
+            self._row.append(self._cell)
+            self._cell = None
+            self._text = []
+            return
+        if tag == "tr" and self._row is not None:
+            if self._row:
+                self.rows.append(self._row)
+            self._row = None
+
+    def handle_data(self, data: str) -> None:
+        if self._ignore_depth > 0 or self._cell is None:
+            return
+        self._text.append(data)
+        if self._anchor_depth > 0 and data.strip():
+            existing = self._cell["anchor_text"]
+            piece = data.strip()
+            self._cell["anchor_text"] = f"{existing} {piece}".strip()
+
+
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -349,6 +427,132 @@ def fetch_url(url: str) -> bytes:
         return response.read()
 
 
+def fetch_wiki_rendered_html(page: str) -> str:
+    api_url = f"https://balatrowiki.org/api.php?action=parse&page={page}&prop=text&format=json&formatversion=2"
+    payload = json.loads(fetch_url(api_url).decode("utf-8"))
+    return payload["parse"]["text"]
+
+
+def normalize_html_text(value: str) -> str:
+    text = unescape(value)
+    text = re.sub(r"\.mw-parser-output [^ ]+", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def normalize_joker_name(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value)
+    normalized = normalized.encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^a-z0-9]+", "", normalized.casefold())
+
+
+def joker_page_url(page_title: str) -> str:
+    return f"{WIKI_PAGE_BASE}{page_title.replace(' ', '_')}"
+
+
+def derive_activation_class(effect_text: str, hint_text: str, effect_key: str | None) -> str:
+    combined = f"{hint_text} {effect_text} {effect_key or ''}"
+    ordered_hints = [
+        ("On Blind Select", "boss_blind_pre_play"),
+        ("On Played", "joker_on_played"),
+        ("On Scored", "joker_on_scored"),
+        ("On Held", "held_in_hand"),
+        ("End of Shop", "shop_end"),
+        ("end of shop", "shop_end"),
+        ("End of Round", "end_of_round"),
+        ("end of round", "end_of_round"),
+        ("After Hand", "end_of_hand"),
+        ("Mixed", "mixed"),
+        ("N/A (Passive)", "joker_independent"),
+        ("Independent", "joker_independent"),
+        ("when scored", "joker_on_scored"),
+        ("when held in hand", "held_in_hand"),
+        ("held in hand", "held_in_hand"),
+        ("when a hand is played", "joker_on_played"),
+        ("if hand is played", "joker_on_played"),
+        ("when Blind is selected", "boss_blind_pre_play"),
+        ("when blind is selected", "boss_blind_pre_play"),
+    ]
+    for needle, activation_class in ordered_hints:
+        if needle in combined:
+            return activation_class
+    return "joker_independent"
+
+
+def parse_wiki_joker_table(page: str, rarity_label: str) -> dict[str, dict[str, Any]]:
+    html = fetch_wiki_rendered_html(page)
+    parser = JokerTableParser()
+    parser.feed(html)
+    start_index = next(
+        (
+            index + 1
+            for index, row in enumerate(parser.rows)
+            if len(row) >= 3 and row[0]["text"] == "Name" and row[1]["text"] == "Cost" and row[2]["text"] == "Effect"
+        ),
+        None,
+    )
+    if start_index is None:
+        raise ValueError(f"could not locate Joker table in page {page}")
+
+    entries: dict[str, dict[str, Any]] = {}
+    for row in parser.rows[start_index:]:
+        if len(row) < 3:
+            break
+        name_cell, cost_cell, effect_cell = row[:3]
+        joker_name = name_cell["anchor_title"] or name_cell["anchor_text"] or name_cell["text"]
+        joker_name = re.sub(r"\s*\(.*$", "", joker_name).strip()
+        if not joker_name:
+            continue
+        entries[joker_name] = {
+            "wiki_effect_text_en": effect_cell["text"],
+            "rarity_label": rarity_label,
+            "activation_class": derive_activation_class(effect_cell["text"], name_cell["text"], None),
+            "source_refs": {
+                "wiki_raw": WIKI_JOKERS_URL,
+                "wiki_table_page": joker_page_url(page),
+                "wiki_page": joker_page_url(name_cell["anchor_title"] or joker_name),
+            },
+            "wiki_cost_label": cost_cell["text"],
+            "activation_hint": name_cell["text"],
+        }
+    return entries
+
+
+def load_wiki_joker_display_specs() -> dict[str, dict[str, Any]]:
+    combined: dict[str, dict[str, Any]] = {}
+    for rarity_label, page in WIKI_JOKER_TABLE_PAGES.items():
+        combined.update(parse_wiki_joker_table(page, rarity_label))
+    return combined
+
+
+def resolve_wiki_display_spec(
+    joker_name: str,
+    wiki_display_specs: dict[str, dict[str, Any]],
+) -> tuple[str, dict[str, Any]] | tuple[None, None]:
+    direct = wiki_display_specs.get(joker_name)
+    if direct is not None:
+        return joker_name, direct
+
+    alias = WIKI_JOKER_NAME_ALIASES.get(joker_name)
+    if alias is not None and alias in wiki_display_specs:
+        return alias, wiki_display_specs[alias]
+
+    normalized_target = normalize_joker_name(joker_name)
+    normalized_matches = [
+        (candidate_name, candidate_spec)
+        for candidate_name, candidate_spec in wiki_display_specs.items()
+        if normalize_joker_name(candidate_name) == normalized_target
+    ]
+    if len(normalized_matches) == 1:
+        return normalized_matches[0]
+    if len(normalized_matches) > 1:
+        raise ValueError(
+            f"ambiguous wiki display spec matches for Joker {joker_name!r}: "
+            f"{[candidate for candidate, _ in normalized_matches]!r}"
+        )
+    return None, None
+
+
 def sprite_for(set_name: str, pos: Any) -> dict[str, Any] | None:
     defaults = SPRITE_DEFAULTS.get(set_name)
     if defaults is None or not isinstance(pos, dict):
@@ -385,6 +589,7 @@ def build_bundle(love_path: Path, output_path: Path) -> dict[str, Any]:
     love_bytes = love_path.read_bytes()
     game_lua = load_love_entry(love_path, GAME_LUA_ENTRY).decode("utf-8")
     wiki_raw = fetch_url(WIKI_JOKERS_URL).decode("utf-8")
+    wiki_display_specs = load_wiki_joker_display_specs()
 
     stakes = parse_lua_table(extract_assignment_block(game_lua, "self.P_STAKES ="))
     blinds = parse_lua_table(extract_assignment_block(game_lua, "self.P_BLINDS ="))
@@ -393,21 +598,37 @@ def build_bundle(love_path: Path, output_path: Path) -> dict[str, Any]:
     wiki_joker_count = len(re.findall(r"^\s*j_[a-z0-9_]+\s*=", wiki_raw, flags=re.MULTILINE))
     if len(center_jokers) != wiki_joker_count:
         raise ValueError(f"wiki joker count {wiki_joker_count} != game.lua joker count {len(center_jokers)}")
+    if len(wiki_display_specs) != wiki_joker_count:
+        raise ValueError(f"wiki rendered joker count {len(wiki_display_specs)} != raw joker count {wiki_joker_count}")
 
     joker_specs = []
     for joker_id, joker in center_jokers.items():
         if not isinstance(joker, dict):
             continue
+        joker_name = joker.get("name", joker_id)
+        wiki_display_name, display_spec = resolve_wiki_display_spec(joker_name, wiki_display_specs)
+        if display_spec is None:
+            raise ValueError(f"missing rendered wiki entry for Joker {joker_name!r}")
+        source_refs = dict(display_spec["source_refs"])
+        source_refs["wiki_display_name"] = wiki_display_name
         joker_specs.append(
             {
                 "id": joker_id,
                 "order": int(joker.get("order", 0) or 0),
-                "name": joker.get("name", joker_id),
+                "name": joker_name,
                 "set": joker.get("set", "Joker"),
+                "base_cost": int(joker.get("cost", 0) or 0),
                 "cost": int(joker.get("cost", 0) or 0),
                 "rarity": int(joker.get("rarity", 0) or 0),
                 "effect": joker.get("effect"),
                 "config": joker.get("config", {}) if isinstance(joker.get("config", {}), dict) else {},
+                "wiki_effect_text_en": display_spec["wiki_effect_text_en"],
+                "activation_class": derive_activation_class(
+                    display_spec["wiki_effect_text_en"],
+                    display_spec["activation_hint"],
+                    joker.get("effect"),
+                ),
+                "source_refs": source_refs,
                 "unlocked": bool(joker.get("unlocked", False)),
                 "blueprint_compat": bool(joker.get("blueprint_compat", False)),
                 "perishable_compat": bool(joker.get("perishable_compat", False)),

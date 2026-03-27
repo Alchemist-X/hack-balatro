@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": "1.0.1o-FULL",
-    "generated_at": "2026-03-13T15:57:25.017223+00:00",
+    "generated_at": "2026-03-27T14:43:31.673522+00:00",
     "source_hashes": {
       "game_lua_sha256": "bbc67bd3fbadd1ea3f3f0aba07ef8596118d89ff1e9758718f9e17c07a96e912",
       "wiki_jokers_sha256": "c3c4770ee2210e7a0c5d57e163e5bca04c81b14129b965237a1bbe687135917d",
@@ -862,11 +862,20 @@
       "order": 1,
       "name": "Joker",
       "set": "Joker",
+      "base_cost": 2,
       "cost": 2,
       "rarity": 1,
       "effect": "Mult",
       "config": {
         "mult": 4
+      },
+      "wiki_effect_text_en": "+4 Mult",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Joker",
+        "wiki_display_name": "Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -885,6 +894,7 @@
       "order": 2,
       "name": "Greedy Joker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Suit Mult",
@@ -893,6 +903,14 @@
           "s_mult": 3,
           "suit": "Diamonds"
         }
+      },
+      "wiki_effect_text_en": "Played cards with Diamond suit give +3 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Greedy_Joker",
+        "wiki_display_name": "Greedy Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -911,6 +929,7 @@
       "order": 3,
       "name": "Lusty Joker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Suit Mult",
@@ -919,6 +938,14 @@
           "s_mult": 3,
           "suit": "Hearts"
         }
+      },
+      "wiki_effect_text_en": "Played cards with Heart suit give +3 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Lusty_Joker",
+        "wiki_display_name": "Lusty Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -937,6 +964,7 @@
       "order": 4,
       "name": "Wrathful Joker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Suit Mult",
@@ -945,6 +973,14 @@
           "s_mult": 3,
           "suit": "Spades"
         }
+      },
+      "wiki_effect_text_en": "Played cards with Spade suit give +3 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Wrathful_Joker",
+        "wiki_display_name": "Wrathful Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -963,6 +999,7 @@
       "order": 5,
       "name": "Gluttonous Joker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Suit Mult",
@@ -971,6 +1008,14 @@
           "s_mult": 3,
           "suit": "Clubs"
         }
+      },
+      "wiki_effect_text_en": "Played cards with Club suit give +3 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Gluttonous_Joker",
+        "wiki_display_name": "Gluttonous Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -989,12 +1034,21 @@
       "order": 6,
       "name": "Jolly Joker",
       "set": "Joker",
+      "base_cost": 3,
       "cost": 3,
       "rarity": 1,
       "effect": "Type Mult",
       "config": {
         "t_mult": 8,
         "type": "Pair"
+      },
+      "wiki_effect_text_en": "+8 Mult if played hand contains a Pair",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Jolly_Joker",
+        "wiki_display_name": "Jolly Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1013,12 +1067,21 @@
       "order": 7,
       "name": "Zany Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Type Mult",
       "config": {
         "t_mult": 12,
         "type": "Three of a Kind"
+      },
+      "wiki_effect_text_en": "+12 Mult if played hand contains a Three of a Kind",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Zany_Joker",
+        "wiki_display_name": "Zany Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1037,12 +1100,21 @@
       "order": 8,
       "name": "Mad Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Type Mult",
       "config": {
         "t_mult": 10,
         "type": "Two Pair"
+      },
+      "wiki_effect_text_en": "+10 Mult if played hand contains a Two Pair",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Mad_Joker",
+        "wiki_display_name": "Mad Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1061,12 +1133,21 @@
       "order": 9,
       "name": "Crazy Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Type Mult",
       "config": {
         "t_mult": 12,
         "type": "Straight"
+      },
+      "wiki_effect_text_en": "+12 Mult if played hand contains a Straight",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Crazy_Joker",
+        "wiki_display_name": "Crazy Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1085,12 +1166,21 @@
       "order": 10,
       "name": "Droll Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Type Mult",
       "config": {
         "t_mult": 10,
         "type": "Flush"
+      },
+      "wiki_effect_text_en": "+10 Mult if played hand contains a Flush",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Droll_Joker",
+        "wiki_display_name": "Droll Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1109,12 +1199,21 @@
       "order": 11,
       "name": "Sly Joker",
       "set": "Joker",
+      "base_cost": 3,
       "cost": 3,
       "rarity": 1,
       "effect": null,
       "config": {
         "t_chips": 50,
         "type": "Pair"
+      },
+      "wiki_effect_text_en": "+50 Chips if played hand contains a Pair",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Sly_Joker",
+        "wiki_display_name": "Sly Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1133,12 +1232,21 @@
       "order": 12,
       "name": "Wily Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "t_chips": 100,
         "type": "Three of a Kind"
+      },
+      "wiki_effect_text_en": "+100 Chips if played hand contains a Three of a Kind",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Wily_Joker",
+        "wiki_display_name": "Wily Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1157,12 +1265,21 @@
       "order": 13,
       "name": "Clever Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "t_chips": 80,
         "type": "Two Pair"
+      },
+      "wiki_effect_text_en": "+80 Chips if played hand contains a Two Pair",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Clever_Joker",
+        "wiki_display_name": "Clever Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1181,12 +1298,21 @@
       "order": 14,
       "name": "Devious Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "t_chips": 100,
         "type": "Straight"
+      },
+      "wiki_effect_text_en": "+100 Chips if played hand contains a Straight",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Devious_Joker",
+        "wiki_display_name": "Devious Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1205,12 +1331,21 @@
       "order": 15,
       "name": "Crafty Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "t_chips": 80,
         "type": "Flush"
+      },
+      "wiki_effect_text_en": "+80 Chips if played hand contains a Flush",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Crafty_Joker",
+        "wiki_display_name": "Crafty Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1229,6 +1364,7 @@
       "order": 16,
       "name": "Half Joker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Hand Size Mult",
@@ -1237,6 +1373,14 @@
           "mult": 20,
           "size": 3
         }
+      },
+      "wiki_effect_text_en": "+20 Mult if played hand contains 3 or fewer cards",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Half_Joker",
+        "wiki_display_name": "Half Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1255,10 +1399,19 @@
       "order": 17,
       "name": "Joker Stencil",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 2,
       "effect": "Hand Size Mult",
       "config": {},
+      "wiki_effect_text_en": "X1 Mult for each empty Joker slot Joker Stencil included (Currently X1)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Joker_Stencil",
+        "wiki_display_name": "Joker Stencil"
+      },
       "unlocked": true,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -1276,10 +1429,19 @@
       "order": 18,
       "name": "Four Fingers",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "All Flushes and Straights can be made with 4 cards",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Four_Fingers",
+        "wiki_display_name": "Four Fingers"
+      },
       "unlocked": true,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -1297,11 +1459,20 @@
       "order": 19,
       "name": "Mime",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": "Hand card double",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Retrigger all card held in hand abilities",
+      "activation_class": "held_in_hand",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Mime",
+        "wiki_display_name": "Mime"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1320,11 +1491,20 @@
       "order": 20,
       "name": "Credit Card",
       "set": "Joker",
+      "base_cost": 1,
       "cost": 1,
       "rarity": 1,
       "effect": "Credit",
       "config": {
         "extra": 20
+      },
+      "wiki_effect_text_en": "Go up to -$20 in debt",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Credit_Card",
+        "wiki_display_name": "Credit Card"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -1343,11 +1523,20 @@
       "order": 21,
       "name": "Ceremonial Dagger",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "",
       "config": {
         "mult": 0
+      },
+      "wiki_effect_text_en": "When Blind is selected, destroy Joker to the right and permanently add double its sell value to this Mult (Currently +0 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Ceremonial_Dagger",
+        "wiki_display_name": "Ceremonial Dagger"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1366,11 +1555,20 @@
       "order": 22,
       "name": "Banner",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Discard Chips",
       "config": {
         "extra": 30
+      },
+      "wiki_effect_text_en": "+30 Chips for each remaining discard",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Banner",
+        "wiki_display_name": "Banner"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1389,6 +1587,7 @@
       "order": 23,
       "name": "Mystic Summit",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "No Discard Mult",
@@ -1397,6 +1596,14 @@
           "mult": 15,
           "d_remaining": 0
         }
+      },
+      "wiki_effect_text_en": "+15 Mult when 0 discards remaining",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Mystic_Summit",
+        "wiki_display_name": "Mystic Summit"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1415,11 +1622,20 @@
       "order": 24,
       "name": "Marble Joker",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Stone card hands",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Adds one Stone card to the deck when Blind is selected",
+      "activation_class": "boss_blind_pre_play",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Marble_Joker",
+        "wiki_display_name": "Marble Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1438,6 +1654,7 @@
       "order": 25,
       "name": "Loyalty Card",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": "1 in 10 mult",
@@ -1447,6 +1664,14 @@
           "every": 5,
           "remaining": "5 remaining"
         }
+      },
+      "wiki_effect_text_en": "X4 Mult every 6 hands played 5 remaining",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Loyalty_Card",
+        "wiki_display_name": "Loyalty Card"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1465,11 +1690,20 @@
       "order": 26,
       "name": "8 Ball",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Spawn Tarot",
       "config": {
         "extra": 4
+      },
+      "wiki_effect_text_en": "1 in 4 chance for each played 8 to create a Tarot card when scored (Must have room)",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/8_Ball",
+        "wiki_display_name": "8 Ball"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1488,6 +1722,7 @@
       "order": 27,
       "name": "Misprint",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Random Mult",
@@ -1496,6 +1731,14 @@
           "max": 23,
           "min": 0
         }
+      },
+      "wiki_effect_text_en": "+0-23 Mult",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Misprint",
+        "wiki_display_name": "Misprint"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1514,11 +1757,20 @@
       "order": 28,
       "name": "Dusk",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Retrigger all played cards in final hand of the round",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Dusk",
+        "wiki_display_name": "Dusk"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1537,10 +1789,19 @@
       "order": 29,
       "name": "Raised Fist",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Socialized Mult",
       "config": {},
+      "wiki_effect_text_en": "Adds double the rank of lowest ranked card held in hand to Mult",
+      "activation_class": "held_in_hand",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Raised_Fist",
+        "wiki_display_name": "Raised Fist"
+      },
       "unlocked": true,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -1558,11 +1819,20 @@
       "order": 30,
       "name": "Chaos the Clown",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Bonus Rerolls",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "1 free Reroll per shop",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Chaos_the_Clown",
+        "wiki_display_name": "Chaos the Clown"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -1581,11 +1851,20 @@
       "order": 31,
       "name": "Fibonacci",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 2,
       "effect": "Card Mult",
       "config": {
         "extra": 8
+      },
+      "wiki_effect_text_en": "Each played Ace, 2, 3, 5, or 8 gives +8 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Fibonacci",
+        "wiki_display_name": "Fibonacci"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1604,11 +1883,20 @@
       "order": 32,
       "name": "Steel Joker",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "Steel Card Buff",
       "config": {
         "extra": 0.2
+      },
+      "wiki_effect_text_en": "Gives X0.2 Mult for each Steel Card in your full deck (Currently X1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Steel_Joker",
+        "wiki_display_name": "Steel Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1627,11 +1915,20 @@
       "order": 33,
       "name": "Scary Face",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Scary Face Cards",
       "config": {
         "extra": 30
+      },
+      "wiki_effect_text_en": "Played face cards give +30 Chips when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Scary_Face",
+        "wiki_display_name": "Scary Face"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1650,11 +1947,20 @@
       "order": 34,
       "name": "Abstract Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Joker Mult",
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "+3 Mult for each Joker card (Currently +0 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Abstract_Joker",
+        "wiki_display_name": "Abstract Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1673,11 +1979,20 @@
       "order": 35,
       "name": "Delayed Gratification",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Discard dollars",
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "Earn $2 per discard if no discards are used by end of the round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Delayed_Gratification",
+        "wiki_display_name": "Delayed Gratification"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -1696,11 +2011,20 @@
       "order": 36,
       "name": "Hack",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Low Card double",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Retrigger each played 2, 3, 4, or 5",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Hack",
+        "wiki_display_name": "Hack"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1719,10 +2043,19 @@
       "order": 37,
       "name": "Pareidolia",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": "All face cards",
       "config": {},
+      "wiki_effect_text_en": "All cards are considered face cards",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Pareidolia",
+        "wiki_display_name": "Pareidolia"
+      },
       "unlocked": true,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -1740,6 +2073,7 @@
       "order": 38,
       "name": "Gros Michel",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "",
@@ -1748,6 +2082,14 @@
           "odds": 6,
           "mult": 15
         }
+      },
+      "wiki_effect_text_en": "+15 Mult 1 in 6 chance this is destroyed at the end of round.",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Gros_Michel",
+        "wiki_display_name": "Gros Michel"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1766,11 +2108,20 @@
       "order": 39,
       "name": "Even Steven",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Even Card Buff",
       "config": {
         "extra": 4
+      },
+      "wiki_effect_text_en": "Played cards with even rank give +4 Mult when scored (10, 8, 6, 4, 2)",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Even_Steven",
+        "wiki_display_name": "Even Steven"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1789,11 +2140,20 @@
       "order": 40,
       "name": "Odd Todd",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Odd Card Buff",
       "config": {
         "extra": 31
+      },
+      "wiki_effect_text_en": "Played cards with odd rank give +31 Chips when scored (A, 9, 7, 5, 3)",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Odd_Todd",
+        "wiki_display_name": "Odd Todd"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1812,6 +2172,7 @@
       "order": 41,
       "name": "Scholar",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Ace Buff",
@@ -1820,6 +2181,14 @@
           "mult": 4,
           "chips": 20
         }
+      },
+      "wiki_effect_text_en": "Played Aces give +20 Chips and +4 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Scholar",
+        "wiki_display_name": "Scholar"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1838,11 +2207,20 @@
       "order": 42,
       "name": "Business Card",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Face Card dollar Chance",
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "Played face cards have a 1 in 2 chance to give $2 when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Business_Card",
+        "wiki_display_name": "Business Card"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1861,11 +2239,20 @@
       "order": 43,
       "name": "Supernova",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "Hand played mult",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Adds the number of times poker hand has been played this run to Mult",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Supernova",
+        "wiki_display_name": "Supernova"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1884,11 +2271,20 @@
       "order": 44,
       "name": "Ride the Bus",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 1,
       "effect": "",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "This Joker gains +1 Mult per consecutive hand played without a scoring face card (Currently +0 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Ride_the_Bus",
+        "wiki_display_name": "Ride the Bus"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1907,11 +2303,20 @@
       "order": 45,
       "name": "Space Joker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": "Upgrade Hand chance",
       "config": {
         "extra": 4
+      },
+      "wiki_effect_text_en": "1 in 4 chance to upgrade level of played poker hand",
+      "activation_class": "joker_on_played",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Space_Joker",
+        "wiki_display_name": "Space Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1930,11 +2335,20 @@
       "order": 46,
       "name": "Egg",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "Gains $3 of sell value at end of round",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Egg",
+        "wiki_display_name": "Egg"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -1953,11 +2367,20 @@
       "order": 47,
       "name": "Burglar",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "When Blind is selected, gain +3 Hands and lose all discards",
+      "activation_class": "boss_blind_pre_play",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Burglar",
+        "wiki_display_name": "Burglar"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1976,11 +2399,20 @@
       "order": 48,
       "name": "Blackboard",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "X3 Mult if all cards held in hand are Spades or Clubs",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Blackboard",
+        "wiki_display_name": "Blackboard"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -1999,6 +2431,7 @@
       "order": 49,
       "name": "Runner",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": null,
@@ -2007,6 +2440,14 @@
           "chips": 0,
           "chip_mod": 15
         }
+      },
+      "wiki_effect_text_en": "Gains +15 Chips if played hand contains a Straight (Currently +0 Chips)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Runner",
+        "wiki_display_name": "Runner"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2025,6 +2466,7 @@
       "order": 50,
       "name": "Ice Cream",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": null,
@@ -2033,6 +2475,14 @@
           "chips": 100,
           "chip_mod": 5
         }
+      },
+      "wiki_effect_text_en": "+100 Chips -5 Chips for every hand played",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Ice_Cream",
+        "wiki_display_name": "Ice Cream"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2051,10 +2501,19 @@
       "order": 51,
       "name": "DNA",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "If first hand of round has only 1 card, add a permanent copy to deck and draw it to hand",
+      "activation_class": "joker_on_played",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/DNA",
+        "wiki_display_name": "DNA"
+      },
       "unlocked": true,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -2072,10 +2531,19 @@
       "order": 52,
       "name": "Splash",
       "set": "Joker",
+      "base_cost": 3,
       "cost": 3,
       "rarity": 1,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "Every played card counts in scoring",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Splash",
+        "wiki_display_name": "Splash"
+      },
       "unlocked": true,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -2093,11 +2561,20 @@
       "order": 53,
       "name": "Blue Joker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "+2 Chips for each remaining card in deck (Currently +104 Chips)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Blue_Joker",
+        "wiki_display_name": "Blue Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2116,10 +2593,19 @@
       "order": 54,
       "name": "Sixth Sense",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "If first hand of round is a single 6, destroy it and create a Spectral card (Must have room)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Sixth_Sense",
+        "wiki_display_name": "Sixth Sense"
+      },
       "unlocked": true,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -2137,12 +2623,21 @@
       "order": 55,
       "name": "Constellation",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 0.1,
         "Xmult": 1
+      },
+      "wiki_effect_text_en": "This Joker gains X0.1 Mult every time a Planet card is used (Currently X1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Constellation",
+        "wiki_display_name": "Constellation"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2161,11 +2656,20 @@
       "order": 56,
       "name": "Hiker",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 5
+      },
+      "wiki_effect_text_en": "Every played card permanently gains +5 Chips when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Hiker",
+        "wiki_display_name": "Hiker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2184,6 +2688,7 @@
       "order": 57,
       "name": "Faceless Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
@@ -2192,6 +2697,14 @@
           "dollars": 5,
           "faces": 3
         }
+      },
+      "wiki_effect_text_en": "Earn $5 if 3 or more face cards are discarded at the same time",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Faceless_Joker",
+        "wiki_display_name": "Faceless Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2210,6 +2723,7 @@
       "order": 58,
       "name": "Green Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
@@ -2218,6 +2732,14 @@
           "hand_add": 1,
           "discard_sub": 1
         }
+      },
+      "wiki_effect_text_en": "+1 Mult per hand played -1 Mult per discard (Currently +0 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Green_Joker",
+        "wiki_display_name": "Green Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2236,10 +2758,19 @@
       "order": 59,
       "name": "Superposition",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "Create a Tarot card if poker hand contains an Ace and a Straight (Must have room)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Superposition",
+        "wiki_display_name": "Superposition"
+      },
       "unlocked": true,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -2257,6 +2788,7 @@
       "order": 60,
       "name": "To Do List",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
@@ -2265,6 +2797,14 @@
           "dollars": 4,
           "poker_hand": "High Card"
         }
+      },
+      "wiki_effect_text_en": "Earn $4 if poker hand is a [Poker Hand], poker hand changes at end of round",
+      "activation_class": "joker_on_played",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/To_Do_List",
+        "wiki_display_name": "To Do List"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2283,6 +2823,7 @@
       "order": 61,
       "name": "Cavendish",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
@@ -2291,6 +2832,14 @@
           "odds": 1000,
           "Xmult": 3
         }
+      },
+      "wiki_effect_text_en": "X3 Mult 1 in 1000 chance this card is destroyed at the end of round",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Cavendish",
+        "wiki_display_name": "Cavendish"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2309,6 +2858,7 @@
       "order": 62,
       "name": "Card Sharp",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
@@ -2316,6 +2866,14 @@
         "extra": {
           "Xmult": 3
         }
+      },
+      "wiki_effect_text_en": "X3 Mult if played poker hand has already been played this round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Card_Sharp",
+        "wiki_display_name": "Card Sharp"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2334,11 +2892,20 @@
       "order": 63,
       "name": "Red Card",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "This Joker gains +3 Mult when any Booster Pack is skipped (Currently +0 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Red_Card",
+        "wiki_display_name": "Red Card"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2357,11 +2924,20 @@
       "order": 64,
       "name": "Madness",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 0.5
+      },
+      "wiki_effect_text_en": "When Small Blind or Big Blind is selected, gain X0.5 Mult and destroy a random Joker (Currently X1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Madness",
+        "wiki_display_name": "Madness"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2380,6 +2956,7 @@
       "order": 65,
       "name": "Square Joker",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
@@ -2388,6 +2965,14 @@
           "chips": 0,
           "chip_mod": 4
         }
+      },
+      "wiki_effect_text_en": "This Joker gains +4 Chips if played hand has exactly 4 cards (Currently 0 Chips)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Square_Joker",
+        "wiki_display_name": "Square Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2406,6 +2991,7 @@
       "order": 66,
       "name": "Seance",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
@@ -2413,6 +2999,14 @@
         "extra": {
           "poker_hand": "Straight Flush"
         }
+      },
+      "wiki_effect_text_en": "If poker hand is a Straight Flush, create a random Spectral card (Must have room)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/S\u00e9ance",
+        "wiki_display_name": "S\u00e9ance"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2431,11 +3025,20 @@
       "order": 67,
       "name": "Riff-raff",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "When Blind is selected, create 2 Common Jokers (Must have room)",
+      "activation_class": "boss_blind_pre_play",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Riff-Raff",
+        "wiki_display_name": "Riff-Raff"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2454,12 +3057,21 @@
       "order": 68,
       "name": "Vampire",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 0.1,
         "Xmult": 1
+      },
+      "wiki_effect_text_en": "This Joker gains X0.1 Mult per scoring Enhanced card played, removes card Enhancement (Currently X1 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Vampire",
+        "wiki_display_name": "Vampire"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2478,10 +3090,19 @@
       "order": 69,
       "name": "Shortcut",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "Allows Straights to be made with gaps of 1 rank (ex: 10 8 6 5 3)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Shortcut",
+        "wiki_display_name": "Shortcut"
+      },
       "unlocked": true,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -2499,12 +3120,21 @@
       "order": 70,
       "name": "Hologram",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 0.25,
         "Xmult": 1
+      },
+      "wiki_effect_text_en": "This Joker gains X0.25 Mult every time a playing card is added to your deck (Currently X1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Hologram",
+        "wiki_display_name": "Hologram"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2523,11 +3153,20 @@
       "order": 71,
       "name": "Vagabond",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": null,
       "config": {
         "extra": 4
+      },
+      "wiki_effect_text_en": "Create a Tarot card if hand is played with $4 or less",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Vagabond",
+        "wiki_display_name": "Vagabond"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2546,11 +3185,20 @@
       "order": 72,
       "name": "Baron",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": null,
       "config": {
         "extra": 1.5
+      },
+      "wiki_effect_text_en": "Each King held in hand gives X1.5 Mult",
+      "activation_class": "held_in_hand",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Baron",
+        "wiki_display_name": "Baron"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2569,11 +3217,20 @@
       "order": 73,
       "name": "Cloud 9",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Earn $1 for each 9 in your full deck at end of round (Currently $4)",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Cloud_9",
+        "wiki_display_name": "Cloud 9"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2592,6 +3249,7 @@
       "order": 74,
       "name": "Rocket",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
@@ -2600,6 +3258,14 @@
           "dollars": 1,
           "increase": 2
         }
+      },
+      "wiki_effect_text_en": "Earn $1 at end of round. Payout increases by $2 when Boss Blind is defeated",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Rocket",
+        "wiki_display_name": "Rocket"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2618,12 +3284,21 @@
       "order": 75,
       "name": "Obelisk",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": null,
       "config": {
         "extra": 0.2,
         "Xmult": 1
+      },
+      "wiki_effect_text_en": "This Joker gains X0.2 Mult per consecutive hand played without playing your most played poker hand (Currently X1 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Obelisk",
+        "wiki_display_name": "Obelisk"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2642,10 +3317,19 @@
       "order": 76,
       "name": "Midas Mask",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "All played face cards become Gold cards when scored",
+      "activation_class": "joker_on_played",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Midas_Mask",
+        "wiki_display_name": "Midas Mask"
+      },
       "unlocked": true,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -2663,10 +3347,19 @@
       "order": 77,
       "name": "Luchador",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "Sell this card to disable the current Boss Blind",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Luchador",
+        "wiki_display_name": "Luchador"
+      },
       "unlocked": true,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -2684,11 +3377,20 @@
       "order": 78,
       "name": "Photograph",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "First played face card gives X2 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Photograph",
+        "wiki_display_name": "Photograph"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2707,11 +3409,20 @@
       "order": 79,
       "name": "Gift Card",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Add $1 of sell value to every Joker and Consumable card at end of round",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Gift_Card",
+        "wiki_display_name": "Gift Card"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2730,6 +3441,7 @@
       "order": 80,
       "name": "Turtle Bean",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
@@ -2738,6 +3450,14 @@
           "h_size": 5,
           "h_mod": 1
         }
+      },
+      "wiki_effect_text_en": "+5 hand size, reduces by 1 each round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Turtle_Bean",
+        "wiki_display_name": "Turtle Bean"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2756,11 +3476,20 @@
       "order": 81,
       "name": "Erosion",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 4
+      },
+      "wiki_effect_text_en": "+4 Mult for each card below [the deck's starting size] in your full deck (Currently +0 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Erosion",
+        "wiki_display_name": "Erosion"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2779,6 +3508,7 @@
       "order": 82,
       "name": "Reserved Parking",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 1,
       "effect": null,
@@ -2787,6 +3517,14 @@
           "odds": 2,
           "dollars": 1
         }
+      },
+      "wiki_effect_text_en": "Each face card held in hand has a 1 in 2 chance to give $1",
+      "activation_class": "held_in_hand",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Reserved_Parking",
+        "wiki_display_name": "Reserved Parking"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2805,11 +3543,20 @@
       "order": 83,
       "name": "Mail-In Rebate",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 5
+      },
+      "wiki_effect_text_en": "Earn $5 for each discarded [rank], rank changes every round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Mail-In_Rebate",
+        "wiki_display_name": "Mail-In Rebate"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2828,11 +3575,20 @@
       "order": 84,
       "name": "To the Moon",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Earn an extra $1 of interest for every $5 you have at end of round",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/To_the_Moon",
+        "wiki_display_name": "To the Moon"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2851,11 +3607,20 @@
       "order": 85,
       "name": "Hallucination",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "1 in 2 chance to create a Tarot card when any Booster Pack is opened (Must have room)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Hallucination",
+        "wiki_display_name": "Hallucination"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2874,11 +3639,20 @@
       "order": 86,
       "name": "Fortune Teller",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 1,
       "effect": "",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "+1 Mult per Tarot card used this run (Currently +0)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Fortune_Teller",
+        "wiki_display_name": "Fortune Teller"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2897,11 +3671,20 @@
       "order": 87,
       "name": "Juggler",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Hand Size",
       "config": {
         "h_size": 1
+      },
+      "wiki_effect_text_en": "+1 hand size",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Juggler",
+        "wiki_display_name": "Juggler"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2920,11 +3703,20 @@
       "order": 88,
       "name": "Drunkard",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Discard Size",
       "config": {
         "d_size": 1
+      },
+      "wiki_effect_text_en": "+1 discard each round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Drunkard",
+        "wiki_display_name": "Drunkard"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2943,11 +3735,20 @@
       "order": 89,
       "name": "Stone Joker",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Stone Card Buff",
       "config": {
         "extra": 25
+      },
+      "wiki_effect_text_en": "Gives +25 Chips for each Stone Card in your full deck (Currently +0 Chips)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Stone_Joker",
+        "wiki_display_name": "Stone Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -2966,11 +3767,20 @@
       "order": 90,
       "name": "Golden Joker",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 1,
       "effect": "Bonus dollars",
       "config": {
         "extra": 4
+      },
+      "wiki_effect_text_en": "Earn $4 at end of round",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Golden_Joker",
+        "wiki_display_name": "Golden Joker"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -2989,12 +3799,21 @@
       "order": 91,
       "name": "Lucky Cat",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "Xmult": 1,
         "extra": 0.25
+      },
+      "wiki_effect_text_en": "This Joker gains X0.25 Mult every time a Lucky card successfully triggers (Currently X1 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Lucky_Cat",
+        "wiki_display_name": "Lucky Cat"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3013,11 +3832,20 @@
       "order": 92,
       "name": "Baseball Card",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": null,
       "config": {
         "extra": 1.5
+      },
+      "wiki_effect_text_en": "Uncommon Jokers each give X1.5 Mult",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Baseball_Card",
+        "wiki_display_name": "Baseball Card"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3036,11 +3864,20 @@
       "order": 93,
       "name": "Bull",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "+2 Chips for each $1 you have (Currently +0 Chips)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Bull",
+        "wiki_display_name": "Bull"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3059,10 +3896,19 @@
       "order": 94,
       "name": "Diet Cola",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {},
+      "wiki_effect_text_en": "Sell this card to create a free Double Tag",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Diet_Cola",
+        "wiki_display_name": "Diet Cola"
+      },
       "unlocked": true,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -3080,11 +3926,20 @@
       "order": 95,
       "name": "Trading Card",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "If first discard of round has only 1 card, destroy it and earn $3",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Trading_Card",
+        "wiki_display_name": "Trading Card"
       },
       "unlocked": true,
       "blueprint_compat": false,
@@ -3103,12 +3958,21 @@
       "order": 96,
       "name": "Flash Card",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 2,
         "mult": 0
+      },
+      "wiki_effect_text_en": "This Joker gains +2 Mult per reroll in the shop (Currently +0 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Flash_Card",
+        "wiki_display_name": "Flash Card"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3127,12 +3991,21 @@
       "order": 97,
       "name": "Popcorn",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": null,
       "config": {
         "mult": 20,
         "extra": 4
+      },
+      "wiki_effect_text_en": "+20 Mult -4 Mult per round played",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Popcorn",
+        "wiki_display_name": "Popcorn"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3151,11 +4024,20 @@
       "order": 98,
       "name": "Spare Trousers",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "This Joker gains +2 Mult if played hand contains a Two Pair (Currently +0 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Spare_Trousers",
+        "wiki_display_name": "Spare Trousers"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3174,11 +4056,20 @@
       "order": 99,
       "name": "Ancient Joker",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": null,
       "config": {
         "extra": 1.5
+      },
+      "wiki_effect_text_en": "Each played card with [suit] gives X1.5 Mult when scored, suit changes at end of round",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Ancient_Joker",
+        "wiki_display_name": "Ancient Joker"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3197,12 +4088,21 @@
       "order": 100,
       "name": "Ramen",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "Xmult": 2,
         "extra": 0.01
+      },
+      "wiki_effect_text_en": "X2 Mult, loses X0.01 Mult per card discarded",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Ramen",
+        "wiki_display_name": "Ramen"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3221,6 +4121,7 @@
       "order": 101,
       "name": "Walkie Talkie",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
@@ -3229,6 +4130,14 @@
           "chips": 10,
           "mult": 4
         }
+      },
+      "wiki_effect_text_en": "Each played 10 or 4 gives +10 Chips and +4 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Walkie_Talkie",
+        "wiki_display_name": "Walkie Talkie"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3247,11 +4156,20 @@
       "order": 102,
       "name": "Seltzer",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
       "config": {
         "extra": 10
+      },
+      "wiki_effect_text_en": "Retrigger all cards played for the next 10 hands",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Seltzer",
+        "wiki_display_name": "Seltzer"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3270,6 +4188,7 @@
       "order": 103,
       "name": "Castle",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": null,
@@ -3278,6 +4197,14 @@
           "chips": 0,
           "chip_mod": 3
         }
+      },
+      "wiki_effect_text_en": "This Joker gains +3 Chips per discarded [suit] card, suit changes every round (Currently +0 Chips)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Castle",
+        "wiki_display_name": "Castle"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3296,11 +4223,20 @@
       "order": 104,
       "name": "Smiley Face",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": null,
       "config": {
         "extra": 5
+      },
+      "wiki_effect_text_en": "Played face cards give +5 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Smiley_Face",
+        "wiki_display_name": "Smiley Face"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3319,11 +4255,20 @@
       "order": 105,
       "name": "Campfire",
       "set": "Joker",
+      "base_cost": 9,
       "cost": 9,
       "rarity": 3,
       "effect": null,
       "config": {
         "extra": 0.25
+      },
+      "wiki_effect_text_en": "This Joker gains X0.25 Mult for each card sold, resets when Boss Blind is defeated (Currently X1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Campfire",
+        "wiki_display_name": "Campfire"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -3342,11 +4287,20 @@
       "order": 106,
       "name": "Golden Ticket",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "dollars for Gold cards",
       "config": {
         "extra": 4
+      },
+      "wiki_effect_text_en": "Played Gold cards earn $4 when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Golden_Ticket",
+        "wiki_display_name": "Golden Ticket"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3365,10 +4319,19 @@
       "order": 107,
       "name": "Mr. Bones",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": "Prevent Death",
       "config": {},
+      "wiki_effect_text_en": "Prevents Death if chips scored are at least 25% of required chips self destructs",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Mr._Bones",
+        "wiki_display_name": "Mr. Bones"
+      },
       "unlocked": false,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -3386,11 +4349,20 @@
       "order": 108,
       "name": "Acrobat",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Shop size",
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "X3 Mult on final hand of round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Acrobat",
+        "wiki_display_name": "Acrobat"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3409,11 +4381,20 @@
       "order": 109,
       "name": "Sock and Buskin",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Face card double",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Retrigger all played face cards",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Sock_and_Buskin",
+        "wiki_display_name": "Sock and Buskin"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3432,11 +4413,20 @@
       "order": 110,
       "name": "Swashbuckler",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "Set Mult",
       "config": {
         "mult": 1
+      },
+      "wiki_effect_text_en": "Adds the sell value of all other owned Jokers to Mult (Currently +1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Swashbuckler",
+        "wiki_display_name": "Swashbuckler"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3455,6 +4445,7 @@
       "order": 111,
       "name": "Troubadour",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Hand Size, Plays",
@@ -3463,6 +4454,14 @@
           "h_size": 2,
           "h_plays": -1
         }
+      },
+      "wiki_effect_text_en": "+2 hand size, -1 hand each round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Troubadour",
+        "wiki_display_name": "Troubadour"
       },
       "unlocked": false,
       "blueprint_compat": false,
@@ -3481,10 +4480,19 @@
       "order": 112,
       "name": "Certificate",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "When round begins, add a random playing card with a random seal to your hand",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Certificate",
+        "wiki_display_name": "Certificate"
+      },
       "unlocked": false,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -3502,10 +4510,19 @@
       "order": 113,
       "name": "Smeared Joker",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "Hearts and Diamonds count as the same suit, Spades and Clubs count as the same suit",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Smeared_Joker",
+        "wiki_display_name": "Smeared Joker"
+      },
       "unlocked": false,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -3523,11 +4540,20 @@
       "order": 114,
       "name": "Throwback",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 0.25
+      },
+      "wiki_effect_text_en": "X0.25 Mult for each Blind skipped this run (Currently X1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Throwback",
+        "wiki_display_name": "Throwback"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3546,11 +4572,20 @@
       "order": 115,
       "name": "Hanging Chad",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 1,
       "effect": "",
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "Retrigger first played card used in scoring 2 additional times",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Hanging_Chad",
+        "wiki_display_name": "Hanging Chad"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3569,11 +4604,20 @@
       "order": 116,
       "name": "Rough Gem",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Played cards with Diamond suit earn $1 when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Rough_Gem",
+        "wiki_display_name": "Rough Gem"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3592,6 +4636,7 @@
       "order": 117,
       "name": "Bloodstone",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
@@ -3600,6 +4645,14 @@
           "odds": 2,
           "Xmult": 1.5
         }
+      },
+      "wiki_effect_text_en": "1 in 2 chance for played cards with Heart suit to give X1.5 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Bloodstone",
+        "wiki_display_name": "Bloodstone"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3618,11 +4671,20 @@
       "order": 118,
       "name": "Arrowhead",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 50
+      },
+      "wiki_effect_text_en": "Played cards with Spade suit give +50 Chips when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Arrowhead",
+        "wiki_display_name": "Arrowhead"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3641,11 +4703,20 @@
       "order": 119,
       "name": "Onyx Agate",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 7
+      },
+      "wiki_effect_text_en": "Played cards with Club suit give +7 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Onyx_Agate",
+        "wiki_display_name": "Onyx Agate"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3664,12 +4735,21 @@
       "order": 120,
       "name": "Glass Joker",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Glass Card",
       "config": {
         "extra": 0.75,
         "Xmult": 1
+      },
+      "wiki_effect_text_en": "This Joker gains X0.75 Mult for every Glass Card that is destroyed (Currently X1 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Glass_Joker",
+        "wiki_display_name": "Glass Joker"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3688,10 +4768,19 @@
       "order": 121,
       "name": "Showman",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 2,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "Joker, Tarot, Planet, and Spectral cards may appear multiple times",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Showman",
+        "wiki_display_name": "Showman"
+      },
       "unlocked": false,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -3709,11 +4798,20 @@
       "order": 122,
       "name": "Flower Pot",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "X3 Mult if poker hand contains a Diamond card, Club card, Heart card, and Spade card",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Flower_Pot",
+        "wiki_display_name": "Flower Pot"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3732,10 +4830,19 @@
       "order": 123,
       "name": "Blueprint",
       "set": "Joker",
+      "base_cost": 10,
       "cost": 10,
       "rarity": 3,
       "effect": "Copycat",
       "config": {},
+      "wiki_effect_text_en": "Copies ability of Joker to the right",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Blueprint",
+        "wiki_display_name": "Blueprint"
+      },
       "unlocked": false,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -3753,6 +4860,7 @@
       "order": 124,
       "name": "Wee Joker",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "",
@@ -3761,6 +4869,14 @@
           "chips": 0,
           "chip_mod": 8
         }
+      },
+      "wiki_effect_text_en": "This Joker gains +8 Chips when each played 2 is scored (Currently +0 Chips)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Wee_Joker",
+        "wiki_display_name": "Wee Joker"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3779,12 +4895,21 @@
       "order": 125,
       "name": "Merry Andy",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
       "config": {
         "d_size": 3,
         "h_size": -1
+      },
+      "wiki_effect_text_en": "+3 discards each round, -1 hand size",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Merry_Andy",
+        "wiki_display_name": "Merry Andy"
       },
       "unlocked": false,
       "blueprint_compat": false,
@@ -3803,10 +4928,19 @@
       "order": 126,
       "name": "Oops! All 6s",
       "set": "Joker",
+      "base_cost": 4,
       "cost": 4,
       "rarity": 2,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "Doubles all listed probabilities (ex: 1 in 3 -> 2 in 3)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Oops!_All_6s",
+        "wiki_display_name": "Oops! All 6s"
+      },
       "unlocked": false,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -3824,11 +4958,20 @@
       "order": 127,
       "name": "The Idol",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "Each played [rank] of [suit] gives X2 Mult when scored Card changes every round",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/The_Idol",
+        "wiki_display_name": "The Idol"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3847,11 +4990,20 @@
       "order": 128,
       "name": "Seeing Double",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "X1.5 Mult club 7",
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "X2 Mult if played hand has a scoring Club card and a scoring card of any other suit",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Seeing_Double",
+        "wiki_display_name": "Seeing Double"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3870,11 +5022,20 @@
       "order": 129,
       "name": "Matador",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 8
+      },
+      "wiki_effect_text_en": "Earn $8 if played hand triggers the Boss Blind ability",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Matador",
+        "wiki_display_name": "Matador"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3893,11 +5054,20 @@
       "order": 130,
       "name": "Hit the Road",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "Jack Discard Effect",
       "config": {
         "extra": 0.5
+      },
+      "wiki_effect_text_en": "This Joker gains X0.5 Mult for every Jack discarded this round (Currently X1 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Hit_the_Road",
+        "wiki_display_name": "Hit the Road"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3916,12 +5086,21 @@
       "order": 131,
       "name": "The Duo",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "X1.5 Mult",
       "config": {
         "Xmult": 2,
         "type": "Pair"
+      },
+      "wiki_effect_text_en": "X2 Mult if played hand contains a Pair",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/The_Duo",
+        "wiki_display_name": "The Duo"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3940,12 +5119,21 @@
       "order": 132,
       "name": "The Trio",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "X2 Mult",
       "config": {
         "Xmult": 3,
         "type": "Three of a Kind"
+      },
+      "wiki_effect_text_en": "X3 Mult if played hand contains a Three of a Kind",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/The_Trio",
+        "wiki_display_name": "The Trio"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3964,12 +5152,21 @@
       "order": 133,
       "name": "The Family",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "X3 Mult",
       "config": {
         "Xmult": 4,
         "type": "Four of a Kind"
+      },
+      "wiki_effect_text_en": "X4 Mult if played hand contains a Four of a Kind",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/The_Family",
+        "wiki_display_name": "The Family"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -3988,12 +5185,21 @@
       "order": 134,
       "name": "The Order",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "X3 Mult",
       "config": {
         "Xmult": 3,
         "type": "Straight"
+      },
+      "wiki_effect_text_en": "X3 Mult if played hand contains a Straight",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/The_Order",
+        "wiki_display_name": "The Order"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4012,12 +5218,21 @@
       "order": 135,
       "name": "The Tribe",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "X3 Mult",
       "config": {
         "Xmult": 2,
         "type": "Flush"
+      },
+      "wiki_effect_text_en": "X2 Mult if played hand contains a Flush",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/The_Tribe",
+        "wiki_display_name": "The Tribe"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4036,6 +5251,7 @@
       "order": 136,
       "name": "Stuntman",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 3,
       "effect": "",
@@ -4044,6 +5260,14 @@
           "h_size": 2,
           "chip_mod": 250
         }
+      },
+      "wiki_effect_text_en": "+250 Chips, -2 hand size",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Stuntman",
+        "wiki_display_name": "Stuntman"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4062,11 +5286,20 @@
       "order": 137,
       "name": "Invisible Joker",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "",
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "After 2 rounds, sell this card to Duplicate a random Joker (Currently 0/2) (Removes Negative from copy)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Invisible_Joker",
+        "wiki_display_name": "Invisible Joker"
       },
       "unlocked": false,
       "blueprint_compat": false,
@@ -4085,10 +5318,19 @@
       "order": 138,
       "name": "Brainstorm",
       "set": "Joker",
+      "base_cost": 10,
       "cost": 10,
       "rarity": 3,
       "effect": "Copycat",
       "config": {},
+      "wiki_effect_text_en": "Copies the ability of leftmost Joker",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Brainstorm",
+        "wiki_display_name": "Brainstorm"
+      },
       "unlocked": false,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -4106,11 +5348,20 @@
       "order": 139,
       "name": "Satellite",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "Earn $1 at end of round per unique Planet card used this run",
+      "activation_class": "end_of_round",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Satellite",
+        "wiki_display_name": "Satellite"
       },
       "unlocked": false,
       "blueprint_compat": false,
@@ -4129,11 +5380,20 @@
       "order": 140,
       "name": "Shoot the Moon",
       "set": "Joker",
+      "base_cost": 5,
       "cost": 5,
       "rarity": 1,
       "effect": "",
       "config": {
         "extra": 13
+      },
+      "wiki_effect_text_en": "Each Queen held in hand gives +13 Mult",
+      "activation_class": "held_in_hand",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Common_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Shoot_the_Moon",
+        "wiki_display_name": "Shoot the Moon"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4152,11 +5412,20 @@
       "order": 141,
       "name": "Driver's License",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 3,
       "effect": "",
       "config": {
         "extra": 3
+      },
+      "wiki_effect_text_en": "X3 Mult if you have at least 16 Enhanced cards in your full deck (Currently 0)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Driver's_License",
+        "wiki_display_name": "Driver's License"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4175,10 +5444,19 @@
       "order": 142,
       "name": "Cartomancer",
       "set": "Joker",
+      "base_cost": 6,
       "cost": 6,
       "rarity": 2,
       "effect": "Tarot Buff",
       "config": {},
+      "wiki_effect_text_en": "Create a Tarot card when Blind is selected (Must have room)",
+      "activation_class": "boss_blind_pre_play",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Cartomancer",
+        "wiki_display_name": "Cartomancer"
+      },
       "unlocked": false,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -4196,10 +5474,19 @@
       "order": 143,
       "name": "Astronomer",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 2,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "All Planet cards and Celestial Packs in the shop are free",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Astronomer",
+        "wiki_display_name": "Astronomer"
+      },
       "unlocked": false,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -4217,12 +5504,21 @@
       "order": 144,
       "name": "Burnt Joker",
       "set": "Joker",
+      "base_cost": 8,
       "cost": 8,
       "rarity": 3,
       "effect": "",
       "config": {
         "h_size": 0,
         "extra": 4
+      },
+      "wiki_effect_text_en": "Upgrade the level of the first discarded poker hand each round",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Rare_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Burnt_Joker",
+        "wiki_display_name": "Burnt Joker"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4241,6 +5537,7 @@
       "order": 145,
       "name": "Bootstraps",
       "set": "Joker",
+      "base_cost": 7,
       "cost": 7,
       "rarity": 2,
       "effect": "",
@@ -4249,6 +5546,14 @@
           "mult": 2,
           "dollars": 5
         }
+      },
+      "wiki_effect_text_en": "+2 Mult for every $5 you have (Currently +0 Mult)",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Bootstraps",
+        "wiki_display_name": "Bootstraps"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4267,11 +5572,20 @@
       "order": 146,
       "name": "Caino",
       "set": "Joker",
+      "base_cost": 20,
       "cost": 20,
       "rarity": 4,
       "effect": "",
       "config": {
         "extra": 1
+      },
+      "wiki_effect_text_en": "This Joker gains X1 Mult when a face card is destroyed (Currently X1 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Legendary_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Canio",
+        "wiki_display_name": "Canio"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4290,11 +5604,20 @@
       "order": 147,
       "name": "Triboulet",
       "set": "Joker",
+      "base_cost": 20,
       "cost": 20,
       "rarity": 4,
       "effect": "",
       "config": {
         "extra": 2
+      },
+      "wiki_effect_text_en": "Played Kings and Queens each give X2 Mult when scored",
+      "activation_class": "joker_on_scored",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Legendary_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Triboulet",
+        "wiki_display_name": "Triboulet"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4313,6 +5636,7 @@
       "order": 148,
       "name": "Yorick",
       "set": "Joker",
+      "base_cost": 20,
       "cost": 20,
       "rarity": 4,
       "effect": "",
@@ -4321,6 +5645,14 @@
           "xmult": 1,
           "discards": 23
         }
+      },
+      "wiki_effect_text_en": "This Joker gains X1 Mult every 23 [23] cards discarded (Currently X1 Mult)",
+      "activation_class": "mixed",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Legendary_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Yorick",
+        "wiki_display_name": "Yorick"
       },
       "unlocked": false,
       "blueprint_compat": true,
@@ -4339,10 +5671,19 @@
       "order": 149,
       "name": "Chicot",
       "set": "Joker",
+      "base_cost": 20,
       "cost": 20,
       "rarity": 4,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "Disables effect of every Boss Blind",
+      "activation_class": "boss_blind_pre_play",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Legendary_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Chicot",
+        "wiki_display_name": "Chicot"
+      },
       "unlocked": false,
       "blueprint_compat": false,
       "perishable_compat": true,
@@ -4360,10 +5701,19 @@
       "order": 150,
       "name": "Perkeo",
       "set": "Joker",
+      "base_cost": 20,
       "cost": 20,
       "rarity": 4,
       "effect": "",
       "config": {},
+      "wiki_effect_text_en": "Creates a Negative copy of 1 random consumable card in your possession at the end of the shop",
+      "activation_class": "joker_independent",
+      "source_refs": {
+        "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
+        "wiki_table_page": "https://balatrowiki.org/w/Legendary_Jokers",
+        "wiki_page": "https://balatrowiki.org/w/Perkeo",
+        "wiki_display_name": "Perkeo"
+      },
       "unlocked": false,
       "blueprint_compat": true,
       "perishable_compat": true,
@@ -5831,6 +7181,6 @@
     "common": 70.0,
     "uncommon": 25.0,
     "rare": 5.0,
-    "legendary": 0.3
+    "legendary": 0.0
   }
 }
