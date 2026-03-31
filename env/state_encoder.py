@@ -12,16 +12,18 @@ from env.action_space import ACTION_DIM
 # Layout constants
 ACTION_MASK_SIZE = ACTION_DIM
 NUM_STAGES = 7
-NUM_SCALARS = 14
+NUM_SCALARS = 18
 HAND_SLOTS = 8
-HAND_CARD_FEATURES = 19
+HAND_CARD_FEATURES = 30
 HAND_CARDS_DIM = HAND_SLOTS * HAND_CARD_FEATURES
 HAND_TYPE_DIM = 12
 DECK_COMP_DIM = 52
 DISCARDED_DIM = 52
 JOKER_HELD_DIM = 47
 JOKER_SHOP_DIM = 10
-BOSS_DIM = 10
+BOSS_DIM = 28
+CONSUMABLE_DIM = 2
+VOUCHER_DIM = 10
 
 OFF_ACTION_MASK = 0
 OFF_STAGE = OFF_ACTION_MASK + ACTION_MASK_SIZE
@@ -34,7 +36,9 @@ OFF_DISCARDED = OFF_DECK + DECK_COMP_DIM
 OFF_JOKER_HELD = OFF_DISCARDED + DISCARDED_DIM
 OFF_JOKER_SHOP = OFF_JOKER_HELD + JOKER_HELD_DIM
 OFF_BOSS = OFF_JOKER_SHOP + JOKER_SHOP_DIM
-OBS_DIM = OFF_BOSS + BOSS_DIM
+OFF_CONSUMABLE = OFF_BOSS + BOSS_DIM
+OFF_VOUCHER = OFF_CONSUMABLE + CONSUMABLE_DIM
+OBS_DIM = OFF_VOUCHER + VOUCHER_DIM
 
 STAGES = [
     "Stage_PreBlind",
@@ -63,15 +67,68 @@ HAND_TYPES = [
 
 BOSS_EFFECTS = [
     "none",
-    "theclub",
     "thegoad",
     "thehead",
+    "theclub",
+    "thewindow",
     "theplant",
+    "thepsychic",
+    "theneedle",
+    "thewater",
     "thewall",
-    "thewheel",
+    "theflint",
+    "theeye",
+    "themouth",
+    "thehook",
+    "theox",
+    "thetooth",
+    "themanacle",
     "thearm",
+    "theserpent",
     "thepillar",
+    "thewheel",
+    "thehouse",
+    "themark",
+    "thefish",
+    "violetvessel",
+    "ceruleanbell",
+    "amberacorn",
     "other",
+]
+
+# Enhancement string values from engine -> one-hot index (0-7)
+ENHANCEMENT_MAP = {
+    "m_bonus": 0,
+    "m_mult": 1,
+    "m_wild": 2,
+    "m_glass": 3,
+    "m_steel": 4,
+    "m_stone": 5,
+    "m_gold": 6,
+    "m_lucky": 7,
+}
+ENHANCEMENT_DIM = 8
+
+# Edition string values from engine -> one-hot index (0-2)
+EDITION_MAP = {
+    "e_foil": 0,
+    "e_holo": 1,
+    "e_polychrome": 2,
+}
+EDITION_DIM = 3
+
+# Voucher effect_key values -> bit index (0-9)
+VOUCHER_KEYS = [
+    "grabber",
+    "wasteful",
+    "crystal_ball",
+    "antimatter",
+    "nacho_tong",
+    "paint_brush",
+    "clearance_sale",
+    "restock",
+    "seed_money",
+    "recyclomancy",
 ]
 
 RANK_TEXT = {
@@ -109,6 +166,8 @@ class CardData:
     suit_index: int
     selected: float
     chip_value: float
+    enhancement_index: int | None = None  # index into ENHANCEMENT_MAP
+    edition_index: int | None = None  # index into EDITION_MAP
 
 
 @dataclass
@@ -268,11 +327,25 @@ def _extract_card(card_obj: Any, selected_lookup: set[int]) -> CardData:
     card_id = _safe_get(card_obj, "card_id")
     selected = 1.0 if card_id in selected_lookup else float(_safe_get(card_obj, "selected", 0.0))
 
+    # Enhancement: Option<str> from native engine, or str/None from mock/dict
+    enhancement_raw = _safe_get(card_obj, "enhancement")
+    enhancement_index = None
+    if enhancement_raw is not None:
+        enhancement_index = ENHANCEMENT_MAP.get(str(enhancement_raw).lower())
+
+    # Edition: Option<str> from native engine, or str/None from mock/dict
+    edition_raw = _safe_get(card_obj, "edition")
+    edition_index = None
+    if edition_raw is not None:
+        edition_index = EDITION_MAP.get(str(edition_raw).lower())
+
     return CardData(
         rank_index=int(np.clip(rank, 0, 12)),
         suit_index=int(np.clip(suit, 0, 3)),
         selected=float(selected),
         chip_value=float(np.clip(chip, 0.0, 11.0)),
+        enhancement_index=enhancement_index,
+        edition_index=edition_index,
     )
 
 
@@ -352,6 +425,17 @@ def encode_pylatro_state(state: Any, action_mask: np.ndarray) -> np.ndarray:
     best_summary = summarize_best_hand(available_cards)
     selected_summary = summarize_best_hand(selected_cards)
 
+    jokers_list = list(_safe_get(state, "jokers", []) or [])
+    consumables_list = list(_safe_get(state, "consumables", []) or [])
+    consumable_slot_limit = float(_safe_get(state, "consumable_slot_limit", 2) or 2)
+    hand_size_val = float(len(available_raw)) / 10.0
+    joker_slot_limit = float(_safe_get(state, "joker_slot_limit", 5) or 5)
+
+    # Detect shop discount: check owned_vouchers for clearance_sale
+    owned_vouchers_raw = list(_safe_get(state, "owned_vouchers", []) or [])
+    has_clearance = any("clearance" in str(v).lower() for v in owned_vouchers_raw)
+    shop_discount = 0.75 if has_clearance else 1.0
+
     scalar = np.array(
         [
             score / 100_000.0,
@@ -363,11 +447,16 @@ def encode_pylatro_state(state: Any, action_mask: np.ndarray) -> np.ndarray:
             round_idx / 10.0,
             len(available_raw) / 24.0,
             len(selected_raw) / 10.0,
-            len(_safe_get(state, "jokers", []) or []) / 5.0,
+            len(jokers_list) / 5.0,
             len(deck_raw) / 60.0,
             float(mask.sum()) / 79.0,
             ante / 8.0,
             best_summary.score_proxy,
+            # New economy scalars (indices 14-17)
+            hand_size_val,
+            joker_slot_limit / 10.0,
+            len(consumables_list) / 5.0,
+            shop_discount,
         ],
         dtype=np.float32,
     )
@@ -379,6 +468,12 @@ def encode_pylatro_state(state: Any, action_mask: np.ndarray) -> np.ndarray:
         card_block[i, 13 + card.suit_index] = 1.0
         card_block[i, 17] = card.selected
         card_block[i, 18] = card.chip_value / 11.0
+        # Enhancement one-hot (indices 19-26, 8-dim)
+        if card.enhancement_index is not None and 0 <= card.enhancement_index < ENHANCEMENT_DIM:
+            card_block[i, 19 + card.enhancement_index] = 1.0
+        # Edition one-hot (indices 27-29, 3-dim)
+        if card.edition_index is not None and 0 <= card.edition_index < EDITION_DIM:
+            card_block[i, 27 + card.edition_index] = 1.0
     obs[OFF_HAND_CARDS : OFF_HAND_CARDS + HAND_CARDS_DIM] = card_block.reshape(-1)
 
     obs[OFF_SELECTED_HAND : OFF_SELECTED_HAND + HAND_TYPE_DIM] = _one_hot(
@@ -401,8 +496,7 @@ def encode_pylatro_state(state: Any, action_mask: np.ndarray) -> np.ndarray:
     obs[OFF_DISCARDED : OFF_DISCARDED + DISCARDED_DIM] = discarded_vec
 
     joker_vec = np.zeros(JOKER_HELD_DIM, dtype=np.float32)
-    jokers = list(_safe_get(state, "jokers", []) or [])
-    for joker in jokers:
+    for joker in jokers_list:
         joker_vec[_joker_index(joker)] = 1.0
     obs[OFF_JOKER_HELD : OFF_JOKER_HELD + JOKER_HELD_DIM] = joker_vec
 
@@ -421,6 +515,19 @@ def encode_pylatro_state(state: Any, action_mask: np.ndarray) -> np.ndarray:
 
     boss_idx = _boss_index(_safe_get(state, "boss_effect", None))
     obs[OFF_BOSS : OFF_BOSS + BOSS_DIM] = _one_hot(BOSS_DIM, boss_idx)
+
+    # Consumable inventory (2-dim: count / limit, count / 5.0)
+    consumable_count = len(consumables_list)
+    obs[OFF_CONSUMABLE] = consumable_count / max(1.0, consumable_slot_limit)
+    obs[OFF_CONSUMABLE + 1] = consumable_count / 5.0
+
+    # Voucher ownership (10-dim binary)
+    voucher_vec = np.zeros(VOUCHER_DIM, dtype=np.float32)
+    owned_set = {str(v).lower() for v in owned_vouchers_raw}
+    for bit_idx, key in enumerate(VOUCHER_KEYS):
+        if any(key in v for v in owned_set):
+            voucher_vec[bit_idx] = 1.0
+    obs[OFF_VOUCHER : OFF_VOUCHER + VOUCHER_DIM] = voucher_vec
 
     return obs
 
@@ -458,6 +565,8 @@ def unpack_obs_to_structured(obs: np.ndarray) -> dict[str, np.ndarray]:
             arr[:, OFF_DISCARDED : OFF_DISCARDED + DISCARDED_DIM],
             arr[:, OFF_JOKER_SHOP : OFF_JOKER_SHOP + JOKER_SHOP_DIM],
             arr[:, OFF_BOSS : OFF_BOSS + BOSS_DIM],
+            arr[:, OFF_CONSUMABLE : OFF_CONSUMABLE + CONSUMABLE_DIM],
+            arr[:, OFF_VOUCHER : OFF_VOUCHER + VOUCHER_DIM],
         ],
         axis=1,
     )

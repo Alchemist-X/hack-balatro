@@ -68,6 +68,8 @@ class _MockCard:
     rank_index: int
     suit_index: int
     chip_value: int
+    enhancement: str | None = None
+    edition: str | None = None
 
 
 @dataclass
@@ -95,6 +97,9 @@ class _MockState:
     discarded: list[_MockCard] = field(default_factory=list)
     jokers: list[_MockJoker] = field(default_factory=list)
     shop_jokers: list[_MockJoker] = field(default_factory=list)
+    consumables: list[Any] = field(default_factory=list)
+    consumable_slot_limit: int = 2
+    owned_vouchers: list[str] = field(default_factory=list)
 
 
 _RANK_NAMES = [
@@ -596,6 +601,8 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
         self._step_count = 0
         self._blinds_passed = 0
         self._prev_score = 0.0
+        self._prev_money = 0.0
+        self._prev_ante = 0.0
         self._prev_stage = "Stage_Other"
 
         self.action_space = spaces.Discrete(ACTION_DIM)
@@ -650,26 +657,52 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
         state = self._engine.state
         score = float(getattr(state, "score", 0.0) or 0.0)
         required = float(getattr(state, "required_score", 1.0) or 1.0)
+        money = float(getattr(state, "money", 0.0) or 0.0)
+        ante = float(getattr(state, "ante", 0.0) or 0.0)
         score_delta = score - self._prev_score
+        money_delta = money - self._prev_money
+        ante_delta = ante - self._prev_ante
 
         reward = 0.0
-        if bool(self.reward_cfg.get("use_score_shaping", True)) and score_delta > 0 and required > 0:
-            scale = float(self.reward_cfg.get("score_shaping_scale", 0.1))
-            reward += scale * math.log1p(score_delta / required)
 
-        if prev_stage != "Stage_PostBlind" and new_stage == "Stage_PostBlind":
-            reward += float(self.reward_cfg.get("blind_pass_reward", 0.5))
-            self._blinds_passed += 1
-
-        if "boss" in str(getattr(state, "boss_effect", "")).lower() and new_stage == "Stage_PostBlind":
-            reward += float(self.reward_cfg.get("boss_pass_reward", 0.0))
-
+        # Terminal rewards
         if terminated and self._engine.is_win:
             reward += float(self.reward_cfg.get("win_reward", 10.0))
-        elif terminated:
-            reward -= float(self.reward_cfg.get("death_penalty", 0.0))
+            self._prev_score = score
+            self._prev_money = money
+            self._prev_ante = ante
+            return float(reward)
+        if terminated:
+            reward -= float(self.reward_cfg.get("death_penalty", 1.0))
+            self._prev_score = score
+            self._prev_money = money
+            self._prev_ante = ante
+            return float(reward)
+
+        # Blind clear bonus
+        if prev_stage != "Stage_PostBlind" and new_stage == "Stage_PostBlind":
+            reward += float(self.reward_cfg.get("blind_pass_reward", 1.0))
+            self._blinds_passed += 1
+            boss_effect = str(getattr(state, "boss_effect", "") or "").lower()
+            if boss_effect and boss_effect != "none":
+                reward += float(self.reward_cfg.get("boss_pass_reward", 2.0))
+
+        # Score efficiency: reward scoring toward blind requirement during play
+        if prev_stage == "Stage_Blind" and new_stage == "Stage_Blind" and score_delta > 0 and required > 0:
+            scale = float(self.reward_cfg.get("score_shaping_scale", 0.001))
+            reward += scale * (score_delta / max(1.0, required))
+
+        # Money management: small reward for earning money in shop
+        if new_stage == "Stage_Shop" and money_delta > 0:
+            reward += float(self.reward_cfg.get("money_scale", 0.01)) * money_delta
+
+        # Ante progression: big reward for advancing ante
+        if ante_delta > 0:
+            reward += float(self.reward_cfg.get("ante_advance_reward", 2.0))
 
         self._prev_score = score
+        self._prev_money = money
+        self._prev_ante = ante
         return float(reward)
 
     def step(self, action: int):  # type: ignore[override]
@@ -734,6 +767,8 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
         self._step_count = 0
         self._blinds_passed = 0
         self._prev_score = float(getattr(self._engine.state, "score", 0.0) or 0.0)
+        self._prev_money = float(getattr(self._engine.state, "money", 0.0) or 0.0)
+        self._prev_ante = float(getattr(self._engine.state, "ante", 0.0) or 0.0)
         self._prev_stage = self._stage_name()
 
         obs = self._obs()
