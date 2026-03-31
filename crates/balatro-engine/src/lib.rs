@@ -4951,51 +4951,6 @@ fn apply_discount(base_cost: i32, discount: f32) -> i32 {
     ((base_cost as f32) * discount).round() as i32
 }
 
-/// Roll for an edition on a generated joker or playing card.
-/// 96% None, 2% Foil, 1.4% Holo, 0.6% Polychrome.
-fn roll_edition(rng: &mut ChaCha8Rng) -> Option<String> {
-    let roll: f64 = rng.gen_range(0.0..100.0);
-    if roll < 96.0 {
-        None
-    } else if roll < 98.0 {
-        Some("e_foil".to_string())
-    } else if roll < 99.4 {
-        Some("e_holo".to_string())
-    } else {
-        Some("e_polychrome".to_string())
-    }
-}
-
-/// Roll for an enhancement on a generated playing card.
-/// 90% None, ~1.43% each for 7 types (~10% total).
-fn roll_enhancement(rng: &mut ChaCha8Rng) -> Option<String> {
-    let roll: f64 = rng.gen_range(0.0..100.0);
-    if roll < 90.0 {
-        None
-    } else {
-        let enhancements = [
-            "m_bonus", "m_mult", "m_wild", "m_glass", "m_steel", "m_stone", "m_gold",
-        ];
-        let idx = ((roll - 90.0) / (10.0 / 7.0)).min(6.0) as usize;
-        Some(enhancements[idx].to_string())
-    }
-}
-
-/// Roll for a seal on a generated playing card.
-/// 97% None, 1% Gold, 1% Red, 1% Blue.
-fn roll_seal(rng: &mut ChaCha8Rng) -> Option<String> {
-    let roll: f64 = rng.gen_range(0.0..100.0);
-    if roll < 97.0 {
-        None
-    } else if roll < 98.0 {
-        Some("Gold".to_string())
-    } else if roll < 99.0 {
-        Some("Red".to_string())
-    } else {
-        Some("Blue".to_string())
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct HandClassification {
     key: String,
