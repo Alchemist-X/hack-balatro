@@ -1,5 +1,99 @@
 # Progress
 
+## 2026-03-31 CST
+
+### Completed
+- **P0: Consumable system** — Full shop/inventory/use flow for Tarot, Planet, and Spectral cards.
+  - `ConsumableInstance` with buy_cost, sell_value, config
+  - Buy/sell/use actions wired into action space (indices 24-27, 71-78)
+  - `handle_buy_consumable()`, `handle_sell_consumable()`, `handle_use_consumable()`
+  - Planet cards level up hand types via `hand_levels: BTreeMap<String, i32>`
+  - Tarot cards: Strength, Hermit, Temperance, suit conversion (Star/Moon/Sun/World), enhancement tarots, Hanged Man
+  - Shop generates 1-2 consumables per refresh (no Vouchers, no Legendaries)
+  - Default 2-slot consumable inventory with `consumable_slot_limit`
+  - 8 tests covering buy/sell/use/slot limit/scoring integration
+- **P0: Retrigger system** — Full per-card retrigger modeling with Blueprint/Brainstorm chain resolution.
+  - `calculate_retriggers()` aggregates Red Seal + Joker retrigger sources additively
+  - `resolve_joker_ability()` with visited set for cycle-safe Blueprint/Brainstorm chains
+  - `spec_grants_retrigger()` for Sock and Buskin, Hanging Chad, Seltzer (with remaining_uses), Dusk
+  - Per-card scoring loop: each card runs (1 + retrigger_count) full scoring passes
+  - Seltzer auto-destruction when remaining_uses reaches 0
+  - 15 retrigger tests including chain resolution and stacking
+- **P1: Joker effects — 128+ implementations** covering all 150 Jokers in the ruleset.
+  - `ScoringContext` struct for clean state passing
+  - xmult and money_delta support in scoring loop
+  - Helpers: is_face_card, is_even_rank, is_odd_rank, is_fibonacci_rank, config_extra_*
+  - ~55 fully implemented with real scoring effects
+  - ~25 recognized with scaling state (config-driven TODO)
+  - ~30 passive/no-scoring (correctly marked supported)
+  - ~15 economy/trigger (correctly marked supported)
+  - Generic fallback matchers for Mult, Suit Mult, hand-type, Discard Chips patterns
+  - 30 tests covering representative effects across all families
+- **P1: Three activation phases** — held-in-hand, end-of-round, boss-blind-pre-play.
+  - `apply_held_in_hand()`: Mime, Raised Fist, Baron (X1.5/King), Reserved Parking, Shoot the Moon
+  - `apply_end_of_round_jokers()`: Golden Joker, Cloud 9, Rocket, To the Moon, Satellite, Gift Card, Egg, Gros Michel (1/6 destroy), Cavendish (1/1000 destroy)
+  - `apply_blind_select_jokers()`: Chicot (disable boss), Burglar (+3 hands/-discards), Riff-raff (2 Common Jokers), Cartomancer (1 Tarot), Marble Joker (Stone card)
+  - EngineState fields: rocket_extra_dollars, egg_accumulated_sell, unique_planets_used, boss_blind_disabled
+  - roll_chance(), count_rank_in_full_deck() helpers
+  - 5 phase tests
+- **Replay audit zero-warning achieved.**
+  - Joker resolution trace fixed: one trace per Joker (not per card × per Joker)
+  - Re-recorded 318-step replay reaching Stage_End
+  - Determinism: 0 mismatches
+  - Hard invariants: OK
+  - Fidelity ready: TRUE
+  - Errors: 0, Warnings: 0
+- Python bindings updated: PyConsumable, PyCard (seal/is_face_card/enhancement/edition), PyJoker (remaining_uses/activation_class)
+
+### Current Result
+- `cargo check` — clean (1 dead_code warning)
+- `cargo test` — 45 tests passing + 1 spec test
+- `replay-fidelity.audit.json` → `ok: true, fidelity_ready: true`
+- `replay-fidelity.diff.json` → `mismatch_count: 0`
+
+### Honest Deficiencies Found
+- **28 "fake supported" Jokers**: marked `supported = true` with TODO, no real effect. Audit doesn't check values, only flags.
+- **Audit is structural only**: checks trace shape, not chips/mult/money correctness. Zero-warning ≠ zero-error.
+- **Card Enhancement not scored**: `enhancement` field exists but ignored in scoring loop. Bonus/Mult/Wild/Glass/Steel/Stone/Gold/Lucky cards all have no effect.
+- **Edition not scored**: Foil/Holo/Polychrome/Negative have no scoring effect.
+- **Boss Blind effects missing**: all 25+ Bosses treated as vanilla big-number blinds.
+- **Voucher system missing**: no persistent shop upgrades.
+- **Booster Pack missing**: no pack opening sub-decisions.
+- **joker_on_played phase missing**: Space Joker/DNA/To Do List/Midas Mask have no activation.
+- **lib.rs is 3830 lines**: 4.8x over 800-line guideline, unmaintainable.
+- **Real-client trajectory**: 0 recorded. All verification is engine self-comparison.
+
+### Next (priority order)
+1. **B-01**: Add numerical audit (chips/mult/money vs source oracle)
+2. **B-03**: Implement Card Enhancement scoring effects
+3. **B-02**: Implement 28 scaling Joker runtime states
+4. **B-11**: Split lib.rs into modules
+5. **B-04**: Boss Blind special effects
+6. **B-12**: Real-client trajectory recording
+
+### Checklist
+- [x] Consumable shop/inventory/use flow
+- [x] Retrigger modeling (Red Seal / Blueprint chain)
+- [x] 150 Joker match arms in apply_joker_effect (but 28 are TODO stubs)
+- [x] Held-in-hand activation phase
+- [x] End-of-round activation phase
+- [x] Boss-blind-pre-play activation phase
+- [x] Replay audit zero-warning (structural only)
+- [x] Determinism verified
+- [ ] Numerical value audit (chips/mult/money correctness)
+- [ ] Card Enhancement scoring
+- [ ] Edition scoring
+- [ ] 28 scaling Joker runtime state
+- [ ] Boss Blind special effects (25+)
+- [ ] Voucher system
+- [ ] Booster Pack system
+- [ ] lib.rs modular split
+- [ ] Real-client trajectory recording
+- [ ] Winning-run replay coverage
+
+### Need Human Help
+- None for the current loop.
+
 ## 2026-03-27 22:45 CST
 
 ### Completed

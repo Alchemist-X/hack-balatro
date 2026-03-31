@@ -1,4 +1,4 @@
-use balatro_engine::{action_name, ActionDescriptor, CardInstance, Engine, JokerInstance, RunConfig, Snapshot, Transition};
+use balatro_engine::{action_name, ActionDescriptor, CardInstance, ConsumableInstance, Engine, JokerInstance, RunConfig, Snapshot, Transition};
 use balatro_spec::RulesetBundle;
 use pyo3::exceptions::{PyFileNotFoundError, PyValueError};
 use pyo3::prelude::*;
@@ -30,6 +30,26 @@ impl PyCard {
     fn chip_value(&self) -> i32 {
         self.inner.chip_value()
     }
+
+    #[getter]
+    fn seal(&self) -> &str {
+        self.inner.typed_seal().as_str()
+    }
+
+    #[getter]
+    fn is_face_card(&self) -> bool {
+        self.inner.is_face_card()
+    }
+
+    #[getter]
+    fn enhancement(&self) -> Option<&str> {
+        self.inner.enhancement.as_deref()
+    }
+
+    #[getter]
+    fn edition(&self) -> Option<&str> {
+        self.inner.edition.as_deref()
+    }
 }
 
 #[pyclass(name = "Joker")]
@@ -58,6 +78,55 @@ impl PyJoker {
     #[getter]
     fn joker_rarity(&self) -> i32 {
         self.inner.rarity
+    }
+
+    #[getter]
+    fn remaining_uses(&self) -> Option<u32> {
+        self.inner.remaining_uses
+    }
+
+    #[getter]
+    fn activation_class(&self) -> &str {
+        &self.inner.activation_class
+    }
+}
+
+#[pyclass(name = "Consumable")]
+#[derive(Clone)]
+struct PyConsumable {
+    inner: ConsumableInstance,
+}
+
+#[pymethods]
+impl PyConsumable {
+    #[getter]
+    fn consumable_id(&self) -> &str {
+        &self.inner.consumable_id
+    }
+
+    #[getter]
+    fn consumable_name(&self) -> &str {
+        &self.inner.name
+    }
+
+    #[getter]
+    fn set(&self) -> &str {
+        &self.inner.set
+    }
+
+    #[getter]
+    fn cost(&self) -> i32 {
+        self.inner.cost
+    }
+
+    #[getter]
+    fn buy_cost(&self) -> i32 {
+        self.inner.buy_cost
+    }
+
+    #[getter]
+    fn sell_value(&self) -> i32 {
+        self.inner.sell_value
     }
 }
 
@@ -177,6 +246,31 @@ impl PySnapshot {
             .cloned()
             .map(|inner| PyJoker { inner })
             .collect()
+    }
+
+    #[getter]
+    fn consumables(&self) -> Vec<PyConsumable> {
+        self.inner
+            .consumables
+            .iter()
+            .cloned()
+            .map(|inner| PyConsumable { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn shop_consumables(&self) -> Vec<PyConsumable> {
+        self.inner
+            .shop_consumables
+            .iter()
+            .cloned()
+            .map(|inner| PyConsumable { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn consumable_slot_limit(&self) -> usize {
+        self.inner.consumable_slot_limit
     }
 
     fn to_json(&self) -> PyResult<String> {
@@ -366,6 +460,7 @@ fn action_label(index: usize) -> String {
 fn balatro_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyCard>()?;
     m.add_class::<PyJoker>()?;
+    m.add_class::<PyConsumable>()?;
     m.add_class::<PySnapshot>()?;
     m.add_class::<PyActionDescriptor>()?;
     m.add_class::<PyTransition>()?;

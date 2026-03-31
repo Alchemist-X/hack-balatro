@@ -3,6 +3,40 @@ use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
 
+/// Seal applied to a playing card. Red Seal triggers a retrigger; other seals
+/// have effects outside scoring (Gold = money, Blue = planet, Purple = tarot).
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Hash, Default)]
+pub enum Seal {
+    #[default]
+    None,
+    Gold,
+    Red,
+    Blue,
+    Purple,
+}
+
+impl Seal {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::None => "None",
+            Self::Gold => "Gold",
+            Self::Red => "Red",
+            Self::Blue => "Blue",
+            Self::Purple => "Purple",
+        }
+    }
+
+    pub fn from_opt_string(value: &Option<String>) -> Self {
+        match value.as_deref() {
+            Some("Red") => Self::Red,
+            Some("Gold") => Self::Gold,
+            Some("Blue") => Self::Blue,
+            Some("Purple") => Self::Purple,
+            _ => Self::None,
+        }
+    }
+}
+
 #[derive(Debug, thiserror::Error)]
 pub enum BundleError {
     #[error("failed to read bundle from {path}: {source}")]
@@ -173,6 +207,10 @@ impl RulesetBundle {
 
     pub fn joker_by_id(&self, joker_id: &str) -> Option<&JokerSpec> {
         self.jokers.iter().find(|joker| joker.id == joker_id)
+    }
+
+    pub fn consumable_by_id(&self, consumable_id: &str) -> Option<&ConsumableSpec> {
+        self.consumables.iter().find(|c| c.id == consumable_id)
     }
 }
 
