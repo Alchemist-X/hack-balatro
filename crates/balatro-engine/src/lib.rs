@@ -2397,6 +2397,7 @@ impl Engine {
                     trace,
                 );
                 let spec = &pool[chosen];
+                let edition = roll_edition(&mut self.rng);
                 self.state.shop.push(ShopSlot {
                     slot,
                     joker: JokerInstance {
@@ -2408,7 +2409,7 @@ impl Engine {
                         sell_value: (spec.cost / 2).max(1),
                         extra_sell_value: 0,
                         rarity: spec.rarity,
-                        edition: None,
+                        edition,
                         slot_index: slot,
                         activation_class: spec.activation_class.clone(),
                         wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
@@ -3178,6 +3179,7 @@ impl Engine {
                             trace,
                         );
                         let chosen_spec = &common_jokers[chosen];
+                        let edition = roll_edition(&mut self.rng);
                         let new_joker = JokerInstance {
                             joker_id: chosen_spec.id.clone(),
                             name: chosen_spec.name.clone(),
@@ -3187,7 +3189,7 @@ impl Engine {
                             sell_value: (chosen_spec.cost / 2).max(1),
                             extra_sell_value: 0,
                             rarity: chosen_spec.rarity,
-                            edition: None,
+                            edition,
                             slot_index: self.state.jokers.len(),
                             activation_class: chosen_spec.activation_class.clone(),
                             wiki_effect_text_en: chosen_spec.wiki_effect_text_en.clone(),
@@ -3471,13 +3473,16 @@ impl Engine {
                         11 => Rank::King,
                         _ => Rank::Ace,
                     };
+                    let enhancement = roll_enhancement(&mut self.rng);
+                    let edition = roll_edition(&mut self.rng);
+                    let seal = roll_seal(&mut self.rng);
                     let card = CardInstance {
                         card_id: 1000 + i as u32,
                         rank: rank.clone(),
                         suit: suit.clone(),
-                        enhancement: None,
-                        edition: None,
-                        seal: None,
+                        enhancement,
+                        edition,
+                        seal,
                     };
                     let name = format!("{:?} of {:?}", rank, suit);
                     choices.push(BoosterPackChoice {
@@ -3587,6 +3592,7 @@ impl Engine {
             } else if let Some(ref joker_id) = choice.joker_id {
                 if self.state.jokers.len() < self.state.joker_slot_limit {
                     if let Some(spec) = self.ruleset.joker_by_id(joker_id).cloned() {
+                        let edition = roll_edition(&mut self.rng);
                         let new_joker = JokerInstance {
                             joker_id: spec.id.clone(),
                             name: spec.name.clone(),
@@ -3596,7 +3602,7 @@ impl Engine {
                             sell_value: (spec.cost / 2).max(1),
                             extra_sell_value: 0,
                             rarity: spec.rarity,
-                            edition: None,
+                            edition,
                             slot_index: self.state.jokers.len(),
                             activation_class: spec.activation_class.clone(),
                             wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
@@ -4092,6 +4098,51 @@ fn default_voucher_pool() -> Vec<VoucherSpec> {
 
 fn apply_discount(base_cost: i32, discount: f32) -> i32 {
     ((base_cost as f32) * discount).round() as i32
+}
+
+/// Roll for an edition on a generated joker or playing card.
+/// 96% None, 2% Foil, 1.4% Holo, 0.6% Polychrome.
+fn roll_edition(rng: &mut ChaCha8Rng) -> Option<String> {
+    let roll: f64 = rng.gen_range(0.0..100.0);
+    if roll < 96.0 {
+        None
+    } else if roll < 98.0 {
+        Some("e_foil".to_string())
+    } else if roll < 99.4 {
+        Some("e_holo".to_string())
+    } else {
+        Some("e_polychrome".to_string())
+    }
+}
+
+/// Roll for an enhancement on a generated playing card.
+/// 90% None, ~1.43% each for 7 types (~10% total).
+fn roll_enhancement(rng: &mut ChaCha8Rng) -> Option<String> {
+    let roll: f64 = rng.gen_range(0.0..100.0);
+    if roll < 90.0 {
+        None
+    } else {
+        let enhancements = [
+            "m_bonus", "m_mult", "m_wild", "m_glass", "m_steel", "m_stone", "m_gold",
+        ];
+        let idx = ((roll - 90.0) / (10.0 / 7.0)).min(6.0) as usize;
+        Some(enhancements[idx].to_string())
+    }
+}
+
+/// Roll for a seal on a generated playing card.
+/// 97% None, 1% Gold, 1% Red, 1% Blue.
+fn roll_seal(rng: &mut ChaCha8Rng) -> Option<String> {
+    let roll: f64 = rng.gen_range(0.0..100.0);
+    if roll < 97.0 {
+        None
+    } else if roll < 98.0 {
+        Some("Gold".to_string())
+    } else if roll < 99.0 {
+        Some("Red".to_string())
+    } else {
+        Some("Blue".to_string())
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -5340,6 +5391,7 @@ mod tests {
         HAND_LIMIT, JOKER_LIMIT,
     };
     use balatro_spec::{JokerSpec, RulesetBundle};
+    use rand_chacha::ChaCha8Rng;
     use std::collections::{BTreeMap, BTreeSet};
     use std::path::PathBuf;
 
@@ -6955,5 +7007,123 @@ mod tests {
         engine.step(28).expect("buy antimatter");
         assert_eq!(engine.state.joker_slot_limit, joker_slots_before + 1);
         assert!(engine.state.owned_vouchers.contains(&"v_antimatter".to_string()));
+    }
+
+    #[test]
+    fn shop_jokers_can_have_editions() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut found_edition = false;
+        // Run 200 shop refreshes with different seeds to find at least one edition
+        for seed in 0..200_u64 {
+            let mut engine = Engine::new(seed, bundle.clone(), RunConfig::default());
+            let mut trace = TransitionTrace::default();
+            engine.state.phase = Phase::Shop;
+            engine.state.money = 999;
+            engine.refresh_shop(&mut trace, "test");
+            for shop_slot in &engine.state.shop {
+                if shop_slot.joker.edition.is_some() {
+                    found_edition = true;
+                    break;
+                }
+            }
+            if found_edition {
+                break;
+            }
+        }
+        assert!(found_edition, "Expected at least one joker with an edition across 200 shop refreshes");
+    }
+
+    #[test]
+    fn standard_pack_cards_can_have_enhancements() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut found_enhancement = false;
+        let mut found_edition = false;
+        let mut found_seal = false;
+        for seed in 0..200_u64 {
+            let mut engine = Engine::new(seed, bundle.clone(), RunConfig::default());
+            let mut trace = TransitionTrace::default();
+            let choices = engine.generate_pack_choices("Standard Pack", &mut trace);
+            for choice in &choices {
+                if let Some(ref card) = choice.card {
+                    if card.enhancement.is_some() {
+                        found_enhancement = true;
+                    }
+                    if card.edition.is_some() {
+                        found_edition = true;
+                    }
+                    if card.seal.is_some() {
+                        found_seal = true;
+                    }
+                }
+            }
+            if found_enhancement && found_edition && found_seal {
+                break;
+            }
+        }
+        assert!(found_enhancement, "Expected at least one card with an enhancement across 200 standard packs");
+        assert!(found_edition, "Expected at least one card with an edition across 200 standard packs");
+        assert!(found_seal, "Expected at least one card with a seal across 200 standard packs");
+    }
+
+    #[test]
+    fn roll_edition_distribution_is_reasonable() {
+        use rand::SeedableRng;
+        let mut rng = ChaCha8Rng::seed_from_u64(42);
+        let mut none_count = 0;
+        let mut foil_count = 0;
+        let mut holo_count = 0;
+        let mut poly_count = 0;
+        let trials = 10000;
+        for _ in 0..trials {
+            match super::roll_edition(&mut rng) {
+                None => none_count += 1,
+                Some(ref e) if e == "e_foil" => foil_count += 1,
+                Some(ref e) if e == "e_holo" => holo_count += 1,
+                Some(ref e) if e == "e_polychrome" => poly_count += 1,
+                Some(other) => panic!("unexpected edition: {}", other),
+            }
+        }
+        // With 10k trials, expect ~96% none, ~2% foil, ~1.4% holo, ~0.6% poly
+        // Use generous bounds to avoid flaky tests
+        assert!(none_count > 9000, "Expected >9000 none, got {}", none_count);
+        assert!(foil_count > 50, "Expected >50 foil, got {}", foil_count);
+        assert!(holo_count > 30, "Expected >30 holo, got {}", holo_count);
+        assert!(poly_count > 10, "Expected >10 poly, got {}", poly_count);
+    }
+
+    #[test]
+    fn roll_enhancement_distribution_is_reasonable() {
+        use rand::SeedableRng;
+        let mut rng = ChaCha8Rng::seed_from_u64(99);
+        let mut none_count = 0;
+        let mut enhanced_count = 0;
+        let trials = 10000;
+        for _ in 0..trials {
+            match super::roll_enhancement(&mut rng) {
+                None => none_count += 1,
+                Some(_) => enhanced_count += 1,
+            }
+        }
+        // Expect ~90% none, ~10% enhanced
+        assert!(none_count > 8500, "Expected >8500 none, got {}", none_count);
+        assert!(enhanced_count > 500, "Expected >500 enhanced, got {}", enhanced_count);
+    }
+
+    #[test]
+    fn roll_seal_distribution_is_reasonable() {
+        use rand::SeedableRng;
+        let mut rng = ChaCha8Rng::seed_from_u64(77);
+        let mut none_count = 0;
+        let mut sealed_count = 0;
+        let trials = 10000;
+        for _ in 0..trials {
+            match super::roll_seal(&mut rng) {
+                None => none_count += 1,
+                Some(_) => sealed_count += 1,
+            }
+        }
+        // Expect ~97% none, ~3% sealed
+        assert!(none_count > 9400, "Expected >9400 none, got {}", none_count);
+        assert!(sealed_count > 100, "Expected >100 sealed, got {}", sealed_count);
     }
 }
