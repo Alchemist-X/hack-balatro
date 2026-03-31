@@ -1,4 +1,4 @@
-use balatro_spec::{BlindSpec, JokerSpec, RulesetBundle, Seal};
+use balatro_spec::{BlindSpec, JokerSpec, RulesetBundle, Seal, VoucherSpec};
 use rand::prelude::SliceRandom;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -111,6 +111,103 @@ impl BlindProgress {
             Self::Current => "Current",
             Self::Skipped => "Skipped",
             Self::Defeated => "Defeated",
+        }
+    }
+}
+
+/// Active boss blind effect for the current blind.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum BossEffect {
+    /// The Goad: All Spades are debuffed
+    TheGoad,
+    /// The Head: All Hearts are debuffed
+    TheHead,
+    /// The Club: All Clubs are debuffed
+    TheClub,
+    /// The Window: All Diamonds are debuffed
+    TheWindow,
+    /// The Plant: All face cards are debuffed
+    ThePlant,
+    /// The Psychic: Must play exactly 5 cards
+    ThePsychic,
+    /// The Needle: Only 1 hand allowed
+    TheNeedle,
+    /// The Water: Start with 0 discards
+    TheWater,
+    /// The Wall: Extra large blind (x2 chips required)
+    TheWall,
+    /// The Flint: Starting chips and mult are halved
+    TheFlint,
+    /// The Eye: Each hand type can only be played once
+    TheEye,
+    /// The Mouth: Only one hand type can be played for the entire blind
+    TheMouth,
+    /// The Hook: Discard 2 random cards per hand played
+    TheHook,
+    /// The Ox: If played hand is most played type, lose all money
+    TheOx,
+    /// The Tooth: Lose $1 per card played
+    TheTooth,
+    /// The Manacle: Reduce hand size by 1
+    TheManacle,
+    /// The Arm: Decrease level of played poker hand by 1
+    TheArm,
+    /// The Serpent: After play/discard, always draw back to full hand
+    TheSerpent,
+    /// The Pillar: Cards played previously this Ante are debuffed
+    ThePillar,
+    /// The Wheel: 1 in 7 cards are drawn face down
+    TheWheel,
+    /// The House: All cards drawn face down on first hand
+    TheHouse,
+    /// The Mark: All face cards drawn face down
+    TheMark,
+    /// The Fish: Cards drawn face down after each hand played
+    TheFish,
+    /// Violet Vessel: Very large blind amount (x6 base)
+    VioletVessel,
+    /// Cerulean Bell: Always force one card to be selected
+    CeruleanBell,
+    /// Amber Acorn: Rotate all Joker positions (TODO)
+    AmberAcorn,
+    /// Verdant Leaf: All cards debuffed until 1 card is sold (TODO)
+    VerdantLeaf,
+    /// Crimson Heart: One random Joker is disabled each hand (TODO)
+    CrimsonHeart,
+}
+
+impl BossEffect {
+    fn from_blind_name(name: &str) -> Option<Self> {
+        match name {
+            "The Goad" => Some(Self::TheGoad),
+            "The Head" => Some(Self::TheHead),
+            "The Club" => Some(Self::TheClub),
+            "The Window" => Some(Self::TheWindow),
+            "The Plant" => Some(Self::ThePlant),
+            "The Psychic" => Some(Self::ThePsychic),
+            "The Needle" => Some(Self::TheNeedle),
+            "The Water" => Some(Self::TheWater),
+            "The Wall" => Some(Self::TheWall),
+            "The Flint" => Some(Self::TheFlint),
+            "The Eye" => Some(Self::TheEye),
+            "The Mouth" => Some(Self::TheMouth),
+            "The Hook" => Some(Self::TheHook),
+            "The Ox" => Some(Self::TheOx),
+            "The Tooth" => Some(Self::TheTooth),
+            "The Manacle" => Some(Self::TheManacle),
+            "The Arm" => Some(Self::TheArm),
+            "The Serpent" => Some(Self::TheSerpent),
+            "The Pillar" => Some(Self::ThePillar),
+            "The Wheel" => Some(Self::TheWheel),
+            "The House" => Some(Self::TheHouse),
+            "The Mark" => Some(Self::TheMark),
+            "The Fish" => Some(Self::TheFish),
+            "Violet Vessel" => Some(Self::VioletVessel),
+            "Cerulean Bell" => Some(Self::CeruleanBell),
+            "Amber Acorn" => Some(Self::AmberAcorn),
+            "Verdant Leaf" => Some(Self::VerdantLeaf),
+            "Crimson Heart" => Some(Self::CrimsonHeart),
+            _ => None,
         }
     }
 }
@@ -240,6 +337,9 @@ pub struct JokerInstance {
     /// Remaining uses for consumable jokers like Seltzer. None means unlimited.
     #[serde(default)]
     pub remaining_uses: Option<u32>,
+    /// Persistent per-joker state for scaling jokers (e.g., accumulated mult/chips/xmult).
+    #[serde(default)]
+    pub runtime_state: BTreeMap<String, f64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -258,6 +358,84 @@ pub struct ConsumableInstance {
     pub sell_value: i32,
     pub slot_index: usize,
     pub config: BTreeMap<String, serde_json::Value>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct VoucherInstance {
+    pub voucher_id: String,
+    pub name: String,
+    pub cost: i32,
+    pub effect_key: String,
+    pub description: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub enum PackType {
+    Arcana,
+    Celestial,
+    Spectral,
+    Standard,
+    Buffoon,
+    MegaArcana,
+}
+
+impl PackType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Arcana => "Arcana Pack",
+            Self::Celestial => "Celestial Pack",
+            Self::Spectral => "Spectral Pack",
+            Self::Standard => "Standard Pack",
+            Self::Buffoon => "Buffoon Pack",
+            Self::MegaArcana => "Mega Arcana Pack",
+        }
+    }
+
+    fn card_count(&self) -> usize {
+        match self {
+            Self::Arcana => 3,
+            Self::Celestial => 3,
+            Self::Spectral => 2,
+            Self::Standard => 3,
+            Self::Buffoon => 2,
+            Self::MegaArcana => 5,
+        }
+    }
+
+    fn picks_allowed(&self) -> u32 {
+        match self {
+            Self::MegaArcana => 2,
+            _ => 1,
+        }
+    }
+
+    fn shop_cost(&self) -> i32 {
+        match self {
+            Self::Arcana => 4,
+            Self::Celestial => 4,
+            Self::Spectral => 4,
+            Self::Standard => 4,
+            Self::Buffoon => 4,
+            Self::MegaArcana => 6,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct BoosterPackChoice {
+    pub index: usize,
+    pub consumable_id: Option<String>,
+    pub joker_id: Option<String>,
+    pub card: Option<CardInstance>,
+    pub name: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct BoosterPackInstance {
+    pub pack_type: String,
+    pub cost: i32,
+    pub choices: Vec<BoosterPackChoice>,
+    pub picks_remaining: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -355,6 +533,10 @@ pub struct Snapshot {
     pub hand_levels: BTreeMap<String, i32>,
     pub blind_states: BTreeMap<String, String>,
     pub selected_slots: Vec<usize>,
+    pub owned_vouchers: Vec<String>,
+    pub shop_voucher: Option<VoucherInstance>,
+    pub shop_packs: Vec<BoosterPackInstance>,
+    pub open_pack: Option<BoosterPackInstance>,
     pub won: bool,
     pub over: bool,
 }
@@ -470,6 +652,22 @@ struct EngineState {
     shop_consumables: Vec<ConsumableInstance>,
     consumable_slot_limit: usize,
     hand_levels: BTreeMap<String, i32>,
+    owned_vouchers: Vec<String>,
+    shop_voucher: Option<VoucherInstance>,
+    shop_packs: Vec<BoosterPackInstance>,
+    open_pack: Option<BoosterPackInstance>,
+    /// Base plays per round (can be increased by vouchers)
+    base_plays: i32,
+    /// Base discards per round (can be increased by vouchers)
+    base_discards: i32,
+    /// Base hand size (can be increased by vouchers)
+    hand_size: usize,
+    /// Joker slot limit (can be increased by vouchers)
+    joker_slot_limit: usize,
+    /// Shop discount multiplier (default 1.0, Clearance Sale sets to 0.75)
+    shop_discount: f32,
+    /// Interest cap (default 5, Seed Money raises to 25)
+    interest_cap: i32,
     won: bool,
     over: bool,
     /// Per-joker extra state: Rocket payout accumulator (increases by $2 on boss defeat)
@@ -480,6 +678,20 @@ struct EngineState {
     unique_planets_used: i32,
     /// Whether the current boss blind ability was destroyed (by Chicot)
     boss_blind_disabled: bool,
+    /// Target hand type for To Do List joker (randomized each round)
+    todo_list_target: Option<String>,
+    /// Number of hands played this round (for DNA joker first-hand check)
+    hands_played_this_round: i32,
+    /// Active boss effect for the current blind (None for Small/Big blinds or disabled)
+    active_boss_effect: Option<BossEffect>,
+    /// Card IDs that are debuffed by the current boss blind (don't score)
+    debuffed_cards: BTreeSet<u32>,
+    /// Hand types already played this blind (for The Eye)
+    boss_hand_types_played: BTreeSet<String>,
+    /// The forced hand type for The Mouth (set after first hand played)
+    boss_forced_hand_type: Option<String>,
+    /// Original hand size before Manacle reduction (to restore later)
+    boss_manacle_hand_size_reduced: bool,
 }
 
 impl Engine {
@@ -525,12 +737,29 @@ impl Engine {
                 shop_consumables: Vec::new(),
                 consumable_slot_limit: CONSUMABLE_SLOT_LIMIT,
                 hand_levels: BTreeMap::new(),
+                owned_vouchers: Vec::new(),
+                shop_voucher: None,
+                shop_packs: Vec::new(),
+                open_pack: None,
+                base_plays: 4,
+                base_discards: 3,
+                hand_size: HAND_LIMIT,
+                joker_slot_limit: JOKER_LIMIT,
+                shop_discount: 1.0,
+                interest_cap: 5,
                 won: false,
                 over: false,
                 rocket_extra_dollars: 0,
                 egg_accumulated_sell: 0,
                 unique_planets_used: 0,
                 boss_blind_disabled: false,
+                todo_list_target: None,
+                hands_played_this_round: 0,
+                active_boss_effect: None,
+                debuffed_cards: BTreeSet::new(),
+                boss_hand_types_played: BTreeSet::new(),
+                boss_forced_hand_type: None,
+                boss_manacle_hand_size_reduced: false,
             },
         };
         let mut init_trace = TransitionTrace::default();
@@ -593,6 +822,18 @@ impl Engine {
             hand_levels: self.state.hand_levels.clone(),
             blind_states: self.blind_states_snapshot(),
             selected_slots: self.state.selected_slots.iter().copied().collect(),
+            owned_vouchers: self.state.owned_vouchers.clone(),
+            shop_voucher: if matches!(self.state.phase, Phase::Shop) {
+                self.state.shop_voucher.clone()
+            } else {
+                None
+            },
+            shop_packs: if matches!(self.state.phase, Phase::Shop) {
+                self.state.shop_packs.clone()
+            } else {
+                Vec::new()
+            },
+            open_pack: self.state.open_pack.clone(),
             won: self.state.won,
             over: self.state.over,
         }
@@ -612,6 +853,20 @@ impl Engine {
 
     pub fn gen_action_space(&self) -> Vec<u8> {
         let mut mask = vec![0; ACTION_DIM];
+
+        // If a booster pack is open, only allow pack-related actions
+        if self.state.open_pack.is_some() {
+            if let Some(ref pack) = self.state.open_pack {
+                for (idx, _choice) in pack.choices.iter().enumerate() {
+                    if idx < 5 {
+                        mask[31 + idx] = 1; // pick_pack_0..4
+                    }
+                }
+                mask[36] = 1; // skip_pack
+            }
+            return mask;
+        }
+
         match self.state.phase {
             Phase::PreBlind => {
                 mask[self.state.current_blind_slot.action_index()] = 1;
@@ -620,11 +875,53 @@ impl Engine {
                 }
             }
             Phase::Blind => {
-                for index in 0..self.state.available.len().min(HAND_LIMIT) {
+                let hand_size = self.state.hand_size;
+                for index in 0..self.state.available.len().min(hand_size) {
                     mask[index] = 1;
                 }
                 if self.state.plays > 0 {
-                    mask[8] = 1;
+                    let mut play_allowed = true;
+
+                    // The Psychic: must play exactly 5 cards
+                    if let Some(BossEffect::ThePsychic) = &self.state.active_boss_effect {
+                        if !self.state.boss_blind_disabled
+                            && self.state.selected_slots.len() != 5
+                        {
+                            play_allowed = false;
+                        }
+                    }
+
+                    // The Eye: check if selected hand type was already played
+                    if let Some(BossEffect::TheEye) = &self.state.active_boss_effect {
+                        if !self.state.boss_blind_disabled {
+                            let selected = self.selected_cards();
+                            if !selected.is_empty() {
+                                let hand = classify_hand(&selected);
+                                if self.state.boss_hand_types_played.contains(&hand.key) {
+                                    play_allowed = false;
+                                }
+                            }
+                        }
+                    }
+
+                    // The Mouth: after first hand, only the same type can be played
+                    if let Some(BossEffect::TheMouth) = &self.state.active_boss_effect {
+                        if !self.state.boss_blind_disabled {
+                            if let Some(ref forced_type) = self.state.boss_forced_hand_type {
+                                let selected = self.selected_cards();
+                                if !selected.is_empty() {
+                                    let hand = classify_hand(&selected);
+                                    if hand.key != *forced_type {
+                                        play_allowed = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if play_allowed {
+                        mask[8] = 1;
+                    }
                 }
                 if self.state.discards > 0 {
                     mask[9] = 1;
@@ -642,7 +939,8 @@ impl Engine {
                 if self.state.money >= self.state.shop_current_reroll_cost {
                     mask[79] = 1;
                 }
-                if self.state.jokers.len() < JOKER_LIMIT {
+                let joker_limit = self.state.joker_slot_limit;
+                if self.state.jokers.len() < joker_limit {
                     for slot in self.state.shop.iter().take(SHOP_LIMIT) {
                         let index = 14 + slot.slot;
                         if index < 24 && slot.joker.buy_cost <= self.state.money {
@@ -666,7 +964,19 @@ impl Engine {
                         mask[action_idx] = 1;
                     }
                 }
-                for slot in 0..self.state.jokers.len().min(JOKER_LIMIT) {
+                // Buy voucher
+                if let Some(ref voucher) = self.state.shop_voucher {
+                    if voucher.cost <= self.state.money {
+                        mask[28] = 1;
+                    }
+                }
+                // Buy booster packs
+                for (idx, pack) in self.state.shop_packs.iter().enumerate() {
+                    if idx < 2 && pack.cost <= self.state.money {
+                        mask[29 + idx] = 1;
+                    }
+                }
+                for slot in 0..self.state.jokers.len().min(joker_limit) {
                     mask[80 + slot] = 1;
                 }
                 // Use held consumables in shop
@@ -705,6 +1015,10 @@ impl Engine {
     }
 
     fn apply_action(&mut self, action_index: usize, trace: &mut TransitionTrace) -> Vec<Event> {
+        // If a booster pack is open, handle pack actions regardless of phase
+        if self.state.open_pack.is_some() {
+            return self.handle_pack_action(action_index, trace);
+        }
         match self.state.phase {
             Phase::PreBlind => self.handle_preblind(action_index, trace),
             Phase::Blind => self.handle_blind(action_index, trace),
@@ -732,6 +1046,8 @@ impl Engine {
 
         if action_index == 85 && self.state.current_blind_slot != BlindSlot::Boss {
             let skipped_name = self.state.blind_name.clone();
+            // Update scaling jokers on blind skip (Throwback, Red Card)
+            self.update_joker_runtime_on_skip();
             self.mark_current_blind_progress(BlindProgress::Skipped);
             if self.advance_to_next_blind_slot() {
                 self.prepare_preblind_state();
@@ -747,7 +1063,7 @@ impl Engine {
     }
 
     fn handle_blind(&mut self, action_index: usize, trace: &mut TransitionTrace) -> Vec<Event> {
-        if action_index < HAND_LIMIT {
+        if action_index < self.state.hand_size {
             if self.state.selected_slots.contains(&action_index) {
                 self.state.selected_slots.remove(&action_index);
             } else if action_index < self.state.available.len() {
@@ -775,6 +1091,9 @@ impl Engine {
     fn handle_post_blind(&mut self, _action_index: usize, trace: &mut TransitionTrace) -> Vec<Event> {
         let mut events = Vec::new();
 
+        // Update scaling joker runtime on round end (Popcorn decay, Campfire boss reset, Ceremonial growth)
+        self.update_joker_runtime_on_round_end();
+
         // End-of-round Joker activation (before cashout money is added)
         self.apply_end_of_round_jokers(&mut events, trace);
 
@@ -787,6 +1106,11 @@ impl Engine {
         }
         self.state.phase = Phase::Shop;
         self.state.boss_blind_disabled = false;
+        self.state.active_boss_effect = None;
+        self.state.debuffed_cards.clear();
+        self.state.boss_hand_types_played.clear();
+        self.state.boss_forced_hand_type = None;
+        self.state.boss_manacle_hand_size_reduced = false;
         self.shuffle_deck("deck.shuffle.cashout", trace);
         self.refresh_shop(trace, "cashout_shop_refresh");
 
@@ -809,8 +1133,8 @@ impl Engine {
         if (14..24).contains(&action_index) {
             let slot = action_index - 14;
             if let Some(shop_slot) = self.state.shop.iter().find(|entry| entry.slot == slot).cloned() {
-                if self.state.jokers.len() < JOKER_LIMIT && self.state.money >= shop_slot.joker.cost {
-                    self.state.money -= shop_slot.joker.cost;
+                if self.state.jokers.len() < self.state.joker_slot_limit && self.state.money >= shop_slot.joker.buy_cost {
+                    self.state.money -= shop_slot.joker.buy_cost;
                     let mut bought = shop_slot.joker.clone();
                     bought.slot_index = self.state.jokers.len();
                     self.state.jokers.push(bought.clone());
@@ -831,6 +1155,14 @@ impl Engine {
         if (26..=27).contains(&action_index) {
             return self.handle_sell_consumable(action_index - 26);
         }
+        // Buy voucher
+        if action_index == 28 {
+            return self.handle_buy_voucher();
+        }
+        // Buy booster pack
+        if (29..=30).contains(&action_index) {
+            return self.handle_buy_pack(action_index - 29, trace);
+        }
         // Use consumable
         if (71..=78).contains(&action_index) {
             return self.handle_use_consumable(action_index - 71, trace);
@@ -839,6 +1171,8 @@ impl Engine {
             self.state.money -= self.state.shop_current_reroll_cost;
             self.state.shop_reroll_count += 1;
             self.state.shop_current_reroll_cost += self.state.shop_base_reroll_cost;
+            // Update scaling jokers on reroll (Flash Card)
+            self.update_joker_runtime_on_reroll();
             self.refresh_shop(trace, "reroll_shop_refresh");
             return vec![event(
                 EventStage::Shop,
@@ -854,6 +1188,8 @@ impl Engine {
                     joker.slot_index = new_slot;
                 }
                 self.state.money += sold.sell_value;
+                // Update scaling jokers on sell (Campfire)
+                self.update_joker_runtime_on_sell();
                 return vec![event(
                     EventStage::Shop,
                     "sell_joker",
@@ -907,8 +1243,17 @@ impl Engine {
         self.state.discarded.extend(removed.clone());
         self.state.available = remaining;
         self.state.selected_slots.clear();
+
+        // Update scaling joker runtime state on discard
+        self.update_joker_runtime_on_discard(&removed);
+
+        let hand_size = if self.state.boss_manacle_hand_size_reduced {
+            self.state.hand_size - 1
+        } else {
+            self.state.hand_size
+        };
         trace.add_transient("DRAW_TO_HAND");
-        self.draw_to_hand(HAND_LIMIT);
+        self.draw_to_hand(hand_size);
         self.maybe_fail_blind();
         vec![event(
             EventStage::EndOfHand,
@@ -919,7 +1264,7 @@ impl Engine {
 
     fn play_selected(&mut self, trace: &mut TransitionTrace) -> Vec<Event> {
         let selected = self.selected_cards();
-        let played = if selected.is_empty() && !self.state.available.is_empty() {
+        let mut played = if selected.is_empty() && !self.state.available.is_empty() {
             vec![self.state.available[0].clone()]
         } else {
             selected
@@ -946,8 +1291,54 @@ impl Engine {
             ),
         ];
 
+        // Boss effect: The Flint halves starting chips and mult
+        if let Some(BossEffect::TheFlint) = &self.state.active_boss_effect {
+            if !self.state.boss_blind_disabled {
+                chips = (chips + 1) / 2; // round up
+                mult = (mult + 1) / 2;
+                events.push(event(
+                    EventStage::OnPlayed,
+                    "boss_effect_scoring",
+                    format!("The Flint: chips halved to {}, mult halved to {}", chips, mult),
+                ));
+            }
+        }
+
+        // Boss effect: The Arm decreases level of played hand by 1
+        if let Some(BossEffect::TheArm) = &self.state.active_boss_effect {
+            if !self.state.boss_blind_disabled {
+                let level = self.state.hand_levels.entry(hand.key.clone()).or_insert(1);
+                if *level > 1 {
+                    *level -= 1;
+                    events.push(event(
+                        EventStage::OnPlayed,
+                        "boss_effect_scoring",
+                        format!("The Arm: {} level decreased to {}", hand_spec.name, level),
+                    ));
+                }
+            }
+        }
+
+        // Boss effect: The Eye - track hand types played
+        if let Some(BossEffect::TheEye) = &self.state.active_boss_effect {
+            if !self.state.boss_blind_disabled {
+                self.state.boss_hand_types_played.insert(hand.key.clone());
+            }
+        }
+
+        // Boss effect: The Mouth - lock hand type after first play
+        if let Some(BossEffect::TheMouth) = &self.state.active_boss_effect {
+            if !self.state.boss_blind_disabled && self.state.boss_forced_hand_type.is_none() {
+                self.state.boss_forced_hand_type = Some(hand.key.clone());
+            }
+        }
+
         trace.add_transient("HAND_PLAYED");
         trace.retrigger_supported = true;
+
+        // joker_on_played phase: AFTER hand evaluation, BEFORE per-card scoring
+        let hand_key_clone = hand.key.clone();
+        self.apply_on_played_jokers(&hand_key_clone, &mut played, &mut events, trace);
 
         // Determine if this is the final hand of the round (for Dusk)
         let is_final_hand = self.state.plays <= 1;
@@ -971,6 +1362,15 @@ impl Engine {
             .cloned()
             .collect();
 
+        // Compute effective joker slot limit (accounting for negative editions)
+        let negative_count = self
+            .state
+            .jokers
+            .iter()
+            .filter(|j| j.edition.as_deref() == Some("e_negative"))
+            .count();
+        let effective_joker_limit = self.state.joker_slot_limit + negative_count;
+
         let full_deck_size = (self.state.deck.len() + self.state.available.len() + self.state.discarded.len()) as i32;
         let deck_cards_remaining = self.state.deck.len() as i32;
 
@@ -984,11 +1384,14 @@ impl Engine {
             money: self.state.money,
             deck_cards_remaining,
             full_deck_size,
-            joker_slot_max: JOKER_LIMIT,
+            joker_slot_max: effective_joker_limit,
         };
 
         let mut xmult = 1.0_f64;
         let mut money_delta = 0_i32;
+
+        // Track glass cards that should be destroyed after scoring
+        let mut glass_cards_to_destroy: Vec<u32> = Vec::new();
 
         // Pre-build one JokerResolutionTrace per joker (audit expects exactly N entries)
         let mut joker_traces: Vec<JokerResolutionTrace> = self
@@ -1012,6 +1415,16 @@ impl Engine {
 
         // Per-card scoring loop with retrigger support
         for (card_index, card) in played.iter().enumerate() {
+            // Skip debuffed cards (boss blind effect)
+            if self.state.debuffed_cards.contains(&card.card_id) {
+                events.push(event(
+                    EventStage::CardScored,
+                    "card_debuffed",
+                    format!("Card {} ({:?}) is debuffed, does not score", card.card_id, card.rank),
+                ));
+                continue;
+            }
+
             let retrigger_count = calculate_retriggers(
                 card,
                 card_index,
@@ -1041,6 +1454,34 @@ impl Engine {
                     ),
                 ));
 
+                // Enhancement effects (AFTER base chips, BEFORE joker effects)
+                let (is_glass, _is_stone) = apply_card_enhancement(
+                    card,
+                    &mut chips,
+                    &mut mult,
+                    &mut xmult,
+                    &mut money_delta,
+                    &mut events,
+                    &mut self.rng,
+                );
+
+                // Glass card destruction: 1/4 chance after scoring
+                if is_glass {
+                    let destroy_roll: i32 = self.rng.gen_range(1..=4);
+                    if destroy_roll == 1 && !glass_cards_to_destroy.contains(&card.card_id) {
+                        glass_cards_to_destroy.push(card.card_id);
+                    }
+                }
+
+                // Edition effects (AFTER enhancement, BEFORE jokers)
+                apply_card_edition(
+                    card,
+                    &mut chips,
+                    &mut mult,
+                    &mut xmult,
+                    &mut events,
+                );
+
                 // b/c. Each "on scored" Joker activates (left to right)
                 for (j_idx, joker) in self.state.jokers.iter().enumerate() {
                     let mut tmp_trace = JokerResolutionTrace {
@@ -1065,8 +1506,17 @@ impl Engine {
                             &mut money_delta,
                             &mut events,
                             &mut tmp_trace,
+                            &joker.runtime_state,
                         );
                     }
+                    // Apply joker edition effects AFTER the joker's own effect
+                    apply_joker_edition(
+                        joker,
+                        &mut chips,
+                        &mut mult,
+                        &mut xmult,
+                        &mut events,
+                    );
                     // Promote supported/matched/effect_key to the aggregate trace
                     if tmp_trace.supported {
                         let agg = &mut joker_traces[j_idx];
@@ -1111,6 +1561,7 @@ impl Engine {
         ));
 
         // Held-in-hand phase: unplayed cards + relevant Jokers activate
+        // Steel Card enhancement: X1.5 mult for each Steel card held in hand
         self.apply_held_in_hand(&played_ids_set, &mut chips, &mut mult, &mut xmult, &mut events, trace);
 
         // Decrement Seltzer remaining_uses at end of hand
@@ -1144,12 +1595,67 @@ impl Engine {
             }
         }
 
+        // Destroy glass cards (1/4 chance was rolled during scoring)
+        if !glass_cards_to_destroy.is_empty() {
+            self.state.available.retain(|c| !glass_cards_to_destroy.contains(&c.card_id));
+            self.state.deck.retain(|c| !glass_cards_to_destroy.contains(&c.card_id));
+            self.state.discarded.retain(|c| !glass_cards_to_destroy.contains(&c.card_id));
+            for card_id in &glass_cards_to_destroy {
+                events.push(event(
+                    EventStage::EndOfHand,
+                    "glass_card_destroyed",
+                    format!("Glass Card {} was destroyed", card_id),
+                ));
+            }
+        }
+
+        // Gold Card end-of-round: +$3 for each Gold card in played hand
+        let gold_card_count = played.iter().filter(|c| c.enhancement.as_deref() == Some("m_gold")).count() as i32;
+        if gold_card_count > 0 {
+            let gold_money = gold_card_count * 3;
+            money_delta += gold_money;
+            events.push(event(
+                EventStage::EndOfHand,
+                "gold_card_money",
+                format!("{} Gold Card(s) earned ${}", gold_card_count, gold_money),
+            ));
+        }
+
         // Apply xmult to final score
         let base_score = chips * mult;
         let gained = (base_score as f64 * xmult).round() as i32;
         self.state.money += money_delta;
+
+        // Boss effect: The Tooth - lose $1 per card played
+        if let Some(BossEffect::TheTooth) = &self.state.active_boss_effect {
+            if !self.state.boss_blind_disabled {
+                let penalty = played.len() as i32;
+                self.state.money -= penalty;
+                events.push(event(
+                    EventStage::JokerPostScore,
+                    "boss_effect_scoring",
+                    format!("The Tooth: Lost ${} ({} cards played)", penalty, played.len()),
+                ));
+            }
+        }
+
+        // Boss effect: The Ox - lose all money if playing the most played hand type
+        if let Some(BossEffect::TheOx) = &self.state.active_boss_effect {
+            if !self.state.boss_blind_disabled {
+                events.push(event(
+                    EventStage::JokerPostScore,
+                    "boss_effect_scoring",
+                    "The Ox: Most-played hand type check (tracking TODO)".to_string(),
+                ));
+            }
+        }
+
         self.state.score += gained;
         self.state.plays -= 1;
+        self.state.hands_played_this_round += 1;
+
+        // Update scaling joker runtime state after scoring
+        self.update_joker_runtime_on_play(&hand.key, &played);
 
         let selected_ids: BTreeSet<u32> = played.iter().map(|card| card.card_id).collect();
         let mut remaining = Vec::new();
@@ -1172,14 +1678,48 @@ impl Engine {
             self.mark_current_blind_progress(BlindProgress::Defeated);
             self.state.phase = Phase::PostBlind;
             self.state.reward = blind_reward(&self.state.blind);
+            // Clear boss state on blind clear
+            self.state.active_boss_effect = None;
+            self.state.debuffed_cards.clear();
+            self.state.boss_hand_types_played.clear();
+            self.state.boss_forced_hand_type = None;
             events.push(event(
                 EventStage::EndOfHand,
                 "blind_cleared",
                 format!("Cleared {}", self.state.blind_name),
             ));
         } else {
+            // Boss effect: The Hook - discard 2 random cards from hand after play
+            if let Some(BossEffect::TheHook) = &self.state.active_boss_effect {
+                if !self.state.boss_blind_disabled && !self.state.available.is_empty() {
+                    let discard_count = 2.min(self.state.available.len());
+                    // Discard from the end of the hand (pseudo-random without consuming RNG)
+                    let mut discarded_names = Vec::new();
+                    for _ in 0..discard_count {
+                        if self.state.available.is_empty() {
+                            break;
+                        }
+                        let idx = self.rng.gen_range(0..self.state.available.len());
+                        let card = self.state.available.remove(idx);
+                        discarded_names.push(format!("{:?} of {:?}", card.rank, card.suit));
+                        self.state.discarded.push(card);
+                    }
+                    events.push(event(
+                        EventStage::EndOfHand,
+                        "boss_effect_scoring",
+                        format!("The Hook: Discarded {} card(s)", discarded_names.len()),
+                    ));
+                }
+            }
+
+            // Draw back to hand size
+            let hand_size = if self.state.boss_manacle_hand_size_reduced {
+                self.state.hand_size - 1
+            } else {
+                self.state.hand_size
+            };
             trace.add_transient("DRAW_TO_HAND");
-            self.draw_to_hand(HAND_LIMIT);
+            self.draw_to_hand(hand_size);
             self.maybe_fail_blind();
         }
         events
@@ -1252,6 +1792,8 @@ impl Engine {
         };
         // Remove the consumed item
         if !events.is_empty() {
+            // Update scaling jokers on consumable use (Constellation, Fortune Teller)
+            self.update_joker_runtime_on_consumable(&consumable.set);
             self.state.consumables.remove(slot);
             for (idx, c) in self.state.consumables.iter_mut().enumerate() {
                 c.slot_index = idx;
@@ -1475,8 +2017,8 @@ impl Engine {
     fn prepare_preblind_state(&mut self) {
         self.state.phase = Phase::PreBlind;
         self.state.score = 0;
-        self.state.plays = 4;
-        self.state.discards = 3;
+        self.state.plays = self.state.base_plays;
+        self.state.discards = self.state.base_discards;
         self.state.reward = blind_reward_for_slot(self.state.current_blind_slot);
         self.state.selected_slots.clear();
         self.state.discarded.clear();
@@ -1484,6 +2026,8 @@ impl Engine {
         self.state.deck.clear();
         self.state.shop.clear();
         self.state.shop_consumables.clear();
+        self.state.shop_packs.clear();
+        self.state.shop_voucher = None;
         self.sync_current_blind_descriptor();
         self.set_active_preblind_progress();
     }
@@ -1491,23 +2035,181 @@ impl Engine {
     fn enter_current_blind(&mut self, trace: &mut TransitionTrace) -> Vec<Event> {
         self.state.phase = Phase::Blind;
         self.state.score = 0;
-        self.state.plays = 4;
-        self.state.discards = 3;
+        self.state.plays = self.state.base_plays;
+        self.state.discards = self.state.base_discards;
         self.state.selected_slots.clear();
         self.state.discarded.clear();
         self.state.shop.clear();
         self.state.shop_consumables.clear();
+        self.state.shop_packs.clear();
+        self.state.shop_voucher = None;
         self.state.boss_blind_disabled = false;
+        self.state.hands_played_this_round = 0;
+        self.state.active_boss_effect = None;
+        self.state.debuffed_cards.clear();
+        self.state.boss_hand_types_played.clear();
+        self.state.boss_forced_hand_type = None;
+        self.state.boss_manacle_hand_size_reduced = false;
         self.sync_current_blind_descriptor();
         self.mark_current_blind_progress(BlindProgress::Current);
 
-        // Boss blind pre-play Joker activation
+        // Reset per-round joker state (Card Sharp hand tracking, Hit the Road Jack counter)
+        self.reset_per_round_joker_state();
+
+        // Update Madness when selecting Small/Big blind
+        self.update_joker_runtime_on_blind_select();
+
+        // Randomize To Do List target hand type for this blind
+        let has_todo_list = self.state.jokers.iter().any(|j| j.joker_id == "j_todo_list");
+        if has_todo_list {
+            let hand_keys: Vec<String> = self.ruleset.hand_specs.iter().map(|hs| hs.key.clone()).collect();
+            if !hand_keys.is_empty() {
+                let candidates = hand_keys.clone();
+                let idx = self.choose_index(candidates.len(), "todo_list.target", candidates, trace);
+                self.state.todo_list_target = Some(hand_keys[idx].clone());
+            }
+        }
+
+        // Boss blind pre-play Joker activation (Chicot may disable boss here)
         let mut blind_select_events = Vec::new();
         self.apply_blind_select_jokers(&mut blind_select_events, trace);
 
         self.reset_deck(trace);
-        self.draw_to_hand(HAND_LIMIT);
+        let hand_size = self.state.hand_size;
+        self.draw_to_hand(hand_size);
+
+        // Apply boss blind effects after deck setup (so we can debuff cards in hand)
+        self.apply_boss_blind_pre_play(&mut blind_select_events, trace);
+
         blind_select_events
+    }
+
+    /// Apply boss blind pre-play effects (debuffs, hand/discard modifications, etc.)
+    fn apply_boss_blind_pre_play(
+        &mut self,
+        events: &mut Vec<Event>,
+        _trace: &mut TransitionTrace,
+    ) {
+        if self.state.boss_blind_disabled {
+            return;
+        }
+        if !matches!(self.state.current_blind_slot, BlindSlot::Boss) {
+            return;
+        }
+
+        let effect = match BossEffect::from_blind_name(&self.state.blind_name) {
+            Some(e) => e,
+            None => return,
+        };
+
+        match &effect {
+            BossEffect::TheGoad => {
+                let ids: Vec<u32> = self.all_card_ids_matching(|c| matches!(c.suit, Suit::Spades));
+                self.state.debuffed_cards.extend(&ids);
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", format!("The Goad: {} Spade card(s) debuffed", ids.len())));
+            }
+            BossEffect::TheHead => {
+                let ids: Vec<u32> = self.all_card_ids_matching(|c| matches!(c.suit, Suit::Hearts));
+                self.state.debuffed_cards.extend(&ids);
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", format!("The Head: {} Heart card(s) debuffed", ids.len())));
+            }
+            BossEffect::TheClub => {
+                let ids: Vec<u32> = self.all_card_ids_matching(|c| matches!(c.suit, Suit::Clubs));
+                self.state.debuffed_cards.extend(&ids);
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", format!("The Club: {} Club card(s) debuffed", ids.len())));
+            }
+            BossEffect::TheWindow => {
+                let ids: Vec<u32> = self.all_card_ids_matching(|c| matches!(c.suit, Suit::Diamonds));
+                self.state.debuffed_cards.extend(&ids);
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", format!("The Window: {} Diamond card(s) debuffed", ids.len())));
+            }
+            BossEffect::ThePlant => {
+                let ids: Vec<u32> = self.all_card_ids_matching(|c| c.is_face_card());
+                self.state.debuffed_cards.extend(&ids);
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", format!("The Plant: {} face card(s) debuffed", ids.len())));
+            }
+            BossEffect::ThePsychic => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Psychic: Must play exactly 5 cards".to_string()));
+            }
+            BossEffect::TheNeedle => {
+                self.state.plays = 1;
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Needle: Only 1 hand allowed".to_string()));
+            }
+            BossEffect::TheWater => {
+                self.state.discards = 0;
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Water: Start with 0 discards".to_string()));
+            }
+            BossEffect::TheWall => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Wall: Extra large blind (x2 chips required)".to_string()));
+            }
+            BossEffect::TheFlint => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Flint: Starting chips and mult are halved".to_string()));
+            }
+            BossEffect::TheEye => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Eye: Each hand type can only be played once".to_string()));
+            }
+            BossEffect::TheMouth => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Mouth: Only one hand type can be played".to_string()));
+            }
+            BossEffect::TheHook => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Hook: Discard 2 random cards per hand played".to_string()));
+            }
+            BossEffect::TheOx => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Ox: Playing most played hand type loses all money".to_string()));
+            }
+            BossEffect::TheTooth => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Tooth: Lose $1 per card played".to_string()));
+            }
+            BossEffect::TheManacle => {
+                self.state.boss_manacle_hand_size_reduced = true;
+                if !self.state.available.is_empty() {
+                    let removed = self.state.available.pop().unwrap();
+                    self.state.discarded.push(removed);
+                }
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Manacle: Hand size reduced by 1".to_string()));
+            }
+            BossEffect::TheArm => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Arm: Level of played poker hand decreased by 1".to_string()));
+            }
+            BossEffect::TheSerpent => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Serpent: After play/discard, always draw to full hand".to_string()));
+            }
+            BossEffect::ThePillar => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "The Pillar: Previously played cards debuffed (tracking TODO)".to_string()));
+            }
+            BossEffect::TheWheel | BossEffect::TheHouse | BossEffect::TheMark | BossEffect::TheFish => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", format!("{}: Face-down card effect (visual only)", self.state.blind_name)));
+            }
+            BossEffect::VioletVessel => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "Violet Vessel: Very large blind amount (x6 base)".to_string()));
+            }
+            BossEffect::CeruleanBell => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "Cerulean Bell: Force one card selected (TODO)".to_string()));
+            }
+            BossEffect::AmberAcorn => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "Amber Acorn: Rotate joker positions (TODO)".to_string()));
+            }
+            BossEffect::VerdantLeaf => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "Verdant Leaf: All cards debuffed until card sold (TODO)".to_string()));
+            }
+            BossEffect::CrimsonHeart => {
+                events.push(event(EventStage::BlindPrePlay, "boss_effect", "Crimson Heart: Random joker disabled each hand (TODO)".to_string()));
+            }
+        }
+
+        self.state.active_boss_effect = Some(effect);
+    }
+
+    /// Collect all card IDs matching a predicate across deck, hand, and discard.
+    fn all_card_ids_matching(&self, predicate: impl Fn(&CardInstance) -> bool) -> Vec<u32> {
+        self.state
+            .deck
+            .iter()
+            .chain(self.state.available.iter())
+            .chain(self.state.discarded.iter())
+            .filter(|c| predicate(c))
+            .map(|c| c.card_id)
+            .collect()
     }
 
     fn sync_current_blind_descriptor(&mut self) {
@@ -1570,10 +2272,16 @@ impl Engine {
             .get((self.state.ante - 1).max(0) as usize)
             .copied()
             .unwrap_or(100_000);
-        match self.state.blind {
+        let blind_score = match self.state.blind {
             BlindKind::Small => base,
             BlindKind::Big => ((base as f32) * 1.5).round() as i32,
             BlindKind::Boss(_) => base * 2,
+        };
+        // Boss effects that modify the required score
+        match &self.state.active_boss_effect {
+            Some(BossEffect::TheWall) if !self.state.boss_blind_disabled => blind_score * 2,
+            Some(BossEffect::VioletVessel) if !self.state.boss_blind_disabled => base * 6,
+            _ => blind_score,
         }
     }
 
@@ -1705,6 +2413,7 @@ impl Engine {
                         activation_class: spec.activation_class.clone(),
                         wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
                         remaining_uses: initial_remaining_uses(spec),
+                        runtime_state: initial_runtime_state(spec, &mut self.rng),
                     },
                 });
             }
@@ -1725,17 +2434,68 @@ impl Engine {
                     trace,
                 );
                 let spec = &consumable_pool[chosen];
+                let buy_cost = apply_discount(spec.cost, self.state.shop_discount);
                 self.state.shop_consumables.push(ConsumableInstance {
                     consumable_id: spec.id.clone(),
                     name: spec.name.clone(),
                     set: spec.set.clone(),
                     cost: spec.cost,
-                    buy_cost: spec.cost,
+                    buy_cost,
                     sell_value: (spec.cost / 2).max(1),
                     slot_index: slot,
                     config: spec.config.clone(),
                 });
             }
+        }
+
+        // Generate 1 voucher (not already owned)
+        self.state.shop_voucher = None;
+        let voucher_pool = default_voucher_pool();
+        let available_vouchers: Vec<&VoucherSpec> = voucher_pool
+            .iter()
+            .filter(|v| !self.state.owned_vouchers.contains(&v.id))
+            .collect();
+        if !available_vouchers.is_empty() {
+            let candidates: Vec<String> = available_vouchers.iter().map(|v| v.id.clone()).collect();
+            let chosen = self.choose_index(
+                candidates.len(),
+                format!("{domain}.voucher.pick"),
+                candidates,
+                trace,
+            );
+            let spec = available_vouchers[chosen];
+            let buy_cost = apply_discount(spec.cost, self.state.shop_discount);
+            self.state.shop_voucher = Some(VoucherInstance {
+                voucher_id: spec.id.clone(),
+                name: spec.name.clone(),
+                cost: buy_cost,
+                effect_key: spec.effect_key.clone(),
+                description: spec.description.clone(),
+            });
+        }
+
+        // Generate 1-2 booster packs
+        self.state.shop_packs.clear();
+        let pack_types = [PackType::Arcana, PackType::Celestial, PackType::Buffoon];
+        let num_packs = if self.rng.gen_bool(0.5) { 1 } else { 2 };
+        for i in 0..num_packs {
+            let type_index = self.rng.gen_range(0..pack_types.len());
+            let pack_type = &pack_types[type_index];
+            let base_cost = pack_type.shop_cost();
+            let buy_cost = apply_discount(base_cost, self.state.shop_discount);
+            self.state.shop_packs.push(BoosterPackInstance {
+                pack_type: pack_type.as_str().to_string(),
+                cost: buy_cost,
+                choices: Vec::new(),
+                picks_remaining: pack_type.picks_allowed(),
+            });
+            let _ = i; // used as loop counter
+        }
+
+        // Apply shop discount to joker prices
+        let discount = self.state.shop_discount;
+        for shop_slot in self.state.shop.iter_mut() {
+            shop_slot.joker.buy_cost = apply_discount(shop_slot.joker.cost, discount);
         }
     }
 
@@ -1812,6 +2572,179 @@ impl Engine {
         roll == 1
     }
 
+    /// joker_on_played phase: activates once per hand played, after hand
+    /// evaluation but before per-card scoring.
+    fn apply_on_played_jokers(
+        &mut self,
+        hand_key: &str,
+        played: &mut Vec<CardInstance>,
+        events: &mut Vec<Event>,
+        trace: &mut TransitionTrace,
+    ) {
+        struct OpJokerInfo {
+            joker_id: String,
+            joker_name: String,
+            slot_index: usize,
+        }
+
+        let infos: Vec<OpJokerInfo> = self
+            .state
+            .jokers
+            .iter()
+            .filter_map(|j| {
+                self.ruleset.joker_by_id(&j.joker_id).and_then(|spec| {
+                    if spec.activation_class == "joker_on_played" {
+                        Some(OpJokerInfo {
+                            joker_id: j.joker_id.clone(),
+                            joker_name: spec.name.clone(),
+                            slot_index: j.slot_index,
+                        })
+                    } else {
+                        None
+                    }
+                })
+            })
+            .collect();
+
+        for info in &infos {
+            match info.joker_id.as_str() {
+                "j_space" => {
+                    // 1 in 4 chance to level up the played hand type
+                    let hit = self.roll_chance(4, "space_joker", trace);
+                    if hit {
+                        let level = self
+                            .state
+                            .hand_levels
+                            .entry(hand_key.to_string())
+                            .or_insert(1);
+                        *level += 1;
+                        events.push(event_with_details(
+                            EventStage::OnPlayed,
+                            "on_played_joker",
+                            format!(
+                                "{} leveled up {} to Lv.{}",
+                                info.joker_name, hand_key, level
+                            ),
+                            Some(info.slot_index),
+                            Some(&info.joker_id),
+                            None,
+                            None,
+                            None,
+                            None,
+                        ));
+                    }
+                }
+                "j_dna" => {
+                    // If first hand of round, copy first played card into deck
+                    if self.state.hands_played_this_round == 0 {
+                        if let Some(first_card) = played.first() {
+                            let max_id = self
+                                .state
+                                .deck
+                                .iter()
+                                .chain(self.state.available.iter())
+                                .chain(self.state.discarded.iter())
+                                .chain(played.iter())
+                                .map(|c| c.card_id)
+                                .max()
+                                .unwrap_or(52);
+                            let copy = CardInstance {
+                                card_id: max_id + 1,
+                                rank: first_card.rank.clone(),
+                                suit: first_card.suit.clone(),
+                                enhancement: first_card.enhancement.clone(),
+                                edition: first_card.edition.clone(),
+                                seal: first_card.seal.clone(),
+                            };
+                            self.state.deck.push(copy);
+                            events.push(event_with_details(
+                                EventStage::OnPlayed,
+                                "on_played_joker",
+                                format!(
+                                    "{} copied first played card into deck",
+                                    info.joker_name
+                                ),
+                                Some(info.slot_index),
+                                Some(&info.joker_id),
+                                None,
+                                None,
+                                None,
+                                None,
+                            ));
+                        }
+                    }
+                }
+                "j_todo_list" => {
+                    // If played hand matches target, gain $4
+                    if let Some(ref target) = self.state.todo_list_target {
+                        if hand_key == target.as_str() {
+                            self.state.money += 4;
+                            events.push(event_with_details(
+                                EventStage::OnPlayed,
+                                "on_played_joker",
+                                format!(
+                                    "{} matched target hand {} +$4",
+                                    info.joker_name, target
+                                ),
+                                Some(info.slot_index),
+                                Some(&info.joker_id),
+                                None,
+                                None,
+                                None,
+                                Some(4),
+                            ));
+                        }
+                    }
+                }
+                "j_midas_mask" => {
+                    // All played face cards become Gold cards
+                    let mut count = 0;
+                    for card in played.iter_mut() {
+                        if card.rank.is_face() {
+                            card.enhancement = Some("m_gold".to_string());
+                            count += 1;
+                        }
+                    }
+                    // Also update in available/deck/discarded
+                    let played_ids: BTreeSet<u32> =
+                        played.iter().filter(|c| c.rank.is_face()).map(|c| c.card_id).collect();
+                    for card in self.state.available.iter_mut() {
+                        if played_ids.contains(&card.card_id) {
+                            card.enhancement = Some("m_gold".to_string());
+                        }
+                    }
+                    for card in self.state.deck.iter_mut() {
+                        if played_ids.contains(&card.card_id) {
+                            card.enhancement = Some("m_gold".to_string());
+                        }
+                    }
+                    for card in self.state.discarded.iter_mut() {
+                        if played_ids.contains(&card.card_id) {
+                            card.enhancement = Some("m_gold".to_string());
+                        }
+                    }
+                    if count > 0 {
+                        events.push(event_with_details(
+                            EventStage::OnPlayed,
+                            "on_played_joker",
+                            format!(
+                                "{} turned {} face card(s) into Gold cards",
+                                info.joker_name, count
+                            ),
+                            Some(info.slot_index),
+                            Some(&info.joker_id),
+                            None,
+                            None,
+                            None,
+                            None,
+                        ));
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
     /// Held-in-hand activation: after scoring cards are processed but before
     /// the final score total is computed, unplayed cards still in hand are
     /// evaluated against held-in-hand Jokers.
@@ -1834,6 +2767,18 @@ impl Engine {
 
         if held_cards.is_empty() {
             return;
+        }
+
+        // Steel Card enhancement: X1.5 mult for each Steel card held in hand
+        for card in &held_cards {
+            if card.enhancement.as_deref() == Some("m_steel") {
+                *xmult *= 1.5;
+                events.push(event(
+                    EventStage::HeldInHand,
+                    "enhancement_steel",
+                    format!("Steel Card {} X1.5 mult (held in hand)", card.card_id),
+                ));
+            }
         }
 
         // Collect joker info upfront to avoid borrow conflicts with self
@@ -2053,7 +2998,7 @@ impl Engine {
                 }
                 "j_to_the_moon" => {
                     let per_five = if info.extra_i64 != 0 { info.extra_i64 } else { 1 };
-                    let interest = (self.state.money / 5 * per_five).min(5);
+                    let interest = (self.state.money / 5 * per_five).min(self.state.interest_cap);
                     if interest > 0 {
                         self.state.money += interest;
                         events.push(event_with_details(
@@ -2222,7 +3167,7 @@ impl Engine {
                     let count = if info.extra_i64 != 0 { info.extra_i64 as usize } else { 2 };
                     let mut created = 0;
                     for i in 0..count {
-                        if self.state.jokers.len() >= JOKER_LIMIT || common_jokers.is_empty() {
+                        if self.state.jokers.len() >= self.state.joker_slot_limit || common_jokers.is_empty() {
                             break;
                         }
                         let candidates: Vec<String> = common_jokers.iter().map(|j| j.id.clone()).collect();
@@ -2247,6 +3192,7 @@ impl Engine {
                             activation_class: chosen_spec.activation_class.clone(),
                             wiki_effect_text_en: chosen_spec.wiki_effect_text_en.clone(),
                             remaining_uses: initial_remaining_uses(chosen_spec),
+                            runtime_state: initial_runtime_state(chosen_spec, &mut self.rng),
                         };
                         self.state.jokers.push(new_joker);
                         created += 1;
@@ -2320,6 +3266,387 @@ impl Engine {
         }
     }
 
+    // --- Voucher handling ---
+
+    fn handle_buy_voucher(&mut self) -> Vec<Event> {
+        let voucher = match self.state.shop_voucher.take() {
+            Some(v) => v,
+            None => return vec![],
+        };
+        if self.state.money < voucher.cost {
+            self.state.shop_voucher = Some(voucher);
+            return vec![];
+        }
+        self.state.money -= voucher.cost;
+        let voucher_name = voucher.name.clone();
+        let effect_key = voucher.effect_key.clone();
+        self.state.owned_vouchers.push(voucher.voucher_id.clone());
+        self.apply_voucher_effect(&effect_key);
+        vec![event(
+            EventStage::Shop,
+            "buy_voucher",
+            format!("Bought voucher: {}", voucher_name),
+        )]
+    }
+
+    fn apply_voucher_effect(&mut self, effect_key: &str) {
+        match effect_key {
+            "grabber" => self.state.base_plays += 1,
+            "wasteful" | "recyclomancy" => self.state.base_discards += 1,
+            "crystal_ball" => self.state.consumable_slot_limit += 1,
+            "antimatter" => self.state.joker_slot_limit += 1,
+            "nacho_tong" | "paint_brush" => self.state.hand_size += 1,
+            "clearance_sale" => self.state.shop_discount = 0.75,
+            "restock" => {
+                self.state.shop_base_reroll_cost =
+                    (self.state.shop_base_reroll_cost - 2).max(0);
+                self.state.shop_current_reroll_cost =
+                    (self.state.shop_current_reroll_cost - 2).max(0);
+            }
+            "seed_money" => self.state.interest_cap = 25,
+            "overstock" => {
+                // +1 card slot in shop (increases the number of joker slots shown)
+                // This is a minor effect -- we just note it's owned.
+            }
+            _ => {}
+        }
+    }
+
+    // --- Booster pack handling ---
+
+    fn handle_buy_pack(&mut self, pack_slot: usize, trace: &mut TransitionTrace) -> Vec<Event> {
+        if pack_slot >= self.state.shop_packs.len() {
+            return vec![];
+        }
+        let pack = self.state.shop_packs[pack_slot].clone();
+        if self.state.money < pack.cost {
+            return vec![];
+        }
+        self.state.money -= pack.cost;
+        self.state.shop_packs.remove(pack_slot);
+
+        // Populate pack choices based on type
+        let choices = self.generate_pack_choices(&pack.pack_type, trace);
+        let pack_name = pack.pack_type.clone();
+        self.state.open_pack = Some(BoosterPackInstance {
+            pack_type: pack.pack_type,
+            cost: pack.cost,
+            choices,
+            picks_remaining: pack.picks_remaining,
+        });
+        vec![event(
+            EventStage::Shop,
+            "buy_pack",
+            format!("Opened {}", pack_name),
+        )]
+    }
+
+    fn generate_pack_choices(
+        &mut self,
+        pack_type_name: &str,
+        trace: &mut TransitionTrace,
+    ) -> Vec<BoosterPackChoice> {
+        let pack_type = match pack_type_name {
+            "Arcana Pack" => PackType::Arcana,
+            "Celestial Pack" => PackType::Celestial,
+            "Spectral Pack" => PackType::Spectral,
+            "Standard Pack" => PackType::Standard,
+            "Buffoon Pack" => PackType::Buffoon,
+            "Mega Arcana Pack" => PackType::MegaArcana,
+            _ => PackType::Arcana,
+        };
+        let card_count = pack_type.card_count();
+        let mut choices = Vec::new();
+
+        match pack_type {
+            PackType::Arcana | PackType::MegaArcana => {
+                let tarot_pool: Vec<balatro_spec::ConsumableSpec> = self
+                    .ruleset
+                    .consumables
+                    .iter()
+                    .filter(|c| c.set == "Tarot")
+                    .cloned()
+                    .collect();
+                if !tarot_pool.is_empty() {
+                    for i in 0..card_count {
+                        let candidates: Vec<String> =
+                            tarot_pool.iter().map(|c| c.id.clone()).collect();
+                        let chosen = self.choose_index(
+                            candidates.len(),
+                            format!("pack.arcana.card_{}", i),
+                            candidates,
+                            trace,
+                        );
+                        let spec = &tarot_pool[chosen];
+                        choices.push(BoosterPackChoice {
+                            index: i,
+                            consumable_id: Some(spec.id.clone()),
+                            joker_id: None,
+                            card: None,
+                            name: spec.name.clone(),
+                        });
+                    }
+                }
+            }
+            PackType::Celestial => {
+                let planet_pool: Vec<balatro_spec::ConsumableSpec> = self
+                    .ruleset
+                    .consumables
+                    .iter()
+                    .filter(|c| c.set == "Planet")
+                    .cloned()
+                    .collect();
+                if !planet_pool.is_empty() {
+                    for i in 0..card_count {
+                        let candidates: Vec<String> =
+                            planet_pool.iter().map(|c| c.id.clone()).collect();
+                        let chosen = self.choose_index(
+                            candidates.len(),
+                            format!("pack.celestial.card_{}", i),
+                            candidates,
+                            trace,
+                        );
+                        let spec = &planet_pool[chosen];
+                        choices.push(BoosterPackChoice {
+                            index: i,
+                            consumable_id: Some(spec.id.clone()),
+                            joker_id: None,
+                            card: None,
+                            name: spec.name.clone(),
+                        });
+                    }
+                }
+            }
+            PackType::Spectral => {
+                let spectral_pool: Vec<balatro_spec::ConsumableSpec> = self
+                    .ruleset
+                    .consumables
+                    .iter()
+                    .filter(|c| c.set == "Spectral")
+                    .cloned()
+                    .collect();
+                if !spectral_pool.is_empty() {
+                    for i in 0..card_count {
+                        let candidates: Vec<String> =
+                            spectral_pool.iter().map(|c| c.id.clone()).collect();
+                        let chosen = self.choose_index(
+                            candidates.len(),
+                            format!("pack.spectral.card_{}", i),
+                            candidates,
+                            trace,
+                        );
+                        let spec = &spectral_pool[chosen];
+                        choices.push(BoosterPackChoice {
+                            index: i,
+                            consumable_id: Some(spec.id.clone()),
+                            joker_id: None,
+                            card: None,
+                            name: spec.name.clone(),
+                        });
+                    }
+                }
+            }
+            PackType::Standard => {
+                for i in 0..card_count {
+                    let suit_idx = self.rng.gen_range(0..4_u32);
+                    let rank_idx = self.rng.gen_range(0..13_u32);
+                    let suit = match suit_idx {
+                        0 => Suit::Spades,
+                        1 => Suit::Hearts,
+                        2 => Suit::Diamonds,
+                        _ => Suit::Clubs,
+                    };
+                    let rank = match rank_idx {
+                        0 => Rank::Two,
+                        1 => Rank::Three,
+                        2 => Rank::Four,
+                        3 => Rank::Five,
+                        4 => Rank::Six,
+                        5 => Rank::Seven,
+                        6 => Rank::Eight,
+                        7 => Rank::Nine,
+                        8 => Rank::Ten,
+                        9 => Rank::Jack,
+                        10 => Rank::Queen,
+                        11 => Rank::King,
+                        _ => Rank::Ace,
+                    };
+                    let card = CardInstance {
+                        card_id: 1000 + i as u32,
+                        rank: rank.clone(),
+                        suit: suit.clone(),
+                        enhancement: None,
+                        edition: None,
+                        seal: None,
+                    };
+                    let name = format!("{:?} of {:?}", rank, suit);
+                    choices.push(BoosterPackChoice {
+                        index: i,
+                        consumable_id: None,
+                        joker_id: None,
+                        card: Some(card),
+                        name,
+                    });
+                }
+            }
+            PackType::Buffoon => {
+                let common_jokers: Vec<JokerSpec> = self
+                    .ruleset
+                    .jokers
+                    .iter()
+                    .filter(|j| j.rarity <= 2 && j.unlocked)
+                    .cloned()
+                    .collect();
+                if !common_jokers.is_empty() {
+                    for i in 0..card_count {
+                        let candidates: Vec<String> =
+                            common_jokers.iter().map(|j| j.id.clone()).collect();
+                        let chosen = self.choose_index(
+                            candidates.len(),
+                            format!("pack.buffoon.card_{}", i),
+                            candidates,
+                            trace,
+                        );
+                        let spec = &common_jokers[chosen];
+                        choices.push(BoosterPackChoice {
+                            index: i,
+                            consumable_id: None,
+                            joker_id: Some(spec.id.clone()),
+                            card: None,
+                            name: spec.name.clone(),
+                        });
+                    }
+                }
+            }
+        }
+        choices
+    }
+
+    fn handle_pack_action(
+        &mut self,
+        action_index: usize,
+        trace: &mut TransitionTrace,
+    ) -> Vec<Event> {
+        // skip_pack: close the pack
+        if action_index == 36 {
+            let pack_name = self
+                .state
+                .open_pack
+                .as_ref()
+                .map(|p| p.pack_type.clone())
+                .unwrap_or_default();
+            self.state.open_pack = None;
+            return vec![event(
+                EventStage::Shop,
+                "skip_pack",
+                format!("Skipped remaining picks from {}", pack_name),
+            )];
+        }
+
+        // pick_pack_0..4
+        if (31..=35).contains(&action_index) {
+            let choice_idx = action_index - 31;
+            let pack = match self.state.open_pack.as_ref() {
+                Some(p) => p.clone(),
+                None => return vec![],
+            };
+            if choice_idx >= pack.choices.len() {
+                return vec![];
+            }
+            let choice = pack.choices[choice_idx].clone();
+            let mut events = Vec::new();
+
+            // Add the chosen card to the appropriate inventory
+            if let Some(ref consumable_id) = choice.consumable_id {
+                if self.state.consumables.len() < self.state.consumable_slot_limit {
+                    if let Some(spec) = self.ruleset.consumable_by_id(consumable_id).cloned() {
+                        let new_consumable = ConsumableInstance {
+                            consumable_id: spec.id.clone(),
+                            name: spec.name.clone(),
+                            set: spec.set.clone(),
+                            cost: spec.cost,
+                            buy_cost: spec.cost,
+                            sell_value: (spec.cost / 2).max(1),
+                            slot_index: self.state.consumables.len(),
+                            config: spec.config.clone(),
+                        };
+                        self.state.consumables.push(new_consumable);
+                        events.push(event(
+                            EventStage::Shop,
+                            "pack_pick",
+                            format!("Picked {} from pack", choice.name),
+                        ));
+                    }
+                } else {
+                    events.push(event(
+                        EventStage::Shop,
+                        "pack_pick_full",
+                        format!("No room for {} (consumable slots full)", choice.name),
+                    ));
+                }
+            } else if let Some(ref joker_id) = choice.joker_id {
+                if self.state.jokers.len() < self.state.joker_slot_limit {
+                    if let Some(spec) = self.ruleset.joker_by_id(joker_id).cloned() {
+                        let new_joker = JokerInstance {
+                            joker_id: spec.id.clone(),
+                            name: spec.name.clone(),
+                            base_cost: spec.base_cost,
+                            cost: spec.cost,
+                            buy_cost: spec.cost,
+                            sell_value: (spec.cost / 2).max(1),
+                            extra_sell_value: 0,
+                            rarity: spec.rarity,
+                            edition: None,
+                            slot_index: self.state.jokers.len(),
+                            activation_class: spec.activation_class.clone(),
+                            wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
+                            remaining_uses: initial_remaining_uses(&spec),
+                            runtime_state: initial_runtime_state(&spec, &mut self.rng),
+                        };
+                        self.state.jokers.push(new_joker);
+                        events.push(event(
+                            EventStage::Shop,
+                            "pack_pick",
+                            format!("Picked {} from pack", choice.name),
+                        ));
+                    }
+                } else {
+                    events.push(event(
+                        EventStage::Shop,
+                        "pack_pick_full",
+                        format!("No room for {} (joker slots full)", choice.name),
+                    ));
+                }
+            } else if let Some(ref card) = choice.card {
+                // Add playing card to deck
+                self.state.deck.push(card.clone());
+                events.push(event(
+                    EventStage::Shop,
+                    "pack_pick",
+                    format!("Picked {} from pack", choice.name),
+                ));
+            }
+
+            // Update pack state
+            if let Some(ref mut pack) = self.state.open_pack {
+                pack.choices.remove(choice_idx);
+                // Re-index remaining choices
+                for (idx, c) in pack.choices.iter_mut().enumerate() {
+                    c.index = idx;
+                }
+                pack.picks_remaining = pack.picks_remaining.saturating_sub(1);
+                if pack.picks_remaining == 0 || pack.choices.is_empty() {
+                    self.state.open_pack = None;
+                }
+            }
+
+            let _ = trace;
+            return events;
+        }
+
+        vec![]
+    }
+
     /// Count how many cards of a given rank exist across the full deck
     fn count_rank_in_full_deck(&self, target: &Rank) -> i32 {
         let count = self
@@ -2332,6 +3659,439 @@ impl Engine {
             .count();
         count as i32
     }
+
+    // ---- Runtime State Mutation Helpers ----
+
+    /// Update scaling jokers after a hand is played.
+    /// Called at the end of play_selected() after scoring.
+    fn update_joker_runtime_on_play(&mut self, hand_key: &str, played: &[CardInstance]) {
+        let has_face = played.iter().any(|c| c.is_face_card());
+        let has_enhanced = played.iter().any(|c| c.enhancement.is_some());
+        let enhanced_count = played.iter().filter(|c| c.enhancement.is_some()).count();
+        let is_straight = hand_key == "straight" || hand_key == "straight_flush";
+        let is_two_pair = hand_key == "two_pair" || hand_key == "full_house" || hand_key == "flush_house";
+        let played_len = played.len();
+
+        for joker in self.state.jokers.iter_mut() {
+            match joker.joker_id.as_str() {
+                "j_green_joker" => {
+                    let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                    joker.runtime_state.insert("mult".to_string(), current + 1.0);
+                }
+                "j_ride_the_bus" => {
+                    if has_face {
+                        joker.runtime_state.insert("mult".to_string(), 0.0);
+                    } else {
+                        let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                        joker.runtime_state.insert("mult".to_string(), current + 1.0);
+                    }
+                }
+                "j_ice_cream" => {
+                    let current = joker.runtime_state.get("chips").copied().unwrap_or(100.0);
+                    joker.runtime_state.insert("chips".to_string(), (current - 5.0).max(0.0));
+                }
+                "j_loyalty_card" => {
+                    let current = joker.runtime_state.get("hands_played").copied().unwrap_or(0.0);
+                    joker.runtime_state.insert("hands_played".to_string(), current + 1.0);
+                }
+                "j_card_sharp" => {
+                    // Mark this hand type as played this round
+                    let key = format!("hand:{}", hand_key);
+                    joker.runtime_state.insert(key, 1.0);
+                }
+                "j_obelisk" => {
+                    // Find most played hand type from runtime_state "played:*" keys
+                    let mut most_played_key = String::new();
+                    let mut most_played_count = 0.0_f64;
+                    for (k, v) in joker.runtime_state.iter() {
+                        if k.starts_with("played:") && *v > most_played_count {
+                            most_played_count = *v;
+                            most_played_key = k[7..].to_string();
+                        }
+                    }
+                    if most_played_key.is_empty() || hand_key == most_played_key {
+                        // Reset xmult to 1.0
+                        joker.runtime_state.insert("xmult".to_string(), 1.0);
+                    } else {
+                        // Increment xmult by 0.2
+                        let current = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                        joker.runtime_state.insert("xmult".to_string(), current + 0.2);
+                    }
+                }
+                "j_supernova" => {
+                    // Increment count for this hand type
+                    let key = format!("played:{}", hand_key);
+                    let current = joker.runtime_state.get(&key).copied().unwrap_or(0.0);
+                    joker.runtime_state.insert(key, current + 1.0);
+                }
+                "j_runner" => {
+                    if is_straight {
+                        let current = joker.runtime_state.get("chips").copied().unwrap_or(0.0);
+                        joker.runtime_state.insert("chips".to_string(), current + 15.0);
+                    }
+                }
+                "j_square" => {
+                    if played_len == 4 {
+                        let current = joker.runtime_state.get("chips").copied().unwrap_or(0.0);
+                        joker.runtime_state.insert("chips".to_string(), current + 4.0);
+                    }
+                }
+                "j_trousers" => {
+                    if is_two_pair {
+                        let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                        joker.runtime_state.insert("mult".to_string(), current + 2.0);
+                    }
+                }
+                "j_vampire" => {
+                    if has_enhanced {
+                        let current = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                        joker.runtime_state.insert("xmult".to_string(), current + enhanced_count as f64 * 0.1);
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        // Vampire strips enhancements from played cards (do outside the joker loop to avoid borrow conflict)
+        let has_vampire = self.state.jokers.iter().any(|j| j.joker_id == "j_vampire");
+        if has_vampire {
+            let played_ids: BTreeSet<u32> = played.iter().map(|c| c.card_id).collect();
+            for card in self.state.available.iter_mut() {
+                if played_ids.contains(&card.card_id) && card.enhancement.is_some() {
+                    card.enhancement = None;
+                }
+            }
+        }
+    }
+
+    /// Update scaling jokers after cards are discarded.
+    fn update_joker_runtime_on_discard(&mut self, discarded: &[CardInstance]) {
+        let jack_count = discarded.iter().filter(|c| matches!(c.rank, Rank::Jack)).count() as f64;
+        let discard_count = discarded.len() as f64;
+
+        for joker in self.state.jokers.iter_mut() {
+            match joker.joker_id.as_str() {
+                "j_green_joker" => {
+                    let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                    joker.runtime_state.insert("mult".to_string(), (current - 1.0).max(0.0));
+                }
+                "j_hit_the_road" => {
+                    if jack_count > 0.0 {
+                        let current = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                        joker.runtime_state.insert("xmult".to_string(), current + jack_count * 0.5);
+                    }
+                }
+                "j_castle" => {
+                    let target_suit = joker.runtime_state.get("suit").copied().unwrap_or(0.0) as usize;
+                    let matching = discarded.iter().filter(|c| c.suit.index() == target_suit).count() as f64;
+                    if matching > 0.0 {
+                        let current = joker.runtime_state.get("chips").copied().unwrap_or(0.0);
+                        joker.runtime_state.insert("chips".to_string(), current + matching * 3.0);
+                    }
+                }
+                "j_yorick" => {
+                    let remaining = joker.runtime_state.get("discards_remaining").copied().unwrap_or(23.0);
+                    let new_remaining = remaining - discard_count;
+                    if new_remaining <= 0.0 {
+                        let current_xmult = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                        joker.runtime_state.insert("xmult".to_string(), current_xmult + 1.0);
+                        // Reset counter, carrying over overflow
+                        joker.runtime_state.insert("discards_remaining".to_string(), 23.0 + new_remaining);
+                    } else {
+                        joker.runtime_state.insert("discards_remaining".to_string(), new_remaining);
+                    }
+                }
+                "j_ramen" => {
+                    let current = joker.runtime_state.get("xmult").copied().unwrap_or(2.0);
+                    let new_val = current - discard_count * 0.01;
+                    joker.runtime_state.insert("xmult".to_string(), new_val);
+                    // Will be destroyed if <= 1.0 (handled below)
+                }
+                _ => {}
+            }
+        }
+
+        // Destroy Ramen if xmult drops to 1.0 or below
+        let mut ramen_destroyed = false;
+        self.state.jokers.retain(|j| {
+            if j.joker_id == "j_ramen" {
+                let xm = j.runtime_state.get("xmult").copied().unwrap_or(2.0);
+                if xm <= 1.0 {
+                    ramen_destroyed = true;
+                    return false;
+                }
+            }
+            true
+        });
+        if ramen_destroyed {
+            for (new_slot, joker) in self.state.jokers.iter_mut().enumerate() {
+                joker.slot_index = new_slot;
+            }
+        }
+    }
+
+    /// Update scaling jokers when a blind is skipped.
+    fn update_joker_runtime_on_skip(&mut self) {
+        for joker in self.state.jokers.iter_mut() {
+            match joker.joker_id.as_str() {
+                "j_throwback" => {
+                    let current = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                    joker.runtime_state.insert("xmult".to_string(), current + 0.25);
+                }
+                "j_red_card" => {
+                    let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                    joker.runtime_state.insert("mult".to_string(), current + 3.0);
+                }
+                _ => {}
+            }
+        }
+    }
+
+    /// Update scaling jokers when the shop is rerolled.
+    fn update_joker_runtime_on_reroll(&mut self) {
+        for joker in self.state.jokers.iter_mut() {
+            if joker.joker_id == "j_flash" {
+                let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                joker.runtime_state.insert("mult".to_string(), current + 2.0);
+            }
+        }
+    }
+
+    /// Update scaling jokers when a joker is sold.
+    fn update_joker_runtime_on_sell(&mut self) {
+        for joker in self.state.jokers.iter_mut() {
+            if joker.joker_id == "j_campfire" {
+                let current = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                joker.runtime_state.insert("xmult".to_string(), current + 0.25);
+            }
+        }
+    }
+
+    /// Update scaling jokers when a consumable is used.
+    fn update_joker_runtime_on_consumable(&mut self, consumable_set: &str) {
+        for joker in self.state.jokers.iter_mut() {
+            match joker.joker_id.as_str() {
+                "j_constellation" => {
+                    if consumable_set == "Planet" {
+                        let current = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                        joker.runtime_state.insert("xmult".to_string(), current + 0.1);
+                    }
+                }
+                "j_fortune_teller" => {
+                    if consumable_set == "Tarot" {
+                        let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                        joker.runtime_state.insert("mult".to_string(), current + 1.0);
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    /// Update scaling jokers when selecting a Small/Big blind (for Madness).
+    fn update_joker_runtime_on_blind_select(&mut self) {
+        // Madness: X0.5 mult gained when Small/Big Blind selected
+        let is_small_or_big = matches!(self.state.current_blind_slot, BlindSlot::Small | BlindSlot::Big);
+        if !is_small_or_big {
+            return;
+        }
+        for joker in self.state.jokers.iter_mut() {
+            if joker.joker_id == "j_madness" {
+                let current = joker.runtime_state.get("xmult").copied().unwrap_or(1.0);
+                joker.runtime_state.insert("xmult".to_string(), current + 0.5);
+            }
+        }
+    }
+
+    /// Reset per-round runtime state when entering a new blind.
+    fn reset_per_round_joker_state(&mut self) {
+        for joker in self.state.jokers.iter_mut() {
+            match joker.joker_id.as_str() {
+                "j_card_sharp" => {
+                    // Clear all "hand:*" keys
+                    let keys_to_remove: Vec<String> = joker.runtime_state.keys()
+                        .filter(|k| k.starts_with("hand:"))
+                        .cloned()
+                        .collect();
+                    for k in keys_to_remove {
+                        joker.runtime_state.remove(&k);
+                    }
+                }
+                "j_hit_the_road" => {
+                    // Reset per-round Jack counter
+                    joker.runtime_state.insert("xmult".to_string(), 1.0);
+                }
+                _ => {}
+            }
+        }
+    }
+
+    /// Update jokers at end of round (popcorn decay, campfire boss reset).
+    fn update_joker_runtime_on_round_end(&mut self) {
+        let cleared_boss = self.state.current_blind_slot == BlindSlot::Boss;
+
+        let mut jokers_to_destroy: Vec<String> = Vec::new();
+
+        for joker in self.state.jokers.iter_mut() {
+            match joker.joker_id.as_str() {
+                "j_popcorn" => {
+                    let current = joker.runtime_state.get("mult").copied().unwrap_or(20.0);
+                    let new_val = (current - 4.0).max(0.0);
+                    joker.runtime_state.insert("mult".to_string(), new_val);
+                    if new_val <= 0.0 {
+                        jokers_to_destroy.push(joker.joker_id.clone());
+                    }
+                }
+                "j_campfire" => {
+                    if cleared_boss {
+                        joker.runtime_state.insert("xmult".to_string(), 1.0);
+                    }
+                }
+                "j_ceremonial" => {
+                    // +1 mult when blind defeated
+                    let current = joker.runtime_state.get("mult").copied().unwrap_or(0.0);
+                    joker.runtime_state.insert("mult".to_string(), current + 1.0);
+                }
+                _ => {}
+            }
+        }
+
+        // Destroy Popcorn if mult drops to 0
+        if !jokers_to_destroy.is_empty() {
+            self.state.jokers.retain(|j| !jokers_to_destroy.contains(&j.joker_id));
+            for (new_slot, joker) in self.state.jokers.iter_mut().enumerate() {
+                joker.slot_index = new_slot;
+            }
+        }
+    }
+}
+
+fn default_voucher_pool() -> Vec<VoucherSpec> {
+    vec![
+        VoucherSpec {
+            id: "v_overstock".to_string(),
+            name: "Overstock".to_string(),
+            cost: 10,
+            effect_key: "overstock".to_string(),
+            description: "+1 card slot in shop".to_string(),
+        },
+        VoucherSpec {
+            id: "v_clearance_sale".to_string(),
+            name: "Clearance Sale".to_string(),
+            cost: 10,
+            effect_key: "clearance_sale".to_string(),
+            description: "All shop items 25% off".to_string(),
+        },
+        VoucherSpec {
+            id: "v_hone".to_string(),
+            name: "Hone".to_string(),
+            cost: 10,
+            effect_key: "hone".to_string(),
+            description: "Foil/Holo/Polychrome cards appear 2x more often".to_string(),
+        },
+        VoucherSpec {
+            id: "v_restock".to_string(),
+            name: "Restock".to_string(),
+            cost: 10,
+            effect_key: "restock".to_string(),
+            description: "Reroll costs $2 less".to_string(),
+        },
+        VoucherSpec {
+            id: "v_crystal_ball".to_string(),
+            name: "Crystal Ball".to_string(),
+            cost: 10,
+            effect_key: "crystal_ball".to_string(),
+            description: "+1 consumable slot".to_string(),
+        },
+        VoucherSpec {
+            id: "v_telescope".to_string(),
+            name: "Telescope".to_string(),
+            cost: 10,
+            effect_key: "telescope".to_string(),
+            description: "Celestial packs always contain the Planet for your most played hand".to_string(),
+        },
+        VoucherSpec {
+            id: "v_grabber".to_string(),
+            name: "Grabber".to_string(),
+            cost: 10,
+            effect_key: "grabber".to_string(),
+            description: "+1 hand per round".to_string(),
+        },
+        VoucherSpec {
+            id: "v_wasteful".to_string(),
+            name: "Wasteful".to_string(),
+            cost: 10,
+            effect_key: "wasteful".to_string(),
+            description: "+1 discard per round".to_string(),
+        },
+        VoucherSpec {
+            id: "v_seed_money".to_string(),
+            name: "Seed Money".to_string(),
+            cost: 10,
+            effect_key: "seed_money".to_string(),
+            description: "Max interest cap from $5 to $25".to_string(),
+        },
+        VoucherSpec {
+            id: "v_blank".to_string(),
+            name: "Blank".to_string(),
+            cost: 10,
+            effect_key: "blank".to_string(),
+            description: "Unlocks Tier 2 vouchers".to_string(),
+        },
+        VoucherSpec {
+            id: "v_antimatter".to_string(),
+            name: "Antimatter".to_string(),
+            cost: 10,
+            effect_key: "antimatter".to_string(),
+            description: "+1 Joker slot".to_string(),
+        },
+        VoucherSpec {
+            id: "v_nacho_tong".to_string(),
+            name: "Nacho Tong".to_string(),
+            cost: 10,
+            effect_key: "nacho_tong".to_string(),
+            description: "+1 hand size".to_string(),
+        },
+        VoucherSpec {
+            id: "v_recyclomancy".to_string(),
+            name: "Recyclomancy".to_string(),
+            cost: 10,
+            effect_key: "recyclomancy".to_string(),
+            description: "+1 discard per round".to_string(),
+        },
+        VoucherSpec {
+            id: "v_magic_trick".to_string(),
+            name: "Magic Trick".to_string(),
+            cost: 10,
+            effect_key: "magic_trick".to_string(),
+            description: "Playing cards can appear in the shop".to_string(),
+        },
+        VoucherSpec {
+            id: "v_paint_brush".to_string(),
+            name: "Paint Brush".to_string(),
+            cost: 10,
+            effect_key: "paint_brush".to_string(),
+            description: "+1 hand size".to_string(),
+        },
+        VoucherSpec {
+            id: "v_tarot_merchant".to_string(),
+            name: "Tarot Merchant".to_string(),
+            cost: 10,
+            effect_key: "tarot_merchant".to_string(),
+            description: "Tarot cards appear 2x more in shop".to_string(),
+        },
+        VoucherSpec {
+            id: "v_planet_merchant".to_string(),
+            name: "Planet Merchant".to_string(),
+            cost: 10,
+            effect_key: "planet_merchant".to_string(),
+            description: "Planet cards appear 2x more in shop".to_string(),
+        },
+    ]
+}
+
+fn apply_discount(base_cost: i32, discount: f32) -> i32 {
+    ((base_cost as f32) * discount).round() as i32
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -2515,6 +4275,222 @@ fn initial_remaining_uses(spec: &JokerSpec) -> Option<u32> {
     None
 }
 
+/// Build the initial runtime_state for scaling Jokers.
+fn initial_runtime_state(spec: &JokerSpec, rng: &mut ChaCha8Rng) -> BTreeMap<String, f64> {
+    let mut state = BTreeMap::new();
+    match spec.id.as_str() {
+        "j_ice_cream" => {
+            let base = config_extra_obj(spec).and_then(|o| o.get("chips").and_then(|v| v.as_i64())).unwrap_or(100) as f64;
+            state.insert("chips".to_string(), base);
+        }
+        "j_popcorn" => {
+            let base = spec.config.get("mult").and_then(|v| v.as_i64()).unwrap_or(20) as f64;
+            state.insert("mult".to_string(), base);
+        }
+        "j_ramen" => {
+            let base = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(2.0);
+            state.insert("xmult".to_string(), base);
+        }
+        "j_yorick" => {
+            state.insert("xmult".to_string(), 1.0);
+            state.insert("discards_remaining".to_string(), 23.0);
+        }
+        "j_idol" => {
+            let rank = rng.gen_range(0..13) as f64;
+            let suit = rng.gen_range(0..4) as f64;
+            state.insert("rank".to_string(), rank);
+            state.insert("suit".to_string(), suit);
+        }
+        "j_castle" => {
+            state.insert("chips".to_string(), 0.0);
+            let suit = rng.gen_range(0..4) as f64;
+            state.insert("suit".to_string(), suit);
+        }
+        "j_green_joker" | "j_ride_the_bus" | "j_red_card" | "j_flash"
+        | "j_fortune_teller" | "j_ceremonial" | "j_runner" | "j_square"
+        | "j_trousers" => {
+            // Start with 0 accumulated value
+        }
+        "j_constellation" | "j_glass" | "j_hologram" | "j_throwback"
+        | "j_campfire" | "j_madness" | "j_obelisk" | "j_vampire"
+        | "j_lucky_cat" | "j_caino" | "j_hit_the_road" => {
+            state.insert("xmult".to_string(), 1.0);
+        }
+        "j_loyalty_card" => {
+            state.insert("hands_played".to_string(), 0.0);
+        }
+        "j_supernova" | "j_card_sharp" => {
+            // Uses dynamic keys like "played:<hand>" or "hand:<hand>"
+        }
+        _ => {}
+    }
+    state
+}
+
+// --- Card enhancement / edition helpers ---
+
+/// Returns true if the card matches the given suit, accounting for Wild Card enhancement.
+pub fn card_matches_suit(card: &CardInstance, suit: &Suit) -> bool {
+    if card.enhancement.as_deref() == Some("m_wild") {
+        return true;
+    }
+    card.suit == *suit
+}
+
+/// Apply card enhancement effects during scoring.
+/// Returns (chips_add, mult_add, xmult_factor, money_add, is_glass, is_stone).
+/// Glass and stone flags are returned for special post-processing.
+fn apply_card_enhancement(
+    card: &CardInstance,
+    chips: &mut i32,
+    mult: &mut i32,
+    xmult: &mut f64,
+    money_delta: &mut i32,
+    events: &mut Vec<Event>,
+    rng: &mut ChaCha8Rng,
+) -> (bool, bool) {
+    let mut is_glass = false;
+    match card.enhancement.as_deref() {
+        Some("m_bonus") => {
+            *chips += 30;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_bonus",
+                format!("Bonus Card {} +30 chips", card.card_id),
+            ));
+        }
+        Some("m_mult") => {
+            *mult += 4;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_mult",
+                format!("Mult Card {} +4 mult", card.card_id),
+            ));
+        }
+        Some("m_wild") => {
+            // Wild card effect is passive (suit matching); no scoring bonus itself.
+        }
+        Some("m_glass") => {
+            *xmult *= 2.0;
+            is_glass = true;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_glass",
+                format!("Glass Card {} X2 mult", card.card_id),
+            ));
+        }
+        Some("m_stone") => {
+            *chips += 50;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_stone",
+                format!("Stone Card {} +50 chips", card.card_id),
+            ));
+        }
+        Some("m_lucky") => {
+            // 1/5 chance +20 mult
+            let mult_roll: i32 = rng.gen_range(1..=5);
+            if mult_roll == 1 {
+                *mult += 20;
+                events.push(event(
+                    EventStage::CardScored,
+                    "enhancement_lucky_mult",
+                    format!("Lucky Card {} +20 mult", card.card_id),
+                ));
+            }
+            // 1/15 chance +$20
+            let money_roll: i32 = rng.gen_range(1..=15);
+            if money_roll == 1 {
+                *money_delta += 20;
+                events.push(event(
+                    EventStage::CardScored,
+                    "enhancement_lucky_money",
+                    format!("Lucky Card {} +$20", card.card_id),
+                ));
+            }
+        }
+        // m_steel: only activates held in hand, not when played
+        // m_gold: only at end of round
+        _ => {}
+    }
+    (is_glass, card.enhancement.as_deref() == Some("m_stone"))
+}
+
+/// Apply card edition effects during scoring (for playing cards).
+fn apply_card_edition(
+    card: &CardInstance,
+    chips: &mut i32,
+    mult: &mut i32,
+    xmult: &mut f64,
+    events: &mut Vec<Event>,
+) {
+    match card.edition.as_deref() {
+        Some("e_foil") => {
+            *chips += 50;
+            events.push(event(
+                EventStage::CardScored,
+                "edition_foil",
+                format!("Foil Card {} +50 chips", card.card_id),
+            ));
+        }
+        Some("e_holo") => {
+            *mult += 10;
+            events.push(event(
+                EventStage::CardScored,
+                "edition_holo",
+                format!("Holographic Card {} +10 mult", card.card_id),
+            ));
+        }
+        Some("e_polychrome") => {
+            *xmult *= 1.5;
+            events.push(event(
+                EventStage::CardScored,
+                "edition_polychrome",
+                format!("Polychrome Card {} X1.5 mult", card.card_id),
+            ));
+        }
+        // e_negative is passive (joker slot), not a scoring effect
+        _ => {}
+    }
+}
+
+/// Apply joker edition effects after the joker's own effect.
+fn apply_joker_edition(
+    joker: &JokerInstance,
+    chips: &mut i32,
+    mult: &mut i32,
+    xmult: &mut f64,
+    events: &mut Vec<Event>,
+) {
+    match joker.edition.as_deref() {
+        Some("e_foil") => {
+            *chips += 50;
+            events.push(event(
+                EventStage::JokerPostScore,
+                "joker_edition_foil",
+                format!("{} (Foil) +50 chips", joker.name),
+            ));
+        }
+        Some("e_holo") => {
+            *mult += 10;
+            events.push(event(
+                EventStage::JokerPostScore,
+                "joker_edition_holo",
+                format!("{} (Holographic) +10 mult", joker.name),
+            ));
+        }
+        Some("e_polychrome") => {
+            *xmult *= 1.5;
+            events.push(event(
+                EventStage::JokerPostScore,
+                "joker_edition_polychrome",
+                format!("{} (Polychrome) X1.5 mult", joker.name),
+            ));
+        }
+        _ => {}
+    }
+}
+
 // --- Joker helper functions ---
 
 fn is_face_card(rank: &Rank) -> bool {
@@ -2554,6 +4530,7 @@ fn apply_joker_effect(
     money_delta: &mut i32,
     events: &mut Vec<Event>,
     trace: &mut JokerResolutionTrace,
+    runtime_state: &BTreeMap<String, f64>,
 ) {
     let effect = spec.effect.as_deref().unwrap_or_default();
 
@@ -2710,19 +4687,17 @@ fn apply_joker_effect(
         "j_steel_joker" => { trace.supported = true; trace.matched = false; trace.effect_key = Some("steel_joker".to_string()); trace.summary = format!("{} (no Steel cards in default deck)", spec.name); }
         "j_ice_cream" => {
             trace.supported = true; trace.effect_key = Some("ice_cream".to_string());
-            if let Some(extra) = config_extra_obj(spec) {
-                let base = extra.get("chips").and_then(|v| v.as_i64()).unwrap_or(100) as i32;
-                *chips += base; trace.matched = base > 0;
-                trace.summary = format!("{} added {} chips (decay TODO)", spec.name, base);
-                events.push(event(EventStage::JokerPostScore, "joker_ice_cream", format!("{} added {} chips", spec.name, base)));
-            }
+            let base = config_extra_obj(spec).and_then(|o| o.get("chips").and_then(|v| v.as_i64())).unwrap_or(100) as f64;
+            let current = runtime_state.get("chips").copied().unwrap_or(base) as i32;
+            if current > 0 { *chips += current; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_ice_cream", format!("{} added {} chips", spec.name, current))); }
+            trace.summary = format!("{} +{} chips (decaying)", spec.name, current);
         }
         "j_popcorn" => {
             trace.supported = true; trace.effect_key = Some("popcorn".to_string());
-            let bonus = spec.config.get("mult").and_then(|v| v.as_i64()).unwrap_or(20) as i32;
-            *mult += bonus; trace.matched = bonus > 0;
-            trace.summary = format!("{} added {} mult (decay TODO)", spec.name, bonus);
-            events.push(event(EventStage::JokerPostScore, "joker_popcorn", format!("{} added {} mult", spec.name, bonus)));
+            let base = spec.config.get("mult").and_then(|v| v.as_i64()).unwrap_or(20) as f64;
+            let current = runtime_state.get("mult").copied().unwrap_or(base) as i32;
+            if current > 0 { *mult += current; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_popcorn", format!("{} added {} mult", spec.name, current))); }
+            trace.summary = format!("{} +{} mult (decaying)", spec.name, current);
         }
         "j_bull" => {
             let per = config_extra_i64(spec).unwrap_or(2) as i32;
@@ -2813,7 +4788,14 @@ fn apply_joker_effect(
                 events.push(event(EventStage::JokerPostScore, "joker_cavendish", format!("{} applied X{} mult", spec.name, xm)));
             }
         }
-        "j_supernova" => { trace.supported = true; trace.effect_key = Some("supernova".to_string()); let times_played = 1_i32; *mult += times_played; trace.matched = true; trace.summary = format!("{} +{} mult (hand play count TODO)", spec.name, times_played); events.push(event(EventStage::JokerPostScore, "joker_supernova", format!("{} added {} mult", spec.name, times_played))); }
+        "j_supernova" => {
+            trace.supported = true; trace.effect_key = Some("supernova".to_string());
+            // Count for current hand type stored as "played:<key>"
+            let hand_count_key = format!("played:{}", ctx.hand_key);
+            let times_played = runtime_state.get(&hand_count_key).copied().unwrap_or(0.0) as i32;
+            if times_played > 0 { *mult += times_played; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_supernova", format!("{} added {} mult", spec.name, times_played))); }
+            trace.summary = format!("{} +{} mult ({} played {} times)", spec.name, times_played, ctx.hand_key, times_played);
+        }
         "j_erosion" => {
             let per = config_extra_i64(spec).unwrap_or(4) as i32;
             let deficit = (52_i32 - ctx.full_deck_size).max(0);
@@ -2822,25 +4804,132 @@ fn apply_joker_effect(
             trace.summary = format!("{} +{} mult ({} cards below 52)", spec.name, gained, deficit);
             if gained > 0 { *mult += gained; events.push(event(EventStage::JokerPostScore, "joker_erosion", format!("{} added {} mult", spec.name, gained))); }
         }
-        "j_ramen" => { trace.supported = true; trace.effect_key = Some("ramen".to_string()); let xm = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(2.0); *xmult *= xm; trace.matched = true; trace.summary = format!("{} X{} (decay TODO)", spec.name, xm); events.push(event(EventStage::JokerPostScore, "joker_ramen", format!("{} applied X{} mult", spec.name, xm))); }
+        "j_ramen" => {
+            trace.supported = true; trace.effect_key = Some("ramen".to_string());
+            let base = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(2.0);
+            let xm = runtime_state.get("xmult").copied().unwrap_or(base);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_ramen", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (decaying)", spec.name, xm);
+        }
         "j_drivers_license" => { trace.supported = true; trace.matched = false; trace.effect_key = Some("drivers_license".to_string()); trace.summary = format!("{} (0 enhanced cards in default deck)", spec.name); }
-        "j_constellation" => { trace.supported = true; trace.effect_key = Some("constellation".to_string()); let xm = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(1.0); if xm > 1.0 { *xmult *= xm; trace.matched = true; } trace.summary = format!("{} X{} (scaling TODO)", spec.name, xm); }
-        "j_glass" => { trace.supported = true; trace.effect_key = Some("glass_joker".to_string()); let xm = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(1.0); if xm > 1.0 { *xmult *= xm; trace.matched = true; } trace.summary = format!("{} X{} (scaling TODO)", spec.name, xm); }
-        "j_hologram" => { trace.supported = true; trace.effect_key = Some("hologram".to_string()); let xm = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(1.0); if xm > 1.0 { *xmult *= xm; trace.matched = true; } trace.summary = format!("{} X{} (scaling TODO)", spec.name, xm); }
-        "j_throwback" => { trace.supported = true; trace.effect_key = Some("throwback".to_string()); trace.summary = format!("{} X1 (blind skip tracking TODO)", spec.name); }
-        "j_campfire" => { trace.supported = true; trace.effect_key = Some("campfire".to_string()); trace.summary = format!("{} X1 (card sold tracking TODO)", spec.name); }
-        "j_red_card" => { trace.supported = true; trace.effect_key = Some("red_card".to_string()); let bonus = spec.config.get("mult").and_then(|v| v.as_i64()).unwrap_or(0) as i32; if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_red_card", format!("{} added {} mult", spec.name, bonus))); } trace.summary = format!("{} +{} mult (skip tracking TODO)", spec.name, bonus); }
-        "j_flash" => { trace.supported = true; trace.effect_key = Some("flash_card".to_string()); let bonus = spec.config.get("mult").and_then(|v| v.as_i64()).unwrap_or(0) as i32; if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_flash", format!("{} added {} mult", spec.name, bonus))); } trace.summary = format!("{} +{} mult (reroll tracking TODO)", spec.name, bonus); }
-        "j_fortune_teller" => { trace.supported = true; trace.effect_key = Some("fortune_teller".to_string()); trace.summary = format!("{} +0 mult (tarot tracking TODO)", spec.name); }
-        "j_green_joker" => { trace.supported = true; trace.effect_key = Some("green_joker".to_string()); trace.summary = format!("{} +0 mult (hand/discard tracking TODO)", spec.name); }
-        "j_ride_the_bus" => { trace.supported = true; trace.effect_key = Some("ride_the_bus".to_string()); trace.summary = format!("{} +0 mult (consecutive tracking TODO)", spec.name); }
-        "j_card_sharp" => { trace.supported = true; trace.effect_key = Some("card_sharp".to_string()); trace.summary = format!("{} (round hand tracking TODO)", spec.name); }
-        "j_madness" => { trace.supported = true; trace.effect_key = Some("madness".to_string()); trace.summary = format!("{} X1 (scaling TODO)", spec.name); }
-        "j_loyalty_card" => { trace.supported = true; trace.effect_key = Some("loyalty_card".to_string()); trace.summary = format!("{} (hand cycle tracking TODO)", spec.name); }
-        "j_obelisk" => { trace.supported = true; trace.effect_key = Some("obelisk".to_string()); let xm = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(1.0); if xm > 1.0 { *xmult *= xm; trace.matched = true; } trace.summary = format!("{} X{} (scaling TODO)", spec.name, xm); }
-        "j_vampire" => { trace.supported = true; trace.effect_key = Some("vampire".to_string()); let xm = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(1.0); if xm > 1.0 { *xmult *= xm; trace.matched = true; } trace.summary = format!("{} X{} (scaling TODO)", spec.name, xm); }
-        "j_lucky_cat" => { trace.supported = true; trace.effect_key = Some("lucky_cat".to_string()); let xm = spec.config.get("Xmult").and_then(|v| v.as_f64()).unwrap_or(1.0); if xm > 1.0 { *xmult *= xm; trace.matched = true; } trace.summary = format!("{} X{} (scaling TODO)", spec.name, xm); }
-        "j_ceremonial" => { trace.supported = true; trace.effect_key = Some("ceremonial".to_string()); let bonus = spec.config.get("mult").and_then(|v| v.as_i64()).unwrap_or(0) as i32; if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_ceremonial", format!("{} added {} mult", spec.name, bonus))); } trace.summary = format!("{} +{} mult (growth TODO)", spec.name, bonus); }
+        "j_constellation" => {
+            trace.supported = true; trace.effect_key = Some("constellation".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; }
+            trace.summary = format!("{} X{:.2} (accumulated)", spec.name, xm);
+            if xm > 1.0 { events.push(event(EventStage::JokerPostScore, "joker_constellation", format!("{} applied X{:.2} mult", spec.name, xm))); }
+        }
+        "j_glass" => {
+            trace.supported = true; trace.effect_key = Some("glass_joker".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_glass", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (accumulated)", spec.name, xm);
+        }
+        "j_hologram" => {
+            trace.supported = true; trace.effect_key = Some("hologram".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_hologram", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (accumulated)", spec.name, xm);
+        }
+        "j_throwback" => {
+            trace.supported = true; trace.effect_key = Some("throwback".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_throwback", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (blind skips)", spec.name, xm);
+        }
+        "j_campfire" => {
+            trace.supported = true; trace.effect_key = Some("campfire".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_campfire", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (cards sold)", spec.name, xm);
+        }
+        "j_red_card" => {
+            trace.supported = true; trace.effect_key = Some("red_card".to_string());
+            let bonus = runtime_state.get("mult").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_red_card", format!("{} added {} mult", spec.name, bonus))); }
+            trace.summary = format!("{} +{} mult (accumulated)", spec.name, bonus);
+        }
+        "j_flash" => {
+            trace.supported = true; trace.effect_key = Some("flash_card".to_string());
+            let bonus = runtime_state.get("mult").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_flash", format!("{} added {} mult", spec.name, bonus))); }
+            trace.summary = format!("{} +{} mult (rerolls)", spec.name, bonus);
+        }
+        "j_fortune_teller" => {
+            trace.supported = true; trace.effect_key = Some("fortune_teller".to_string());
+            let bonus = runtime_state.get("mult").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_fortune_teller", format!("{} added {} mult", spec.name, bonus))); }
+            trace.summary = format!("{} +{} mult (tarots used)", spec.name, bonus);
+        }
+        "j_green_joker" => {
+            trace.supported = true; trace.effect_key = Some("green_joker".to_string());
+            let bonus = runtime_state.get("mult").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_green", format!("{} added {} mult", spec.name, bonus))); }
+            trace.summary = format!("{} +{} mult (accumulated)", spec.name, bonus);
+        }
+        "j_ride_the_bus" => {
+            trace.supported = true; trace.effect_key = Some("ride_the_bus".to_string());
+            let bonus = runtime_state.get("mult").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_ride_the_bus", format!("{} added {} mult", spec.name, bonus))); }
+            trace.summary = format!("{} +{} mult (consecutive hands)", spec.name, bonus);
+        }
+        "j_card_sharp" => {
+            trace.supported = true; trace.effect_key = Some("card_sharp".to_string());
+            // Check if this hand type was already played this round (stored as "hand:<key>" = 1.0)
+            let hand_key_marker = format!("hand:{}", ctx.hand_key);
+            let already_played = runtime_state.get(&hand_key_marker).copied().unwrap_or(0.0) > 0.0;
+            if already_played {
+                let xm = config_extra_f64(spec).unwrap_or(3.0);
+                *xmult *= xm; trace.matched = true;
+                trace.summary = format!("{} same hand type this round => X{}", spec.name, xm);
+                events.push(event(EventStage::JokerPostScore, "joker_card_sharp", format!("{} applied X{} mult", spec.name, xm)));
+            } else {
+                trace.summary = format!("{} first time playing {} this round", spec.name, ctx.hand_key);
+            }
+        }
+        "j_madness" => {
+            trace.supported = true; trace.effect_key = Some("madness".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_madness", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (blinds selected)", spec.name, xm);
+        }
+        "j_loyalty_card" => {
+            trace.supported = true; trace.effect_key = Some("loyalty_card".to_string());
+            let hands_played = runtime_state.get("hands_played").copied().unwrap_or(0.0) as i32;
+            // Activates every 5th hand (when counter mod 5 == 0 and at least 5 hands played)
+            if hands_played > 0 && hands_played % 5 == 0 {
+                let xm = config_extra_f64(spec).unwrap_or(4.0);
+                *xmult *= xm; trace.matched = true;
+                trace.summary = format!("{} every 5th hand (hand #{}) => X{}", spec.name, hands_played, xm);
+                events.push(event(EventStage::JokerPostScore, "joker_loyalty_card", format!("{} applied X{} mult", spec.name, xm)));
+            } else {
+                trace.summary = format!("{} hand #{}, next at {}", spec.name, hands_played, ((hands_played / 5) + 1) * 5);
+            }
+        }
+        "j_obelisk" => {
+            trace.supported = true; trace.effect_key = Some("obelisk".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_obelisk", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (consecutive non-most-played)", spec.name, xm);
+        }
+        "j_vampire" => {
+            trace.supported = true; trace.effect_key = Some("vampire".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_vampire", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (enhanced cards eaten)", spec.name, xm);
+        }
+        "j_lucky_cat" => {
+            trace.supported = true; trace.effect_key = Some("lucky_cat".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_lucky_cat", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (lucky triggers)", spec.name, xm);
+        }
+        "j_ceremonial" => {
+            trace.supported = true; trace.effect_key = Some("ceremonial".to_string());
+            let bonus = runtime_state.get("mult").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_ceremonial", format!("{} added {} mult", spec.name, bonus))); }
+            trace.summary = format!("{} +{} mult (accumulated)", spec.name, bonus);
+        }
         "j_smiley" => {
             let per = config_extra_i64(spec).unwrap_or(5) as i32;
             let count = ctx.played.iter().filter(|c| is_face_card(&c.rank)).count() as i32;
@@ -3039,14 +5128,69 @@ fn apply_joker_effect(
             trace.summary = format!("{} trigger/retrigger effect (partial)", spec.name);
         }
         // Scaling jokers with complex state
-        "j_runner" => { trace.supported = true; trace.effect_key = Some("runner".to_string()); if let Some(extra) = config_extra_obj(spec) { let current = extra.get("chips").and_then(|v| v.as_i64()).unwrap_or(0) as i32; if current > 0 { *chips += current; trace.matched = true; } } trace.summary = format!("{} (scaling chips TODO)", spec.name); }
-        "j_square" => { trace.supported = true; trace.effect_key = Some("square_joker".to_string()); if let Some(extra) = config_extra_obj(spec) { let current = extra.get("chips").and_then(|v| v.as_i64()).unwrap_or(0) as i32; if current > 0 { *chips += current; trace.matched = true; } } trace.summary = format!("{} (scaling chips TODO)", spec.name); }
-        "j_trousers" => { trace.supported = true; trace.effect_key = Some("spare_trousers".to_string()); trace.summary = format!("{} (scaling mult TODO)", spec.name); }
-        "j_castle" => { trace.supported = true; trace.effect_key = Some("castle".to_string()); if let Some(extra) = config_extra_obj(spec) { let current = extra.get("chips").and_then(|v| v.as_i64()).unwrap_or(0) as i32; if current > 0 { *chips += current; trace.matched = true; } } trace.summary = format!("{} (scaling chips TODO)", spec.name); }
-        "j_hit_the_road" => { trace.supported = true; trace.effect_key = Some("hit_the_road".to_string()); trace.summary = format!("{} X1 (Jack discard tracking TODO)", spec.name); }
-        "j_idol" => { trace.supported = true; trace.effect_key = Some("idol".to_string()); trace.summary = format!("{} (rank+suit tracking TODO)", spec.name); }
-        "j_caino" => { trace.supported = true; trace.effect_key = Some("caino".to_string()); trace.summary = format!("{} (face card destruction tracking TODO)", spec.name); }
-        "j_yorick" => { trace.supported = true; trace.effect_key = Some("yorick".to_string()); if let Some(extra) = config_extra_obj(spec) { let xm = extra.get("xmult").and_then(|v| v.as_f64()).unwrap_or(1.0); if xm > 1.0 { *xmult *= xm; trace.matched = true; } } trace.summary = format!("{} (discard tracking TODO)", spec.name); }
+        "j_runner" => {
+            trace.supported = true; trace.effect_key = Some("runner".to_string());
+            let bonus = runtime_state.get("chips").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *chips += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_runner", format!("{} added {} chips", spec.name, bonus))); }
+            trace.summary = format!("{} +{} chips (accumulated)", spec.name, bonus);
+        }
+        "j_square" => {
+            trace.supported = true; trace.effect_key = Some("square_joker".to_string());
+            let bonus = runtime_state.get("chips").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *chips += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_square", format!("{} added {} chips", spec.name, bonus))); }
+            trace.summary = format!("{} +{} chips (accumulated)", spec.name, bonus);
+        }
+        "j_trousers" => {
+            trace.supported = true; trace.effect_key = Some("spare_trousers".to_string());
+            let bonus = runtime_state.get("mult").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *mult += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_trousers", format!("{} added {} mult", spec.name, bonus))); }
+            trace.summary = format!("{} +{} mult (accumulated)", spec.name, bonus);
+        }
+        "j_castle" => {
+            trace.supported = true; trace.effect_key = Some("castle".to_string());
+            let bonus = runtime_state.get("chips").copied().unwrap_or(0.0) as i32;
+            if bonus > 0 { *chips += bonus; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_castle", format!("{} added {} chips", spec.name, bonus))); }
+            trace.summary = format!("{} +{} chips (accumulated)", spec.name, bonus);
+        }
+        "j_hit_the_road" => {
+            trace.supported = true; trace.effect_key = Some("hit_the_road".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_hit_the_road", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (Jacks discarded this round)", spec.name, xm);
+        }
+        "j_idol" => {
+            trace.supported = true; trace.effect_key = Some("idol".to_string());
+            // Target rank stored as "rank" index (0-12), target suit as "suit" index (0-3)
+            let target_rank = runtime_state.get("rank").copied().unwrap_or(-1.0) as i32;
+            let target_suit = runtime_state.get("suit").copied().unwrap_or(-1.0) as i32;
+            if target_rank >= 0 && target_suit >= 0 {
+                let xm = config_extra_f64(spec).unwrap_or(2.0);
+                let matched_count = ctx.played.iter().filter(|c| c.rank.index() as i32 == target_rank && c.suit.index() as i32 == target_suit).count();
+                if matched_count > 0 {
+                    let total_xm = xm.powi(matched_count as i32);
+                    *xmult *= total_xm; trace.matched = true;
+                    trace.summary = format!("{} {} matching card(s) => X{:.2}", spec.name, matched_count, total_xm);
+                    events.push(event(EventStage::JokerPostScore, "joker_idol", format!("{} applied X{:.2} mult", spec.name, total_xm)));
+                } else {
+                    trace.summary = format!("{} no matching rank+suit target", spec.name);
+                }
+            } else {
+                trace.summary = format!("{} no target set yet", spec.name);
+            }
+        }
+        "j_caino" => {
+            trace.supported = true; trace.effect_key = Some("caino".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_caino", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            trace.summary = format!("{} X{:.2} (face cards destroyed)", spec.name, xm);
+        }
+        "j_yorick" => {
+            trace.supported = true; trace.effect_key = Some("yorick".to_string());
+            let xm = runtime_state.get("xmult").copied().unwrap_or(1.0);
+            if xm > 1.0 { *xmult *= xm; trace.matched = true; events.push(event(EventStage::JokerPostScore, "joker_yorick", format!("{} applied X{:.2} mult", spec.name, xm))); }
+            let remaining = runtime_state.get("discards_remaining").copied().unwrap_or(23.0) as i32;
+            trace.summary = format!("{} X{:.2} ({} discards until next bump)", spec.name, xm, remaining);
+        }
         _ => {
             // Unknown joker - not implemented
         }
@@ -3171,7 +5315,11 @@ pub fn action_name(index: usize) -> String {
         14..=23 => format!("buy_shop_item_{}", index - 14),
         24..=25 => format!("buy_consumable_{}", index - 24),
         26..=27 => format!("sell_consumable_{}", index - 26),
-        28..=46 => format!("move_left_{}", index - 28),
+        28 => "buy_voucher".to_string(),
+        29..=30 => format!("buy_pack_{}", index - 29),
+        31..=35 => format!("pick_pack_{}", index - 31),
+        36 => "skip_pack".to_string(),
+        37..=46 => format!("move_left_{}", index - 37),
         47..=69 => format!("move_right_{}", index - 47),
         70 => "next_round".to_string(),
         71..=78 => format!("use_consumable_{}", index - 71),
@@ -3186,12 +5334,13 @@ pub fn action_name(index: usize) -> String {
 mod tests {
     use super::{
         action_name, apply_joker_effect, calculate_retriggers, resolve_joker_ability,
-        BlindProgress, BlindSlot, CardInstance, ConsumableInstance, Engine, EngineError,
-        EventStage, JokerInstance, JokerResolutionTrace, Phase, Rank, RunConfig,
-        ScoringContext, Suit, TransitionTrace, CONSUMABLE_SLOT_LIMIT, JOKER_LIMIT,
+        BlindProgress, BlindSlot, BossEffect, CardInstance, ConsumableInstance, Engine,
+        EngineError, EventStage, JokerInstance, JokerResolutionTrace, Phase, Rank,
+        RunConfig, ScoringContext, Suit, TransitionTrace, CONSUMABLE_SLOT_LIMIT,
+        HAND_LIMIT, JOKER_LIMIT,
     };
     use balatro_spec::{JokerSpec, RulesetBundle};
-    use std::collections::BTreeMap;
+    use std::collections::{BTreeMap, BTreeSet};
     use std::path::PathBuf;
 
     fn fixture_bundle() -> PathBuf {
@@ -3210,11 +5359,11 @@ mod tests {
     }
 
     fn make_joker_instance(id: &str, name: &str) -> JokerInstance {
-        JokerInstance { joker_id: id.to_string(), name: name.to_string(), base_cost: 5, cost: 5, buy_cost: 5, sell_value: 2, extra_sell_value: 0, rarity: 1, edition: None, slot_index: 0, activation_class: "joker_independent".to_string(), wiki_effect_text_en: String::new(), remaining_uses: None }
+        JokerInstance { joker_id: id.to_string(), name: name.to_string(), base_cost: 5, cost: 5, buy_cost: 5, sell_value: 2, extra_sell_value: 0, rarity: 1, edition: None, slot_index: 0, activation_class: "joker_independent".to_string(), wiki_effect_text_en: String::new(), remaining_uses: None, runtime_state: BTreeMap::new() }
     }
 
     fn make_joker_for_retrigger(id: &str, name: &str, slot: usize) -> JokerInstance {
-        JokerInstance { joker_id: id.to_string(), name: name.to_string(), base_cost: 0, cost: 0, buy_cost: 0, sell_value: 0, extra_sell_value: 0, rarity: 1, edition: None, slot_index: slot, activation_class: String::new(), wiki_effect_text_en: String::new(), remaining_uses: None }
+        JokerInstance { joker_id: id.to_string(), name: name.to_string(), base_cost: 0, cost: 0, buy_cost: 0, sell_value: 0, extra_sell_value: 0, rarity: 1, edition: None, slot_index: slot, activation_class: String::new(), wiki_effect_text_en: String::new(), remaining_uses: None, runtime_state: BTreeMap::new() }
     }
 
     fn make_joker_spec(id: &str, name: &str) -> JokerSpec {
@@ -3223,7 +5372,7 @@ mod tests {
 
     fn make_joker_from_bundle(bundle: &RulesetBundle, joker_id: &str, slot_index: usize) -> JokerInstance {
         let spec = bundle.joker_by_id(joker_id).expect("joker spec");
-        JokerInstance { joker_id: spec.id.clone(), name: spec.name.clone(), base_cost: spec.base_cost, cost: spec.cost, buy_cost: spec.cost, sell_value: (spec.cost / 2).max(1), extra_sell_value: 0, rarity: spec.rarity, edition: None, slot_index, activation_class: spec.activation_class.clone(), wiki_effect_text_en: spec.wiki_effect_text_en.clone(), remaining_uses: None }
+        JokerInstance { joker_id: spec.id.clone(), name: spec.name.clone(), base_cost: spec.base_cost, cost: spec.cost, buy_cost: spec.cost, sell_value: (spec.cost / 2).max(1), extra_sell_value: 0, rarity: spec.rarity, edition: None, slot_index, activation_class: spec.activation_class.clone(), wiki_effect_text_en: spec.wiki_effect_text_en.clone(), remaining_uses: None, runtime_state: BTreeMap::new() }
     }
 
     fn make_consumable(id: &str, name: &str, set: &str, cost: i32, config: BTreeMap<String, serde_json::Value>) -> ConsumableInstance {
@@ -3602,7 +5751,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert!(trace.supported && trace.matched);
         assert_eq!(mult, 20);
     }
@@ -3616,7 +5765,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert!(trace.supported && !trace.matched);
         assert_eq!(mult, 0);
     }
@@ -3630,7 +5779,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert!(trace.matched);
         assert_eq!(mult, 32);
     }
@@ -3644,7 +5793,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert_eq!(mult, 12);
     }
 
@@ -3657,7 +5806,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert_eq!(chips, 93);
     }
 
@@ -3671,7 +5820,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert!(trace.matched);
         assert!((xmult - 3.0).abs() < 0.001);
     }
@@ -3685,7 +5834,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert!((xmult - 3.0).abs() < 0.001);
     }
 
@@ -3699,7 +5848,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert_eq!(chips, 50);
     }
 
@@ -3713,7 +5862,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert!((xmult - 3.0).abs() < 0.001);
     }
 
@@ -3726,7 +5875,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert_eq!(chips, 250);
     }
 
@@ -3739,7 +5888,7 @@ mod tests {
         let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
         let mut events = Vec::new();
         let mut trace = fresh_trace();
-        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &BTreeMap::new());
         assert_eq!(mult, 9);
     }
 
@@ -3826,5 +5975,985 @@ mod tests {
         let transition = engine.step(10).expect("select small blind with burglar");
         assert_eq!(transition.snapshot_after.plays, 7);
         assert_eq!(transition.snapshot_after.discards, 0);
+    }
+
+    // ==== Enhancement scoring tests (Task A) ====
+
+    #[test]
+    fn bonus_card_adds_30_chips() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(200, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        // Replace hand with a single Bonus-enhanced card
+        engine.state.available = vec![CardInstance {
+            card_id: 500,
+            rank: Rank::Five,
+            suit: Suit::Hearts,
+            enhancement: Some("m_bonus".to_string()),
+            edition: None,
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let bonus_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "enhancement_bonus")
+            .collect();
+        assert_eq!(bonus_events.len(), 1, "Expected 1 Bonus Card enhancement event");
+        assert!(bonus_events[0].summary.contains("+30 chips"));
+    }
+
+    #[test]
+    fn glass_card_applies_x2_mult() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(201, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.available = vec![CardInstance {
+            card_id: 501,
+            rank: Rank::Ace,
+            suit: Suit::Spades,
+            enhancement: Some("m_glass".to_string()),
+            edition: None,
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let glass_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "enhancement_glass")
+            .collect();
+        assert_eq!(glass_events.len(), 1, "Expected 1 Glass Card enhancement event");
+        assert!(glass_events[0].summary.contains("X2 mult"));
+    }
+
+    // ==== Edition scoring tests (Task B) ====
+
+    #[test]
+    fn foil_edition_adds_50_chips() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(202, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.available = vec![CardInstance {
+            card_id: 502,
+            rank: Rank::King,
+            suit: Suit::Diamonds,
+            enhancement: None,
+            edition: Some("e_foil".to_string()),
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let foil_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "edition_foil")
+            .collect();
+        assert_eq!(foil_events.len(), 1, "Expected 1 Foil edition event");
+        assert!(foil_events[0].summary.contains("+50 chips"));
+    }
+
+    #[test]
+    fn polychrome_edition_applies_x1_5_mult() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(203, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.available = vec![CardInstance {
+            card_id: 503,
+            rank: Rank::Queen,
+            suit: Suit::Clubs,
+            enhancement: None,
+            edition: Some("e_polychrome".to_string()),
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let poly_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "edition_polychrome")
+            .collect();
+        assert_eq!(poly_events.len(), 1, "Expected 1 Polychrome edition event");
+        assert!(poly_events[0].summary.contains("X1.5 mult"));
+    }
+
+    // ==== joker_on_played phase tests (Task C) ====
+
+    #[test]
+    fn midas_mask_turns_face_cards_gold() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(204, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.jokers.push(make_joker_from_bundle(&bundle, "j_midas_mask", 0));
+        // Set up hand with face cards and a non-face card
+        engine.state.available = vec![
+            CardInstance {
+                card_id: 600,
+                rank: Rank::King,
+                suit: Suit::Spades,
+                enhancement: None,
+                edition: None,
+                seal: None,
+            },
+            CardInstance {
+                card_id: 601,
+                rank: Rank::Queen,
+                suit: Suit::Hearts,
+                enhancement: None,
+                edition: None,
+                seal: None,
+            },
+            CardInstance {
+                card_id: 602,
+                rank: Rank::Five,
+                suit: Suit::Diamonds,
+                enhancement: None,
+                edition: None,
+                seal: None,
+            },
+        ];
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        engine.state.selected_slots.insert(2);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let midas_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "on_played_joker" && e.summary.contains("Gold"))
+            .collect();
+        assert_eq!(midas_events.len(), 1, "Expected 1 Midas Mask event");
+        assert!(midas_events[0].summary.contains("2 face card(s)"));
+        // After Midas, the gold card money event should fire for the 2 face cards
+        let gold_money_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "gold_card_money")
+            .collect();
+        assert_eq!(gold_money_events.len(), 1);
+        assert!(gold_money_events[0].summary.contains("2 Gold Card(s)"));
+    }
+
+    // ==== Scaling Joker runtime_state tests ====
+
+    #[test]
+    fn green_joker_accumulates_mult_on_play_and_decrements_on_discard() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(100, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        let mut green = make_joker_from_bundle(&bundle, "j_green_joker", 0);
+        green.runtime_state.insert("mult".to_string(), 0.0);
+        engine.state.jokers.push(green);
+        engine.state.selected_slots.insert(0);
+        engine.play_selected(&mut TransitionTrace::default());
+        let green_mult_after_play = engine.state.jokers[0].runtime_state.get("mult").copied().unwrap_or(0.0);
+        assert_eq!(green_mult_after_play, 1.0, "Green Joker should gain +1 mult after hand played");
+        engine.state.selected_slots.insert(0);
+        engine.play_selected(&mut TransitionTrace::default());
+        let green_mult_after_second = engine.state.jokers[0].runtime_state.get("mult").copied().unwrap_or(0.0);
+        assert_eq!(green_mult_after_second, 2.0, "Green Joker should gain +1 mult per hand");
+        engine.state.discards = 2;
+        engine.state.selected_slots.insert(0);
+        engine.discard_selected(&mut TransitionTrace::default());
+        let green_mult_after_discard = engine.state.jokers[0].runtime_state.get("mult").copied().unwrap_or(0.0);
+        assert_eq!(green_mult_after_discard, 1.0, "Green Joker should lose 1 mult per discard");
+    }
+
+    #[test]
+    fn green_joker_mult_applied_during_scoring() {
+        let spec = load_spec("j_green_joker");
+        let played = vec![make_card(Rank::Ace, Suit::Spades)];
+        let jokers = vec![make_joker_instance("j_green_joker", "Green Joker")];
+        let ctx = default_ctx("high_card", &played, &[], &jokers);
+        let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
+        let mut events = Vec::new();
+        let mut trace = fresh_trace();
+        let mut rs = BTreeMap::new();
+        rs.insert("mult".to_string(), 5.0);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &rs);
+        assert!(trace.supported && trace.matched);
+        assert_eq!(mult, 5, "Green Joker should add 5 accumulated mult");
+    }
+
+    #[test]
+    fn ride_the_bus_resets_on_face_card() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(200, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        let mut rtb = make_joker_from_bundle(&bundle, "j_ride_the_bus", 0);
+        rtb.runtime_state.insert("mult".to_string(), 0.0);
+        engine.state.jokers.push(rtb);
+        engine.state.available = vec![
+            CardInstance { card_id: 200, rank: Rank::Two, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 201, rank: Rank::Three, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 202, rank: Rank::Four, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.selected_slots.insert(0);
+        engine.play_selected(&mut TransitionTrace::default());
+        let mult_after = engine.state.jokers[0].runtime_state.get("mult").copied().unwrap_or(0.0);
+        assert_eq!(mult_after, 1.0, "Ride the Bus should gain +1 on no face card hand");
+        engine.state.available = vec![
+            CardInstance { card_id: 203, rank: Rank::Five, suit: Suit::Clubs, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 204, rank: Rank::Six, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.plays = 3;
+        engine.state.selected_slots.insert(0);
+        engine.play_selected(&mut TransitionTrace::default());
+        let mult_after2 = engine.state.jokers[0].runtime_state.get("mult").copied().unwrap_or(0.0);
+        assert_eq!(mult_after2, 2.0, "Ride the Bus should accumulate");
+        engine.state.available = vec![
+            CardInstance { card_id: 205, rank: Rank::King, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 206, rank: Rank::Seven, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.plays = 2;
+        engine.state.selected_slots.insert(0);
+        engine.play_selected(&mut TransitionTrace::default());
+        let mult_after_reset = engine.state.jokers[0].runtime_state.get("mult").copied().unwrap_or(0.0);
+        assert_eq!(mult_after_reset, 0.0, "Ride the Bus should reset to 0 when face card scored");
+    }
+
+    #[test]
+    fn ice_cream_decays_by_5_per_hand() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(300, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        let mut ice = make_joker_from_bundle(&bundle, "j_ice_cream", 0);
+        ice.runtime_state.insert("chips".to_string(), 100.0);
+        engine.state.jokers.push(ice);
+        for hand_num in 0..4 {
+            engine.state.available = vec![
+                CardInstance { card_id: 300 + hand_num, rank: Rank::Two, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+                CardInstance { card_id: 310 + hand_num, rank: Rank::Three, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            ];
+            engine.state.plays = 4 - hand_num as i32;
+            engine.state.selected_slots.insert(0);
+            engine.play_selected(&mut TransitionTrace::default());
+        }
+        let final_chips = engine.state.jokers[0].runtime_state.get("chips").copied().unwrap_or(0.0);
+        assert_eq!(final_chips, 80.0, "Ice Cream should decay by 5 per hand: 100 - 4*5 = 80");
+    }
+
+    #[test]
+    fn ice_cream_scoring_uses_runtime_chips() {
+        let spec = load_spec("j_ice_cream");
+        let played = vec![make_card(Rank::Ace, Suit::Spades)];
+        let jokers = vec![make_joker_instance("j_ice_cream", "Ice Cream")];
+        let ctx = default_ctx("high_card", &played, &[], &jokers);
+        let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
+        let mut events = Vec::new();
+        let mut trace = fresh_trace();
+        let mut rs = BTreeMap::new();
+        rs.insert("chips".to_string(), 75.0);
+        apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &rs);
+        assert!(trace.supported && trace.matched);
+        assert_eq!(chips, 75, "Ice Cream should add chips from runtime_state");
+    }
+
+    #[test]
+    fn loyalty_card_x4_every_5th_hand() {
+        let spec = load_spec("j_loyalty_card");
+        let played = vec![make_card(Rank::Ace, Suit::Spades)];
+        let jokers = vec![make_joker_instance("j_loyalty_card", "Loyalty Card")];
+        let ctx = default_ctx("high_card", &played, &[], &jokers);
+        {
+            let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
+            let mut events = Vec::new();
+            let mut trace = fresh_trace();
+            let mut rs = BTreeMap::new();
+            rs.insert("hands_played".to_string(), 4.0);
+            apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &rs);
+            assert!(trace.supported);
+            assert!(!trace.matched, "Should NOT trigger at hand 4");
+            assert!((xmult - 1.0).abs() < 0.001, "No xmult at hand 4");
+        }
+        {
+            let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
+            let mut events = Vec::new();
+            let mut trace = fresh_trace();
+            let mut rs = BTreeMap::new();
+            rs.insert("hands_played".to_string(), 5.0);
+            apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &rs);
+            assert!(trace.supported && trace.matched, "Should trigger at hand 5");
+            assert!((xmult - 4.0).abs() < 0.001, "Should apply X4 mult at hand 5");
+        }
+        {
+            let (mut chips, mut mult, mut xmult, mut money) = (0, 0, 1.0, 0);
+            let mut events = Vec::new();
+            let mut trace = fresh_trace();
+            let mut rs = BTreeMap::new();
+            rs.insert("hands_played".to_string(), 10.0);
+            apply_joker_effect(&spec, &ctx, &mut chips, &mut mult, &mut xmult, &mut money, &mut events, &mut trace, &rs);
+            assert!(trace.matched, "Should trigger at hand 10");
+            assert!((xmult - 4.0).abs() < 0.001, "Should apply X4 mult at hand 10");
+        }
+    }
+
+    #[test]
+    fn loyalty_card_counter_increments_on_play() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(400, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        let mut loyalty = make_joker_from_bundle(&bundle, "j_loyalty_card", 0);
+        loyalty.runtime_state.insert("hands_played".to_string(), 0.0);
+        engine.state.jokers.push(loyalty);
+        for i in 0..3 {
+            engine.state.available = vec![
+                CardInstance { card_id: 400 + i, rank: Rank::Two, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+                CardInstance { card_id: 410 + i, rank: Rank::Three, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            ];
+            engine.state.plays = 4 - i as i32;
+            engine.state.selected_slots.insert(0);
+            engine.play_selected(&mut TransitionTrace::default());
+        }
+        let counter = engine.state.jokers[0].runtime_state.get("hands_played").copied().unwrap_or(0.0);
+        assert_eq!(counter, 3.0, "Loyalty Card counter should be 3 after 3 hands");
+    }
+
+    #[test]
+    fn throwback_gains_xmult_on_blind_skip() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(500, bundle.clone(), RunConfig::default());
+        let mut throwback = make_joker_from_bundle(&bundle, "j_throwback", 0);
+        throwback.runtime_state.insert("xmult".to_string(), 1.0);
+        engine.state.jokers.push(throwback);
+        engine.step(85).expect("skip small blind");
+        let xm = engine.state.jokers[0].runtime_state.get("xmult").copied().unwrap_or(1.0);
+        assert!((xm - 1.25).abs() < 0.001, "Throwback should gain X0.25 per skip");
+        engine.step(85).expect("skip big blind");
+        let xm2 = engine.state.jokers[0].runtime_state.get("xmult").copied().unwrap_or(1.0);
+        assert!((xm2 - 1.5).abs() < 0.001, "Throwback should accumulate skips");
+    }
+
+    #[test]
+    fn flash_card_gains_mult_on_reroll() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(600, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.mark_current_blind_progress(BlindProgress::Defeated);
+        engine.state.phase = Phase::PostBlind;
+        engine.state.reward = 3;
+        engine.step(13).expect("cashout to shop");
+        let mut flash = make_joker_from_bundle(&bundle, "j_flash", 0);
+        flash.runtime_state.insert("mult".to_string(), 0.0);
+        engine.state.jokers.push(flash);
+        engine.state.money = 100;
+        engine.step(79).expect("reroll");
+        let m = engine.state.jokers.iter().find(|j| j.joker_id == "j_flash")
+            .map(|j| j.runtime_state.get("mult").copied().unwrap_or(0.0))
+            .unwrap_or(0.0);
+        assert_eq!(m, 2.0, "Flash Card should gain +2 mult per reroll");
+    }
+
+    #[test]
+    fn popcorn_decays_on_round_end() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(700, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.mark_current_blind_progress(BlindProgress::Defeated);
+        engine.state.phase = Phase::PostBlind;
+        engine.state.reward = 3;
+        let mut popcorn = make_joker_from_bundle(&bundle, "j_popcorn", 0);
+        popcorn.runtime_state.insert("mult".to_string(), 20.0);
+        engine.state.jokers.push(popcorn);
+        engine.step(13).expect("cashout triggers end of round");
+        let m = engine.state.jokers.iter().find(|j| j.joker_id == "j_popcorn")
+            .map(|j| j.runtime_state.get("mult").copied().unwrap_or(0.0))
+            .unwrap_or(0.0);
+        assert_eq!(m, 16.0, "Popcorn should decay by 4 per round: 20 - 4 = 16");
+    }
+
+    #[test]
+    fn constellation_gains_xmult_on_planet_use() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(800, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        let mut constellation = make_joker_from_bundle(&bundle, "j_constellation", 0);
+        constellation.runtime_state.insert("xmult".to_string(), 1.0);
+        engine.state.jokers.push(constellation);
+        let mut config = BTreeMap::new();
+        config.insert("hand_type".to_string(), serde_json::json!("Pair"));
+        engine.state.consumables.push(make_consumable("c_mercury", "Mercury", "Planet", 3, config));
+        engine.enter_current_blind(&mut trace);
+        engine.step(71).expect("use planet consumable");
+        let xm = engine.state.jokers[0].runtime_state.get("xmult").copied().unwrap_or(1.0);
+        assert!((xm - 1.1).abs() < 0.001, "Constellation should gain X0.1 per planet use");
+    }
+
+    #[test]
+    fn campfire_gains_xmult_on_sell_resets_on_boss() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(900, bundle.clone(), RunConfig::default());
+        let mut campfire = make_joker_from_bundle(&bundle, "j_campfire", 0);
+        campfire.runtime_state.insert("xmult".to_string(), 1.0);
+        campfire.slot_index = 0;
+        let dummy = make_joker_from_bundle(&bundle, "j_joker", 1);
+        engine.state.jokers.push(campfire);
+        engine.state.jokers.push(dummy);
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 10;
+        let mut trace = TransitionTrace::default();
+        engine.refresh_shop(&mut trace, "test");
+        engine.step(81).expect("sell dummy joker");
+        let xm = engine.state.jokers[0].runtime_state.get("xmult").copied().unwrap_or(1.0);
+        assert!((xm - 1.25).abs() < 0.001, "Campfire should gain X0.25 per sell");
+    }
+
+    // ==== Boss Blind Effect tests ====
+
+    fn setup_boss_blind(seed: u64, boss_name: &str) -> Engine {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(seed, bundle.clone(), RunConfig::default());
+        engine.step(85).expect("skip small");
+        engine.step(85).expect("skip big");
+        let target_boss = bundle.blinds.iter().find(|b| b.name == boss_name).expect("boss blind spec").clone();
+        engine.state.boss_blind = target_boss;
+        engine
+    }
+
+    #[test]
+    fn boss_the_goad_debuffs_spades() {
+        let mut engine = setup_boss_blind(42, "The Goad");
+        let transition = engine.step(12).expect("select boss blind");
+        assert!(transition.snapshot_after.boss_effect.contains("The Goad"));
+        assert!(!engine.state.debuffed_cards.is_empty());
+        let all_spade_ids: BTreeSet<u32> = engine.state.deck.iter().chain(engine.state.available.iter()).chain(engine.state.discarded.iter()).filter(|c| matches!(c.suit, Suit::Spades)).map(|c| c.card_id).collect();
+        for id in &engine.state.debuffed_cards { assert!(all_spade_ids.contains(id), "Debuffed card {} should be a Spade", id); }
+        assert_eq!(engine.state.debuffed_cards.len(), 13);
+    }
+
+    #[test]
+    fn boss_the_goad_debuffed_spades_dont_score() {
+        let mut engine = setup_boss_blind(42, "The Goad");
+        engine.step(12).expect("select boss blind");
+        engine.state.available = vec![
+            CardInstance { card_id: 1, rank: Rank::Ace, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 2, rank: Rank::King, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 14, rank: Rank::Ace, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.debuffed_cards.insert(1);
+        engine.state.debuffed_cards.insert(2);
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        let mut trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut trace);
+        let debuffed: Vec<_> = events.iter().filter(|e| e.kind == "card_debuffed").collect();
+        assert_eq!(debuffed.len(), 2, "Both Spade cards should be debuffed");
+    }
+
+    #[test]
+    fn boss_the_head_debuffs_hearts() {
+        let mut engine = setup_boss_blind(42, "The Head");
+        engine.step(12).expect("select boss blind");
+        assert_eq!(engine.state.debuffed_cards.len(), 13);
+        let all_hearts: BTreeSet<u32> = engine.state.deck.iter().chain(engine.state.available.iter()).chain(engine.state.discarded.iter()).filter(|c| matches!(c.suit, Suit::Hearts)).map(|c| c.card_id).collect();
+        for id in &engine.state.debuffed_cards { assert!(all_hearts.contains(id)); }
+    }
+
+    #[test]
+    fn boss_the_club_debuffs_clubs() {
+        let mut engine = setup_boss_blind(42, "The Club");
+        engine.step(12).expect("select boss blind");
+        assert_eq!(engine.state.debuffed_cards.len(), 13);
+    }
+
+    #[test]
+    fn boss_the_window_debuffs_diamonds() {
+        let mut engine = setup_boss_blind(42, "The Window");
+        engine.step(12).expect("select boss blind");
+        assert_eq!(engine.state.debuffed_cards.len(), 13);
+    }
+
+    #[test]
+    fn boss_the_plant_debuffs_face_cards() {
+        let mut engine = setup_boss_blind(42, "The Plant");
+        engine.step(12).expect("select boss blind");
+        assert_eq!(engine.state.debuffed_cards.len(), 12);
+    }
+
+    #[test]
+    fn boss_the_flint_halves_chips_and_mult() {
+        let mut engine = setup_boss_blind(42, "The Flint");
+        engine.step(12).expect("select boss blind");
+        engine.state.available = vec![
+            CardInstance { card_id: 100, rank: Rank::Ace, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 101, rank: Rank::Ace, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        let mut trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut trace);
+        let flint_events: Vec<_> = events.iter().filter(|e| e.kind == "boss_effect_scoring" && e.summary.contains("Flint")).collect();
+        assert_eq!(flint_events.len(), 1, "Should have a Flint halving event");
+        assert!(flint_events[0].summary.contains("halved"));
+    }
+
+    #[test]
+    fn boss_the_needle_only_one_hand() {
+        let mut engine = setup_boss_blind(42, "The Needle");
+        let transition = engine.step(12).expect("select boss blind");
+        assert_eq!(transition.snapshot_after.plays, 1, "The Needle should allow only 1 hand");
+    }
+
+    #[test]
+    fn boss_the_water_zero_discards() {
+        let mut engine = setup_boss_blind(42, "The Water");
+        let transition = engine.step(12).expect("select boss blind");
+        assert_eq!(transition.snapshot_after.discards, 0, "The Water should start with 0 discards");
+    }
+
+    #[test]
+    fn boss_the_wall_doubles_required_score() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(42, bundle.clone(), RunConfig::default());
+        let base_score = *bundle.ante_base_scores.first().unwrap();
+        let normal_boss_req = base_score * 2;
+        engine.step(85).expect("skip small");
+        engine.step(85).expect("skip big");
+        let wall_boss = bundle.blinds.iter().find(|b| b.name == "The Wall").expect("The Wall").clone();
+        engine.state.boss_blind = wall_boss;
+        engine.step(12).expect("select boss blind");
+        let wall_req = engine.required_score();
+        assert_eq!(wall_req, normal_boss_req * 2, "The Wall should double the already-doubled boss score");
+    }
+
+    #[test]
+    fn boss_the_eye_blocks_repeated_hand_types() {
+        let mut engine = setup_boss_blind(42, "The Eye");
+        engine.step(12).expect("select boss blind");
+        assert!(matches!(engine.state.active_boss_effect, Some(BossEffect::TheEye)));
+        engine.state.available = vec![
+            CardInstance { card_id: 200, rank: Rank::Ace, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 201, rank: Rank::Two, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 202, rank: Rank::Three, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 203, rank: Rank::Four, suit: Suit::Clubs, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 204, rank: Rank::Six, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 205, rank: Rank::Seven, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 206, rank: Rank::Eight, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 207, rank: Rank::Nine, suit: Suit::Clubs, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.selected_slots.insert(0);
+        let mut trace = TransitionTrace::default();
+        engine.play_selected(&mut trace);
+        assert!(engine.state.boss_hand_types_played.contains("high_card"));
+        engine.state.available = vec![
+            CardInstance { card_id: 300, rank: Rank::King, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 301, rank: Rank::Two, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 302, rank: Rank::Four, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.selected_slots.clear();
+        engine.state.selected_slots.insert(0);
+        let legal = engine.gen_action_space();
+        assert_eq!(legal[8], 0, "Play should be blocked for repeated hand type under The Eye");
+    }
+
+    #[test]
+    fn boss_the_mouth_locks_hand_type() {
+        let mut engine = setup_boss_blind(42, "The Mouth");
+        engine.step(12).expect("select boss blind");
+        assert!(matches!(engine.state.active_boss_effect, Some(BossEffect::TheMouth)));
+        engine.state.available = vec![
+            CardInstance { card_id: 300, rank: Rank::Ace, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 301, rank: Rank::Ace, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 302, rank: Rank::Two, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 303, rank: Rank::Three, suit: Suit::Clubs, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 304, rank: Rank::Four, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 305, rank: Rank::Five, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 306, rank: Rank::Six, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 307, rank: Rank::Seven, suit: Suit::Clubs, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        let mut trace = TransitionTrace::default();
+        engine.play_selected(&mut trace);
+        assert_eq!(engine.state.boss_forced_hand_type, Some("pair".to_string()));
+        engine.state.available = vec![
+            CardInstance { card_id: 400, rank: Rank::King, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 401, rank: Rank::Two, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 402, rank: Rank::Three, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.selected_slots.clear();
+        engine.state.selected_slots.insert(0);
+        let legal = engine.gen_action_space();
+        assert_eq!(legal[8], 0, "Play should be blocked for different hand type under The Mouth");
+    }
+
+    #[test]
+    fn boss_the_psychic_requires_five_cards() {
+        let mut engine = setup_boss_blind(42, "The Psychic");
+        engine.step(12).expect("select boss blind");
+        assert!(matches!(engine.state.active_boss_effect, Some(BossEffect::ThePsychic)));
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        engine.state.selected_slots.insert(2);
+        let legal = engine.gen_action_space();
+        assert_eq!(legal[8], 0, "Play should be blocked with fewer than 5 cards under The Psychic");
+        engine.state.selected_slots.insert(3);
+        engine.state.selected_slots.insert(4);
+        let legal = engine.gen_action_space();
+        assert_eq!(legal[8], 1, "Play should be allowed with exactly 5 cards under The Psychic");
+    }
+
+    #[test]
+    fn boss_the_hook_discards_after_play() {
+        let mut engine = setup_boss_blind(42, "The Hook");
+        engine.step(12).expect("select boss blind");
+        assert!(matches!(engine.state.active_boss_effect, Some(BossEffect::TheHook)));
+        engine.state.available = vec![
+            CardInstance { card_id: 500, rank: Rank::Ace, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 501, rank: Rank::Two, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 502, rank: Rank::Three, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 503, rank: Rank::Four, suit: Suit::Clubs, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 504, rank: Rank::Five, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.deck.clear();
+        engine.state.score = 0;
+        engine.state.selected_slots.insert(0);
+        let mut trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut trace);
+        let hook_events: Vec<_> = events.iter().filter(|e| e.kind == "boss_effect_scoring" && e.summary.contains("Hook")).collect();
+        assert_eq!(hook_events.len(), 1, "The Hook should discard 2 cards");
+        assert!(hook_events[0].summary.contains("Discarded"));
+    }
+
+    #[test]
+    fn boss_the_tooth_loses_money_per_card() {
+        let mut engine = setup_boss_blind(42, "The Tooth");
+        engine.step(12).expect("select boss blind");
+        assert!(matches!(engine.state.active_boss_effect, Some(BossEffect::TheTooth)));
+        engine.state.money = 10;
+        engine.state.available = vec![
+            CardInstance { card_id: 600, rank: Rank::Ace, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 601, rank: Rank::King, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 602, rank: Rank::Queen, suit: Suit::Diamonds, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.deck.clear();
+        engine.state.score = 0;
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        engine.state.selected_slots.insert(2);
+        let mut trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut trace);
+        let tooth_events: Vec<_> = events.iter().filter(|e| e.kind == "boss_effect_scoring" && e.summary.contains("Tooth")).collect();
+        assert_eq!(tooth_events.len(), 1);
+        assert!(tooth_events[0].summary.contains("Lost $3"));
+        assert_eq!(engine.state.money, 7, "Should have lost $3 from playing 3 cards");
+    }
+
+    #[test]
+    fn boss_the_manacle_reduces_hand_size() {
+        let mut engine = setup_boss_blind(42, "The Manacle");
+        engine.step(12).expect("select boss blind");
+        assert!(engine.state.boss_manacle_hand_size_reduced);
+        assert_eq!(engine.state.available.len(), HAND_LIMIT - 1);
+    }
+
+    #[test]
+    fn boss_the_arm_decreases_hand_level() {
+        let mut engine = setup_boss_blind(42, "The Arm");
+        engine.step(12).expect("select boss blind");
+        engine.state.hand_levels.insert("pair".to_string(), 3);
+        engine.state.available = vec![
+            CardInstance { card_id: 700, rank: Rank::Ace, suit: Suit::Hearts, enhancement: None, edition: None, seal: None },
+            CardInstance { card_id: 701, rank: Rank::Ace, suit: Suit::Spades, enhancement: None, edition: None, seal: None },
+        ];
+        engine.state.deck.clear();
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        let mut trace = TransitionTrace::default();
+        engine.play_selected(&mut trace);
+        assert_eq!(engine.state.hand_levels.get("pair").copied(), Some(2));
+    }
+
+    #[test]
+    fn boss_effect_cleared_on_blind_defeat() {
+        let mut engine = setup_boss_blind(42, "The Goad");
+        engine.step(12).expect("select boss blind");
+        assert!(engine.state.active_boss_effect.is_some());
+        assert!(!engine.state.debuffed_cards.is_empty());
+        engine.state.score = engine.required_score();
+        engine.state.phase = Phase::PostBlind;
+        engine.mark_current_blind_progress(BlindProgress::Defeated);
+        engine.state.reward = 5;
+        let mut trace = TransitionTrace::default();
+        engine.handle_post_blind(13, &mut trace);
+        assert!(engine.state.active_boss_effect.is_none());
+        assert!(engine.state.debuffed_cards.is_empty());
+    }
+
+    #[test]
+    fn boss_chicot_disables_boss_effect_no_debuff() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(42, bundle.clone(), RunConfig::default());
+        engine.step(85).expect("skip small");
+        engine.step(85).expect("skip big");
+        let goad = bundle.blinds.iter().find(|b| b.name == "The Goad").expect("The Goad").clone();
+        engine.state.boss_blind = goad;
+        engine.state.jokers.push(make_joker_from_bundle(&bundle, "j_chicot", 0));
+        engine.step(12).expect("select boss blind");
+        assert!(engine.state.boss_blind_disabled);
+        assert!(engine.state.debuffed_cards.is_empty());
+    }
+
+    #[test]
+    fn boss_effect_from_blind_name_maps_correctly() {
+        assert_eq!(BossEffect::from_blind_name("The Goad"), Some(BossEffect::TheGoad));
+        assert_eq!(BossEffect::from_blind_name("The Wall"), Some(BossEffect::TheWall));
+        assert_eq!(BossEffect::from_blind_name("The Hook"), Some(BossEffect::TheHook));
+        assert_eq!(BossEffect::from_blind_name("The Flint"), Some(BossEffect::TheFlint));
+        assert_eq!(BossEffect::from_blind_name("The Eye"), Some(BossEffect::TheEye));
+        assert_eq!(BossEffect::from_blind_name("The Psychic"), Some(BossEffect::ThePsychic));
+        assert_eq!(BossEffect::from_blind_name("The Needle"), Some(BossEffect::TheNeedle));
+        assert_eq!(BossEffect::from_blind_name("Small Blind"), None);
+        assert_eq!(BossEffect::from_blind_name("Big Blind"), None);
+    }
+
+    // ==== Voucher tests ====
+
+    #[test]
+    fn buy_grabber_voucher_increases_hands_per_round() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(101, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance { voucher_id: "v_grabber".to_string(), name: "Grabber".to_string(), cost: 10, effect_key: "grabber".to_string(), description: "+1 hand per round".to_string() });
+        let plays_before = engine.state.base_plays;
+        let money_before = engine.state.money;
+        let transition = engine.step(28).expect("buy voucher");
+        assert_eq!(transition.snapshot_after.money, money_before - 10);
+        assert!(transition.snapshot_after.owned_vouchers.contains(&"v_grabber".to_string()));
+        assert_eq!(engine.state.base_plays, plays_before + 1);
+        engine.state.phase = Phase::PreBlind;
+        engine.state.current_blind_slot = BlindSlot::Small;
+        engine.state.small_progress = BlindProgress::Select;
+        let transition = engine.step(10).expect("select small blind");
+        assert_eq!(transition.snapshot_after.plays, plays_before + 1);
+    }
+
+    #[test]
+    fn buy_antimatter_voucher_increases_joker_slots() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(103, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance { voucher_id: "v_antimatter".to_string(), name: "Antimatter".to_string(), cost: 10, effect_key: "antimatter".to_string(), description: "+1 Joker slot".to_string() });
+        let slots_before = engine.state.joker_slot_limit;
+        engine.step(28).expect("buy antimatter voucher");
+        assert_eq!(engine.state.joker_slot_limit, slots_before + 1);
+    }
+
+    #[test]
+    fn buy_clearance_sale_voucher_discounts_shop_prices() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(105, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 50;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance { voucher_id: "v_clearance_sale".to_string(), name: "Clearance Sale".to_string(), cost: 10, effect_key: "clearance_sale".to_string(), description: "All shop items 25% off".to_string() });
+        engine.step(28).expect("buy clearance sale");
+        assert!((engine.state.shop_discount - 0.75).abs() < 0.01);
+        engine.state.money = 50;
+        engine.refresh_shop(&mut trace, "test_after_clearance");
+        for slot in &engine.state.shop { assert!(slot.joker.buy_cost <= slot.joker.cost); }
+    }
+
+    #[test]
+    fn cannot_buy_voucher_without_money() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(107, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 5;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance { voucher_id: "v_grabber".to_string(), name: "Grabber".to_string(), cost: 10, effect_key: "grabber".to_string(), description: "+1 hand per round".to_string() });
+        let legal = engine.legal_actions();
+        assert!(!legal.iter().any(|a| a.name == "buy_voucher" && a.enabled));
+    }
+
+    #[test]
+    fn voucher_not_offered_again_after_purchase() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(109, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 50;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance { voucher_id: "v_grabber".to_string(), name: "Grabber".to_string(), cost: 10, effect_key: "grabber".to_string(), description: "+1 hand per round".to_string() });
+        engine.step(28).expect("buy grabber");
+        assert!(engine.state.owned_vouchers.contains(&"v_grabber".to_string()));
+        engine.refresh_shop(&mut trace, "test_after");
+        if let Some(ref voucher) = engine.state.shop_voucher { assert_ne!(voucher.voucher_id, "v_grabber"); }
+    }
+
+    // ==== Booster Pack tests ====
+
+    #[test]
+    fn buy_arcana_pack_and_pick_tarot() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(111, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_packs = vec![super::BoosterPackInstance { pack_type: "Arcana Pack".to_string(), cost: 4, choices: Vec::new(), picks_remaining: 1 }];
+        let transition = engine.step(29).expect("buy pack 0");
+        assert_eq!(transition.snapshot_after.money, 20 - 4);
+        let snap = engine.snapshot();
+        assert!(snap.open_pack.is_some());
+        let pack = snap.open_pack.as_ref().unwrap();
+        assert_eq!(pack.pack_type, "Arcana Pack");
+        assert!(!pack.choices.is_empty());
+        let legal = engine.legal_actions();
+        let enabled: Vec<_> = legal.iter().filter(|a| a.enabled).collect();
+        assert!(enabled.iter().all(|a| a.name.starts_with("pick_pack_") || a.name == "skip_pack"));
+        let consumable_count_before = engine.state.consumables.len();
+        let transition = engine.step(31).expect("pick pack card 0");
+        assert_eq!(transition.snapshot_after.consumables.len(), consumable_count_before + 1);
+        assert!(transition.snapshot_after.open_pack.is_none());
+    }
+
+    #[test]
+    fn buy_buffoon_pack_and_pick_joker() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(113, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_packs = vec![super::BoosterPackInstance { pack_type: "Buffoon Pack".to_string(), cost: 4, choices: Vec::new(), picks_remaining: 1 }];
+        let joker_count_before = engine.state.jokers.len();
+        engine.step(29).expect("buy pack");
+        let snap = engine.snapshot();
+        assert!(snap.open_pack.is_some());
+        let transition = engine.step(31).expect("pick joker");
+        assert_eq!(transition.snapshot_after.jokers.len(), joker_count_before + 1);
+        assert!(transition.snapshot_after.open_pack.is_none());
+    }
+
+    #[test]
+    fn skip_pack_closes_without_picking() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(115, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_packs = vec![super::BoosterPackInstance { pack_type: "Arcana Pack".to_string(), cost: 4, choices: Vec::new(), picks_remaining: 1 }];
+        engine.step(29).expect("buy pack");
+        assert!(engine.snapshot().open_pack.is_some());
+        let consumable_count_before = engine.state.consumables.len();
+        let transition = engine.step(36).expect("skip pack");
+        assert!(transition.snapshot_after.open_pack.is_none());
+        assert_eq!(engine.state.consumables.len(), consumable_count_before);
+    }
+
+    #[test]
+    fn shop_shows_packs_and_voucher_during_shop_phase() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(117, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 50;
+        engine.refresh_shop(&mut trace, "test");
+        let snap = engine.snapshot();
+        assert!(!snap.shop_packs.is_empty());
+        assert!(snap.shop_voucher.is_some());
+    }
+
+    #[test]
+    fn voucher_and_pack_action_names_correct() {
+        assert_eq!(action_name(28), "buy_voucher");
+        assert_eq!(action_name(29), "buy_pack_0");
+        assert_eq!(action_name(30), "buy_pack_1");
+        assert_eq!(action_name(31), "pick_pack_0");
+        assert_eq!(action_name(32), "pick_pack_1");
+        assert_eq!(action_name(33), "pick_pack_2");
+        assert_eq!(action_name(34), "pick_pack_3");
+        assert_eq!(action_name(35), "pick_pack_4");
+        assert_eq!(action_name(36), "skip_pack");
+    }
+
+    #[test]
+    fn buy_nacho_tong_increases_hand_size() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(119, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance { voucher_id: "v_nacho_tong".to_string(), name: "Nacho Tong".to_string(), cost: 10, effect_key: "nacho_tong".to_string(), description: "+1 hand size".to_string() });
+        let hand_size_before = engine.state.hand_size;
+        engine.step(28).expect("buy nacho tong");
+        assert_eq!(engine.state.hand_size, hand_size_before + 1);
+    }
+
+    #[test]
+    fn buy_seed_money_increases_interest_cap() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(121, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance { voucher_id: "v_seed_money".to_string(), name: "Seed Money".to_string(), cost: 10, effect_key: "seed_money".to_string(), description: "Max interest cap from $5 to $25".to_string() });
+        assert_eq!(engine.state.interest_cap, 5);
+        engine.step(28).expect("buy seed money");
+        assert_eq!(engine.state.interest_cap, 25);
+    }
+
+    #[test]
+    fn buy_voucher_grabber_increases_plays() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(123, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance {
+            voucher_id: "v_grabber".to_string(),
+            name: "Grabber".to_string(),
+            cost: 10,
+            effect_key: "grabber".to_string(),
+            description: "+1 hand per round".to_string(),
+        });
+        let base_plays_before = engine.state.base_plays;
+        engine.step(28).expect("buy grabber");
+        assert_eq!(engine.state.base_plays, base_plays_before + 1);
+        assert!(engine.state.owned_vouchers.contains(&"v_grabber".to_string()));
+    }
+
+    #[test]
+    fn buy_voucher_antimatter_increases_joker_slots() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(125, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.phase = Phase::Shop;
+        engine.state.money = 20;
+        engine.refresh_shop(&mut trace, "test");
+        engine.state.shop_voucher = Some(super::VoucherInstance {
+            voucher_id: "v_antimatter".to_string(),
+            name: "Antimatter".to_string(),
+            cost: 10,
+            effect_key: "antimatter".to_string(),
+            description: "+1 Joker slot".to_string(),
+        });
+        let joker_slots_before = engine.state.joker_slot_limit;
+        engine.step(28).expect("buy antimatter");
+        assert_eq!(engine.state.joker_slot_limit, joker_slots_before + 1);
+        assert!(engine.state.owned_vouchers.contains(&"v_antimatter".to_string()));
     }
 }

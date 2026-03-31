@@ -1,4 +1,4 @@
-use balatro_engine::{action_name, ActionDescriptor, CardInstance, ConsumableInstance, Engine, JokerInstance, RunConfig, Snapshot, Transition};
+use balatro_engine::{action_name, ActionDescriptor, BoosterPackInstance, CardInstance, ConsumableInstance, Engine, JokerInstance, RunConfig, Snapshot, Transition, VoucherInstance};
 use balatro_spec::RulesetBundle;
 use pyo3::exceptions::{PyFileNotFoundError, PyValueError};
 use pyo3::prelude::*;
@@ -127,6 +127,69 @@ impl PyConsumable {
     #[getter]
     fn sell_value(&self) -> i32 {
         self.inner.sell_value
+    }
+}
+
+#[pyclass(name = "Voucher")]
+#[derive(Clone)]
+struct PyVoucher {
+    inner: VoucherInstance,
+}
+
+#[pymethods]
+impl PyVoucher {
+    #[getter]
+    fn voucher_id(&self) -> &str {
+        &self.inner.voucher_id
+    }
+
+    #[getter]
+    fn name(&self) -> &str {
+        &self.inner.name
+    }
+
+    #[getter]
+    fn cost(&self) -> i32 {
+        self.inner.cost
+    }
+
+    #[getter]
+    fn effect_key(&self) -> &str {
+        &self.inner.effect_key
+    }
+
+    #[getter]
+    fn description(&self) -> &str {
+        &self.inner.description
+    }
+}
+
+#[pyclass(name = "BoosterPack")]
+#[derive(Clone)]
+struct PyBoosterPack {
+    inner: BoosterPackInstance,
+}
+
+#[pymethods]
+impl PyBoosterPack {
+    #[getter]
+    fn pack_type(&self) -> &str {
+        &self.inner.pack_type
+    }
+
+    #[getter]
+    fn cost(&self) -> i32 {
+        self.inner.cost
+    }
+
+    #[getter]
+    fn picks_remaining(&self) -> u32 {
+        self.inner.picks_remaining
+    }
+
+    #[getter]
+    fn choice_names(&self) -> Vec<String> {
+        self.inner.choices.iter().map(|c| c.name.clone()).collect()
     }
 }
 
@@ -271,6 +334,41 @@ impl PySnapshot {
     #[getter]
     fn consumable_slot_limit(&self) -> usize {
         self.inner.consumable_slot_limit
+    }
+
+    #[getter]
+    fn owned_vouchers(&self) -> Vec<String> {
+        self.inner.owned_vouchers.clone()
+    }
+
+    #[getter]
+    fn shop_voucher(&self) -> Option<PyVoucher> {
+        self.inner
+            .shop_voucher
+            .as_ref()
+            .map(|inner| PyVoucher {
+                inner: inner.clone(),
+            })
+    }
+
+    #[getter]
+    fn shop_packs(&self) -> Vec<PyBoosterPack> {
+        self.inner
+            .shop_packs
+            .iter()
+            .cloned()
+            .map(|inner| PyBoosterPack { inner })
+            .collect()
+    }
+
+    #[getter]
+    fn open_pack(&self) -> Option<PyBoosterPack> {
+        self.inner
+            .open_pack
+            .as_ref()
+            .map(|inner| PyBoosterPack {
+                inner: inner.clone(),
+            })
     }
 
     fn to_json(&self) -> PyResult<String> {
@@ -461,6 +559,8 @@ fn balatro_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyCard>()?;
     m.add_class::<PyJoker>()?;
     m.add_class::<PyConsumable>()?;
+    m.add_class::<PyVoucher>()?;
+    m.add_class::<PyBoosterPack>()?;
     m.add_class::<PySnapshot>()?;
     m.add_class::<PyActionDescriptor>()?;
     m.add_class::<PyTransition>()?;

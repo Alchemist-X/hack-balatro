@@ -164,6 +164,15 @@ pub struct JokerSpec {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct VoucherSpec {
+    pub id: String,
+    pub name: String,
+    pub cost: i32,
+    pub effect_key: String,
+    pub description: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct ShopWeights {
     pub common: f32,
     pub uncommon: f32,
@@ -182,6 +191,8 @@ pub struct RulesetBundle {
     pub consumables: Vec<ConsumableSpec>,
     pub sprite_manifest: BTreeMap<String, String>,
     pub shop_weights: ShopWeights,
+    #[serde(default)]
+    pub vouchers: Vec<VoucherSpec>,
 }
 
 impl RulesetBundle {
