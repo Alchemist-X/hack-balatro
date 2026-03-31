@@ -1777,14 +1777,7 @@ impl Engine {
         let events = match consumable.set.as_str() {
             "Planet" => self.apply_planet_consumable(&consumable, trace),
             "Tarot" => self.apply_tarot_consumable(&consumable, trace),
-            "Spectral" => {
-                trace.add_note(format!("spectral_not_implemented: {}", consumable.name));
-                vec![event(
-                    EventStage::Shop,
-                    "consumable_used",
-                    format!("Used {} (spectral effect not yet implemented)", consumable.name),
-                )]
-            }
+            "Spectral" => self.apply_spectral_consumable(&consumable, trace),
             _ => {
                 trace.add_note(format!("consumable_unknown_set: {}", consumable.set));
                 vec![]
@@ -1973,12 +1966,825 @@ impl Engine {
                     format!("The Hanged Man destroyed {} card(s)", count),
                 )]
             }
+            "c_high_priestess" => {
+                // Create up to 2 random Planet cards (if consumable slots available)
+                let max_planets = consumable.config.get("planets")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(2) as usize;
+                let planet_pool: Vec<balatro_spec::ConsumableSpec> = self
+                    .ruleset
+                    .consumables
+                    .iter()
+                    .filter(|c| c.set == "Planet")
+                    .cloned()
+                    .collect();
+                if planet_pool.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "The High Priestess (no planets available)".to_string())];
+                }
+                let mut created = 0;
+                for i in 0..max_planets {
+                    if self.state.consumables.len() >= self.state.consumable_slot_limit {
+                        break;
+                    }
+                    let candidates: Vec<String> = planet_pool.iter().map(|c| c.id.clone()).collect();
+                    let chosen = self.choose_index(
+                        candidates.len(),
+                        format!("high_priestess.create_planet_{}", i),
+                        candidates,
+                        trace,
+                    );
+                    let chosen_spec = &planet_pool[chosen];
+                    let new_consumable = ConsumableInstance {
+                        consumable_id: chosen_spec.id.clone(),
+                        name: chosen_spec.name.clone(),
+                        set: chosen_spec.set.clone(),
+                        cost: chosen_spec.cost,
+                        buy_cost: chosen_spec.cost,
+                        sell_value: (chosen_spec.cost / 2).max(1),
+                        slot_index: self.state.consumables.len(),
+                        config: chosen_spec.config.clone(),
+                    };
+                    self.state.consumables.push(new_consumable);
+                    created += 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("The High Priestess created {} Planet card(s)", created),
+                )]
+            }
+            "c_emperor" => {
+                // Create up to 2 random Tarot cards (if consumable slots available)
+                let max_tarots = consumable.config.get("tarots")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(2) as usize;
+                let tarot_pool: Vec<balatro_spec::ConsumableSpec> = self
+                    .ruleset
+                    .consumables
+                    .iter()
+                    .filter(|c| c.set == "Tarot")
+                    .cloned()
+                    .collect();
+                if tarot_pool.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "The Emperor (no tarots available)".to_string())];
+                }
+                let mut created = 0;
+                for i in 0..max_tarots {
+                    if self.state.consumables.len() >= self.state.consumable_slot_limit {
+                        break;
+                    }
+                    let candidates: Vec<String> = tarot_pool.iter().map(|c| c.id.clone()).collect();
+                    let chosen = self.choose_index(
+                        candidates.len(),
+                        format!("emperor.create_tarot_{}", i),
+                        candidates,
+                        trace,
+                    );
+                    let chosen_spec = &tarot_pool[chosen];
+                    let new_consumable = ConsumableInstance {
+                        consumable_id: chosen_spec.id.clone(),
+                        name: chosen_spec.name.clone(),
+                        set: chosen_spec.set.clone(),
+                        cost: chosen_spec.cost,
+                        buy_cost: chosen_spec.cost,
+                        sell_value: (chosen_spec.cost / 2).max(1),
+                        slot_index: self.state.consumables.len(),
+                        config: chosen_spec.config.clone(),
+                    };
+                    self.state.consumables.push(new_consumable);
+                    created += 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("The Emperor created {} Tarot card(s)", created),
+                )]
+            }
+            "c_wheel_of_fortune" => {
+                // 1 in 4 chance to add a random edition to a random Joker
+                let odds = consumable.config.get("extra")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(4) as i32;
+                if self.state.jokers.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "The Wheel of Fortune (no jokers)".to_string())];
+                }
+                let hit = self.roll_chance(odds, "wheel_of_fortune.chance", trace);
+                if hit {
+                    let joker_candidates: Vec<String> = self.state.jokers.iter().map(|j| j.joker_id.clone()).collect();
+                    let joker_idx = self.choose_index(
+                        joker_candidates.len(),
+                        "wheel_of_fortune.choose_joker",
+                        joker_candidates,
+                        trace,
+                    );
+                    let editions = vec!["foil".to_string(), "holo".to_string(), "polychrome".to_string()];
+                    let edition_idx = self.choose_index(
+                        editions.len(),
+                        "wheel_of_fortune.choose_edition",
+                        editions.clone(),
+                        trace,
+                    );
+                    let edition = &editions[edition_idx];
+                    self.state.jokers[joker_idx].edition = Some(edition.clone());
+                    vec![event(
+                        EventStage::Shop,
+                        "consumable_used",
+                        format!("The Wheel of Fortune added {} to {}", edition, self.state.jokers[joker_idx].name),
+                    )]
+                } else {
+                    vec![event(
+                        EventStage::Shop,
+                        "consumable_used",
+                        "The Wheel of Fortune missed".to_string(),
+                    )]
+                }
+            }
+            "c_death" => {
+                // Convert left selected card into a copy of right selected card
+                let selected = self.selected_cards();
+                if selected.len() < 2 {
+                    trace.add_note("death_requires_2_selected");
+                    return vec![event(EventStage::Shop, "consumable_used", "Death (need 2 selected cards)".to_string())];
+                }
+                let right_card = selected[1].clone();
+                let left_card_id = selected[0].card_id;
+                // Transform left card to match right card (keep card_id)
+                for card in self.state.available.iter_mut() {
+                    if card.card_id == left_card_id {
+                        card.rank = right_card.rank.clone();
+                        card.suit = right_card.suit.clone();
+                        card.enhancement = right_card.enhancement.clone();
+                        card.edition = right_card.edition.clone();
+                        card.seal = right_card.seal.clone();
+                        break;
+                    }
+                }
+                for card in self.state.deck.iter_mut() {
+                    if card.card_id == left_card_id {
+                        card.rank = right_card.rank.clone();
+                        card.suit = right_card.suit.clone();
+                        card.enhancement = right_card.enhancement.clone();
+                        card.edition = right_card.edition.clone();
+                        card.seal = right_card.seal.clone();
+                        break;
+                    }
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    "Death converted left card into copy of right card".to_string(),
+                )]
+            }
+            "c_judgement" => {
+                // Create a random Joker (if joker slot available)
+                if self.state.jokers.len() >= self.state.joker_slot_limit {
+                    return vec![event(EventStage::Shop, "consumable_used", "Judgement (no joker slots)".to_string())];
+                }
+                let joker_pool: Vec<balatro_spec::JokerSpec> = self
+                    .ruleset
+                    .jokers
+                    .iter()
+                    .filter(|j| j.rarity <= 3)
+                    .cloned()
+                    .collect();
+                if joker_pool.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Judgement (no jokers available)".to_string())];
+                }
+                let candidates: Vec<String> = joker_pool.iter().map(|j| j.id.clone()).collect();
+                let chosen = self.choose_index(
+                    candidates.len(),
+                    "judgement.create_joker",
+                    candidates,
+                    trace,
+                );
+                let spec = &joker_pool[chosen];
+                let new_joker = JokerInstance {
+                    joker_id: spec.id.clone(),
+                    name: spec.name.clone(),
+                    base_cost: spec.base_cost,
+                    cost: spec.cost,
+                    buy_cost: spec.cost,
+                    sell_value: (spec.cost / 2).max(1),
+                    extra_sell_value: 0,
+                    rarity: spec.rarity,
+                    edition: None,
+                    slot_index: self.state.jokers.len(),
+                    activation_class: spec.activation_class.clone(),
+                    wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
+                    remaining_uses: initial_remaining_uses(spec),
+                    runtime_state: initial_runtime_state(spec, &mut self.rng),
+                };
+                let joker_name = new_joker.name.clone();
+                self.state.jokers.push(new_joker);
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Judgement created {}", joker_name),
+                )]
+            }
             _ => {
                 trace.add_note(format!("tarot_not_implemented: {}", consumable.name));
                 vec![event(
                     EventStage::Shop,
                     "consumable_used",
                     format!("Used {} (tarot effect not yet implemented)", consumable.name),
+                )]
+            }
+        }
+    }
+
+    fn next_card_id(&self) -> u32 {
+        self.state.deck.iter()
+            .chain(self.state.available.iter())
+            .chain(self.state.discarded.iter())
+            .map(|c| c.card_id)
+            .max()
+            .unwrap_or(52) + 1
+    }
+
+    fn apply_spectral_consumable(&mut self, consumable: &ConsumableInstance, trace: &mut TransitionTrace) -> Vec<Event> {
+        let id = consumable.consumable_id.as_str();
+        match id {
+            "c_familiar" => {
+                // Destroy 1 random card in hand, add 3 random face cards to deck
+                let extra = consumable.config.get("extra")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(3) as usize;
+                if self.state.available.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Familiar (no cards in hand)".to_string())];
+                }
+                let candidates: Vec<String> = self.state.available.iter().map(|c| format!("card_{}", c.card_id)).collect();
+                let destroy_idx = self.choose_index(
+                    candidates.len(),
+                    "familiar.destroy",
+                    candidates,
+                    trace,
+                );
+                self.state.available.remove(destroy_idx);
+                let mut base_id = self.next_card_id();
+                let face_ranks = [Rank::Jack, Rank::Queen, Rank::King];
+                let all_suits = [Suit::Spades, Suit::Hearts, Suit::Diamonds, Suit::Clubs];
+                for i in 0..extra {
+                    let rank_idx = self.choose_index(
+                        face_ranks.len(),
+                        format!("familiar.rank_{}", i),
+                        face_ranks.iter().map(|r| format!("{:?}", r)).collect(),
+                        trace,
+                    );
+                    let suit_idx = self.choose_index(
+                        all_suits.len(),
+                        format!("familiar.suit_{}", i),
+                        all_suits.iter().map(|s| format!("{:?}", s)).collect(),
+                        trace,
+                    );
+                    self.state.deck.push(CardInstance {
+                        card_id: base_id,
+                        rank: face_ranks[rank_idx].clone(),
+                        suit: all_suits[suit_idx].clone(),
+                        enhancement: None,
+                        edition: None,
+                        seal: None,
+                    });
+                    base_id += 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Familiar destroyed 1 card, added {} face cards to deck", extra),
+                )]
+            }
+            "c_grim" => {
+                // Destroy 1 random card in hand, add 2 random Aces to deck
+                let extra = consumable.config.get("extra")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(2) as usize;
+                if self.state.available.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Grim (no cards in hand)".to_string())];
+                }
+                let candidates: Vec<String> = self.state.available.iter().map(|c| format!("card_{}", c.card_id)).collect();
+                let destroy_idx = self.choose_index(
+                    candidates.len(),
+                    "grim.destroy",
+                    candidates,
+                    trace,
+                );
+                self.state.available.remove(destroy_idx);
+                let mut base_id = self.next_card_id();
+                let all_suits = [Suit::Spades, Suit::Hearts, Suit::Diamonds, Suit::Clubs];
+                for i in 0..extra {
+                    let suit_idx = self.choose_index(
+                        all_suits.len(),
+                        format!("grim.suit_{}", i),
+                        all_suits.iter().map(|s| format!("{:?}", s)).collect(),
+                        trace,
+                    );
+                    self.state.deck.push(CardInstance {
+                        card_id: base_id,
+                        rank: Rank::Ace,
+                        suit: all_suits[suit_idx].clone(),
+                        enhancement: None,
+                        edition: None,
+                        seal: None,
+                    });
+                    base_id += 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Grim destroyed 1 card, added {} Aces to deck", extra),
+                )]
+            }
+            "c_incantation" => {
+                // Destroy 1 random card in hand, add 4 random numbered cards (2-10) to deck
+                let extra = consumable.config.get("extra")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(4) as usize;
+                if self.state.available.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Incantation (no cards in hand)".to_string())];
+                }
+                let candidates: Vec<String> = self.state.available.iter().map(|c| format!("card_{}", c.card_id)).collect();
+                let destroy_idx = self.choose_index(
+                    candidates.len(),
+                    "incantation.destroy",
+                    candidates,
+                    trace,
+                );
+                self.state.available.remove(destroy_idx);
+                let mut base_id = self.next_card_id();
+                let numbered_ranks = [Rank::Two, Rank::Three, Rank::Four, Rank::Five, Rank::Six, Rank::Seven, Rank::Eight, Rank::Nine, Rank::Ten];
+                let all_suits = [Suit::Spades, Suit::Hearts, Suit::Diamonds, Suit::Clubs];
+                for i in 0..extra {
+                    let rank_idx = self.choose_index(
+                        numbered_ranks.len(),
+                        format!("incantation.rank_{}", i),
+                        numbered_ranks.iter().map(|r| format!("{:?}", r)).collect(),
+                        trace,
+                    );
+                    let suit_idx = self.choose_index(
+                        all_suits.len(),
+                        format!("incantation.suit_{}", i),
+                        all_suits.iter().map(|s| format!("{:?}", s)).collect(),
+                        trace,
+                    );
+                    self.state.deck.push(CardInstance {
+                        card_id: base_id,
+                        rank: numbered_ranks[rank_idx].clone(),
+                        suit: all_suits[suit_idx].clone(),
+                        enhancement: None,
+                        edition: None,
+                        seal: None,
+                    });
+                    base_id += 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Incantation destroyed 1 card, added {} numbered cards to deck", extra),
+                )]
+            }
+            "c_talisman" => {
+                // Add Gold Seal to 1 selected card
+                let selected = self.selected_cards();
+                if selected.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Talisman (no card selected)".to_string())];
+                }
+                let target_id = selected[0].card_id;
+                for card in self.state.available.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Gold".to_string());
+                        break;
+                    }
+                }
+                for card in self.state.deck.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Gold".to_string());
+                        break;
+                    }
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    "Talisman added Gold Seal".to_string(),
+                )]
+            }
+            "c_aura" => {
+                // Add random edition (Foil/Holo/Polychrome) to 1 selected card
+                let selected = self.selected_cards();
+                if selected.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Aura (no card selected)".to_string())];
+                }
+                let target_id = selected[0].card_id;
+                let editions = vec!["foil".to_string(), "holo".to_string(), "polychrome".to_string()];
+                let edition_idx = self.choose_index(
+                    editions.len(),
+                    "aura.choose_edition",
+                    editions.clone(),
+                    trace,
+                );
+                let edition = &editions[edition_idx];
+                for card in self.state.available.iter_mut() {
+                    if card.card_id == target_id {
+                        card.edition = Some(edition.clone());
+                        break;
+                    }
+                }
+                for card in self.state.deck.iter_mut() {
+                    if card.card_id == target_id {
+                        card.edition = Some(edition.clone());
+                        break;
+                    }
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Aura added {} edition", edition),
+                )]
+            }
+            "c_wraith" => {
+                // Create a random rare Joker, set money to $0
+                if self.state.jokers.len() >= self.state.joker_slot_limit {
+                    return vec![event(EventStage::Shop, "consumable_used", "Wraith (no joker slots)".to_string())];
+                }
+                let rare_pool: Vec<balatro_spec::JokerSpec> = self
+                    .ruleset
+                    .jokers
+                    .iter()
+                    .filter(|j| j.rarity == 3)
+                    .cloned()
+                    .collect();
+                if rare_pool.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Wraith (no rare jokers available)".to_string())];
+                }
+                let candidates: Vec<String> = rare_pool.iter().map(|j| j.id.clone()).collect();
+                let chosen = self.choose_index(
+                    candidates.len(),
+                    "wraith.create_joker",
+                    candidates,
+                    trace,
+                );
+                let spec = &rare_pool[chosen];
+                let new_joker = JokerInstance {
+                    joker_id: spec.id.clone(),
+                    name: spec.name.clone(),
+                    base_cost: spec.base_cost,
+                    cost: spec.cost,
+                    buy_cost: spec.cost,
+                    sell_value: (spec.cost / 2).max(1),
+                    extra_sell_value: 0,
+                    rarity: spec.rarity,
+                    edition: None,
+                    slot_index: self.state.jokers.len(),
+                    activation_class: spec.activation_class.clone(),
+                    wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
+                    remaining_uses: initial_remaining_uses(spec),
+                    runtime_state: initial_runtime_state(spec, &mut self.rng),
+                };
+                let joker_name = new_joker.name.clone();
+                self.state.jokers.push(new_joker);
+                self.state.money = 0;
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Wraith created {} and set money to $0", joker_name),
+                )]
+            }
+            "c_sigil" => {
+                // Convert all cards in hand to a single random suit
+                if self.state.available.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Sigil (no cards in hand)".to_string())];
+                }
+                let all_suits = [Suit::Spades, Suit::Hearts, Suit::Diamonds, Suit::Clubs];
+                let suit_idx = self.choose_index(
+                    all_suits.len(),
+                    "sigil.choose_suit",
+                    all_suits.iter().map(|s| format!("{:?}", s)).collect(),
+                    trace,
+                );
+                let target_suit = all_suits[suit_idx].clone();
+                let hand_ids: Vec<u32> = self.state.available.iter().map(|c| c.card_id).collect();
+                for card in self.state.available.iter_mut() {
+                    card.suit = target_suit.clone();
+                }
+                for card in self.state.deck.iter_mut() {
+                    if hand_ids.contains(&card.card_id) {
+                        card.suit = target_suit.clone();
+                    }
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Sigil converted all hand cards to {:?}", target_suit),
+                )]
+            }
+            "c_ouija" => {
+                // Convert all cards in hand to a single random rank, reduce hand size by 1
+                if self.state.available.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Ouija (no cards in hand)".to_string())];
+                }
+                let all_ranks = [Rank::Two, Rank::Three, Rank::Four, Rank::Five, Rank::Six, Rank::Seven, Rank::Eight, Rank::Nine, Rank::Ten, Rank::Jack, Rank::Queen, Rank::King, Rank::Ace];
+                let rank_idx = self.choose_index(
+                    all_ranks.len(),
+                    "ouija.choose_rank",
+                    all_ranks.iter().map(|r| format!("{:?}", r)).collect(),
+                    trace,
+                );
+                let target_rank = all_ranks[rank_idx].clone();
+                let hand_ids: Vec<u32> = self.state.available.iter().map(|c| c.card_id).collect();
+                for card in self.state.available.iter_mut() {
+                    card.rank = target_rank.clone();
+                }
+                for card in self.state.deck.iter_mut() {
+                    if hand_ids.contains(&card.card_id) {
+                        card.rank = target_rank.clone();
+                    }
+                }
+                if self.state.hand_size > 1 {
+                    self.state.hand_size -= 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Ouija converted all hand cards to {:?}, hand size -1", target_rank),
+                )]
+            }
+            "c_ectoplasm" => {
+                // Add Negative edition to a random Joker, reduce hand size by 1
+                if self.state.jokers.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Ectoplasm (no jokers)".to_string())];
+                }
+                let joker_candidates: Vec<String> = self.state.jokers.iter().map(|j| j.joker_id.clone()).collect();
+                let joker_idx = self.choose_index(
+                    joker_candidates.len(),
+                    "ectoplasm.choose_joker",
+                    joker_candidates,
+                    trace,
+                );
+                self.state.jokers[joker_idx].edition = Some("negative".to_string());
+                let joker_name = self.state.jokers[joker_idx].name.clone();
+                if self.state.hand_size > 1 {
+                    self.state.hand_size -= 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Ectoplasm added Negative to {}, hand size -1", joker_name),
+                )]
+            }
+            "c_immolate" => {
+                // Destroy 5 random cards in hand, gain $20
+                let destroy_count = consumable.config.get("extra")
+                    .and_then(|v| v.get("destroy"))
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(5) as usize;
+                let dollars = consumable.config.get("extra")
+                    .and_then(|v| v.get("dollars"))
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(20) as i32;
+                let actual_destroy = destroy_count.min(self.state.available.len());
+                let mut destroyed_ids: Vec<u32> = Vec::new();
+                for i in 0..actual_destroy {
+                    if self.state.available.is_empty() {
+                        break;
+                    }
+                    let candidates: Vec<String> = self.state.available.iter().map(|c| format!("card_{}", c.card_id)).collect();
+                    let idx = self.choose_index(
+                        candidates.len(),
+                        format!("immolate.destroy_{}", i),
+                        candidates,
+                        trace,
+                    );
+                    let removed = self.state.available.remove(idx);
+                    destroyed_ids.push(removed.card_id);
+                }
+                // Also remove from deck
+                self.state.deck.retain(|c| !destroyed_ids.contains(&c.card_id));
+                self.state.money += dollars;
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Immolate destroyed {} cards, gained ${}", destroyed_ids.len(), dollars),
+                )]
+            }
+            "c_ankh" => {
+                // Copy a random Joker, destroy all other Jokers
+                if self.state.jokers.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Ankh (no jokers)".to_string())];
+                }
+                let joker_candidates: Vec<String> = self.state.jokers.iter().map(|j| j.joker_id.clone()).collect();
+                let keep_idx = self.choose_index(
+                    joker_candidates.len(),
+                    "ankh.choose_joker",
+                    joker_candidates,
+                    trace,
+                );
+                let kept = self.state.jokers[keep_idx].clone();
+                let mut copy = kept.clone();
+                copy.slot_index = 1;
+                let kept_name = kept.name.clone();
+                let mut kept_joker = kept;
+                kept_joker.slot_index = 0;
+                self.state.jokers = vec![kept_joker, copy];
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Ankh copied {} and destroyed all other Jokers", kept_name),
+                )]
+            }
+            "c_hex" => {
+                // Add Polychrome to a random Joker, destroy all other Jokers
+                if self.state.jokers.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Hex (no jokers)".to_string())];
+                }
+                let joker_candidates: Vec<String> = self.state.jokers.iter().map(|j| j.joker_id.clone()).collect();
+                let keep_idx = self.choose_index(
+                    joker_candidates.len(),
+                    "hex.choose_joker",
+                    joker_candidates,
+                    trace,
+                );
+                let mut kept = self.state.jokers[keep_idx].clone();
+                kept.edition = Some("polychrome".to_string());
+                kept.slot_index = 0;
+                let kept_name = kept.name.clone();
+                self.state.jokers = vec![kept];
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Hex added Polychrome to {} and destroyed all other Jokers", kept_name),
+                )]
+            }
+            "c_deja_vu" => {
+                // Add Red Seal to 1 selected card
+                let selected = self.selected_cards();
+                if selected.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Deja Vu (no card selected)".to_string())];
+                }
+                let target_id = selected[0].card_id;
+                for card in self.state.available.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Red".to_string());
+                        break;
+                    }
+                }
+                for card in self.state.deck.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Red".to_string());
+                        break;
+                    }
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    "Deja Vu added Red Seal".to_string(),
+                )]
+            }
+            "c_trance" => {
+                // Add Blue Seal to 1 selected card
+                let selected = self.selected_cards();
+                if selected.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Trance (no card selected)".to_string())];
+                }
+                let target_id = selected[0].card_id;
+                for card in self.state.available.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Blue".to_string());
+                        break;
+                    }
+                }
+                for card in self.state.deck.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Blue".to_string());
+                        break;
+                    }
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    "Trance added Blue Seal".to_string(),
+                )]
+            }
+            "c_medium" => {
+                // Add Purple Seal to 1 selected card
+                let selected = self.selected_cards();
+                if selected.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Medium (no card selected)".to_string())];
+                }
+                let target_id = selected[0].card_id;
+                for card in self.state.available.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Purple".to_string());
+                        break;
+                    }
+                }
+                for card in self.state.deck.iter_mut() {
+                    if card.card_id == target_id {
+                        card.seal = Some("Purple".to_string());
+                        break;
+                    }
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    "Medium added Purple Seal".to_string(),
+                )]
+            }
+            "c_cryptid" => {
+                // Create 2 copies of 1 selected card in your deck
+                let extra = consumable.config.get("extra")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(2) as u32;
+                let selected = self.selected_cards();
+                if selected.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "Cryptid (no card selected)".to_string())];
+                }
+                let source = selected[0].clone();
+                let mut base_id = self.next_card_id();
+                for _ in 0..extra {
+                    let copy = CardInstance {
+                        card_id: base_id,
+                        rank: source.rank.clone(),
+                        suit: source.suit.clone(),
+                        enhancement: source.enhancement.clone(),
+                        edition: source.edition.clone(),
+                        seal: source.seal.clone(),
+                    };
+                    self.state.deck.push(copy);
+                    base_id += 1;
+                }
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Cryptid created {} copies of selected card", extra),
+                )]
+            }
+            "c_soul" => {
+                // Create a random Legendary Joker
+                if self.state.jokers.len() >= self.state.joker_slot_limit {
+                    return vec![event(EventStage::Shop, "consumable_used", "The Soul (no joker slots)".to_string())];
+                }
+                let legendary_pool: Vec<balatro_spec::JokerSpec> = self
+                    .ruleset
+                    .jokers
+                    .iter()
+                    .filter(|j| j.rarity == 4)
+                    .cloned()
+                    .collect();
+                if legendary_pool.is_empty() {
+                    return vec![event(EventStage::Shop, "consumable_used", "The Soul (no legendary jokers available)".to_string())];
+                }
+                let candidates: Vec<String> = legendary_pool.iter().map(|j| j.id.clone()).collect();
+                let chosen = self.choose_index(
+                    candidates.len(),
+                    "soul.create_joker",
+                    candidates,
+                    trace,
+                );
+                let spec = &legendary_pool[chosen];
+                let new_joker = JokerInstance {
+                    joker_id: spec.id.clone(),
+                    name: spec.name.clone(),
+                    base_cost: spec.base_cost,
+                    cost: spec.cost,
+                    buy_cost: spec.cost,
+                    sell_value: (spec.cost / 2).max(1),
+                    extra_sell_value: 0,
+                    rarity: spec.rarity,
+                    edition: None,
+                    slot_index: self.state.jokers.len(),
+                    activation_class: spec.activation_class.clone(),
+                    wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
+                    remaining_uses: initial_remaining_uses(spec),
+                    runtime_state: initial_runtime_state(spec, &mut self.rng),
+                };
+                let joker_name = new_joker.name.clone();
+                self.state.jokers.push(new_joker);
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("The Soul created legendary {}", joker_name),
+                )]
+            }
+            "c_black_hole" => {
+                // Level up every hand type by 1
+                let mut events = Vec::new();
+                for hand_spec in &self.ruleset.hand_specs {
+                    let hand_key = hand_spec.key.clone();
+                    let level = self.state.hand_levels.entry(hand_key.clone()).or_insert(1);
+                    *level += 1;
+                    events.push(event(
+                        EventStage::Shop,
+                        "hand_leveled_up",
+                        format!("{} leveled up to Lv.{}", hand_spec.name, level),
+                    ));
+                }
+                events
+            }
+            _ => {
+                trace.add_note(format!("spectral_not_implemented: {}", consumable.name));
+                vec![event(
+                    EventStage::Shop,
+                    "consumable_used",
+                    format!("Used {} (spectral effect not yet implemented)", consumable.name),
                 )]
             }
         }
@@ -2397,6 +3203,7 @@ impl Engine {
                     trace,
                 );
                 let spec = &pool[chosen];
+                let edition = roll_edition(&mut self.rng);
                 self.state.shop.push(ShopSlot {
                     slot,
                     joker: JokerInstance {
@@ -2408,7 +3215,7 @@ impl Engine {
                         sell_value: (spec.cost / 2).max(1),
                         extra_sell_value: 0,
                         rarity: spec.rarity,
-                        edition: None,
+                        edition,
                         slot_index: slot,
                         activation_class: spec.activation_class.clone(),
                         wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
@@ -3178,6 +3985,7 @@ impl Engine {
                             trace,
                         );
                         let chosen_spec = &common_jokers[chosen];
+                        let edition = roll_edition(&mut self.rng);
                         let new_joker = JokerInstance {
                             joker_id: chosen_spec.id.clone(),
                             name: chosen_spec.name.clone(),
@@ -3187,7 +3995,7 @@ impl Engine {
                             sell_value: (chosen_spec.cost / 2).max(1),
                             extra_sell_value: 0,
                             rarity: chosen_spec.rarity,
-                            edition: None,
+                            edition,
                             slot_index: self.state.jokers.len(),
                             activation_class: chosen_spec.activation_class.clone(),
                             wiki_effect_text_en: chosen_spec.wiki_effect_text_en.clone(),
@@ -3471,13 +4279,16 @@ impl Engine {
                         11 => Rank::King,
                         _ => Rank::Ace,
                     };
+                    let enhancement = roll_enhancement(&mut self.rng);
+                    let edition = roll_edition(&mut self.rng);
+                    let seal = roll_seal(&mut self.rng);
                     let card = CardInstance {
                         card_id: 1000 + i as u32,
                         rank: rank.clone(),
                         suit: suit.clone(),
-                        enhancement: None,
-                        edition: None,
-                        seal: None,
+                        enhancement,
+                        edition,
+                        seal,
                     };
                     let name = format!("{:?} of {:?}", rank, suit);
                     choices.push(BoosterPackChoice {
@@ -3587,6 +4398,7 @@ impl Engine {
             } else if let Some(ref joker_id) = choice.joker_id {
                 if self.state.jokers.len() < self.state.joker_slot_limit {
                     if let Some(spec) = self.ruleset.joker_by_id(joker_id).cloned() {
+                        let edition = roll_edition(&mut self.rng);
                         let new_joker = JokerInstance {
                             joker_id: spec.id.clone(),
                             name: spec.name.clone(),
@@ -3596,7 +4408,7 @@ impl Engine {
                             sell_value: (spec.cost / 2).max(1),
                             extra_sell_value: 0,
                             rarity: spec.rarity,
-                            edition: None,
+                            edition,
                             slot_index: self.state.jokers.len(),
                             activation_class: spec.activation_class.clone(),
                             wiki_effect_text_en: spec.wiki_effect_text_en.clone(),
@@ -4088,6 +4900,51 @@ fn default_voucher_pool() -> Vec<VoucherSpec> {
             description: "Planet cards appear 2x more in shop".to_string(),
         },
     ]
+}
+
+/// Roll for an edition on a generated joker or playing card.
+/// 96% None, 2% Foil, 1.4% Holo, 0.6% Polychrome.
+fn roll_edition(rng: &mut ChaCha8Rng) -> Option<String> {
+    let roll: f64 = rng.gen_range(0.0..100.0);
+    if roll < 96.0 {
+        None
+    } else if roll < 98.0 {
+        Some("e_foil".to_string())
+    } else if roll < 99.4 {
+        Some("e_holo".to_string())
+    } else {
+        Some("e_polychrome".to_string())
+    }
+}
+
+/// Roll for an enhancement on a generated playing card.
+/// 90% None, ~1.43% each for 7 types (~10% total).
+fn roll_enhancement(rng: &mut ChaCha8Rng) -> Option<String> {
+    let roll: f64 = rng.gen_range(0.0..100.0);
+    if roll < 90.0 {
+        None
+    } else {
+        let enhancements = [
+            "m_bonus", "m_mult", "m_wild", "m_glass", "m_steel", "m_stone", "m_gold",
+        ];
+        let idx = ((roll - 90.0) / (10.0 / 7.0)).min(6.0) as usize;
+        Some(enhancements[idx].to_string())
+    }
+}
+
+/// Roll for a seal on a generated playing card.
+/// 97% None, 1% Gold, 1% Red, 1% Blue.
+fn roll_seal(rng: &mut ChaCha8Rng) -> Option<String> {
+    let roll: f64 = rng.gen_range(0.0..100.0);
+    if roll < 97.0 {
+        None
+    } else if roll < 98.0 {
+        Some("Gold".to_string())
+    } else if roll < 99.0 {
+        Some("Red".to_string())
+    } else {
+        Some("Blue".to_string())
+    }
 }
 
 fn apply_discount(base_cost: i32, discount: f32) -> i32 {
@@ -5340,6 +6197,7 @@ mod tests {
         HAND_LIMIT, JOKER_LIMIT,
     };
     use balatro_spec::{JokerSpec, RulesetBundle};
+    use rand_chacha::ChaCha8Rng;
     use std::collections::{BTreeMap, BTreeSet};
     use std::path::PathBuf;
 
@@ -6955,5 +7813,225 @@ mod tests {
         engine.step(28).expect("buy antimatter");
         assert_eq!(engine.state.joker_slot_limit, joker_slots_before + 1);
         assert!(engine.state.owned_vouchers.contains(&"v_antimatter".to_string()));
+    }
+
+    // ==== Tarot & Spectral consumable tests ====
+
+    #[test]
+    fn high_priestess_creates_planet_cards() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(200, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        // Set consumable slot limit higher so both planets can be created
+        engine.state.consumable_slot_limit = 4;
+        let mut config = BTreeMap::new();
+        config.insert("planets".to_string(), serde_json::json!(2));
+        engine.state.consumables.push(make_consumable(
+            "c_high_priestess", "The High Priestess", "Tarot", 3, config,
+        ));
+        engine.enter_current_blind(&mut trace);
+        let consumable_count_before = engine.state.consumables.len();
+        let transition = engine.step(71).expect("use high priestess");
+        // The High Priestess itself was consumed, but 2 planets were created
+        // Net: removed 1 (used), added 2 => +1 from before
+        assert_eq!(
+            engine.state.consumables.len(),
+            consumable_count_before - 1 + 2,
+            "should have gained 2 planet cards minus the used tarot"
+        );
+        // All remaining consumables should be Planet cards
+        assert!(
+            engine.state.consumables.iter().all(|c| c.set == "Planet"),
+            "created consumables should be Planet cards"
+        );
+        assert!(
+            transition.events.iter().any(|e| e.summary.contains("Planet")),
+            "event should mention Planet cards"
+        );
+    }
+
+    #[test]
+    fn spectral_black_hole_levels_all_hands() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let hand_count = bundle.hand_specs.len();
+        let mut engine = Engine::new(201, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.state.consumables.push(make_consumable(
+            "c_black_hole", "Black Hole", "Spectral", 4, BTreeMap::new(),
+        ));
+        engine.enter_current_blind(&mut trace);
+        // Record levels before
+        let levels_before: BTreeMap<String, i32> = engine.state.hand_levels.clone();
+        let transition = engine.step(71).expect("use black hole");
+        // Every hand type should be leveled up by 1
+        for (key, level) in &engine.state.hand_levels {
+            let before = levels_before.get(key).copied().unwrap_or(1);
+            assert_eq!(
+                *level, before + 1,
+                "hand type {} should be leveled up by 1",
+                key
+            );
+        }
+        // Should have events for each hand type
+        let level_events: Vec<_> = transition.events.iter()
+            .filter(|e| e.kind == "hand_leveled_up")
+            .collect();
+        assert_eq!(
+            level_events.len(), hand_count,
+            "should have one level-up event per hand type"
+        );
+    }
+
+    #[test]
+    fn spectral_immolate_destroys_cards_and_gains_money() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(202, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        let mut config = BTreeMap::new();
+        config.insert("extra".to_string(), serde_json::json!({"destroy": 5, "dollars": 20}));
+        config.insert("remove_card".to_string(), serde_json::json!(true));
+        engine.state.consumables.push(make_consumable(
+            "c_immolate", "Immolate", "Spectral", 4, config,
+        ));
+        engine.enter_current_blind(&mut trace);
+        let hand_size_before = engine.state.available.len();
+        let money_before = engine.state.money;
+        let transition = engine.step(71).expect("use immolate");
+        // Should have destroyed up to 5 cards from hand
+        let destroyed = hand_size_before - engine.state.available.len();
+        assert!(
+            destroyed <= 5 && destroyed > 0,
+            "should have destroyed between 1 and 5 cards, destroyed {}",
+            destroyed
+        );
+        // Should have gained $20
+        assert_eq!(
+            engine.state.money, money_before + 20,
+            "should have gained $20"
+        );
+        assert!(
+            transition.events.iter().any(|e| e.summary.contains("Immolate")),
+            "event should mention Immolate"
+        );
+    }
+
+    // ==== Card generation roll tests (B-14) ====
+
+    #[test]
+    fn shop_jokers_can_have_editions() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut found_edition = false;
+        // Run 200 shop refreshes with different seeds to find at least one edition
+        for seed in 0..200_u64 {
+            let mut engine = Engine::new(seed, bundle.clone(), RunConfig::default());
+            let mut trace = TransitionTrace::default();
+            engine.state.phase = Phase::Shop;
+            engine.state.money = 999;
+            engine.refresh_shop(&mut trace, "test");
+            for shop_slot in &engine.state.shop {
+                if shop_slot.joker.edition.is_some() {
+                    found_edition = true;
+                    break;
+                }
+            }
+            if found_edition {
+                break;
+            }
+        }
+        assert!(found_edition, "Expected at least one joker with an edition across 200 shop refreshes");
+    }
+
+    #[test]
+    fn standard_pack_cards_can_have_enhancements() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut found_enhancement = false;
+        let mut found_edition = false;
+        let mut found_seal = false;
+        for seed in 0..200_u64 {
+            let mut engine = Engine::new(seed, bundle.clone(), RunConfig::default());
+            let mut trace = TransitionTrace::default();
+            let choices = engine.generate_pack_choices("Standard Pack", &mut trace);
+            for choice in &choices {
+                if let Some(ref card) = choice.card {
+                    if card.enhancement.is_some() {
+                        found_enhancement = true;
+                    }
+                    if card.edition.is_some() {
+                        found_edition = true;
+                    }
+                    if card.seal.is_some() {
+                        found_seal = true;
+                    }
+                }
+            }
+            if found_enhancement && found_edition && found_seal {
+                break;
+            }
+        }
+        assert!(found_enhancement, "Expected at least one card with an enhancement across 200 standard packs");
+        assert!(found_edition, "Expected at least one card with an edition across 200 standard packs");
+        assert!(found_seal, "Expected at least one card with a seal across 200 standard packs");
+    }
+
+    #[test]
+    fn roll_edition_distribution_is_reasonable() {
+        use rand::SeedableRng;
+        let mut rng = ChaCha8Rng::seed_from_u64(42);
+        let mut none_count = 0;
+        let mut foil_count = 0;
+        let mut holo_count = 0;
+        let mut poly_count = 0;
+        let trials = 10000;
+        for _ in 0..trials {
+            match super::roll_edition(&mut rng) {
+                None => none_count += 1,
+                Some(ref e) if e == "e_foil" => foil_count += 1,
+                Some(ref e) if e == "e_holo" => holo_count += 1,
+                Some(ref e) if e == "e_polychrome" => poly_count += 1,
+                Some(other) => panic!("unexpected edition: {}", other),
+            }
+        }
+        // With 10k trials, expect ~96% none, ~2% foil, ~1.4% holo, ~0.6% poly
+        // Use generous bounds to avoid flaky tests
+        assert!(none_count > 9000, "Expected >9000 none, got {}", none_count);
+        assert!(foil_count > 50, "Expected >50 foil, got {}", foil_count);
+        assert!(holo_count > 30, "Expected >30 holo, got {}", holo_count);
+        assert!(poly_count > 10, "Expected >10 poly, got {}", poly_count);
+    }
+
+    #[test]
+    fn roll_enhancement_distribution_is_reasonable() {
+        use rand::SeedableRng;
+        let mut rng = ChaCha8Rng::seed_from_u64(99);
+        let mut none_count = 0;
+        let mut enhanced_count = 0;
+        let trials = 10000;
+        for _ in 0..trials {
+            match super::roll_enhancement(&mut rng) {
+                None => none_count += 1,
+                Some(_) => enhanced_count += 1,
+            }
+        }
+        // Expect ~90% none, ~10% enhanced
+        assert!(none_count > 8500, "Expected >8500 none, got {}", none_count);
+        assert!(enhanced_count > 500, "Expected >500 enhanced, got {}", enhanced_count);
+    }
+
+    #[test]
+    fn roll_seal_distribution_is_reasonable() {
+        use rand::SeedableRng;
+        let mut rng = ChaCha8Rng::seed_from_u64(77);
+        let mut none_count = 0;
+        let mut sealed_count = 0;
+        let trials = 10000;
+        for _ in 0..trials {
+            match super::roll_seal(&mut rng) {
+                None => none_count += 1,
+                Some(_) => sealed_count += 1,
+            }
+        }
+        // Expect ~97% none, ~3% sealed
+        assert!(none_count > 9400, "Expected >9400 none, got {}", none_count);
+        assert!(sealed_count > 100, "Expected >100 sealed, got {}", sealed_count);
     }
 }

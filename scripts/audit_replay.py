@@ -42,6 +42,354 @@ def has_rng_prefix(trace: dict[str, Any], prefix: str) -> bool:
     return any(domain.startswith(prefix) for domain in rng_domains(trace))
 
 
+########################################################################
+# Numerical checks (Check A–E)
+########################################################################
+
+
+def _check_money_conservation(transitions: list[dict[str, Any]]) -> dict[str, Any]:
+    """Check A: verify money deltas are explainable by the action type."""
+    passed = 0
+    failed = 0
+    details: list[dict[str, Any]] = []
+
+    for index, transition in enumerate(transitions):
+        before = transition["snapshot_before"]
+        after = transition["snapshot_after"]
+        action_name = transition["action"]["name"]
+
+        before_money = before.get("money", 0)
+        after_money = after.get("money", 0)
+        actual_delta = after_money - before_money
+
+        expected_delta: int | None = None
+        explanation = ""
+
+        if action_name == "cashout":
+            reward = before.get("reward", 0)
+            expected_delta = reward
+            explanation = f"cashout: +{reward} reward"
+
+        elif action_name.startswith("buy_shop_item_"):
+            item_idx = int(action_name.rsplit("_", 1)[1])
+            shop_jokers = before.get("shop_jokers", [])
+            if item_idx < len(shop_jokers):
+                cost = shop_jokers[item_idx].get("buy_cost") or shop_jokers[item_idx].get("cost", 0)
+                expected_delta = -cost
+                explanation = f"buy joker: -{cost} cost"
+
+        elif action_name.startswith("buy_consumable_"):
+            item_idx = int(action_name.rsplit("_", 1)[1])
+            shop_consumables = before.get("shop_consumables", [])
+            if item_idx < len(shop_consumables):
+                cost = shop_consumables[item_idx].get("buy_cost") or shop_consumables[item_idx].get("cost", 0)
+                expected_delta = -cost
+                explanation = f"buy consumable: -{cost} cost"
+
+        elif action_name == "buy_voucher":
+            # Voucher cost may vary; just flag if money didn't decrease
+            if actual_delta >= 0:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "action": action_name,
+                    "message": f"buy_voucher should decrease money but delta={actual_delta}",
+                })
+            else:
+                passed += 1
+            continue
+
+        elif action_name.startswith("sell_joker_") or action_name.startswith("sell_consumable_"):
+            # Selling should increase money; exact amount depends on sell_value
+            if actual_delta <= 0:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "action": action_name,
+                    "message": f"sell action should increase money but delta={actual_delta}",
+                })
+            else:
+                passed += 1
+            continue
+
+        elif action_name == "reroll_shop":
+            reroll_cost = before.get("shop_reroll_cost", 5)
+            expected_delta = -reroll_cost
+            explanation = f"reroll: -{reroll_cost} cost"
+
+        elif action_name in ("play", "discard"):
+            # Money should not change during play/discard (ignoring economy jokers)
+            expected_delta = 0
+            explanation = "play/discard: no money change expected"
+
+        elif action_name == "next_round":
+            expected_delta = 0
+            explanation = "next_round: no money change expected"
+
+        elif action_name.startswith("select_blind_"):
+            expected_delta = 0
+            explanation = "select_blind: no money change expected"
+
+        elif action_name.startswith("select_card_") or action_name.startswith("deselect_card_"):
+            expected_delta = 0
+            explanation = "card selection: no money change expected"
+
+        else:
+            # Unknown action — skip
+            continue
+
+        if expected_delta is not None:
+            if actual_delta == expected_delta:
+                passed += 1
+            else:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "action": action_name,
+                    "expected_delta": expected_delta,
+                    "actual_delta": actual_delta,
+                    "explanation": explanation,
+                    "message": f"money delta mismatch: expected {expected_delta}, got {actual_delta}",
+                })
+
+    return {"passed": passed, "failed": failed, "details": details}
+
+
+def _check_score_monotonicity(transitions: list[dict[str, Any]]) -> dict[str, Any]:
+    """Check B: score only increases on play, unchanged on discard, resets on blind entry."""
+    passed = 0
+    failed = 0
+    details: list[dict[str, Any]] = []
+
+    for index, transition in enumerate(transitions):
+        before = transition["snapshot_before"]
+        after = transition["snapshot_after"]
+        action_name = transition["action"]["name"]
+
+        before_score = before.get("score", 0)
+        after_score = after.get("score", 0)
+
+        if before.get("stage") == "Stage_Blind" and action_name == "play":
+            if after_score < before_score:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "message": f"score decreased on play: {before_score} -> {after_score}",
+                })
+            else:
+                passed += 1
+
+        elif before.get("stage") == "Stage_Blind" and action_name == "discard":
+            if after_score != before_score:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "message": f"score changed on discard: {before_score} -> {after_score}",
+                })
+            else:
+                passed += 1
+
+        elif action_name == "cashout":
+            # After cashout and entering shop, score should be retained or reset
+            # (score resets happen on blind entry, not cashout itself)
+            passed += 1
+
+        elif action_name.startswith("select_blind_"):
+            if after_score != 0:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "message": f"score not reset on blind entry: {after_score}",
+                })
+            else:
+                passed += 1
+
+    return {"passed": passed, "failed": failed, "details": details}
+
+
+def _check_chips_mult_from_trace(transitions: list[dict[str, Any]]) -> dict[str, Any]:
+    """Check C: if trace has scoring events, verify score delta consistency."""
+    passed = 0
+    failed = 0
+    details: list[dict[str, Any]] = []
+
+    for index, transition in enumerate(transitions):
+        before = transition["snapshot_before"]
+        after = transition["snapshot_after"]
+        action_name = transition["action"]["name"]
+        trace = transition.get("trace", {}) or {}
+
+        if action_name != "play":
+            continue
+        if before.get("stage") != "Stage_Blind":
+            continue
+
+        score_delta = after.get("score", 0) - before.get("score", 0)
+
+        # Look for scoring info in trace
+        joker_res = trace.get("joker_resolution", [])
+        # Check if trace has a score_breakdown or final_chips/final_mult
+        final_chips = trace.get("final_chips")
+        final_mult = trace.get("final_mult")
+
+        if final_chips is not None and final_mult is not None:
+            expected_score = int(final_chips) * int(final_mult)
+            if expected_score == score_delta:
+                passed += 1
+            else:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "final_chips": final_chips,
+                    "final_mult": final_mult,
+                    "expected_score_delta": expected_score,
+                    "actual_score_delta": score_delta,
+                    "message": f"chips*mult={expected_score} != score delta={score_delta}",
+                })
+        else:
+            # No explicit chips/mult in trace yet — skip (not a failure)
+            pass
+
+    return {"passed": passed, "failed": failed, "skipped_no_trace": True, "details": details}
+
+
+def _check_hand_discard_counters(transitions: list[dict[str, Any]]) -> dict[str, Any]:
+    """Check D: play decrements plays by 1, discard decrements discards by 1."""
+    passed = 0
+    failed = 0
+    details: list[dict[str, Any]] = []
+
+    for index, transition in enumerate(transitions):
+        before = transition["snapshot_before"]
+        after = transition["snapshot_after"]
+        action_name = transition["action"]["name"]
+
+        if before.get("stage") != "Stage_Blind":
+            continue
+
+        before_plays = before.get("plays", 0)
+        after_plays = after.get("plays", 0)
+        before_discards = before.get("discards", 0)
+        after_discards = after.get("discards", 0)
+
+        if action_name == "play":
+            # plays should decrement by 1
+            if after_plays == before_plays - 1:
+                passed += 1
+            else:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "expected_plays": before_plays - 1,
+                    "actual_plays": after_plays,
+                    "message": f"play should decrement plays: {before_plays} -> expected {before_plays - 1}, got {after_plays}",
+                })
+
+            # discards should not change on play
+            if after_discards != before_discards:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "message": f"discards changed on play: {before_discards} -> {after_discards}",
+                })
+
+        elif action_name == "discard":
+            # discards should decrement by 1
+            if after_discards == before_discards - 1:
+                passed += 1
+            else:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "expected_discards": before_discards - 1,
+                    "actual_discards": after_discards,
+                    "message": f"discard should decrement discards: {before_discards} -> expected {before_discards - 1}, got {after_discards}",
+                })
+
+            # plays should not change on discard
+            if after_plays != before_plays:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "message": f"plays changed on discard: {before_plays} -> {after_plays}",
+                })
+
+    return {"passed": passed, "failed": failed, "details": details}
+
+
+def _check_joker_count_consistency(transitions: list[dict[str, Any]]) -> dict[str, Any]:
+    """Check E: buying a joker increments count, selling decrements, never exceeds slot limit."""
+    passed = 0
+    failed = 0
+    details: list[dict[str, Any]] = []
+
+    # Default Balatro joker slot limit is 5
+    DEFAULT_JOKER_SLOT_LIMIT = 5
+
+    for index, transition in enumerate(transitions):
+        before = transition["snapshot_before"]
+        after = transition["snapshot_after"]
+        action_name = transition["action"]["name"]
+
+        before_joker_count = len(before.get("jokers", []) or [])
+        after_joker_count = len(after.get("jokers", []) or [])
+
+        if action_name.startswith("buy_shop_item_"):
+            # If a joker was bought, count should increase by 1
+            if after_joker_count == before_joker_count + 1:
+                passed += 1
+            elif after_joker_count == before_joker_count:
+                # Might have bought a non-joker item (consumable, etc.) — pass
+                passed += 1
+            else:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "action": action_name,
+                    "before_count": before_joker_count,
+                    "after_count": after_joker_count,
+                    "message": f"unexpected joker count change on buy: {before_joker_count} -> {after_joker_count}",
+                })
+
+        elif action_name.startswith("sell_joker_"):
+            if after_joker_count == before_joker_count - 1:
+                passed += 1
+            else:
+                failed += 1
+                details.append({
+                    "step": index,
+                    "action": action_name,
+                    "before_count": before_joker_count,
+                    "after_count": after_joker_count,
+                    "message": f"unexpected joker count change on sell: {before_joker_count} -> {after_joker_count}",
+                })
+
+        # Check slot limit on every transition
+        joker_slot_limit = before.get("joker_slot_limit", DEFAULT_JOKER_SLOT_LIMIT)
+        if after_joker_count > joker_slot_limit:
+            failed += 1
+            details.append({
+                "step": index,
+                "action": action_name,
+                "joker_count": after_joker_count,
+                "slot_limit": joker_slot_limit,
+                "message": f"joker count {after_joker_count} exceeds slot limit {joker_slot_limit}",
+            })
+
+    return {"passed": passed, "failed": failed, "details": details}
+
+
+def run_numerical_checks(transitions: list[dict[str, Any]]) -> dict[str, Any]:
+    """Run all numerical checks and return combined results."""
+    return {
+        "money_conservation": _check_money_conservation(transitions),
+        "score_monotonicity": _check_score_monotonicity(transitions),
+        "chips_mult_from_trace": _check_chips_mult_from_trace(transitions),
+        "hand_discard_tracking": _check_hand_discard_counters(transitions),
+        "joker_count_consistency": _check_joker_count_consistency(transitions),
+    }
+
+
 def audit_replay(replay: dict[str, Any], source_oracle: dict[str, Any] | None = None) -> dict[str, Any]:
     transitions = replay.get("transitions", [])
     issues: list[dict[str, Any]] = []
@@ -213,6 +561,21 @@ def audit_replay(replay: dict[str, Any], source_oracle: dict[str, Any] | None = 
             "本次 replay 未覆盖这些中间态 trace: " + ", ".join(missing_transient),
         )
 
+    # ── Numerical checks (warnings only) ──────────────────────────────
+    numerical_checks = run_numerical_checks(transitions)
+
+    numerical_failure_count = sum(
+        check.get("failed", 0) for check in numerical_checks.values()
+    )
+    for check_name, check_result in numerical_checks.items():
+        for detail in check_result.get("details", []):
+            add_issue(
+                issues,
+                "warning",
+                detail.get("step"),
+                f"[numerical:{check_name}] {detail.get('message', '')}",
+            )
+
     hard_errors = [issue for issue in issues if issue["severity"] == "error"]
     warnings = [issue for issue in issues if issue["severity"] == "warning"]
     return {
@@ -221,6 +584,7 @@ def audit_replay(replay: dict[str, Any], source_oracle: dict[str, Any] | None = 
         "fidelity_ready": not hard_errors and not warnings,
         "source_oracle_path": source_oracle.get("_path") if source_oracle else None,
         "issues": issues,
+        "numerical_checks": numerical_checks,
         "summary": {
             "transitions": len(transitions),
             "seen_lua_states": sorted(state for state in seen_lua_states if state),
@@ -229,6 +593,7 @@ def audit_replay(replay: dict[str, Any], source_oracle: dict[str, Any] | None = 
             "unsupported_notes": sorted(unsupported_notes),
             "hard_error_count": len(hard_errors),
             "warning_count": len(warnings),
+            "numerical_failure_count": numerical_failure_count,
         },
     }
 
