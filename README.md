@@ -97,17 +97,61 @@ Joker count check:    5/5   passed
 | 最终 mean ante | 1.0 |
 | 最终 entropy | 1.94 |
 
-> 这是 10K 步的冷启动结果。agent 仍在随机探索，尚未学到有效策略。这次实验的目的是验证管道，不是训练出强 agent。
+### PPO 实验总结（6 次，930K 总步数）
 
-### 性能评估
+| 实验 | Steps | 结果 | 发现 |
+|------|-------|------|------|
+| smoke_test_v1 | 10K | ante=1.0 | entropy collapse |
+| entropy_05 | 100K | ante=1.0 | 稳定了但不 play |
+| step_penalty | 100K | ante=1.0 | 惩罚无效 |
+| strong_score | 100K | ante=1.0 | score reward 太弱 |
+| play_bonus | 100K | ante=1.0 | bonus 太小 |
+| play_03 | 500K | ante=1.0 | 刷 play bonus，reward hacking |
 
-| 场景 | 吞吐量 | 是否瓶颈 |
-|------|--------|----------|
-| Engine only (Rust) | 15,504 steps/sec | 否 |
-| Engine + Model forward (MPS) | 373 steps/sec | 95% 在此 |
-| PPO backward pass | 26 updates/sec | 否 |
-| 预估 1M steps | ~45 min | 可接受 |
-| 预估 10M steps | ~7.5 hr | 需要更好的 batch 效率或服务器 |
+**结论**：vanilla PPO 无法在 Balatro 的 toggle-based action space 上冷启动学习。零训练的手写 LLM 策略过了 2/3 blind，500K PPO 过了 0 个。
+
+### 方向转向：Small LM + Long Horizon Planning
+
+Balatro 是一个推理游戏，不是反射游戏。选牌、经济管理、Joker synergy、Boss 应对都是 planning 问题。
+
+**新方向**：用小参数量语言模型（~23B）作为 agent 大脑：
+- 推理能力相对较弱，但可以通过 SFT 习得 Balatro 领域知识
+- 适合做 Long Horizon Reasoning and Planning 的研究载体
+- 推理成本可控，可以大量采样和迭代
+- 输出 chain-of-thought，决策过程完全可解释
+
+---
+
+## 训练路线图
+
+```mermaid
+flowchart TD
+    A[Phase 0: 数据准备] --> B[Phase 1: SFT]
+    B --> C[Phase 2: RL Fine-Tuning]
+    C --> D[Phase 3: Long Horizon Planning]
+    D --> E[Phase 4: Beyond Human]
+
+    A1[Claude API 生成示范 trajectory] --> A
+    A2[Game State → Text Serializer] --> A
+
+    B1["SFT on (state, CoT, action)"] --> B
+    B2[目标: mean ante >= 3] --> B
+
+    C1[GRPO / DPO / Online RL] --> C
+    C2[目标: win rate >= 30%] --> C
+
+    D1[MCTS + LM value estimation] --> D
+    D2[Subgoal decomposition] --> D
+    D3[目标: win rate >= 60%] --> D
+```
+
+| Phase | 目标 | 方法 | 成功标准 |
+|-------|------|------|----------|
+| **0. 数据准备** | 高质量 trajectory 数据集 | Claude API 玩 100+ 局，输出 CoT + action | 有 30+ 局过 Ante 4 |
+| **1. SFT** | 23B 模型习得 Balatro 决策 | LoRA fine-tuning on (state, reasoning, action) | mean ante >= 3 |
+| **2. RL** | 用环境反馈进一步提升 | GRPO/DPO/PPO on LM | win rate >= 30% |
+| **3. Planning** | 跨多步前瞻规划 | MCTS + LM eval, subgoal decomposition | win rate >= 60% |
+| **4. Beyond Human** | 各 stake 超越人类 | Multi-stake 泛化, Joker synergy 发现 | — |
 
 ---
 
@@ -115,16 +159,12 @@ Joker count check:    5/5   passed
 
 ```mermaid
 flowchart LR
-    A[合法持有的 Balatro.love] --> B[真实客户端<br/>Lovely + Steamodded + BalatroBot]
-    B --> C[人工 / 程序录制 trajectory]
-    C --> D[Replay Diff / Behavior Log / RNG Trace]
-    D --> E[高保真 Simulator]
-    E --> F[Rule-Based Skills]
-    E --> G[CoT / Agent Framework]
-    E --> H[BC / PPO / Small Models]
-    F --> I[Beyond Human Baseline]
-    G --> I
-    H --> I
+    A[合法持有的 Balatro.love] --> B[高保真 Simulator<br/>8K Rust / 104 tests]
+    B --> C[Claude API<br/>生成示范数据]
+    C --> D[SFT on ~23B LM]
+    D --> E[RL Fine-Tuning<br/>GRPO / DPO]
+    E --> F[Long Horizon Planning<br/>MCTS + CoT]
+    F --> G[Beyond Human Baseline]
 ```
 
 ## 快速开始
@@ -204,9 +244,9 @@ results/
 
 见 [todo/20260331_backlog.md](./todo/20260331_backlog.md)。当前 TOP 3：
 
-1. **正式 PPO 训练** — 100K+ steps，调参（entropy_coef, reward scale），观察 agent 是否能学会过 Ante 2
-2. **Vectorized env** — 当前 env 采集占 95% 时间，batch 化 env.step 可显著提升吞吐
-3. **真实客户端 trajectory 录制** — 项目金标准，需要 Steamodded + Lovely + BalatroBot
+1. **Game State Text Serializer** — 把 engine snapshot 转成 LM 可读的结构化文本
+2. **Claude API Agent + 数据收集** — 用强 LLM 玩 100+ 局，收集 (state, CoT, action) 训练数据
+3. **LLM Evaluation Harness** — 自动化评测：加载任意 LM，跑 N 局，输出 mean ante / win rate
 
 ## 协作约定
 
