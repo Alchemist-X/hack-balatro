@@ -9,8 +9,10 @@ __pycache__/
 # macOS
 .DS_Store
 
-# Local runtime artifacts
+# Local runtime artifacts (keep training reports and audit results)
 results/
+!results/training/
+results/training/*/checkpoint.pt
 checkpoints/
 trajectories/
 runs/

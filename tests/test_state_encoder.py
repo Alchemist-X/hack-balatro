@@ -4,11 +4,16 @@ import numpy as np
 
 from env.action_space import ACTION_DIM
 from env.state_encoder import (
-    OBS_DIM,
-    OFF_BOSS,
-    OFF_HAND_CARDS,
+    BOSS_DIM,
+    CONSUMABLE_DIM,
     HAND_CARD_FEATURES,
     HAND_SLOTS,
+    OBS_DIM,
+    OFF_BOSS,
+    OFF_CONSUMABLE,
+    OFF_HAND_CARDS,
+    OFF_VOUCHER,
+    VOUCHER_DIM,
     encode_pylatro_state,
     unpack_obs_to_structured,
 )
@@ -59,7 +64,7 @@ def test_encode_dimensions_and_offsets() -> None:
     assert hand_block[2, 4] == 1.0
 
     # Boss one-hot exists
-    assert np.sum(obs[OFF_BOSS : OFF_BOSS + 10]) == 1.0
+    assert np.sum(obs[OFF_BOSS : OFF_BOSS + BOSS_DIM]) == 1.0
 
 
 def test_unpack_obs_shapes() -> None:
@@ -68,9 +73,12 @@ def test_unpack_obs_shapes() -> None:
     obs = encode_pylatro_state(state, mask)
     s = unpack_obs_to_structured(obs)
 
-    assert s["card_features"].shape == (1, 8, 19)
-    assert s["card_mask"].shape == (1, 8)
+    assert s["card_features"].shape == (1, HAND_SLOTS, HAND_CARD_FEATURES)
+    assert s["card_mask"].shape == (1, HAND_SLOTS)
     assert s["joker_ids"].shape == (1, 5)
     assert s["joker_mask"].shape == (1, 5)
-    assert s["global_features"].shape == (1, 169)
+    # global_features = stages(7) + scalars(18) + selected_hand(12) + best_hand(12)
+    #   + deck(52) + discarded(52) + joker_shop(10) + boss(28) + consumable(2) + voucher(10)
+    expected_global = 7 + 18 + 12 + 12 + 52 + 52 + 10 + 28 + 2 + 10
+    assert s["global_features"].shape == (1, expected_global)
     assert s["action_mask"].shape == (1, ACTION_DIM)

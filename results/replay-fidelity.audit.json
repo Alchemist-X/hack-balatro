@@ -1,0 +1,73 @@
+{
+  "ok": true,
+  "hard_invariants_ok": true,
+  "fidelity_ready": true,
+  "source_oracle_path": null,
+  "issues": [],
+  "numerical_checks": {
+    "money_conservation": {
+      "passed": 318,
+      "failed": 0,
+      "details": []
+    },
+    "score_monotonicity": {
+      "passed": 68,
+      "failed": 0,
+      "details": []
+    },
+    "chips_mult_from_trace": {
+      "passed": 0,
+      "failed": 0,
+      "skipped_no_trace": true,
+      "details": []
+    },
+    "hand_discard_tracking": {
+      "passed": 45,
+      "failed": 0,
+      "details": []
+    },
+    "joker_count_consistency": {
+      "passed": 5,
+      "failed": 0,
+      "details": []
+    }
+  },
+  "summary": {
+    "transitions": 318,
+    "seen_lua_states": [
+      "BLIND_SELECT",
+      "GAME_OVER",
+      "ROUND_EVAL",
+      "SELECTING_HAND",
+      "SHOP"
+    ],
+    "seen_transient_lua_states": [
+      "DRAW_TO_HAND",
+      "HAND_PLAYED",
+      "NEW_ROUND"
+    ],
+    "seen_rng_domains": [
+      "boss_blind.select",
+      "cashout_shop_refresh.consumable_slot_0.pick",
+      "cashout_shop_refresh.consumable_slot_1.pick",
+      "cashout_shop_refresh.slot_0.pick_common",
+      "cashout_shop_refresh.slot_0.pick_uncommon",
+      "cashout_shop_refresh.slot_0.rarity",
+      "cashout_shop_refresh.slot_1.pick_common",
+      "cashout_shop_refresh.slot_1.pick_uncommon",
+      "cashout_shop_refresh.slot_1.rarity",
+      "deck.shuffle.cashout",
+      "deck.shuffle.enter_blind",
+      "reroll_shop_refresh.consumable_slot_0.pick",
+      "reroll_shop_refresh.consumable_slot_1.pick",
+      "reroll_shop_refresh.slot_0.pick_common",
+      "reroll_shop_refresh.slot_0.rarity",
+      "reroll_shop_refresh.slot_1.pick_common",
+      "reroll_shop_refresh.slot_1.rarity"
+    ],
+    "unsupported_notes": [],
+    "hard_error_count": 0,
+    "warning_count": 0,
+    "numerical_failure_count": 0
+  }
+}
