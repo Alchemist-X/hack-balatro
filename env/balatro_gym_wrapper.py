@@ -653,7 +653,7 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
             info["transition"] = self._engine.last_transition
         return info
 
-    def _compute_reward(self, prev_stage: str, new_stage: str, terminated: bool) -> float:
+    def _compute_reward(self, prev_stage: str, new_stage: str, terminated: bool, action: int = -1) -> float:
         state = self._engine.state
         score = float(getattr(state, "score", 0.0) or 0.0)
         required = float(getattr(state, "required_score", 1.0) or 1.0)
@@ -687,9 +687,9 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
             if boss_effect and boss_effect != "none":
                 reward += float(self.reward_cfg.get("boss_pass_reward", 2.0))
 
-        # Score efficiency: reward scoring toward blind requirement during play
-        if prev_stage == "Stage_Blind" and new_stage == "Stage_Blind" and score_delta > 0 and required > 0:
-            scale = float(self.reward_cfg.get("score_shaping_scale", 0.001))
+        # Score progress: strong reward for scoring toward blind requirement
+        if prev_stage == "Stage_Blind" and score_delta > 0 and required > 0:
+            scale = float(self.reward_cfg.get("score_shaping_scale", 0.5))
             reward += scale * (score_delta / max(1.0, required))
 
         # Money management: small reward for earning money in shop
@@ -699,6 +699,20 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
         # Ante progression: big reward for advancing ante
         if ante_delta > 0:
             reward += float(self.reward_cfg.get("ante_advance_reward", 2.0))
+
+        # Score-proportional reward: big reward when play scores, penalty for zero-score plays
+        from env.action_space import PLAY_INDEX, DISCARD_INDEX
+        if action == PLAY_INDEX:
+            if score_delta > 0 and required > 0:
+                # Strong reward proportional to fraction of blind beaten
+                reward += float(self.reward_cfg.get("play_score_scale", 1.0)) * (score_delta / max(1.0, required))
+            else:
+                # Small penalty for playing a hand that scores nothing
+                reward -= float(self.reward_cfg.get("zero_play_penalty", 0.05))
+        elif action == DISCARD_INDEX:
+            reward += float(self.reward_cfg.get("discard_bonus", 0.01))
+        elif new_stage == "Stage_Blind" and score_delta == 0:
+            reward -= float(self.reward_cfg.get("step_penalty", 0.0005))
 
         self._prev_score = score
         self._prev_money = money
@@ -742,7 +756,9 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
         new_stage = self._stage_name()
         self._prev_stage = new_stage
 
-        reward = -1.0 if error is not None else self._compute_reward(prev_stage, new_stage, terminated)
+        reward = -1.0 if error is not None else self._compute_reward(
+            prev_stage, new_stage, terminated, executed_action,
+        )
         obs = self._obs()
         info = self._info()
         info["requested_action"] = requested_action
