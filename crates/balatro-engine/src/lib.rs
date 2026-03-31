@@ -480,6 +480,10 @@ struct EngineState {
     unique_planets_used: i32,
     /// Whether the current boss blind ability was destroyed (by Chicot)
     boss_blind_disabled: bool,
+    /// Target hand type for To Do List joker (randomized each round)
+    todo_list_target: Option<String>,
+    /// Number of hands played this round (for DNA joker first-hand check)
+    hands_played_this_round: i32,
 }
 
 impl Engine {
@@ -531,6 +535,8 @@ impl Engine {
                 egg_accumulated_sell: 0,
                 unique_planets_used: 0,
                 boss_blind_disabled: false,
+                todo_list_target: None,
+                hands_played_this_round: 0,
             },
         };
         let mut init_trace = TransitionTrace::default();
@@ -919,7 +925,7 @@ impl Engine {
 
     fn play_selected(&mut self, trace: &mut TransitionTrace) -> Vec<Event> {
         let selected = self.selected_cards();
-        let played = if selected.is_empty() && !self.state.available.is_empty() {
+        let mut played = if selected.is_empty() && !self.state.available.is_empty() {
             vec![self.state.available[0].clone()]
         } else {
             selected
@@ -949,6 +955,10 @@ impl Engine {
         trace.add_transient("HAND_PLAYED");
         trace.retrigger_supported = true;
 
+        // joker_on_played phase: AFTER hand evaluation, BEFORE per-card scoring
+        let hand_key_clone = hand.key.clone();
+        self.apply_on_played_jokers(&hand_key_clone, &mut played, &mut events, trace);
+
         // Determine if this is the final hand of the round (for Dusk)
         let is_final_hand = self.state.plays <= 1;
         let scoring_card_count = played.len();
@@ -971,6 +981,15 @@ impl Engine {
             .cloned()
             .collect();
 
+        // Compute effective joker slot limit (accounting for negative editions)
+        let negative_count = self
+            .state
+            .jokers
+            .iter()
+            .filter(|j| j.edition.as_deref() == Some("e_negative"))
+            .count();
+        let effective_joker_limit = JOKER_LIMIT + negative_count;
+
         let full_deck_size = (self.state.deck.len() + self.state.available.len() + self.state.discarded.len()) as i32;
         let deck_cards_remaining = self.state.deck.len() as i32;
 
@@ -984,11 +1003,14 @@ impl Engine {
             money: self.state.money,
             deck_cards_remaining,
             full_deck_size,
-            joker_slot_max: JOKER_LIMIT,
+            joker_slot_max: effective_joker_limit,
         };
 
         let mut xmult = 1.0_f64;
         let mut money_delta = 0_i32;
+
+        // Track glass cards that should be destroyed after scoring
+        let mut glass_cards_to_destroy: Vec<u32> = Vec::new();
 
         // Pre-build one JokerResolutionTrace per joker (audit expects exactly N entries)
         let mut joker_traces: Vec<JokerResolutionTrace> = self
@@ -1041,6 +1063,34 @@ impl Engine {
                     ),
                 ));
 
+                // Enhancement effects (AFTER base chips, BEFORE joker effects)
+                let (is_glass, _is_stone) = apply_card_enhancement(
+                    card,
+                    &mut chips,
+                    &mut mult,
+                    &mut xmult,
+                    &mut money_delta,
+                    &mut events,
+                    &mut self.rng,
+                );
+
+                // Glass card destruction: 1/4 chance after scoring
+                if is_glass {
+                    let destroy_roll: i32 = self.rng.gen_range(1..=4);
+                    if destroy_roll == 1 && !glass_cards_to_destroy.contains(&card.card_id) {
+                        glass_cards_to_destroy.push(card.card_id);
+                    }
+                }
+
+                // Edition effects (AFTER enhancement, BEFORE jokers)
+                apply_card_edition(
+                    card,
+                    &mut chips,
+                    &mut mult,
+                    &mut xmult,
+                    &mut events,
+                );
+
                 // b/c. Each "on scored" Joker activates (left to right)
                 for (j_idx, joker) in self.state.jokers.iter().enumerate() {
                     let mut tmp_trace = JokerResolutionTrace {
@@ -1067,6 +1117,14 @@ impl Engine {
                             &mut tmp_trace,
                         );
                     }
+                    // Apply joker edition effects AFTER the joker's own effect
+                    apply_joker_edition(
+                        joker,
+                        &mut chips,
+                        &mut mult,
+                        &mut xmult,
+                        &mut events,
+                    );
                     // Promote supported/matched/effect_key to the aggregate trace
                     if tmp_trace.supported {
                         let agg = &mut joker_traces[j_idx];
@@ -1111,6 +1169,7 @@ impl Engine {
         ));
 
         // Held-in-hand phase: unplayed cards + relevant Jokers activate
+        // Steel Card enhancement: X1.5 mult for each Steel card held in hand
         self.apply_held_in_hand(&played_ids_set, &mut chips, &mut mult, &mut xmult, &mut events, trace);
 
         // Decrement Seltzer remaining_uses at end of hand
@@ -1144,12 +1203,39 @@ impl Engine {
             }
         }
 
+        // Destroy glass cards (1/4 chance was rolled during scoring)
+        if !glass_cards_to_destroy.is_empty() {
+            self.state.available.retain(|c| !glass_cards_to_destroy.contains(&c.card_id));
+            self.state.deck.retain(|c| !glass_cards_to_destroy.contains(&c.card_id));
+            self.state.discarded.retain(|c| !glass_cards_to_destroy.contains(&c.card_id));
+            for card_id in &glass_cards_to_destroy {
+                events.push(event(
+                    EventStage::EndOfHand,
+                    "glass_card_destroyed",
+                    format!("Glass Card {} was destroyed", card_id),
+                ));
+            }
+        }
+
+        // Gold Card end-of-round: +$3 for each Gold card in played hand
+        let gold_card_count = played.iter().filter(|c| c.enhancement.as_deref() == Some("m_gold")).count() as i32;
+        if gold_card_count > 0 {
+            let gold_money = gold_card_count * 3;
+            money_delta += gold_money;
+            events.push(event(
+                EventStage::EndOfHand,
+                "gold_card_money",
+                format!("{} Gold Card(s) earned ${}", gold_card_count, gold_money),
+            ));
+        }
+
         // Apply xmult to final score
         let base_score = chips * mult;
         let gained = (base_score as f64 * xmult).round() as i32;
         self.state.money += money_delta;
         self.state.score += gained;
         self.state.plays -= 1;
+        self.state.hands_played_this_round += 1;
 
         let selected_ids: BTreeSet<u32> = played.iter().map(|card| card.card_id).collect();
         let mut remaining = Vec::new();
@@ -1498,8 +1584,20 @@ impl Engine {
         self.state.shop.clear();
         self.state.shop_consumables.clear();
         self.state.boss_blind_disabled = false;
+        self.state.hands_played_this_round = 0;
         self.sync_current_blind_descriptor();
         self.mark_current_blind_progress(BlindProgress::Current);
+
+        // Randomize To Do List target hand type for this blind
+        let has_todo_list = self.state.jokers.iter().any(|j| j.joker_id == "j_todo_list");
+        if has_todo_list {
+            let hand_keys: Vec<String> = self.ruleset.hand_specs.iter().map(|hs| hs.key.clone()).collect();
+            if !hand_keys.is_empty() {
+                let candidates = hand_keys.clone();
+                let idx = self.choose_index(candidates.len(), "todo_list.target", candidates, trace);
+                self.state.todo_list_target = Some(hand_keys[idx].clone());
+            }
+        }
 
         // Boss blind pre-play Joker activation
         let mut blind_select_events = Vec::new();
@@ -1812,6 +1910,179 @@ impl Engine {
         roll == 1
     }
 
+    /// joker_on_played phase: activates once per hand played, after hand
+    /// evaluation but before per-card scoring.
+    fn apply_on_played_jokers(
+        &mut self,
+        hand_key: &str,
+        played: &mut Vec<CardInstance>,
+        events: &mut Vec<Event>,
+        trace: &mut TransitionTrace,
+    ) {
+        struct OpJokerInfo {
+            joker_id: String,
+            joker_name: String,
+            slot_index: usize,
+        }
+
+        let infos: Vec<OpJokerInfo> = self
+            .state
+            .jokers
+            .iter()
+            .filter_map(|j| {
+                self.ruleset.joker_by_id(&j.joker_id).and_then(|spec| {
+                    if spec.activation_class == "joker_on_played" {
+                        Some(OpJokerInfo {
+                            joker_id: j.joker_id.clone(),
+                            joker_name: spec.name.clone(),
+                            slot_index: j.slot_index,
+                        })
+                    } else {
+                        None
+                    }
+                })
+            })
+            .collect();
+
+        for info in &infos {
+            match info.joker_id.as_str() {
+                "j_space" => {
+                    // 1 in 4 chance to level up the played hand type
+                    let hit = self.roll_chance(4, "space_joker", trace);
+                    if hit {
+                        let level = self
+                            .state
+                            .hand_levels
+                            .entry(hand_key.to_string())
+                            .or_insert(1);
+                        *level += 1;
+                        events.push(event_with_details(
+                            EventStage::OnPlayed,
+                            "on_played_joker",
+                            format!(
+                                "{} leveled up {} to Lv.{}",
+                                info.joker_name, hand_key, level
+                            ),
+                            Some(info.slot_index),
+                            Some(&info.joker_id),
+                            None,
+                            None,
+                            None,
+                            None,
+                        ));
+                    }
+                }
+                "j_dna" => {
+                    // If first hand of round, copy first played card into deck
+                    if self.state.hands_played_this_round == 0 {
+                        if let Some(first_card) = played.first() {
+                            let max_id = self
+                                .state
+                                .deck
+                                .iter()
+                                .chain(self.state.available.iter())
+                                .chain(self.state.discarded.iter())
+                                .chain(played.iter())
+                                .map(|c| c.card_id)
+                                .max()
+                                .unwrap_or(52);
+                            let copy = CardInstance {
+                                card_id: max_id + 1,
+                                rank: first_card.rank.clone(),
+                                suit: first_card.suit.clone(),
+                                enhancement: first_card.enhancement.clone(),
+                                edition: first_card.edition.clone(),
+                                seal: first_card.seal.clone(),
+                            };
+                            self.state.deck.push(copy);
+                            events.push(event_with_details(
+                                EventStage::OnPlayed,
+                                "on_played_joker",
+                                format!(
+                                    "{} copied first played card into deck",
+                                    info.joker_name
+                                ),
+                                Some(info.slot_index),
+                                Some(&info.joker_id),
+                                None,
+                                None,
+                                None,
+                                None,
+                            ));
+                        }
+                    }
+                }
+                "j_todo_list" => {
+                    // If played hand matches target, gain $4
+                    if let Some(ref target) = self.state.todo_list_target {
+                        if hand_key == target.as_str() {
+                            self.state.money += 4;
+                            events.push(event_with_details(
+                                EventStage::OnPlayed,
+                                "on_played_joker",
+                                format!(
+                                    "{} matched target hand {} +$4",
+                                    info.joker_name, target
+                                ),
+                                Some(info.slot_index),
+                                Some(&info.joker_id),
+                                None,
+                                None,
+                                None,
+                                Some(4),
+                            ));
+                        }
+                    }
+                }
+                "j_midas_mask" => {
+                    // All played face cards become Gold cards
+                    let mut count = 0;
+                    for card in played.iter_mut() {
+                        if card.rank.is_face() {
+                            card.enhancement = Some("m_gold".to_string());
+                            count += 1;
+                        }
+                    }
+                    // Also update in available/deck/discarded
+                    let played_ids: BTreeSet<u32> =
+                        played.iter().filter(|c| c.rank.is_face()).map(|c| c.card_id).collect();
+                    for card in self.state.available.iter_mut() {
+                        if played_ids.contains(&card.card_id) {
+                            card.enhancement = Some("m_gold".to_string());
+                        }
+                    }
+                    for card in self.state.deck.iter_mut() {
+                        if played_ids.contains(&card.card_id) {
+                            card.enhancement = Some("m_gold".to_string());
+                        }
+                    }
+                    for card in self.state.discarded.iter_mut() {
+                        if played_ids.contains(&card.card_id) {
+                            card.enhancement = Some("m_gold".to_string());
+                        }
+                    }
+                    if count > 0 {
+                        events.push(event_with_details(
+                            EventStage::OnPlayed,
+                            "on_played_joker",
+                            format!(
+                                "{} turned {} face card(s) into Gold cards",
+                                info.joker_name, count
+                            ),
+                            Some(info.slot_index),
+                            Some(&info.joker_id),
+                            None,
+                            None,
+                            None,
+                            None,
+                        ));
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
     /// Held-in-hand activation: after scoring cards are processed but before
     /// the final score total is computed, unplayed cards still in hand are
     /// evaluated against held-in-hand Jokers.
@@ -1834,6 +2105,18 @@ impl Engine {
 
         if held_cards.is_empty() {
             return;
+        }
+
+        // Steel Card enhancement: X1.5 mult for each Steel card held in hand
+        for card in &held_cards {
+            if card.enhancement.as_deref() == Some("m_steel") {
+                *xmult *= 1.5;
+                events.push(event(
+                    EventStage::HeldInHand,
+                    "enhancement_steel",
+                    format!("Steel Card {} X1.5 mult (held in hand)", card.card_id),
+                ));
+            }
         }
 
         // Collect joker info upfront to avoid borrow conflicts with self
@@ -2513,6 +2796,170 @@ fn initial_remaining_uses(spec: &JokerSpec) -> Option<u32> {
         return Some(uses);
     }
     None
+}
+
+// --- Card enhancement / edition helpers ---
+
+/// Returns true if the card matches the given suit, accounting for Wild Card enhancement.
+pub fn card_matches_suit(card: &CardInstance, suit: &Suit) -> bool {
+    if card.enhancement.as_deref() == Some("m_wild") {
+        return true;
+    }
+    card.suit == *suit
+}
+
+/// Apply card enhancement effects during scoring.
+/// Returns (chips_add, mult_add, xmult_factor, money_add, is_glass, is_stone).
+/// Glass and stone flags are returned for special post-processing.
+fn apply_card_enhancement(
+    card: &CardInstance,
+    chips: &mut i32,
+    mult: &mut i32,
+    xmult: &mut f64,
+    money_delta: &mut i32,
+    events: &mut Vec<Event>,
+    rng: &mut ChaCha8Rng,
+) -> (bool, bool) {
+    let mut is_glass = false;
+    match card.enhancement.as_deref() {
+        Some("m_bonus") => {
+            *chips += 30;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_bonus",
+                format!("Bonus Card {} +30 chips", card.card_id),
+            ));
+        }
+        Some("m_mult") => {
+            *mult += 4;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_mult",
+                format!("Mult Card {} +4 mult", card.card_id),
+            ));
+        }
+        Some("m_wild") => {
+            // Wild card effect is passive (suit matching); no scoring bonus itself.
+        }
+        Some("m_glass") => {
+            *xmult *= 2.0;
+            is_glass = true;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_glass",
+                format!("Glass Card {} X2 mult", card.card_id),
+            ));
+        }
+        Some("m_stone") => {
+            *chips += 50;
+            events.push(event(
+                EventStage::CardScored,
+                "enhancement_stone",
+                format!("Stone Card {} +50 chips", card.card_id),
+            ));
+        }
+        Some("m_lucky") => {
+            // 1/5 chance +20 mult
+            let mult_roll: i32 = rng.gen_range(1..=5);
+            if mult_roll == 1 {
+                *mult += 20;
+                events.push(event(
+                    EventStage::CardScored,
+                    "enhancement_lucky_mult",
+                    format!("Lucky Card {} +20 mult", card.card_id),
+                ));
+            }
+            // 1/15 chance +$20
+            let money_roll: i32 = rng.gen_range(1..=15);
+            if money_roll == 1 {
+                *money_delta += 20;
+                events.push(event(
+                    EventStage::CardScored,
+                    "enhancement_lucky_money",
+                    format!("Lucky Card {} +$20", card.card_id),
+                ));
+            }
+        }
+        // m_steel: only activates held in hand, not when played
+        // m_gold: only at end of round
+        _ => {}
+    }
+    (is_glass, card.enhancement.as_deref() == Some("m_stone"))
+}
+
+/// Apply card edition effects during scoring (for playing cards).
+fn apply_card_edition(
+    card: &CardInstance,
+    chips: &mut i32,
+    mult: &mut i32,
+    xmult: &mut f64,
+    events: &mut Vec<Event>,
+) {
+    match card.edition.as_deref() {
+        Some("e_foil") => {
+            *chips += 50;
+            events.push(event(
+                EventStage::CardScored,
+                "edition_foil",
+                format!("Foil Card {} +50 chips", card.card_id),
+            ));
+        }
+        Some("e_holo") => {
+            *mult += 10;
+            events.push(event(
+                EventStage::CardScored,
+                "edition_holo",
+                format!("Holographic Card {} +10 mult", card.card_id),
+            ));
+        }
+        Some("e_polychrome") => {
+            *xmult *= 1.5;
+            events.push(event(
+                EventStage::CardScored,
+                "edition_polychrome",
+                format!("Polychrome Card {} X1.5 mult", card.card_id),
+            ));
+        }
+        // e_negative is passive (joker slot), not a scoring effect
+        _ => {}
+    }
+}
+
+/// Apply joker edition effects after the joker's own effect.
+fn apply_joker_edition(
+    joker: &JokerInstance,
+    chips: &mut i32,
+    mult: &mut i32,
+    xmult: &mut f64,
+    events: &mut Vec<Event>,
+) {
+    match joker.edition.as_deref() {
+        Some("e_foil") => {
+            *chips += 50;
+            events.push(event(
+                EventStage::JokerPostScore,
+                "joker_edition_foil",
+                format!("{} (Foil) +50 chips", joker.name),
+            ));
+        }
+        Some("e_holo") => {
+            *mult += 10;
+            events.push(event(
+                EventStage::JokerPostScore,
+                "joker_edition_holo",
+                format!("{} (Holographic) +10 mult", joker.name),
+            ));
+        }
+        Some("e_polychrome") => {
+            *xmult *= 1.5;
+            events.push(event(
+                EventStage::JokerPostScore,
+                "joker_edition_polychrome",
+                format!("{} (Polychrome) X1.5 mult", joker.name),
+            ));
+        }
+        _ => {}
+    }
 }
 
 // --- Joker helper functions ---
@@ -3826,5 +4273,166 @@ mod tests {
         let transition = engine.step(10).expect("select small blind with burglar");
         assert_eq!(transition.snapshot_after.plays, 7);
         assert_eq!(transition.snapshot_after.discards, 0);
+    }
+
+    // ==== Enhancement scoring tests (Task A) ====
+
+    #[test]
+    fn bonus_card_adds_30_chips() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(200, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        // Replace hand with a single Bonus-enhanced card
+        engine.state.available = vec![CardInstance {
+            card_id: 500,
+            rank: Rank::Five,
+            suit: Suit::Hearts,
+            enhancement: Some("m_bonus".to_string()),
+            edition: None,
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let bonus_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "enhancement_bonus")
+            .collect();
+        assert_eq!(bonus_events.len(), 1, "Expected 1 Bonus Card enhancement event");
+        assert!(bonus_events[0].summary.contains("+30 chips"));
+    }
+
+    #[test]
+    fn glass_card_applies_x2_mult() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(201, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.available = vec![CardInstance {
+            card_id: 501,
+            rank: Rank::Ace,
+            suit: Suit::Spades,
+            enhancement: Some("m_glass".to_string()),
+            edition: None,
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let glass_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "enhancement_glass")
+            .collect();
+        assert_eq!(glass_events.len(), 1, "Expected 1 Glass Card enhancement event");
+        assert!(glass_events[0].summary.contains("X2 mult"));
+    }
+
+    // ==== Edition scoring tests (Task B) ====
+
+    #[test]
+    fn foil_edition_adds_50_chips() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(202, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.available = vec![CardInstance {
+            card_id: 502,
+            rank: Rank::King,
+            suit: Suit::Diamonds,
+            enhancement: None,
+            edition: Some("e_foil".to_string()),
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let foil_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "edition_foil")
+            .collect();
+        assert_eq!(foil_events.len(), 1, "Expected 1 Foil edition event");
+        assert!(foil_events[0].summary.contains("+50 chips"));
+    }
+
+    #[test]
+    fn polychrome_edition_applies_x1_5_mult() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(203, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.available = vec![CardInstance {
+            card_id: 503,
+            rank: Rank::Queen,
+            suit: Suit::Clubs,
+            enhancement: None,
+            edition: Some("e_polychrome".to_string()),
+            seal: None,
+        }];
+        engine.state.selected_slots.insert(0);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let poly_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "edition_polychrome")
+            .collect();
+        assert_eq!(poly_events.len(), 1, "Expected 1 Polychrome edition event");
+        assert!(poly_events[0].summary.contains("X1.5 mult"));
+    }
+
+    // ==== joker_on_played phase tests (Task C) ====
+
+    #[test]
+    fn midas_mask_turns_face_cards_gold() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(204, bundle.clone(), RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+        engine.state.jokers.push(make_joker_from_bundle(&bundle, "j_midas_mask", 0));
+        // Set up hand with face cards and a non-face card
+        engine.state.available = vec![
+            CardInstance {
+                card_id: 600,
+                rank: Rank::King,
+                suit: Suit::Spades,
+                enhancement: None,
+                edition: None,
+                seal: None,
+            },
+            CardInstance {
+                card_id: 601,
+                rank: Rank::Queen,
+                suit: Suit::Hearts,
+                enhancement: None,
+                edition: None,
+                seal: None,
+            },
+            CardInstance {
+                card_id: 602,
+                rank: Rank::Five,
+                suit: Suit::Diamonds,
+                enhancement: None,
+                edition: None,
+                seal: None,
+            },
+        ];
+        engine.state.selected_slots.insert(0);
+        engine.state.selected_slots.insert(1);
+        engine.state.selected_slots.insert(2);
+        let mut play_trace = TransitionTrace::default();
+        let events = engine.play_selected(&mut play_trace);
+        let midas_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "on_played_joker" && e.summary.contains("Gold"))
+            .collect();
+        assert_eq!(midas_events.len(), 1, "Expected 1 Midas Mask event");
+        assert!(midas_events[0].summary.contains("2 face card(s)"));
+        // After Midas, the gold card money event should fire for the 2 face cards
+        let gold_money_events: Vec<_> = events
+            .iter()
+            .filter(|e| e.kind == "gold_card_money")
+            .collect();
+        assert_eq!(gold_money_events.len(), 1);
+        assert!(gold_money_events[0].summary.contains("2 Gold Card(s)"));
     }
 }
