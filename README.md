@@ -240,13 +240,44 @@ results/
 - Joker 触发顺序一致
 - RNG 结果一致
 
+## Balatro 核心机制速查
+
+> 完整规则见 [rules/balatro_guide_for_llm.md](./rules/balatro_guide_for_llm.md)
+
+### 游戏流程
+
+```
+Ante 1-8，每层 3 个盲注：Small → Big → Boss
+每个盲注：选牌 → 出牌/弃牌 → 达标过关 → 商店 → 下一个
+```
+
+### 计分
+
+```
+得分 = (基础筹码 + 计分牌筹码) × (基础倍率 + 加法倍率) × 乘法倍率
+```
+
+| 牌型 | 筹码 | 倍率 | 牌型 | 筹码 | 倍率 |
+|------|------|------|------|------|------|
+| High Card | 5 | ×1 | Flush | 35 | ×4 |
+| Pair | 10 | ×2 | Full House | 40 | ×4 |
+| Two Pair | 20 | ×2 | Four of Kind | 60 | ×7 |
+| Three of Kind | 30 | ×3 | Straight Flush | 100 | ×8 |
+| Straight | 30 | ×4 | | | |
+
+### 关键约束
+
+- **出牌次数 = 0 时不能打牌**，弃牌也无法改变结局
+- 弃牌唯一作用是换牌（消耗弃牌次数，从牌堆抽新牌）
+- 利息：每持有 $5 回合末 +$1（上限 $5）
+- 小丑上限 5 个，消耗品上限 2 个
+- Boss Blind 不能跳过，有 20 种特殊负面效果
+
+---
+
 ## 下一步 Backlog
 
-见 [todo/20260331_backlog.md](./todo/20260331_backlog.md)。当前 TOP 3：
-
-1. **Game State Text Serializer** — 把 engine snapshot 转成 LM 可读的结构化文本
-2. **Claude API Agent + 数据收集** — 用强 LLM 玩 100+ 局，收集 (state, CoT, action) 训练数据
-3. **LLM Evaluation Harness** — 自动化评测：加载任意 LM，跑 N 局，输出 mean ante / win rate
+见 [todo/20260331_backlog.md](./todo/20260331_backlog.md)
 
 ## 协作约定
 
