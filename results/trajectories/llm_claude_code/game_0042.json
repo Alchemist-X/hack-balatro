@@ -1,0 +1,2433 @@
+{
+  "seed": 42,
+  "agent": "claude_code",
+  "won": false,
+  "final_ante": 6,
+  "steps": 303,
+  "trajectory": [
+    {
+      "step": 0,
+      "state_text": "[STAGE] PreBlind | Small Blind\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_0, skip_blind",
+      "reasoning": "Ante 1，进入Small Blind。$4。小丑: [无]。",
+      "action": "select_blind_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 1,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 9S | JC | AD | 6D | JD | 2H | 5D | 3H\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 2H",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 2,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 9S | JC | AD | 6D | JD | *2H* | 5D | 3H\n[SELECTED] 2H (1 cards)\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 3H",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 3,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 9S | JC | AD | 6D | JD | *2H* | 5D | *3H*\n[SELECTED] 2H 3H (2 cards)\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 9S",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 4,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] *9S* | JC | AD | 6D | JD | *2H* | 5D | *3H*\n[SELECTED] 9S 2H 3H (3 cards)\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 9S JC AD 6D JD 2H 5D 3H。牌型: Pair。对子+同花抽。弃: 2H 3H 9S。出4弃3，差300。",
+      "action": "discard",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 5,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | AD | 6D | JD | 5D | 9C | AC | 2D\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AD",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 6,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *AD* | 6D | JD | 5D | 9C | AC | 2D\n[SELECTED] AD (1 cards)\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JD",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 7,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *AD* | 6D | *JD* | 5D | 9C | AC | 2D\n[SELECTED] AD JD (2 cards)\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6D",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 8,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *AD* | *6D* | *JD* | 5D | 9C | AC | 2D\n[SELECTED] AD 6D JD (3 cards)\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5D",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 9,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *AD* | *6D* | *JD* | *5D* | 9C | AC | 2D\n[SELECTED] AD 6D JD 5D (4 cards)\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2D",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 10,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/300 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *AD* | *6D* | *JD* | *5D* | 9C | AC | *2D*\n[SELECTED] AD 6D JD 5D 2D (5 cards)\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: JC AD 6D JD 5D 9C AC 2D。最佳牌型: Flush(预估276)。打出: AD JD 6D 5D 2D。0/300差300。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 276
+    },
+    {
+      "step": 11,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 276/300 (92%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | 9C | AC | 7D | 9D | JS | 9H | 7C\n[DECK] 36 cards remaining | 8 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9C",
+      "action": "select_card_1",
+      "score_before": 276,
+      "score_after": 276
+    },
+    {
+      "step": 12,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 276/300 (92%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *9C* | AC | 7D | 9D | JS | 9H | 7C\n[SELECTED] 9C (1 cards)\n[DECK] 36 cards remaining | 8 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9D",
+      "action": "select_card_4",
+      "score_before": 276,
+      "score_after": 276
+    },
+    {
+      "step": 13,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 276/300 (92%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *9C* | AC | 7D | *9D* | JS | 9H | 7C\n[SELECTED] 9C 9D (2 cards)\n[DECK] 36 cards remaining | 8 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9H",
+      "action": "select_card_6",
+      "score_before": 276,
+      "score_after": 276
+    },
+    {
+      "step": 14,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 276/300 (92%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] JC | *9C* | AC | 7D | *9D* | JS | *9H* | 7C\n[SELECTED] 9C 9D 9H (3 cards)\n[DECK] 36 cards remaining | 8 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JC",
+      "action": "select_card_0",
+      "score_before": 276,
+      "score_after": 276
+    },
+    {
+      "step": 15,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 276/300 (92%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] *JC* | *9C* | AC | 7D | *9D* | JS | *9H* | 7C\n[SELECTED] JC 9C 9D 9H (4 cards)\n[DECK] 36 cards remaining | 8 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JS",
+      "action": "select_card_5",
+      "score_before": 276,
+      "score_after": 276
+    },
+    {
+      "step": 16,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 1 | Round 1\n[SCORE] 276/300 (92%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] *JC* | *9C* | AC | 7D | *9D* | *JS* | *9H* | 7C\n[SELECTED] JC 9C 9D JS 9H (5 cards)\n[DECK] 36 cards remaining | 8 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: JC 9C AC 7D 9D JS 9H 7C。最佳牌型: Full House(预估348)。打出: 9C 9D 9H JC JS。276/300差24。出3次。",
+      "action": "play",
+      "score_before": 276,
+      "score_after": 624
+    },
+    {
+      "step": 17,
+      "state_text": "[STAGE] PostBlind | Small Blind\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] AC | 7D | 7C\n[DECK] 36 cards remaining | 13 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！624/300。兑现。",
+      "action": "cashout",
+      "score_before": 624,
+      "score_after": 624
+    },
+    {
+      "step": 18,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $7\n[BOSS EFFECT] None\n[HAND] AC | 7D | 7C\n[SHOP JOKERS] Red Card($5) | Lusty Joker($5)\n[SHOP CONSUMABLES] Planet X | Talisman\n[REROLL COST] $5\n[DECK] 36 cards remaining | 13 discarded\n[LEGAL ACTIONS] buy_shop_item_0, buy_shop_item_1, buy_consumable_0, buy_consumable_1, next_round, reroll_shop",
+      "reasoning": "购买'Lusty Joker'($5)。优先级9。后$2。",
+      "action": "buy_shop_item_1",
+      "score_before": 624,
+      "score_after": 624
+    },
+    {
+      "step": 19,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $2\n[BOSS EFFECT] None\n[HAND] AC | 7D | 7C\n[JOKERS] Lusty Joker\n[SHOP JOKERS] Red Card($5) | Lusty Joker($5)\n[SHOP CONSUMABLES] Planet X | Talisman\n[REROLL COST] $5\n[DECK] 36 cards remaining | 13 discarded\n[LEGAL ACTIONS] next_round, sell_joker_0",
+      "reasoning": "商店完成。$2(利息+$0)。",
+      "action": "next_round",
+      "score_before": 624,
+      "score_after": 0
+    },
+    {
+      "step": 20,
+      "state_text": "[STAGE] PreBlind | Big Blind\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_1, skip_blind",
+      "reasoning": "Ante 1，进入Big Blind。$2。小丑: [Lusty Joker]。",
+      "action": "select_blind_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 21,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/450 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[HAND] 6H | 8H | KS | AH | 4H | QS | 7H | JS\n[JOKERS] Lusty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AH",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 22,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/450 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[HAND] 6H | 8H | KS | *AH* | 4H | QS | 7H | JS\n[SELECTED] AH (1 cards)\n[JOKERS] Lusty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 23,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/450 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[HAND] 6H | *8H* | KS | *AH* | 4H | QS | 7H | JS\n[SELECTED] 8H AH (2 cards)\n[JOKERS] Lusty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 7H",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 24,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/450 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[HAND] 6H | *8H* | KS | *AH* | 4H | QS | *7H* | JS\n[SELECTED] 8H AH 7H (3 cards)\n[JOKERS] Lusty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6H",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 25,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/450 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[HAND] *6H* | *8H* | KS | *AH* | 4H | QS | *7H* | JS\n[SELECTED] 6H 8H AH 7H (4 cards)\n[JOKERS] Lusty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4H",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 26,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 1 | Round 1\n[SCORE] 0/450 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[HAND] *6H* | *8H* | KS | *AH* | *4H* | QS | *7H* | JS\n[SELECTED] 6H 8H AH 4H 7H (5 cards)\n[JOKERS] Lusty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 6H 8H KS AH 4H QS 7H JS。最佳牌型: Flush(预估284)。打出: AH 8H 7H 6H 4H。0/450差450。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 5609
+    },
+    {
+      "step": 27,
+      "state_text": "[STAGE] PostBlind | Big Blind\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $2\n[BOSS EFFECT] None\n[HAND] KS | QS | JS\n[JOKERS] Lusty Joker\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！5609/450。兑现。",
+      "action": "cashout",
+      "score_before": 5609,
+      "score_after": 5609
+    },
+    {
+      "step": 28,
+      "state_text": "[STAGE] Shop | The Manacle\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $6\n[BOSS EFFECT] The Manacle\n[HAND] KS | QS | JS\n[JOKERS] Lusty Joker\n[SHOP JOKERS] Drunkard($4) | Abstract Joker($4)\n[SHOP CONSUMABLES] Ectoplasm\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_shop_item_0, buy_shop_item_1, buy_consumable_0, next_round, reroll_shop, sell_joker_0",
+      "reasoning": "购买'Abstract Joker'($4)。优先级7。后$2。",
+      "action": "buy_shop_item_1",
+      "score_before": 5609,
+      "score_after": 5609
+    },
+    {
+      "step": 29,
+      "state_text": "[STAGE] Shop | The Manacle\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] KS | QS | JS\n[JOKERS] Lusty Joker | Abstract Joker\n[SHOP JOKERS] Drunkard($4) | Abstract Joker($4)\n[SHOP CONSUMABLES] Ectoplasm\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] next_round, sell_joker_0, sell_joker_1",
+      "reasoning": "商店完成。$2(利息+$0)。",
+      "action": "next_round",
+      "score_before": 5609,
+      "score_after": 0
+    },
+    {
+      "step": 30,
+      "state_text": "[STAGE] PreBlind | The Manacle\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_2",
+      "reasoning": "Ante 1，进入The Manacle。$2。小丑: [Lusty Joker, Abstract Joker]。",
+      "action": "select_blind_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 31,
+      "state_text": "[STAGE] Blind | The Manacle\n[ANTE] 1 | Round 1\n[SCORE] 0/600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] 7D | 9H | 8H | 6D | KC | 3C | KH | QS\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KC",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 32,
+      "state_text": "[STAGE] Blind | The Manacle\n[ANTE] 1 | Round 1\n[SCORE] 0/600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] 7D | 9H | 8H | 6D | *KC* | 3C | KH | QS\n[SELECTED] KC (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KH",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 33,
+      "state_text": "[STAGE] Blind | The Manacle\n[ANTE] 1 | Round 1\n[SCORE] 0/600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] 7D | 9H | 8H | 6D | *KC* | 3C | *KH* | QS\n[SELECTED] KC KH (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QS",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 34,
+      "state_text": "[STAGE] Blind | The Manacle\n[ANTE] 1 | Round 1\n[SCORE] 0/600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] 7D | 9H | 8H | 6D | *KC* | 3C | *KH* | *QS*\n[SELECTED] KC KH QS (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9H",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 35,
+      "state_text": "[STAGE] Blind | The Manacle\n[ANTE] 1 | Round 1\n[SCORE] 0/600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] 7D | *9H* | 8H | 6D | *KC* | 3C | *KH* | *QS*\n[SELECTED] 9H KC KH QS (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 36,
+      "state_text": "[STAGE] Blind | The Manacle\n[ANTE] 1 | Round 1\n[SCORE] 0/600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] 7D | *9H* | *8H* | 6D | *KC* | 3C | *KH* | *QS*\n[SELECTED] 9H 8H KC KH QS (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 7D 9H 8H 6D KC 3C KH QS。最佳牌型: Pair(预估114)。打出: KC KH QS 9H 8H。0/600差600。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 4389
+    },
+    {
+      "step": 37,
+      "state_text": "[STAGE] PostBlind | The Manacle\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $2\n[BOSS EFFECT] The Manacle\n[HAND] 7D | 6D | 3C\n[JOKERS] Lusty Joker | Abstract Joker\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！4389/600。兑现。",
+      "action": "cashout",
+      "score_before": 4389,
+      "score_after": 4389
+    },
+    {
+      "step": 38,
+      "state_text": "[STAGE] Shop | The Manacle\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $7\n[BOSS EFFECT] The Manacle\n[HAND] 7D | 6D | 3C\n[JOKERS] Lusty Joker | Abstract Joker\n[SHOP JOKERS] Superposition($4) | Crafty Joker($4)\n[SHOP CONSUMABLES] The Wheel of Fortune\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_shop_item_0, buy_shop_item_1, buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1",
+      "reasoning": "购买'Crafty Joker'($4)。优先级7。后$3。",
+      "action": "buy_shop_item_1",
+      "score_before": 4389,
+      "score_after": 4389
+    },
+    {
+      "step": 39,
+      "state_text": "[STAGE] Shop | The Manacle\n[ANTE] 1 | Round 1\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $3\n[BOSS EFFECT] The Manacle\n[HAND] 7D | 6D | 3C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[SHOP JOKERS] Superposition($4) | Crafty Joker($4)\n[SHOP CONSUMABLES] The Wheel of Fortune\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_consumable_0, next_round, sell_joker_0, sell_joker_1, sell_joker_2",
+      "reasoning": "商店完成。$3(利息+$0)。",
+      "action": "next_round",
+      "score_before": 4389,
+      "score_after": 0
+    },
+    {
+      "step": 40,
+      "state_text": "[STAGE] PreBlind | Small Blind\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_0, skip_blind",
+      "reasoning": "Ante 2，进入Small Blind。$3。小丑: [Lusty Joker, Abstract Joker, Crafty Joker]。",
+      "action": "select_blind_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 41,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[HAND] 10C | AS | 4C | 8H | KD | 7H | KC | 3D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KD",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 42,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[HAND] 10C | AS | 4C | 8H | *KD* | 7H | KC | 3D\n[SELECTED] KD (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KC",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 43,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[HAND] 10C | AS | 4C | 8H | *KD* | 7H | *KC* | 3D\n[SELECTED] KD KC (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AS",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 44,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[HAND] 10C | *AS* | 4C | 8H | *KD* | 7H | *KC* | 3D\n[SELECTED] AS KD KC (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10C",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 45,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[HAND] *10C* | *AS* | 4C | 8H | *KD* | 7H | *KC* | 3D\n[SELECTED] 10C AS KD KC (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 46,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[HAND] *10C* | *AS* | 4C | *8H* | *KD* | 7H | *KC* | 3D\n[SELECTED] 10C AS 8H KD KC (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 10C AS 4C 8H KD 7H KC 3D。最佳牌型: Pair(预估118)。打出: KD KC AS 10C 8H。0/800差800。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 3658
+    },
+    {
+      "step": 47,
+      "state_text": "[STAGE] PostBlind | Small Blind\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $3\n[BOSS EFFECT] None\n[HAND] 4C | 7H | 3D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！3658/800。兑现。",
+      "action": "cashout",
+      "score_before": 3658,
+      "score_after": 3658
+    },
+    {
+      "step": 48,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $6\n[BOSS EFFECT] None\n[HAND] 4C | 7H | 3D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker\n[SHOP JOKERS] Loyalty Card($5) | Pareidolia($5)\n[SHOP CONSUMABLES] The Empress | The Tower\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_shop_item_0, buy_shop_item_1, buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2",
+      "reasoning": "购买'Loyalty Card'($5)。优先级6。后$1。",
+      "action": "buy_shop_item_0",
+      "score_before": 3658,
+      "score_after": 3658
+    },
+    {
+      "step": 49,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] 4C | 7H | 3D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[SHOP JOKERS] Loyalty Card($5) | Pareidolia($5)\n[SHOP CONSUMABLES] The Empress | The Tower\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] next_round, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3",
+      "reasoning": "商店完成。$1(利息+$0)。",
+      "action": "next_round",
+      "score_before": 3658,
+      "score_after": 0
+    },
+    {
+      "step": 50,
+      "state_text": "[STAGE] PreBlind | Big Blind\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_1, skip_blind",
+      "reasoning": "Ante 2，进入Big Blind。$1。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card]。",
+      "action": "select_blind_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 51,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] JD | AC | KD | 10D | 3C | 6C | 4S | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 4S",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 52,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] JD | AC | KD | 10D | 3C | 6C | *4S* | 7C\n[SELECTED] 4S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: JD",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 53,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] *JD* | AC | KD | 10D | 3C | 6C | *4S* | 7C\n[SELECTED] JD 4S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: KD",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 54,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] *JD* | AC | *KD* | 10D | 3C | 6C | *4S* | 7C\n[SELECTED] JD KD 4S (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 10D",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 55,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] *JD* | AC | *KD* | *10D* | 3C | 6C | *4S* | 7C\n[SELECTED] JD KD 10D 4S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: JD AC KD 10D 3C 6C 4S 7C。牌型: High Card。仅高牌。弃: 4S JD KD 10D。出4弃3，差1200。",
+      "action": "discard",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 56,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] AC | 3C | 6C | 7C | QD | 2S | AS | AD\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AC",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 57,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] *AC* | 3C | 6C | 7C | QD | 2S | AS | AD\n[SELECTED] AC (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AS",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 58,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] *AC* | 3C | 6C | 7C | QD | 2S | *AS* | AD\n[SELECTED] AC AS (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AD",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 59,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] *AC* | 3C | 6C | 7C | QD | 2S | *AS* | *AD*\n[SELECTED] AC AS AD (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QD",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 60,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] *AC* | 3C | 6C | 7C | *QD* | 2S | *AS* | *AD*\n[SELECTED] AC QD AS AD (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 7C",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 61,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 2 | Round 2\n[SCORE] 0/1200 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] *AC* | 3C | 6C | *7C* | *QD* | 2S | *AS* | *AD*\n[SELECTED] AC 7C QD AS AD (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: AC 3C 6C 7C QD 2S AS AD。最佳牌型: Three of a Kind(预估240)。打出: AC AS AD QD 7C。0/1200差1200。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 5040
+    },
+    {
+      "step": 62,
+      "state_text": "[STAGE] PostBlind | Big Blind\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 3C | 6C | 2S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！5040/1200。兑现。",
+      "action": "cashout",
+      "score_before": 5040,
+      "score_after": 5040
+    },
+    {
+      "step": 63,
+      "state_text": "[STAGE] Shop | The Fish\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $5\n[BOSS EFFECT] The Fish\n[HAND] 3C | 6C | 2S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card\n[SHOP JOKERS] Runner($5) | Devious Joker($4)\n[SHOP CONSUMABLES] Sigil | Ouija\n[REROLL COST] $5\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] buy_shop_item_0, buy_shop_item_1, buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3",
+      "reasoning": "购买'Runner'($5)。优先级8。后$0。",
+      "action": "buy_shop_item_0",
+      "score_before": 5040,
+      "score_after": 5040
+    },
+    {
+      "step": 64,
+      "state_text": "[STAGE] Shop | The Fish\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 3C | 6C | 2S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Runner($5) | Devious Joker($4)\n[SHOP CONSUMABLES] Sigil | Ouija\n[REROLL COST] $5\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] next_round, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$0(利息+$0)。",
+      "action": "next_round",
+      "score_before": 5040,
+      "score_after": 0
+    },
+    {
+      "step": 65,
+      "state_text": "[STAGE] PreBlind | The Fish\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_2",
+      "reasoning": "Ante 2，进入The Fish。$0。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 66,
+      "state_text": "[STAGE] Blind | The Fish\n[ANTE] 2 | Round 2\n[SCORE] 0/1600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | 6C | 10S | 5H | JH | QH | 6S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6C",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 67,
+      "state_text": "[STAGE] Blind | The Fish\n[ANTE] 2 | Round 2\n[SCORE] 0/1600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | *6C* | 10S | 5H | JH | QH | 6S\n[SELECTED] 6C (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6S",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 68,
+      "state_text": "[STAGE] Blind | The Fish\n[ANTE] 2 | Round 2\n[SCORE] 0/1600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | *6C* | 10S | 5H | JH | QH | *6S*\n[SELECTED] 6C 6S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QH",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 69,
+      "state_text": "[STAGE] Blind | The Fish\n[ANTE] 2 | Round 2\n[SCORE] 0/1600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | *6C* | 10S | 5H | JH | *QH* | *6S*\n[SELECTED] 6C QH 6S (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JH",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 70,
+      "state_text": "[STAGE] Blind | The Fish\n[ANTE] 2 | Round 2\n[SCORE] 0/1600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | *6C* | 10S | 5H | *JH* | *QH* | *6S*\n[SELECTED] 6C JH QH 6S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10S",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 71,
+      "state_text": "[STAGE] Blind | The Fish\n[ANTE] 2 | Round 2\n[SCORE] 0/1600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | *6C* | *10S* | 5H | *JH* | *QH* | *6S*\n[SELECTED] 6C 10S JH QH 6S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 2D 9C 6C 10S 5H JH QH 6S。最佳牌型: Pair(预估104)。打出: 6C 6S QH JH 10S。0/1600差1600。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 5564
+    },
+    {
+      "step": 72,
+      "state_text": "[STAGE] PostBlind | The Fish\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $0\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | 5H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！5564/1600。兑现。",
+      "action": "cashout",
+      "score_before": 5564,
+      "score_after": 5564
+    },
+    {
+      "step": 73,
+      "state_text": "[STAGE] Shop | The Fish\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $5\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | 5H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Hiker($5) | Ice Cream($5)\n[SHOP CONSUMABLES] Trance | The Devil\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "购买'Trance'[Spectral]($4)。",
+      "action": "buy_consumable_0",
+      "score_before": 5564,
+      "score_after": 5564
+    },
+    {
+      "step": 74,
+      "state_text": "[STAGE] Shop | The Fish\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $1\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | 5H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Trance\n[SHOP JOKERS] Hiker($5) | Ice Cream($5)\n[SHOP CONSUMABLES] The Devil\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] sell_consumable_0, next_round, use_consumable_0, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "使用'Trance'[Spectral]。升级/加强效果。",
+      "action": "use_consumable_0",
+      "score_before": 5564,
+      "score_after": 5564
+    },
+    {
+      "step": 75,
+      "state_text": "[STAGE] Shop | The Fish\n[ANTE] 2 | Round 2\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $1\n[BOSS EFFECT] The Fish\n[HAND] 2D | 9C | 5H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Hiker($5) | Ice Cream($5)\n[SHOP CONSUMABLES] The Devil\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] next_round, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$1(利息+$0)。",
+      "action": "next_round",
+      "score_before": 5564,
+      "score_after": 0
+    },
+    {
+      "step": 76,
+      "state_text": "[STAGE] PreBlind | Small Blind\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_0, skip_blind",
+      "reasoning": "Ante 3，进入Small Blind。$1。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 77,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | 3S | QD | 10S | 8H | QH | AS | 9H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 3S",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 78,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *3S* | QD | 10S | 8H | QH | AS | 9H\n[SELECTED] 3S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 10S",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 79,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *3S* | QD | *10S* | 8H | QH | AS | 9H\n[SELECTED] 3S 10S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: AS",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 80,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *3S* | QD | *10S* | 8H | QH | *AS* | 9H\n[SELECTED] 3S 10S AS (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 7H 3S QD 10S 8H QH AS 9H。牌型: Pair。对子+同花抽。弃: 3S 10S AS。出4弃3，差2800。",
+      "action": "discard",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 81,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | QD | 8H | QH | 9H | 10C | 3D | 8S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QD",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 82,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *QD* | 8H | QH | 9H | 10C | 3D | 8S\n[SELECTED] QD (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QH",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 83,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *QD* | 8H | *QH* | 9H | 10C | 3D | 8S\n[SELECTED] QD QH (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 84,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *QD* | *8H* | *QH* | 9H | 10C | 3D | 8S\n[SELECTED] QD 8H QH (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8S",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 85,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *QD* | *8H* | *QH* | 9H | 10C | 3D | *8S*\n[SELECTED] QD 8H QH 8S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10C",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 86,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/2800 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | *QD* | *8H* | *QH* | 9H | *10C* | 3D | *8S*\n[SELECTED] QD 8H QH 10C 8S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 41 cards remaining | 3 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 7H QD 8H QH 9H 10C 3D 8S。最佳牌型: Two Pair(预估132)。打出: QD QH 8H 8S 10C。0/2800差2800。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 7062
+    },
+    {
+      "step": 87,
+      "state_text": "[STAGE] PostBlind | Small Blind\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $1\n[BOSS EFFECT] None\n[HAND] 7H | 9H | 3D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 41 cards remaining | 8 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！7062/2800。兑现。",
+      "action": "cashout",
+      "score_before": 7062,
+      "score_after": 7062
+    },
+    {
+      "step": 88,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $4\n[BOSS EFFECT] None\n[HAND] 7H | 9H | 3D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Castle($6) | DNA($8)\n[SHOP CONSUMABLES] The High Priestess | Venus\n[REROLL COST] $5\n[DECK] 41 cards remaining | 8 discarded\n[LEGAL ACTIONS] buy_consumable_0, buy_consumable_1, next_round, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$4(利息+$0)。",
+      "action": "next_round",
+      "score_before": 7062,
+      "score_after": 0
+    },
+    {
+      "step": 89,
+      "state_text": "[STAGE] PreBlind | Big Blind\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_1, skip_blind",
+      "reasoning": "Ante 3，进入Big Blind。$4。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 90,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/4200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 2C | JH | 10S | KH | AC | 8S | QC | AH\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10S",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 91,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/4200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 2C | JH | *10S* | KH | AC | 8S | QC | AH\n[SELECTED] 10S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JH",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 92,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/4200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 2C | *JH* | *10S* | KH | AC | 8S | QC | AH\n[SELECTED] JH 10S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QC",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 93,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/4200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 2C | *JH* | *10S* | KH | AC | 8S | *QC* | AH\n[SELECTED] JH 10S QC (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KH",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 94,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/4200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 2C | *JH* | *10S* | *KH* | AC | 8S | *QC* | AH\n[SELECTED] JH 10S KH QC (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AC",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 95,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 3 | Round 3\n[SCORE] 0/4200 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 2C | *JH* | *10S* | *KH* | *AC* | 8S | *QC* | AH\n[SELECTED] JH 10S KH AC QC (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 2C JH 10S KH AC 8S QC AH。最佳牌型: Straight(预估324)。打出: 10S JH QC KH AC。0/4200差4200。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 8829
+    },
+    {
+      "step": 96,
+      "state_text": "[STAGE] PostBlind | Big Blind\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $4\n[BOSS EFFECT] None\n[HAND] 2C | 8S | AH\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！8829/4200。兑现。",
+      "action": "cashout",
+      "score_before": 8829,
+      "score_after": 8829
+    },
+    {
+      "step": 97,
+      "state_text": "[STAGE] Shop | The Wheel\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 2C | 8S | AH\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Photograph($5) | Devious Joker($4)\n[SHOP CONSUMABLES] Familiar | Sigil\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$8(利息+$1)。",
+      "action": "next_round",
+      "score_before": 8829,
+      "score_after": 0
+    },
+    {
+      "step": 98,
+      "state_text": "[STAGE] PreBlind | The Wheel\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_2",
+      "reasoning": "Ante 3，进入The Wheel。$8。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 99,
+      "state_text": "[STAGE] Blind | The Wheel\n[ANTE] 3 | Round 3\n[SCORE] 0/5600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 6H | 7S | 4H | AC | QD | 10H | 7C | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10H",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 100,
+      "state_text": "[STAGE] Blind | The Wheel\n[ANTE] 3 | Round 3\n[SCORE] 0/5600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 6H | 7S | 4H | AC | QD | *10H* | 7C | 10C\n[SELECTED] 10H (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10C",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 101,
+      "state_text": "[STAGE] Blind | The Wheel\n[ANTE] 3 | Round 3\n[SCORE] 0/5600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 6H | 7S | 4H | AC | QD | *10H* | 7C | *10C*\n[SELECTED] 10H 10C (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 7S",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 102,
+      "state_text": "[STAGE] Blind | The Wheel\n[ANTE] 3 | Round 3\n[SCORE] 0/5600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 6H | *7S* | 4H | AC | QD | *10H* | 7C | *10C*\n[SELECTED] 7S 10H 10C (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 7C",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 103,
+      "state_text": "[STAGE] Blind | The Wheel\n[ANTE] 3 | Round 3\n[SCORE] 0/5600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 6H | *7S* | 4H | AC | QD | *10H* | *7C* | *10C*\n[SELECTED] 7S 10H 7C 10C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AC",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 104,
+      "state_text": "[STAGE] Blind | The Wheel\n[ANTE] 3 | Round 3\n[SCORE] 0/5600 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 6H | *7S* | 4H | *AC* | QD | *10H* | *7C* | *10C*\n[SELECTED] 7S AC 10H 7C 10C (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 6H 7S 4H AC QD 10H 7C 10C。最佳牌型: Two Pair(预估130)。打出: 10H 10C 7S 7C AC。0/5600差5600。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 5980
+    },
+    {
+      "step": 105,
+      "state_text": "[STAGE] PostBlind | The Wheel\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $8\n[BOSS EFFECT] The Wheel\n[HAND] 6H | 4H | QD\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！5980/5600。兑现。",
+      "action": "cashout",
+      "score_before": 5980,
+      "score_after": 5980
+    },
+    {
+      "step": 106,
+      "state_text": "[STAGE] Shop | The Wheel\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Wheel\n[HAND] 6H | 4H | QD\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Scholar($4) | Baron($8)\n[SHOP CONSUMABLES] Grim | The Tower\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "购买'Grim'[Spectral]($4)。",
+      "action": "buy_consumable_0",
+      "score_before": 5980,
+      "score_after": 5980
+    },
+    {
+      "step": 107,
+      "state_text": "[STAGE] Shop | The Wheel\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $9\n[BOSS EFFECT] The Wheel\n[HAND] 6H | 4H | QD\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Grim\n[SHOP JOKERS] Scholar($4) | Baron($8)\n[SHOP CONSUMABLES] The Tower\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_consumable_0, sell_consumable_0, next_round, use_consumable_0, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "使用'Grim'[Spectral]。升级/加强效果。",
+      "action": "use_consumable_0",
+      "score_before": 5980,
+      "score_after": 5980
+    },
+    {
+      "step": 108,
+      "state_text": "[STAGE] Shop | The Wheel\n[ANTE] 3 | Round 3\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $9\n[BOSS EFFECT] The Wheel\n[HAND] 6H | 4H | QD\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Scholar($4) | Baron($8)\n[SHOP CONSUMABLES] The Tower\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$9(利息+$1)。",
+      "action": "next_round",
+      "score_before": 5980,
+      "score_after": 0
+    },
+    {
+      "step": 109,
+      "state_text": "[STAGE] PreBlind | Small Blind\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_0, skip_blind",
+      "reasoning": "Ante 4，进入Small Blind。$9。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 110,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/6000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[HAND] KD | AC | 6D | 2D | 7H | 5D | 9H | 9D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KD",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 111,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/6000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[HAND] *KD* | AC | 6D | 2D | 7H | 5D | 9H | 9D\n[SELECTED] KD (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9D",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 112,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/6000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[HAND] *KD* | AC | 6D | 2D | 7H | 5D | 9H | *9D*\n[SELECTED] KD 9D (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6D",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 113,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/6000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[HAND] *KD* | AC | *6D* | 2D | 7H | 5D | 9H | *9D*\n[SELECTED] KD 6D 9D (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5D",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 114,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/6000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[HAND] *KD* | AC | *6D* | 2D | 7H | *5D* | 9H | *9D*\n[SELECTED] KD 6D 5D 9D (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2D",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 115,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/6000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[HAND] *KD* | AC | *6D* | *2D* | 7H | *5D* | 9H | *9D*\n[SELECTED] KD 6D 2D 5D 9D (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: KD AC 6D 2D 7H 5D 9H 9D。最佳牌型: Flush(预估268)。打出: KD 9D 6D 5D 2D。0/6000差6000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 36893
+    },
+    {
+      "step": 116,
+      "state_text": "[STAGE] PostBlind | Small Blind\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $9\n[BOSS EFFECT] None\n[HAND] AC | 7H | 9H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！36893/6000。兑现。",
+      "action": "cashout",
+      "score_before": 36893,
+      "score_after": 36893
+    },
+    {
+      "step": 117,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $12\n[BOSS EFFECT] None\n[HAND] AC | 7H | 9H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Juggler($4) | Faceless Joker($4)\n[SHOP CONSUMABLES] The Tower\n[REROLL COST] $5\n[DECK] 44 cards remaining | 5 discarded\n[LEGAL ACTIONS] buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$12(利息+$2)。",
+      "action": "next_round",
+      "score_before": 36893,
+      "score_after": 0
+    },
+    {
+      "step": 118,
+      "state_text": "[STAGE] PreBlind | Big Blind\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_1, skip_blind",
+      "reasoning": "Ante 4，进入Big Blind。$12。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 119,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] None\n[HAND] 3C | AS | 2S | QD | 7C | 8S | JS | 6C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 3C",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 120,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] None\n[HAND] *3C* | AS | 2S | QD | 7C | 8S | JS | 6C\n[SELECTED] 3C (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 6C",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 121,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] None\n[HAND] *3C* | AS | 2S | QD | 7C | 8S | JS | *6C*\n[SELECTED] 3C 6C (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 7C",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 122,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] None\n[HAND] *3C* | AS | 2S | QD | *7C* | 8S | JS | *6C*\n[SELECTED] 3C 7C 6C (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: QD",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 123,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] None\n[HAND] *3C* | AS | 2S | *QD* | *7C* | 8S | JS | *6C*\n[SELECTED] 3C QD 7C 6C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 3C AS 2S QD 7C 8S JS 6C。牌型: High Card。仅高牌。弃: 3C 6C 7C QD。出4弃3，差9000。",
+      "action": "discard",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 124,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | JS | JD | 4D | 4H | 4S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4D",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 125,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | JS | JD | *4D* | 4H | 4S\n[SELECTED] 4D (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4H",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 126,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | JS | JD | *4D* | *4H* | 4S\n[SELECTED] 4D 4H (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4S",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 127,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | JS | JD | *4D* | *4H* | *4S*\n[SELECTED] 4D 4H 4S (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JS",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 128,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | *JS* | JD | *4D* | *4H* | *4S*\n[SELECTED] JS 4D 4H 4S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JD",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 129,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 0/9000 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | *JS* | *JD* | *4D* | *4H* | *4S*\n[SELECTED] JS JD 4D 4H 4S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: AS 2S 8S JS JD 4D 4H 4S。最佳牌型: Full House(预估288)。打出: 4D 4H 4S JS JD。0/9000差9000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 6768
+    },
+    {
+      "step": 130,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | 10H | 7D | 10C | QS | 5D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 35 cards remaining | 9 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 5D",
+      "action": "select_card_7",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 131,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | 10H | 7D | 10C | QS | *5D*\n[SELECTED] 5D (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 35 cards remaining | 9 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 7D",
+      "action": "select_card_4",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 132,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | 10H | *7D* | 10C | QS | *5D*\n[SELECTED] 7D 5D (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 35 cards remaining | 9 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: AS 2S 8S 10H 7D 10C QS 5D。牌型: Pair。对子+同花抽。弃: 5D 7D。出3弃2，差2232。",
+      "action": "discard",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 133,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 1 | Money: $12\n[BOSS EFFECT] None\n[HAND] AS | 2S | 8S | 10H | 10C | QS | 8D | 3S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 33 cards remaining | 11 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AS",
+      "action": "select_card_0",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 134,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 1 | Money: $12\n[BOSS EFFECT] None\n[HAND] *AS* | 2S | 8S | 10H | 10C | QS | 8D | 3S\n[SELECTED] AS (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 33 cards remaining | 11 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QS",
+      "action": "select_card_5",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 135,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 1 | Money: $12\n[BOSS EFFECT] None\n[HAND] *AS* | 2S | 8S | 10H | 10C | *QS* | 8D | 3S\n[SELECTED] AS QS (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 33 cards remaining | 11 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8S",
+      "action": "select_card_2",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 136,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 1 | Money: $12\n[BOSS EFFECT] None\n[HAND] *AS* | 2S | *8S* | 10H | 10C | *QS* | 8D | 3S\n[SELECTED] AS 8S QS (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 33 cards remaining | 11 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3S",
+      "action": "select_card_7",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 137,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 1 | Money: $12\n[BOSS EFFECT] None\n[HAND] *AS* | 2S | *8S* | 10H | 10C | *QS* | 8D | *3S*\n[SELECTED] AS 8S QS 3S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 33 cards remaining | 11 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2S",
+      "action": "select_card_1",
+      "score_before": 6768,
+      "score_after": 6768
+    },
+    {
+      "step": 138,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 4 | Round 4\n[SCORE] 6768/9000 (75%)\n[RESOURCES] Plays: 3 | Discards: 1 | Money: $12\n[BOSS EFFECT] None\n[HAND] *AS* | *2S* | *8S* | 10H | 10C | *QS* | 8D | *3S*\n[SELECTED] AS 2S 8S QS 3S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 33 cards remaining | 11 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: AS 2S 8S 10H 10C QS 8D 3S。最佳牌型: Flush(预估276)。打出: AS QS 8S 3S 2S。6768/9000差2232。出3次。",
+      "action": "play",
+      "score_before": 6768,
+      "score_after": 43819
+    },
+    {
+      "step": 139,
+      "state_text": "[STAGE] PostBlind | Big Blind\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 1 | Money: $12\n[BOSS EFFECT] None\n[HAND] 10H | 10C | 8D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 33 cards remaining | 16 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！43819/9000。兑现。",
+      "action": "cashout",
+      "score_before": 43819,
+      "score_after": 43819
+    },
+    {
+      "step": 140,
+      "state_text": "[STAGE] Shop | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 1 | Money: $16\n[BOSS EFFECT] The Window\n[HAND] 10H | 10C | 8D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Credit Card($1) | Seance($6)\n[SHOP CONSUMABLES] Sigil\n[REROLL COST] $5\n[DECK] 33 cards remaining | 16 discarded\n[LEGAL ACTIONS] buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "购买'Sigil'[Spectral]($4)。",
+      "action": "buy_consumable_0",
+      "score_before": 43819,
+      "score_after": 43819
+    },
+    {
+      "step": 141,
+      "state_text": "[STAGE] Shop | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 1 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] 10H | 10C | 8D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Sigil\n[SHOP JOKERS] Credit Card($1) | Seance($6)\n[REROLL COST] $5\n[DECK] 33 cards remaining | 16 discarded\n[LEGAL ACTIONS] sell_consumable_0, next_round, use_consumable_0, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "使用'Sigil'[Spectral]。升级/加强效果。",
+      "action": "use_consumable_0",
+      "score_before": 43819,
+      "score_after": 43819
+    },
+    {
+      "step": 142,
+      "state_text": "[STAGE] Shop | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 1 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] 10H | 10C | 8D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Credit Card($1) | Seance($6)\n[REROLL COST] $5\n[DECK] 33 cards remaining | 16 discarded\n[LEGAL ACTIONS] next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$12(利息+$2)。",
+      "action": "next_round",
+      "score_before": 43819,
+      "score_after": 0
+    },
+    {
+      "step": 143,
+      "state_text": "[STAGE] PreBlind | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_2",
+      "reasoning": "Ante 4，进入The Window。$12。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 144,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 0/12000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] 9S | 9H | JH | 9C | 6C | 3C | 6S | 8H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9S",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 145,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 0/12000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *9S* | 9H | JH | 9C | 6C | 3C | 6S | 8H\n[SELECTED] 9S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9H",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 146,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 0/12000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *9S* | *9H* | JH | 9C | 6C | 3C | 6S | 8H\n[SELECTED] 9S 9H (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9C",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 147,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 0/12000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *9S* | *9H* | JH | *9C* | 6C | 3C | 6S | 8H\n[SELECTED] 9S 9H 9C (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6C",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 148,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 0/12000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *9S* | *9H* | JH | *9C* | *6C* | 3C | 6S | 8H\n[SELECTED] 9S 9H 9C 6C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6S",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 149,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 0/12000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *9S* | *9H* | JH | *9C* | *6C* | 3C | *6S* | 8H\n[SELECTED] 9S 9H 9C 6C 6S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 9S 9H JH 9C 6C 3C 6S 8H。最佳牌型: Full House(预估316)。打出: 9S 9H 9C 6C 6S。0/12000差12000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 7426
+    },
+    {
+      "step": 150,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 7426/12000 (61%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] JH | 3C | 8H | JD | 2D | 7C | 10S | AC\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JH",
+      "action": "select_card_0",
+      "score_before": 7426,
+      "score_after": 7426
+    },
+    {
+      "step": 151,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 7426/12000 (61%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *JH* | 3C | 8H | JD | 2D | 7C | 10S | AC\n[SELECTED] JH (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JD",
+      "action": "select_card_3",
+      "score_before": 7426,
+      "score_after": 7426
+    },
+    {
+      "step": 152,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 7426/12000 (61%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *JH* | 3C | 8H | *JD* | 2D | 7C | 10S | AC\n[SELECTED] JH JD (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AC",
+      "action": "select_card_7",
+      "score_before": 7426,
+      "score_after": 7426
+    },
+    {
+      "step": 153,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 7426/12000 (61%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *JH* | 3C | 8H | *JD* | 2D | 7C | 10S | *AC*\n[SELECTED] JH JD AC (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10S",
+      "action": "select_card_6",
+      "score_before": 7426,
+      "score_after": 7426
+    },
+    {
+      "step": 154,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 7426/12000 (61%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *JH* | 3C | 8H | *JD* | 2D | 7C | *10S* | *AC*\n[SELECTED] JH JD 10S AC (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_2",
+      "score_before": 7426,
+      "score_after": 7426
+    },
+    {
+      "step": 155,
+      "state_text": "[STAGE] Blind | The Window\n[ANTE] 4 | Round 4\n[SCORE] 7426/12000 (61%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] *JH* | 3C | *8H* | *JD* | 2D | 7C | *10S* | *AC*\n[SELECTED] JH 8H JD 10S AC (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: JH 3C 8H JD 2D 7C 10S AC。最佳牌型: Pair(预估118)。打出: JH JD AC 10S 8H。7426/12000差4574。出3次。",
+      "action": "play",
+      "score_before": 7426,
+      "score_after": 13739
+    },
+    {
+      "step": 156,
+      "state_text": "[STAGE] PostBlind | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $12\n[BOSS EFFECT] The Window\n[HAND] 3C | 2D | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 10 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！13739/12000。兑现。",
+      "action": "cashout",
+      "score_before": 13739,
+      "score_after": 13739
+    },
+    {
+      "step": 157,
+      "state_text": "[STAGE] Shop | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $17\n[BOSS EFFECT] The Window\n[HAND] 3C | 2D | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Green Joker($4) | Scary Face($4)\n[SHOP CONSUMABLES] Trance\n[REROLL COST] $5\n[DECK] 39 cards remaining | 10 discarded\n[LEGAL ACTIONS] buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "购买'Trance'[Spectral]($4)。",
+      "action": "buy_consumable_0",
+      "score_before": 13739,
+      "score_after": 13739
+    },
+    {
+      "step": 158,
+      "state_text": "[STAGE] Shop | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Window\n[HAND] 3C | 2D | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Trance\n[SHOP JOKERS] Green Joker($4) | Scary Face($4)\n[REROLL COST] $5\n[DECK] 39 cards remaining | 10 discarded\n[LEGAL ACTIONS] sell_consumable_0, next_round, use_consumable_0, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "使用'Trance'[Spectral]。升级/加强效果。",
+      "action": "use_consumable_0",
+      "score_before": 13739,
+      "score_after": 13739
+    },
+    {
+      "step": 159,
+      "state_text": "[STAGE] Shop | The Window\n[ANTE] 4 | Round 4\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Window\n[HAND] 3C | 2D | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Green Joker($4) | Scary Face($4)\n[REROLL COST] $5\n[DECK] 39 cards remaining | 10 discarded\n[LEGAL ACTIONS] next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$13(利息+$2)。",
+      "action": "next_round",
+      "score_before": 13739,
+      "score_after": 0
+    },
+    {
+      "step": 160,
+      "state_text": "[STAGE] PreBlind | Small Blind\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_0, skip_blind",
+      "reasoning": "Ante 5，进入Small Blind。$13。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 161,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/11000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] AD | 6H | JD | 10H | JC | 5S | 8H | 7D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JD",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 162,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/11000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] AD | 6H | *JD* | 10H | JC | 5S | 8H | 7D\n[SELECTED] JD (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JC",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 163,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/11000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] AD | 6H | *JD* | 10H | *JC* | 5S | 8H | 7D\n[SELECTED] JD JC (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AD",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 164,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/11000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] *AD* | 6H | *JD* | 10H | *JC* | 5S | 8H | 7D\n[SELECTED] AD JD JC (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10H",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 165,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/11000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] *AD* | 6H | *JD* | *10H* | *JC* | 5S | 8H | 7D\n[SELECTED] AD JD 10H JC (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 166,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/11000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] *AD* | 6H | *JD* | *10H* | *JC* | 5S | *8H* | 7D\n[SELECTED] AD JD 10H JC 8H (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: AD 6H JD 10H JC 5S 8H 7D。最佳牌型: Pair(预估118)。打出: JD JC AD 10H 8H。0/11000差11000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 6313
+    },
+    {
+      "step": 167,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 6313/11000 (57%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] 6H | 5S | 7D | 7H | 3D | 4H | QS | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3D",
+      "action": "select_card_4",
+      "score_before": 6313,
+      "score_after": 6313
+    },
+    {
+      "step": 168,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 6313/11000 (57%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] 6H | 5S | 7D | 7H | *3D* | 4H | QS | 7C\n[SELECTED] 3D (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4H",
+      "action": "select_card_5",
+      "score_before": 6313,
+      "score_after": 6313
+    },
+    {
+      "step": 169,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 6313/11000 (57%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] 6H | 5S | 7D | 7H | *3D* | *4H* | QS | 7C\n[SELECTED] 3D 4H (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5S",
+      "action": "select_card_1",
+      "score_before": 6313,
+      "score_after": 6313
+    },
+    {
+      "step": 170,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 6313/11000 (57%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] 6H | *5S* | 7D | 7H | *3D* | *4H* | QS | 7C\n[SELECTED] 5S 3D 4H (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6H",
+      "action": "select_card_0",
+      "score_before": 6313,
+      "score_after": 6313
+    },
+    {
+      "step": 171,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 6313/11000 (57%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] *6H* | *5S* | 7D | 7H | *3D* | *4H* | QS | 7C\n[SELECTED] 6H 5S 3D 4H (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 7D",
+      "action": "select_card_2",
+      "score_before": 6313,
+      "score_after": 6313
+    },
+    {
+      "step": 172,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 5 | Round 5\n[SCORE] 6313/11000 (57%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] *6H* | *5S* | *7D* | 7H | *3D* | *4H* | QS | 7C\n[SELECTED] 6H 5S 7D 3D 4H (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 6H 5S 7D 7H 3D 4H QS 7C。最佳牌型: Straight(预估220)。打出: 3D 4H 5S 6H 7D。6313/11000差4687。出3次。",
+      "action": "play",
+      "score_before": 6313,
+      "score_after": 12308
+    },
+    {
+      "step": 173,
+      "state_text": "[STAGE] PostBlind | Small Blind\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $13\n[BOSS EFFECT] None\n[HAND] 7H | QS | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 10 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！12308/11000。兑现。",
+      "action": "cashout",
+      "score_before": 12308,
+      "score_after": 12308
+    },
+    {
+      "step": 174,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $16\n[BOSS EFFECT] None\n[HAND] 7H | QS | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] 8 Ball($5) | Baseball Card($8)\n[SHOP CONSUMABLES] The World | The Fool\n[REROLL COST] $5\n[DECK] 39 cards remaining | 10 discarded\n[LEGAL ACTIONS] buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$16(利息+$3)。",
+      "action": "next_round",
+      "score_before": 12308,
+      "score_after": 0
+    },
+    {
+      "step": 175,
+      "state_text": "[STAGE] PreBlind | Big Blind\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $16\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_blind_1, skip_blind",
+      "reasoning": "Ante 5，进入Big Blind。$16。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 176,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $16\n[BOSS EFFECT] None\n[HAND] 6S | 10H | 4H | QC | 5H | KC | 2H | 7D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 6S",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 177,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $16\n[BOSS EFFECT] None\n[HAND] *6S* | 10H | 4H | QC | 5H | KC | 2H | 7D\n[SELECTED] 6S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 7D",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 178,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $16\n[BOSS EFFECT] None\n[HAND] *6S* | 10H | 4H | QC | 5H | KC | 2H | *7D*\n[SELECTED] 6S 7D (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: QC",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 179,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $16\n[BOSS EFFECT] None\n[HAND] *6S* | 10H | 4H | *QC* | 5H | KC | 2H | *7D*\n[SELECTED] 6S QC 7D (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: KC",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 180,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $16\n[BOSS EFFECT] None\n[HAND] *6S* | 10H | 4H | *QC* | 5H | *KC* | 2H | *7D*\n[SELECTED] 6S QC KC 7D (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 6S 10H 4H QC 5H KC 2H 7D。牌型: High Card。仅高牌。弃: 6S 7D QC KC。出4弃3，差16500。",
+      "action": "discard",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 181,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $16\n[BOSS EFFECT] None\n[HAND] 10H | 4H | 5H | 2H | KS | 5C | 9H | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10H",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 182,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $16\n[BOSS EFFECT] None\n[HAND] *10H* | 4H | 5H | 2H | KS | 5C | 9H | 10C\n[SELECTED] 10H (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9H",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 183,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $16\n[BOSS EFFECT] None\n[HAND] *10H* | 4H | 5H | 2H | KS | 5C | *9H* | 10C\n[SELECTED] 10H 9H (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5H",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 184,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $16\n[BOSS EFFECT] None\n[HAND] *10H* | 4H | *5H* | 2H | KS | 5C | *9H* | 10C\n[SELECTED] 10H 5H 9H (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4H",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 185,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $16\n[BOSS EFFECT] None\n[HAND] *10H* | *4H* | *5H* | 2H | KS | 5C | *9H* | 10C\n[SELECTED] 10H 4H 5H 9H (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2H",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 186,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 5 | Round 5\n[SCORE] 0/16500 (0%)\n[RESOURCES] Plays: 4 | Discards: 2 | Money: $16\n[BOSS EFFECT] None\n[HAND] *10H* | *4H* | *5H* | *2H* | KS | 5C | *9H* | 10C\n[SELECTED] 10H 4H 5H 2H 9H (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 4 discarded\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 10H 4H 5H 2H KS 5C 9H 10C。最佳牌型: Flush(预估260)。打出: 10H 9H 5H 4H 2H。0/16500差16500。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 71610
+    },
+    {
+      "step": 187,
+      "state_text": "[STAGE] PostBlind | Big Blind\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $16\n[BOSS EFFECT] None\n[HAND] KS | 5C | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！71610/16500。兑现。",
+      "action": "cashout",
+      "score_before": 71610,
+      "score_after": 71610
+    },
+    {
+      "step": 188,
+      "state_text": "[STAGE] Shop | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $20\n[BOSS EFFECT] The Club\n[HAND] KS | 5C | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Spare Trousers($6) | Cavendish($4)\n[SHOP CONSUMABLES] Ankh | Earth\n[REROLL COST] $5\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "购买'Ankh'[Spectral]($4)。",
+      "action": "buy_consumable_0",
+      "score_before": 71610,
+      "score_after": 71610
+    },
+    {
+      "step": 189,
+      "state_text": "[STAGE] Shop | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $16\n[BOSS EFFECT] The Club\n[HAND] KS | 5C | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Ankh\n[SHOP JOKERS] Spare Trousers($6) | Cavendish($4)\n[SHOP CONSUMABLES] Earth\n[REROLL COST] $5\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] buy_consumable_0, sell_consumable_0, next_round, use_consumable_0, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "购买'Earth'[Planet]($3)。",
+      "action": "buy_consumable_0",
+      "score_before": 71610,
+      "score_after": 71610
+    },
+    {
+      "step": 190,
+      "state_text": "[STAGE] Shop | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] KS | 5C | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Ankh | Earth\n[SHOP JOKERS] Spare Trousers($6) | Cavendish($4)\n[REROLL COST] $5\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] sell_consumable_0, sell_consumable_1, next_round, use_consumable_0, use_consumable_1, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "使用'Ankh'[Spectral]。升级/加强效果。",
+      "action": "use_consumable_0",
+      "score_before": 71610,
+      "score_after": 71610
+    },
+    {
+      "step": 191,
+      "state_text": "[STAGE] Shop | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] KS | 5C | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Earth\n[SHOP JOKERS] Spare Trousers($6) | Cavendish($4)\n[REROLL COST] $5\n[DECK] 40 cards remaining | 9 discarded\n[LEGAL ACTIONS] sell_consumable_0, next_round, use_consumable_0, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "使用'Earth'[Planet]。升级/加强效果。",
+      "action": "use_consumable_0",
+      "score_before": 71610,
+      "score_after": 71610
+    },
+    {
+      "step": 192,
+      "state_text": "[STAGE] Shop | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] KS | 5C | 10C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Spare Trousers($6) | Cavendish($4)\n[REROLL COST] $5\n[DECK] 40 cards remaining | 9 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$13(利息+$2)。",
+      "action": "next_round",
+      "score_before": 71610,
+      "score_after": 0
+    },
+    {
+      "step": 193,
+      "state_text": "[STAGE] PreBlind | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_blind_2",
+      "reasoning": "Ante 5，进入The Club。$13。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 194,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 0/22000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | JD | 7H | 2S | 10H | AS | 2D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2S",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 195,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 0/22000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | JD | 7H | *2S* | 10H | AS | 2D\n[SELECTED] 2S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2D",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 196,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 0/22000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | JD | 7H | *2S* | 10H | AS | *2D*\n[SELECTED] 2S 2D (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AS",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 197,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 0/22000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | JD | 7H | *2S* | 10H | *AS* | *2D*\n[SELECTED] 2S AS 2D (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10H",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 198,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 0/22000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | JD | 7H | *2S* | *10H* | *AS* | *2D*\n[SELECTED] 2S 10H AS 2D (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JD",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 199,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 0/22000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | *JD* | 7H | *2S* | *10H* | *AS* | *2D*\n[SELECTED] JD 2S 10H AS 2D (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 3C QC JD 7H 2S 10H AS 2D。最佳牌型: Pair(预估90)。打出: 2S 2D AS 10H JD。0/22000差22000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 4140
+    },
+    {
+      "step": 200,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | 7H | 9S | JC | 3D | 8D | 4C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 7H",
+      "action": "select_card_2",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 201,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | *7H* | 9S | JC | 3D | 8D | 4C\n[SELECTED] 7H (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 8D",
+      "action": "select_card_6",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 202,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | *7H* | 9S | JC | 3D | *8D* | 4C\n[SELECTED] 7H 8D (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 9S",
+      "action": "select_card_3",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 203,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | *7H* | *9S* | JC | 3D | *8D* | 4C\n[SELECTED] 7H 9S 8D (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 3C QC 7H 9S JC 3D 8D 4C。牌型: Pair。对子+同花抽。弃: 7H 8D 9S。出3弃3，差17860。",
+      "action": "discard",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 204,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | JC | 3D | 4C | 10D | 6C | 4H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JC",
+      "action": "select_card_2",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 205,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | QC | *JC* | 3D | 4C | 10D | 6C | 4H\n[SELECTED] JC (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QC",
+      "action": "select_card_1",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 206,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | *QC* | *JC* | 3D | 4C | 10D | 6C | 4H\n[SELECTED] QC JC (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6C",
+      "action": "select_card_6",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 207,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | *QC* | *JC* | 3D | 4C | 10D | *6C* | 4H\n[SELECTED] QC JC 6C (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4C",
+      "action": "select_card_4",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 208,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3C | *QC* | *JC* | 3D | *4C* | 10D | *6C* | 4H\n[SELECTED] QC JC 4C 6C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3C",
+      "action": "select_card_0",
+      "score_before": 4140,
+      "score_after": 4140
+    },
+    {
+      "step": 209,
+      "state_text": "[STAGE] Blind | The Club\n[ANTE] 5 | Round 5\n[SCORE] 4140/22000 (18%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] *3C* | *QC* | *JC* | 3D | *4C* | 10D | *6C* | 4H\n[SELECTED] 3C QC JC 4C 6C (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 3C QC JC 3D 4C 10D 6C 4H。最佳牌型: Flush(预估272)。打出: JC QC 6C 4C 3C。4140/22000差17860。出3次。",
+      "action": "play",
+      "score_before": 4140,
+      "score_after": 41112
+    },
+    {
+      "step": 210,
+      "state_text": "[STAGE] PostBlind | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $13\n[BOSS EFFECT] The Club\n[HAND] 3D | 10D | 4H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 13 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！41112/22000。兑现。",
+      "action": "cashout",
+      "score_before": 41112,
+      "score_after": 41112
+    },
+    {
+      "step": 211,
+      "state_text": "[STAGE] Shop | The Club\n[ANTE] 5 | Round 5\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $18\n[BOSS EFFECT] The Club\n[HAND] 3D | 10D | 4H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] To the Moon($5) | Gros Michel($5)\n[SHOP CONSUMABLES] The Fool\n[REROLL COST] $5\n[DECK] 36 cards remaining | 13 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$18(利息+$3)。",
+      "action": "next_round",
+      "score_before": 41112,
+      "score_after": 0
+    },
+    {
+      "step": 212,
+      "state_text": "[STAGE] PreBlind | Small Blind\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_blind_0, skip_blind",
+      "reasoning": "Ante 6，进入Small Blind。$18。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 213,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/20000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 9H | 6H | KC | JD | KH | KD | AD\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KC",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 214,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/20000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 9H | 6H | *KC* | JD | KH | KD | AD\n[SELECTED] KC (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KH",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 215,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/20000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 9H | 6H | *KC* | JD | *KH* | KD | AD\n[SELECTED] KC KH (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KD",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 216,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/20000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 9H | 6H | *KC* | JD | *KH* | *KD* | AD\n[SELECTED] KC KH KD (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AD",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 217,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/20000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 9H | 6H | *KC* | JD | *KH* | *KD* | *AD*\n[SELECTED] KC KH KD AD (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JD",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 218,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/20000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 9H | 6H | *KC* | *JD* | *KH* | *KD* | *AD*\n[SELECTED] KC JD KH KD AD (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 2C 9H 6H KC JD KH KD AD。最佳牌型: Three of a Kind(预估243)。打出: KC KH KD AD JD。0/20000差20000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 7533
+    },
+    {
+      "step": 219,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 7533/20000 (37%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 9H | 6H | 2S | 5C | 6D | 9C | 8H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9H",
+      "action": "select_card_1",
+      "score_before": 7533,
+      "score_after": 7533
+    },
+    {
+      "step": 220,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 7533/20000 (37%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | *9H* | 6H | 2S | 5C | 6D | 9C | 8H\n[SELECTED] 9H (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9C",
+      "action": "select_card_6",
+      "score_before": 7533,
+      "score_after": 7533
+    },
+    {
+      "step": 221,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 7533/20000 (37%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | *9H* | 6H | 2S | 5C | 6D | *9C* | 8H\n[SELECTED] 9H 9C (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6H",
+      "action": "select_card_2",
+      "score_before": 7533,
+      "score_after": 7533
+    },
+    {
+      "step": 222,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 7533/20000 (37%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | *9H* | *6H* | 2S | 5C | 6D | *9C* | 8H\n[SELECTED] 9H 6H 9C (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6D",
+      "action": "select_card_5",
+      "score_before": 7533,
+      "score_after": 7533
+    },
+    {
+      "step": 223,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 7533/20000 (37%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | *9H* | *6H* | 2S | 5C | *6D* | *9C* | 8H\n[SELECTED] 9H 6H 6D 9C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_7",
+      "score_before": 7533,
+      "score_after": 7533
+    },
+    {
+      "step": 224,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 7533/20000 (37%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | *9H* | *6H* | 2S | 5C | *6D* | *9C* | *8H*\n[SELECTED] 9H 6H 6D 9C 8H (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 2C 9H 6H 2S 5C 6D 9C 8H。最佳牌型: Two Pair(预估116)。打出: 9H 9C 6H 6D 8H。7533/20000差12467。出3次。",
+      "action": "play",
+      "score_before": 7533,
+      "score_after": 14609
+    },
+    {
+      "step": 225,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 14609/20000 (73%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 2C | 2S | 5C | AH | JC | 10S | 7H | 3H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2C",
+      "action": "select_card_0",
+      "score_before": 14609,
+      "score_after": 14609
+    },
+    {
+      "step": 226,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 14609/20000 (73%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *2C* | 2S | 5C | AH | JC | 10S | 7H | 3H\n[SELECTED] 2C (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2S",
+      "action": "select_card_1",
+      "score_before": 14609,
+      "score_after": 14609
+    },
+    {
+      "step": 227,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 14609/20000 (73%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *2C* | *2S* | 5C | AH | JC | 10S | 7H | 3H\n[SELECTED] 2C 2S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: AH",
+      "action": "select_card_3",
+      "score_before": 14609,
+      "score_after": 14609
+    },
+    {
+      "step": 228,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 14609/20000 (73%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *2C* | *2S* | 5C | *AH* | JC | 10S | 7H | 3H\n[SELECTED] 2C 2S AH (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10S",
+      "action": "select_card_5",
+      "score_before": 14609,
+      "score_after": 14609
+    },
+    {
+      "step": 229,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 14609/20000 (73%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *2C* | *2S* | 5C | *AH* | JC | *10S* | 7H | 3H\n[SELECTED] 2C 2S AH 10S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: JC",
+      "action": "select_card_4",
+      "score_before": 14609,
+      "score_after": 14609
+    },
+    {
+      "step": 230,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 14609/20000 (73%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *2C* | *2S* | 5C | *AH* | *JC* | *10S* | 7H | 3H\n[SELECTED] 2C 2S AH JC 10S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 2C 2S 5C AH JC 10S 7H 3H。最佳牌型: Pair(预估90)。打出: 2C 2S AH 10S JC。14609/20000差5391。出2次。",
+      "action": "play",
+      "score_before": 14609,
+      "score_after": 18749
+    },
+    {
+      "step": 231,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 18749/20000 (93%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 5C | 7H | 3H | 10H | JS | 5D | 4H | 6C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3H",
+      "action": "select_card_2",
+      "score_before": 18749,
+      "score_after": 18749
+    },
+    {
+      "step": 232,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 18749/20000 (93%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 5C | 7H | *3H* | 10H | JS | 5D | 4H | 6C\n[SELECTED] 3H (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4H",
+      "action": "select_card_6",
+      "score_before": 18749,
+      "score_after": 18749
+    },
+    {
+      "step": 233,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 18749/20000 (93%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 5C | 7H | *3H* | 10H | JS | 5D | *4H* | 6C\n[SELECTED] 3H 4H (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5C",
+      "action": "select_card_0",
+      "score_before": 18749,
+      "score_after": 18749
+    },
+    {
+      "step": 234,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 18749/20000 (93%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *5C* | 7H | *3H* | 10H | JS | 5D | *4H* | 6C\n[SELECTED] 5C 3H 4H (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6C",
+      "action": "select_card_7",
+      "score_before": 18749,
+      "score_after": 18749
+    },
+    {
+      "step": 235,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 18749/20000 (93%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *5C* | 7H | *3H* | 10H | JS | 5D | *4H* | *6C*\n[SELECTED] 5C 3H 4H 6C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 7H",
+      "action": "select_card_1",
+      "score_before": 18749,
+      "score_after": 18749
+    },
+    {
+      "step": 236,
+      "state_text": "[STAGE] Blind | Small Blind\n[ANTE] 6 | Round 6\n[SCORE] 18749/20000 (93%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] *5C* | *7H* | *3H* | 10H | JS | 5D | *4H* | *6C*\n[SELECTED] 5C 7H 3H 4H 6C (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 5C 7H 3H 10H JS 5D 4H 6C。最佳牌型: Straight(预估220)。打出: 3H 4H 5C 6C 7H。18749/20000差1251。出1次。",
+      "action": "play",
+      "score_before": 18749,
+      "score_after": 25569
+    },
+    {
+      "step": 237,
+      "state_text": "[STAGE] PostBlind | Small Blind\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $18\n[BOSS EFFECT] None\n[HAND] 10H | JS | 5D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！25569/20000。兑现。",
+      "action": "cashout",
+      "score_before": 25569,
+      "score_after": 25569
+    },
+    {
+      "step": 238,
+      "state_text": "[STAGE] Shop | Big Blind\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 10H | JS | 5D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Fortune Teller($6) | Ceremonial Dagger($6)\n[SHOP CONSUMABLES] The Sun\n[REROLL COST] $5\n[DECK] 29 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$21(利息+$4)。",
+      "action": "next_round",
+      "score_before": 25569,
+      "score_after": 0
+    },
+    {
+      "step": 239,
+      "state_text": "[STAGE] PreBlind | Big Blind\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_blind_1, skip_blind",
+      "reasoning": "Ante 6，进入Big Blind。$21。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 240,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/30000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 3C | 5S | 8C | QS | KS | 3S | 5H | 10D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5S",
+      "action": "select_card_1",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 241,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/30000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 3C | *5S* | 8C | QS | KS | 3S | 5H | 10D\n[SELECTED] 5S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5H",
+      "action": "select_card_6",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 242,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/30000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 3C | *5S* | 8C | QS | KS | 3S | *5H* | 10D\n[SELECTED] 5S 5H (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3C",
+      "action": "select_card_0",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 243,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/30000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] *3C* | *5S* | 8C | QS | KS | 3S | *5H* | 10D\n[SELECTED] 3C 5S 5H (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3S",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 244,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/30000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] *3C* | *5S* | 8C | QS | KS | *3S* | *5H* | 10D\n[SELECTED] 3C 5S 3S 5H (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10D",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 245,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 0/30000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] *3C* | *5S* | 8C | QS | KS | *3S* | *5H* | *10D*\n[SELECTED] 3C 5S 3S 5H 10D (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 3C 5S 8C QS KS 3S 5H 10D。最佳牌型: Two Pair(预估92)。打出: 5S 5H 3C 3S 10D。0/30000差30000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 4232
+    },
+    {
+      "step": 246,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | QS | KS | 7H | 6S | AH | 2C | 8S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 2C",
+      "action": "select_card_6",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 247,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | QS | KS | 7H | 6S | AH | *2C* | 8S\n[SELECTED] 2C (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: 7H",
+      "action": "select_card_3",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 248,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | QS | KS | *7H* | 6S | AH | *2C* | 8S\n[SELECTED] 7H 2C (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "弃: AH",
+      "action": "select_card_5",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 249,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | QS | KS | *7H* | 6S | *AH* | *2C* | 8S\n[SELECTED] 7H AH 2C (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 8C QS KS 7H 6S AH 2C 8S。牌型: Pair。对子+同花抽。弃: 2C 7H AH。出3弃3，差25768。",
+      "action": "discard",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 250,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | QS | KS | 6S | 8S | KC | 10S | 6H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10S",
+      "action": "select_card_6",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 251,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | QS | KS | 6S | 8S | KC | *10S* | 6H\n[SELECTED] 10S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KS",
+      "action": "select_card_2",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 252,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | QS | *KS* | 6S | 8S | KC | *10S* | 6H\n[SELECTED] KS 10S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QS",
+      "action": "select_card_1",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 253,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | *QS* | *KS* | 6S | 8S | KC | *10S* | 6H\n[SELECTED] QS KS 10S (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8S",
+      "action": "select_card_4",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 254,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | *QS* | *KS* | 6S | *8S* | KC | *10S* | 6H\n[SELECTED] QS KS 8S 10S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6S",
+      "action": "select_card_3",
+      "score_before": 4232,
+      "score_after": 4232
+    },
+    {
+      "step": 255,
+      "state_text": "[STAGE] Blind | Big Blind\n[ANTE] 6 | Round 6\n[SCORE] 4232/30000 (14%)\n[RESOURCES] Plays: 3 | Discards: 2 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | *QS* | *KS* | *6S* | *8S* | KC | *10S* | 6H\n[SELECTED] QS KS 6S 8S 10S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 8 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 8C QS KS 6S 8S KC 10S 6H。最佳牌型: Flush(预估316)。打出: 10S KS QS 8S 6S。4232/30000差25768。出3次。",
+      "action": "play",
+      "score_before": 4232,
+      "score_after": 42073
+    },
+    {
+      "step": 256,
+      "state_text": "[STAGE] PostBlind | Big Blind\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $21\n[BOSS EFFECT] None\n[HAND] 8C | KC | 6H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 36 cards remaining | 13 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] cashout",
+      "reasoning": "盲注通过！42073/30000。兑现。",
+      "action": "cashout",
+      "score_before": 42073,
+      "score_after": 42073
+    },
+    {
+      "step": 257,
+      "state_text": "[STAGE] Shop | The Flint\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $25\n[BOSS EFFECT] The Flint\n[HAND] 8C | KC | 6H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Seance($6) | Gros Michel($5)\n[SHOP CONSUMABLES] Immolate | The Hanged Man\n[REROLL COST] $5\n[DECK] 36 cards remaining | 13 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] buy_consumable_0, buy_consumable_1, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "购买'Immolate'[Spectral]($4)。",
+      "action": "buy_consumable_0",
+      "score_before": 42073,
+      "score_after": 42073
+    },
+    {
+      "step": 258,
+      "state_text": "[STAGE] Shop | The Flint\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 8C | KC | 6H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[CONSUMABLES] Immolate\n[SHOP JOKERS] Seance($6) | Gros Michel($5)\n[SHOP CONSUMABLES] The Hanged Man\n[REROLL COST] $5\n[DECK] 36 cards remaining | 13 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] buy_consumable_0, sell_consumable_0, next_round, use_consumable_0, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "使用'Immolate'[Spectral]。升级/加强效果。",
+      "action": "use_consumable_0",
+      "score_before": 42073,
+      "score_after": 42073
+    },
+    {
+      "step": 259,
+      "state_text": "[STAGE] Shop | The Flint\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 2 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 8C | KC | 6H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[SHOP JOKERS] Seance($6) | Gros Michel($5)\n[SHOP CONSUMABLES] The Hanged Man\n[REROLL COST] $5\n[DECK] 36 cards remaining | 13 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] buy_consumable_0, next_round, reroll_shop, sell_joker_0, sell_joker_1, sell_joker_2, sell_joker_3, sell_joker_4",
+      "reasoning": "商店完成。$21(利息+$4)。",
+      "action": "next_round",
+      "score_before": 42073,
+      "score_after": 0
+    },
+    {
+      "step": 260,
+      "state_text": "[STAGE] PreBlind | The Flint\n[ANTE] 6 | Round 6\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 0 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_blind_2",
+      "reasoning": "Ante 6，进入The Flint。$21。小丑: [Lusty Joker, Abstract Joker, Crafty Joker, Loyalty Card, Runner]。",
+      "action": "select_blind_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 261,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 0/40000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | 4S | 4C | 4D | 3S | 10C | 3C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4S",
+      "action": "select_card_2",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 262,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 0/40000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | *4S* | 4C | 4D | 3S | 10C | 3C\n[SELECTED] 4S (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4C",
+      "action": "select_card_3",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 263,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 0/40000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | *4S* | *4C* | 4D | 3S | 10C | 3C\n[SELECTED] 4S 4C (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 4D",
+      "action": "select_card_4",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 264,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 0/40000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | *4S* | *4C* | *4D* | 3S | 10C | 3C\n[SELECTED] 4S 4C 4D (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3S",
+      "action": "select_card_5",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 265,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 0/40000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | *4S* | *4C* | *4D* | *3S* | 10C | 3C\n[SELECTED] 4S 4C 4D 3S (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 3C",
+      "action": "select_card_7",
+      "score_before": 0,
+      "score_after": 0
+    },
+    {
+      "step": 266,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 0/40000 (0%)\n[RESOURCES] Plays: 4 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | *4S* | *4C* | *4D* | *3S* | 10C | *3C*\n[SELECTED] 4S 4C 4D 3S 3C (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 44 cards remaining | 0 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 5H 8H 4S 4C 4D 3S 10C 3C。最佳牌型: Full House(预估232)。打出: 4S 4C 4D 3S 3C。0/40000差40000。出4次。",
+      "action": "play",
+      "score_before": 0,
+      "score_after": 6723
+    },
+    {
+      "step": 267,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 6723/40000 (16%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | 10C | 6H | AD | QH | 9S | 7C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 6H",
+      "action": "select_card_3",
+      "score_before": 6723,
+      "score_after": 6723
+    },
+    {
+      "step": 268,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 6723/40000 (16%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | 10C | *6H* | AD | QH | 9S | 7C\n[SELECTED] 6H (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 7C",
+      "action": "select_card_7",
+      "score_before": 6723,
+      "score_after": 6723
+    },
+    {
+      "step": 269,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 6723/40000 (16%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | 8H | 10C | *6H* | AD | QH | 9S | *7C*\n[SELECTED] 6H 7C (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 8H",
+      "action": "select_card_1",
+      "score_before": 6723,
+      "score_after": 6723
+    },
+    {
+      "step": 270,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 6723/40000 (16%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | *8H* | 10C | *6H* | AD | QH | 9S | *7C*\n[SELECTED] 8H 6H 7C (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 9S",
+      "action": "select_card_6",
+      "score_before": 6723,
+      "score_after": 6723
+    },
+    {
+      "step": 271,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 6723/40000 (16%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | *8H* | 10C | *6H* | AD | QH | *9S* | *7C*\n[SELECTED] 8H 6H 9S 7C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 10C",
+      "action": "select_card_2",
+      "score_before": 6723,
+      "score_after": 6723
+    },
+    {
+      "step": 272,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 6723/40000 (16%)\n[RESOURCES] Plays: 3 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | *8H* | *10C* | *6H* | AD | QH | *9S* | *7C*\n[SELECTED] 8H 10C 6H 9S 7C (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 39 cards remaining | 5 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 5H 8H 10C 6H AD QH 9S 7C。最佳牌型: Straight(预估280)。打出: 6H 7C 8H 9S 10C。6723/40000差33277。出3次。",
+      "action": "play",
+      "score_before": 6723,
+      "score_after": 14353
+    },
+    {
+      "step": 273,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 14353/40000 (35%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | AD | QH | KH | QC | 5D | QD | 2C\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QH",
+      "action": "select_card_2",
+      "score_before": 14353,
+      "score_after": 14353
+    },
+    {
+      "step": 274,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 14353/40000 (35%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | AD | *QH* | KH | QC | 5D | QD | 2C\n[SELECTED] QH (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QC",
+      "action": "select_card_4",
+      "score_before": 14353,
+      "score_after": 14353
+    },
+    {
+      "step": 275,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 14353/40000 (35%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | AD | *QH* | KH | *QC* | 5D | QD | 2C\n[SELECTED] QH QC (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: QD",
+      "action": "select_card_6",
+      "score_before": 14353,
+      "score_after": 14353
+    },
+    {
+      "step": 276,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 14353/40000 (35%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 5H | AD | *QH* | KH | *QC* | 5D | *QD* | 2C\n[SELECTED] QH QC QD (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5H",
+      "action": "select_card_0",
+      "score_before": 14353,
+      "score_after": 14353
+    },
+    {
+      "step": 277,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 14353/40000 (35%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *5H* | AD | *QH* | KH | *QC* | 5D | *QD* | 2C\n[SELECTED] 5H QH QC QD (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 5D",
+      "action": "select_card_5",
+      "score_before": 14353,
+      "score_after": 14353
+    },
+    {
+      "step": 278,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 14353/40000 (35%)\n[RESOURCES] Plays: 2 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *5H* | AD | *QH* | KH | *QC* | *5D* | *QD* | 2C\n[SELECTED] 5H QH QC 5D QD (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 34 cards remaining | 10 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: 5H AD QH KH QC 5D QD 2C。最佳牌型: Full House(预估320)。打出: QH QC QD 5H 5D。14353/40000差25647。出2次。",
+      "action": "play",
+      "score_before": 14353,
+      "score_after": 26008
+    },
+    {
+      "step": 279,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 26008/40000 (65%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] AD | KH | 2C | KS | 2D | 2H | 8S | 3H\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2C",
+      "action": "select_card_2",
+      "score_before": 26008,
+      "score_after": 26008
+    },
+    {
+      "step": 280,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 26008/40000 (65%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] AD | KH | *2C* | KS | 2D | 2H | 8S | 3H\n[SELECTED] 2C (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2D",
+      "action": "select_card_4",
+      "score_before": 26008,
+      "score_after": 26008
+    },
+    {
+      "step": 281,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 26008/40000 (65%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] AD | KH | *2C* | KS | *2D* | 2H | 8S | 3H\n[SELECTED] 2C 2D (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: 2H",
+      "action": "select_card_5",
+      "score_before": 26008,
+      "score_after": 26008
+    },
+    {
+      "step": 282,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 26008/40000 (65%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] AD | KH | *2C* | KS | *2D* | *2H* | 8S | 3H\n[SELECTED] 2C 2D 2H (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KH",
+      "action": "select_card_1",
+      "score_before": 26008,
+      "score_after": 26008
+    },
+    {
+      "step": 283,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 26008/40000 (65%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] AD | *KH* | *2C* | KS | *2D* | *2H* | 8S | 3H\n[SELECTED] KH 2C 2D 2H (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "选: KS",
+      "action": "select_card_3",
+      "score_before": 26008,
+      "score_after": 26008
+    },
+    {
+      "step": 284,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 26008/40000 (65%)\n[RESOURCES] Plays: 1 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] AD | *KH* | *2C* | *KS* | *2D* | *2H* | 8S | 3H\n[SELECTED] KH 2C KS 2D 2H (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 29 cards remaining | 15 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, play, discard",
+      "reasoning": "手牌: AD KH 2C KS 2D 2H 8S 3H。最佳牌型: Full House(预估264)。打出: 2C 2D 2H KH KS。26008/40000差13992。出1次。",
+      "action": "play",
+      "score_before": 26008,
+      "score_after": 36109
+    },
+    {
+      "step": 285,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] AD | 8S | 3H | 9H | 5S | 3D | 6S | 7S\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 24 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_0",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 286,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *AD* | 8S | 3H | 9H | 5S | 3D | 6S | 7S\n[SELECTED] AD (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 24 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_1",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 287,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *AD* | *8S* | 3H | 9H | 5S | 3D | 6S | 7S\n[SELECTED] AD 8S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 24 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_2",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 288,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *AD* | *8S* | *3H* | 9H | 5S | 3D | 6S | 7S\n[SELECTED] AD 8S 3H (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 24 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_3",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 289,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *AD* | *8S* | *3H* | *9H* | 5S | 3D | 6S | 7S\n[SELECTED] AD 8S 3H 9H (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 24 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_4",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 290,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 3 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *AD* | *8S* | *3H* | *9H* | *5S* | 3D | 6S | 7S\n[SELECTED] AD 8S 3H 9H 5S (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 24 cards remaining | 20 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "出牌耗尽，消耗弃牌。36109/40000",
+      "action": "discard",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 291,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 3D | 6S | 7S | 5C | AH | 7H | AC | KD\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 19 cards remaining | 25 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_0",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 292,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *3D* | 6S | 7S | 5C | AH | 7H | AC | KD\n[SELECTED] 3D (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 19 cards remaining | 25 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_1",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 293,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *3D* | *6S* | 7S | 5C | AH | 7H | AC | KD\n[SELECTED] 3D 6S (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 19 cards remaining | 25 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_2",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 294,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *3D* | *6S* | *7S* | 5C | AH | 7H | AC | KD\n[SELECTED] 3D 6S 7S (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 19 cards remaining | 25 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_3",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 295,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *3D* | *6S* | *7S* | *5C* | AH | 7H | AC | KD\n[SELECTED] 3D 6S 7S 5C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 19 cards remaining | 25 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_4",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 296,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 2 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *3D* | *6S* | *7S* | *5C* | *AH* | 7H | AC | KD\n[SELECTED] 3D 6S 7S 5C AH (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 19 cards remaining | 25 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "出牌耗尽，消耗弃牌。36109/40000",
+      "action": "discard",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 297,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 1 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] 7H | AC | KD | 8C | 6D | QS | 6C | 10D\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 14 cards remaining | 30 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_0",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 298,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 1 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *7H* | AC | KD | 8C | 6D | QS | 6C | 10D\n[SELECTED] 7H (1 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 14 cards remaining | 30 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_1",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 299,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 1 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *7H* | *AC* | KD | 8C | 6D | QS | 6C | 10D\n[SELECTED] 7H AC (2 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 14 cards remaining | 30 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_2",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 300,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 1 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *7H* | *AC* | *KD* | 8C | 6D | QS | 6C | 10D\n[SELECTED] 7H AC KD (3 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 14 cards remaining | 30 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_3",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 301,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 1 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *7H* | *AC* | *KD* | *8C* | 6D | QS | 6C | 10D\n[SELECTED] 7H AC KD 8C (4 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 14 cards remaining | 30 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "弃牌",
+      "action": "select_card_4",
+      "score_before": 36109,
+      "score_after": 36109
+    },
+    {
+      "step": 302,
+      "state_text": "[STAGE] Blind | The Flint\n[ANTE] 6 | Round 6\n[SCORE] 36109/40000 (90%)\n[RESOURCES] Plays: 0 | Discards: 1 | Money: $21\n[BOSS EFFECT] The Flint\n[HAND] *7H* | *AC* | *KD* | *8C* | *6D* | QS | 6C | 10D\n[SELECTED] 7H AC KD 8C 6D (5 cards)\n[JOKERS] Lusty Joker | Abstract Joker | Crafty Joker | Loyalty Card | Runner\n[DECK] 14 cards remaining | 30 discarded\n[HAND LEVELS] full_house: Lv2\n[LEGAL ACTIONS] select_card_0, select_card_1, select_card_2, select_card_3, select_card_4, select_card_5, select_card_6, select_card_7, discard",
+      "reasoning": "出牌耗尽，消耗弃牌。36109/40000",
+      "action": "discard",
+      "score_before": 36109,
+      "score_after": 36109
+    }
+  ]
+}
