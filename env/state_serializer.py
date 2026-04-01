@@ -10,6 +10,7 @@ Usage:
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import Any
 
 RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
@@ -207,25 +208,65 @@ def serialize_state(snapshot: Any, legal_actions: list[str] | None = None) -> st
     return "\n".join(lines)
 
 
-def serialize_for_llm_prompt(snapshot: Any, legal_actions: list[str]) -> str:
+def load_rules_guide() -> str:
+    """Load the Balatro rules guide for LLM context."""
+    guide_path = Path(__file__).resolve().parents[1] / "rules" / "balatro_guide_for_llm.md"
+    if guide_path.exists():
+        return guide_path.read_text()
+    return ""
+
+
+_RULES_CACHE: str | None = None
+
+
+def get_rules_guide() -> str:
+    """Cached rules guide loader."""
+    global _RULES_CACHE
+    if _RULES_CACHE is None:
+        _RULES_CACHE = load_rules_guide()
+    return _RULES_CACHE
+
+
+def serialize_for_llm_prompt(snapshot: Any, legal_actions: list[str],
+                              include_rules: bool = False) -> str:
     """Create a full LLM prompt with state + instruction.
+
+    Args:
+        snapshot: Game state snapshot
+        legal_actions: List of legal action names
+        include_rules: If True, prepend the full rules guide (for first turn or new games)
 
     Returns a prompt string ready to send to an LLM.
     """
     state_text = serialize_state(snapshot, legal_actions)
 
-    prompt = f"""You are playing Balatro. Analyze the current game state and choose the best action.
+    rules_section = ""
+    if include_rules:
+        rules = get_rules_guide()
+        if rules:
+            rules_section = f"""## 游戏规则参考
+
+{rules}
+
+---
+
+"""
+
+    prompt = f"""{rules_section}## 当前局面
 
 {state_text}
 
-Think step by step:
-1. What is the current situation? (phase, score progress, resources)
-2. What are my options? (evaluate each legal action)
-3. What is the best strategy? (consider hand quality, economy, joker synergy)
+## 请决策
 
-Then output your chosen action in this exact format:
-ACTION: <action_name>
+分析当前局面并选择最佳动作。用中文思考：
+1. 当前局势如何？（阶段、得分进度、资源）
+2. 手牌能组成什么牌型？预估得分多少？
+3. 应该出牌、弃牌还是其他操作？为什么？
+4. 关键提醒：plays=0时绝不弃牌；优先保证$5倍数利息；X Mult小丑最优先购买。
 
-Choose one action from the legal actions list."""
+然后用以下格式输出你的选择：
+ACTION: <动作名称>
+
+从合法动作列表中选一个。"""
 
     return prompt
