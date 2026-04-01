@@ -285,9 +285,9 @@ class SmartAgent:
         if discards <= 0:
             return False
 
-        # If no plays left but discards remain, MUST discard to draw and hope
+        # If no plays left, discarding is pointless (can't play after drawing)
         if plays <= 0:
-            return True
+            return False
 
         # If current best hand can cover >40% of remaining, play it
         if remaining > 0 and best_score >= remaining * 0.4:
