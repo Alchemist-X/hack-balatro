@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hack-balatro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0e17;
+  --surface: #1a1a2e;
+  --border: #2d2d44;
+  --accent: #e53170;
+  --accent2: #7f5af0;
+  --accent3: #2cb67d;
+  --text: #fffffe;
+  --text-dim: #94a1b2;
+  --card-bg: #16213e;
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans SC', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.pixel-font { font-family: 'Press Start 2P', monospace; }
+
+/* Pixel grid background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image:
+    linear-gradient(rgba(127,90,240,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,90,240,0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 80px 0 48px;
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  padding: 4px 12px;
+  border-radius: 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  box-shadow: var(--pixel-shadow);
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(28px, 5vw, 48px);
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.4;
+}
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.8;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+.stat-box {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  padding: 20px 28px;
+  text-align: center;
+  box-shadow: var(--pixel-shadow);
+  min-width: 140px;
+}
+.stat-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 24px;
+  color: var(--accent3);
+  display: block;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Section */
+section { padding: 48px 0; }
+.section-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  margin-bottom: 32px;
+  padding-left: 16px;
+  border-left: 4px solid var(--accent);
+}
+
+/* Cards grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  padding: 24px;
+  box-shadow: var(--pixel-shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.4);
+}
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
+}
+.card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.card .tag {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  margin-top: 12px;
+  border: 1px solid var(--accent2);
+  color: var(--accent2);
+}
+
+/* Experiment table */
+.exp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.exp-table th {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  padding: 12px 16px;
+  text-align: left;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--accent2);
+  text-transform: uppercase;
+}
+.exp-table td {
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+}
+.exp-table tr:nth-child(even) { background: rgba(26,26,46,0.5); }
+.exp-table .win { color: var(--accent3); font-weight: 700; }
+.exp-table .loss { color: var(--accent); }
+
+/* Roadmap */
+.roadmap {
+  position: relative;
+  padding-left: 32px;
+}
+.roadmap::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.roadmap-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+.roadmap-item::before {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--border);
+  border: 2px solid var(--accent2);
+}
+.roadmap-item.done::before { background: var(--accent3); border-color: var(--accent3); }
+.roadmap-item.active::before { background: var(--accent); border-color: var(--accent); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,49,112,0.4); } 50% { box-shadow: 0 0 0 8px rgba(229,49,112,0); } }
+.roadmap-item h4 { font-size: 14px; margin-bottom: 4px; }
+.roadmap-item p { font-size: 13px; color: var(--text-dim); }
+
+/* Architecture */
+.arch-box {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 24px;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-x: auto;
+  box-shadow: var(--pixel-shadow);
+  white-space: pre;
+  color: var(--text-dim);
+}
+.arch-box .hl { color: var(--accent3); }
+.arch-box .hl2 { color: var(--accent2); }
+.arch-box .hl3 { color: var(--accent); }
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 48px 0 32px;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+footer a { color: var(--accent2); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .hero { padding: 48px 0 32px; }
+  .hero-stats { gap: 16px; }
+  .stat-box { min-width: 120px; padding: 14px 18px; }
+  .stat-num { font-size: 18px; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="hero-badge pixel-font">AI Research</span>
+    <h1>hack-balatro</h1>
+    <p class="hero-sub">
+      高保真 Balatro 模拟环境 + AI 智能体研究平台<br>
+      <span style="color:var(--accent)">Small LM + Long Horizon Planning → Beyond Human</span>
+    </p>
+    <div class="hero-stats">
+      <div class="stat-box">
+        <span class="stat-num">8,037</span>
+        <span class="stat-label">Rust Engine Lines</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">104</span>
+        <span class="stat-label">Engine Tests</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">15.5K</span>
+        <span class="stat-label">Steps/sec</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">Ante 9</span>
+        <span class="stat-label">LLM Best (Win)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engine Systems -->
+  <section>
+    <h2 class="section-title">Environment Simulation</h2>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🃏</span>
+        <h3>150 Joker Effects</h3>
+        <p>全部 150 个 Joker 实现，含 28 个 scaling runtime state。Blueprint/Brainstorm 链式解析。</p>
+        <span class="tag">Complete</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">👹</span>
+        <h3>Boss Blind Effects</h3>
+        <p>20 种 Boss 特殊效果：花色 debuff、牌型限制、分数惩罚、手牌缩减。</p>
+        <span class="tag">14 Real + 14 Stub</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔄</span>
+        <h3>Retrigger System</h3>
+        <p>Red Seal、Sock and Buskin、Hanging Chad、Seltzer、Dusk。每张牌独立 retrigger 计数。</p>
+        <span class="tag">Complete</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">💎</span>
+        <h3>Enhancement + Edition</h3>
+        <p>8 种增强 + 4 种版本计分。Shop/Pack 生成带概率 roll。</p>
+        <span class="tag">Complete</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎴</span>
+        <h3>Consumables</h3>
+        <p>22 张 Tarot + Planet + 17 张 Spectral。完整 buy/sell/use 流程。</p>
+        <span class="tag">Complete</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏪</span>
+        <h3>Shop + Voucher + Pack</h3>
+        <p>10 种 Voucher 永久效果、5 种 Booster Pack、动态价格系统。</p>
+        <span class="tag">Complete</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section>
+    <h2 class="section-title">Architecture</h2>
+    <div class="arch-box"><span class="hl">Balatro.love</span> (licensed source)
+    │
+    ▼
+<span class="hl">balatro-engine</span> (Rust, 8K lines, 104 tests)
+    │
+    ├── <span class="hl2">balatro-spec</span>    ruleset bundle (150 Jokers)
+    ├── <span class="hl2">balatro-py</span>     PyO3 → balatro_native
+    │
+    ▼
+<span class="hl">BalatroEnv</span> (Gym wrapper, 576-dim obs, 86-dim action)
+    │
+    ├── <span class="hl3">State Serializer</span>  game state → structured text
+    ├── <span class="hl3">Rules Guide</span>       objective mechanics doc
+    │
+    ▼
+<span class="hl3">LLM Agent</span> (Claude Code / ~23B local model)
+    │
+    ├── Phase 0: <span class="hl2">CoT trajectory collection</span>
+    ├── Phase 1: <span class="hl2">SFT fine-tuning</span>
+    ├── Phase 2: <span class="hl2">GRPO / DPO</span>
+    └── Phase 3: <span class="hl2">MCTS + Long Horizon Planning</span></div>
+  </section>
+
+  <!-- Experiments -->
+  <section>
+    <h2 class="section-title">Experiments</h2>
+
+    <h3 style="font-size:14px; margin-bottom:16px; color:var(--accent)">LLM Agent (Claude Code) — Real Reasoning</h3>
+    <table class="exp-table">
+      <tr><th>Seed</th><th>Result</th><th>Final Ante</th><th>Steps</th><th>Key Insight</th></tr>
+      <tr><td>31</td><td class="win">WIN</td><td>9 (cleared)</td><td>228</td><td>Cavendish X3 mult snowball</td></tr>
+      <tr><td>7</td><td class="loss">LOSS</td><td>7</td><td>375</td><td>Lost to The Serpent boss</td></tr>
+      <tr><td>42</td><td class="loss">LOSS</td><td>6</td><td>303</td><td>The Flint halved scoring</td></tr>
+    </table>
+
+    <h3 style="font-size:14px; margin: 32px 0 16px; color:var(--text-dim)">PPO Baseline (6 runs, 930K steps)</h3>
+    <table class="exp-table">
+      <tr><th>Experiment</th><th>Steps</th><th>Mean Ante</th><th>Finding</th></tr>
+      <tr><td>entropy_05</td><td>100K</td><td>1.0</td><td>Stable entropy but never plays</td></tr>
+      <tr><td>play_bonus</td><td>500K</td><td>1.0</td><td>Reward hacking (spam play)</td></tr>
+    </table>
+    <p style="font-size:13px; color:var(--text-dim); margin-top:12px">
+      Conclusion: vanilla PPO cannot cold-start on toggle-based action space. LLM with zero training > 500K PPO.
+    </p>
+  </section>
+
+  <!-- Roadmap -->
+  <section>
+    <h2 class="section-title">Roadmap</h2>
+    <div class="roadmap">
+      <div class="roadmap-item done">
+        <h4>Phase 0 — High-Fidelity Engine</h4>
+        <p>8K Rust, 150 Jokers, Boss/Voucher/Pack, zero-warning audit</p>
+      </div>
+      <div class="roadmap-item done">
+        <h4>Phase 0.5 — PPO Experiments</h4>
+        <p>6 runs, 930K steps. Conclusion: RL alone insufficient.</p>
+      </div>
+      <div class="roadmap-item active">
+        <h4>Phase 1 — LLM Data Collection + SFT</h4>
+        <p>Claude Code plays Balatro. 906 CoT trajectory entries collected. SFT on ~23B model next.</p>
+      </div>
+      <div class="roadmap-item">
+        <h4>Phase 2 — RL Fine-Tuning (GRPO/DPO)</h4>
+        <p>Use environment reward to improve beyond SFT. Target: win rate ≥ 30%.</p>
+      </div>
+      <div class="roadmap-item">
+        <h4>Phase 3 — Long Horizon Planning</h4>
+        <p>MCTS + LM value estimation. Subgoal decomposition. Target: win rate ≥ 60%.</p>
+      </div>
+      <div class="roadmap-item">
+        <h4>Phase 4 — Beyond Human Baseline</h4>
+        <p>Multi-stake generalization. Joker synergy discovery.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audit -->
+  <section>
+    <h2 class="section-title">Fidelity Audit</h2>
+    <div class="card-grid">
+      <div class="card" style="border-color: var(--accent3)">
+        <span class="card-icon">✅</span>
+        <h3>Structural Audit</h3>
+        <p>0 errors, 0 warnings<br>Joker resolution trace, stage transitions, RNG domains — all passing.</p>
+      </div>
+      <div class="card" style="border-color: var(--accent3)">
+        <span class="card-icon">💰</span>
+        <h3>Money Conservation</h3>
+        <p>318/318 transitions verified.<br>Every buy/sell/cashout/reroll matches expected delta.</p>
+      </div>
+      <div class="card" style="border-color: var(--accent3)">
+        <span class="card-icon">📊</span>
+        <h3>Score Monotonicity</h3>
+        <p>68/68 play actions verified.<br>Score only increases during blind.</p>
+      </div>
+      <div class="card" style="border-color: var(--accent3)">
+        <span class="card-icon">🎯</span>
+        <h3>Determinism</h3>
+        <p>Same seed + same actions = 0 mismatches.<br>Fully reproducible.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    <a href="https://github.com/Alchemist-X/hack-balatro">GitHub</a> &nbsp;·&nbsp;
+    Built with Rust + PyO3 + Claude Code
+  </p>
+</footer>
+
+</body>
+</html>
