@@ -2,17 +2,17 @@
 """Collect Balatro trajectories using an LLM agent.
 
 Plays N games, recording (state, reasoning, action) at each step.
-Supports Claude API and a built-in heuristic fallback.
+Supports Claude API, smart heuristic (Claude Code strategy), and basic heuristic.
 
 Usage:
+    # Smart agent (Claude Code strategy, no API needed):
+    python scripts/collect_llm_trajectories.py --agent smart --games 50
+
     # With Claude API (needs ANTHROPIC_API_KEY):
     python scripts/collect_llm_trajectories.py --agent claude --games 10
 
-    # With built-in heuristic (no API needed, fast):
+    # With basic heuristic:
     python scripts/collect_llm_trajectories.py --agent heuristic --games 50
-
-    # Quick test:
-    python scripts/collect_llm_trajectories.py --agent heuristic --games 3 --verbose
 """
 from __future__ import annotations
 
@@ -386,7 +386,7 @@ def play_one_game(agent, seed: int, max_steps: int = 1000, verbose: bool = False
 
 def main():
     parser = argparse.ArgumentParser(description="Collect LLM trajectories for Balatro")
-    parser.add_argument("--agent", choices=["claude", "heuristic"], default="heuristic")
+    parser.add_argument("--agent", choices=["claude", "smart", "heuristic"], default="smart")
     parser.add_argument("--model", type=str, default="claude-sonnet-4-20250514",
                         help="Claude model ID (only used with --agent claude)")
     parser.add_argument("--games", type=int, default=10)
@@ -398,9 +398,13 @@ def main():
 
     if args.agent == "claude":
         if not os.environ.get("ANTHROPIC_API_KEY"):
-            sys.exit("Error: ANTHROPIC_API_KEY not set. Use --agent heuristic for no-API mode.")
+            sys.exit("Error: ANTHROPIC_API_KEY not set. Use --agent smart for no-API mode.")
         agent = ClaudeAgent(model=args.model)
         agent_name = f"claude_{args.model.split('-')[1]}"
+    elif args.agent == "smart":
+        from agents.smart_agent import SmartAgent
+        agent = SmartAgent()
+        agent_name = "smart"
     else:
         agent = HeuristicAgent()
         agent_name = "heuristic"

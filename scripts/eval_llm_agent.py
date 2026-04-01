@@ -227,7 +227,7 @@ def compare_reports(paths: list[Path]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate LLM Balatro agent")
-    parser.add_argument("--agent", choices=["heuristic", "claude", "local"], default="heuristic")
+    parser.add_argument("--agent", choices=["heuristic", "smart", "claude", "local"], default="smart")
     parser.add_argument("--model", type=str, default="claude-sonnet-4-20250514")
     parser.add_argument("--api-base", type=str, default=None,
                         help="OpenAI-compatible API base URL for local models")
@@ -251,9 +251,11 @@ def main():
         agent = ClaudeAgent(model=args.model)
         agent.name = f"claude_{args.model.split('-')[1]}"
         agent.stats = {"model": args.model}
+    elif args.agent == "smart":
+        from agents.smart_agent import SmartAgent
+        agent = SmartAgent()
     elif args.agent == "local":
-        # Placeholder for local model via OpenAI-compatible API
-        print("Local model agent not yet implemented. Use --agent heuristic or claude.")
+        print("Local model agent not yet implemented. Use --agent smart or claude.")
         sys.exit(1)
     else:
         from scripts.collect_llm_trajectories import HeuristicAgent
