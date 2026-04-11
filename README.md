@@ -167,15 +167,39 @@ flowchart LR
     F --> G[Beyond Human Baseline]
 ```
 
+## Balatro 源码 & 研究授权
+
+本仓库在 **获得官方科研授权** 的前提下，随仓库直接分发 Balatro 1.0.1o 的原始资源：
+
+```
+vendor/balatro/
+├── LICENSE_NOTE.md                    # 授权范围 + 使用约束
+└── steam-local/
+    ├── manifest.json                  # SHA256 + 元数据
+    ├── original/Balatro.love          # 53 MB 原始游戏包
+    └── extracted/                     # 47 个解包 Lua 文件（3.8 MB）
+        ├── game.lua                   # 权威规则源
+        ├── blind.lua, card.lua, tag.lua, main.lua
+        ├── functions/                 # state_events, UI, common_events 等
+        ├── engine/                    # controller, event, node 等
+        └── localization/              # 15 种语言
+```
+
+**合作者可以直接 clone 开始工作**，无需再从本地 Steam 安装引导。
+
+授权范围 / 使用约束详见 [`vendor/balatro/LICENSE_NOTE.md`](./vendor/balatro/LICENSE_NOTE.md)。
+
 ## 快速开始
 
-### 1. 本地引导
+### 1. 本地引导（使用已随仓库分发的源码）
 
 ```bash
-python scripts/bootstrap_balatro_source.py
-python scripts/build_ruleset_bundle.py
-cargo test
+python scripts/build_ruleset_bundle.py   # 从 vendor/balatro 生成 ruleset
+cargo test                                # 验证引擎
 ```
+
+> 如果你从自己的 Steam 安装重建源码（而非使用仓库内的版本），先跑
+> `python scripts/bootstrap_balatro_source.py`
 
 ### 2. 构建 native extension
 
