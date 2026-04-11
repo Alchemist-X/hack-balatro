@@ -21,6 +21,49 @@ python scripts/audit_replay.py --replay results/replay-fidelity-a.json --output 
 - Do not commit `vendor/`, `.venv/`, or files containing secrets.
 - `game.lua` is authoritative for mechanical fields; Wiki is supplementary.
 
+## Subagent-First Execution Policy (MANDATORY)
+
+**The main conversation must stay free for communication with the user.**
+Whenever a task involves actual work (code changes, long shell commands,
+data collection, training, analysis, debugging, etc.), delegate it to a
+subagent via the `Agent` tool. The main process should only:
+
+1. Receive the user's request
+2. Plan and decompose it into subtasks
+3. Dispatch subagent(s) to execute
+4. Report results back to the user in concise form
+
+### When to dispatch subagents
+
+**Always dispatch** for these kinds of work:
+- Any task that reads or writes more than a couple of files
+- Any task involving a long-running command (tests, training, builds, data collection)
+- Any exploratory research across the codebase
+- Any task requiring heavy tool use (10+ tool calls expected)
+- Any task that could be done in parallel (always prefer parallel subagents)
+
+**Dispatch guidelines**:
+- Prefer **parallel** subagents over sequential when subtasks are independent
+- Use `run_in_background: true` for long-running subagents so the main
+  conversation can keep responding to the user
+- Use `isolation: "worktree"` when multiple subagents modify the same files
+- Give each subagent a **complete, self-contained prompt** with all context
+  it needs (it cannot see our conversation)
+- After dispatching, inform the user briefly what was launched and continue
+
+### When NOT to dispatch
+
+- Trivial single-file edits (< 3 tool calls)
+- Quick status checks (reading one file, running one fast command)
+- Clarifying questions back to the user
+- Summarizing results the user already has
+
+### Communication priority
+
+While subagents are running, the main conversation MUST remain responsive.
+Never block on a subagent when the user asks a question. Use `TaskList` or
+check output files to report progress without waiting for completion.
+
 ## Auto Commit & Push
 
 When a task is complete (tests pass, no regressions), **automatically commit and push** without asking:
