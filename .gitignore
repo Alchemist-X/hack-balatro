@@ -9,20 +9,70 @@ __pycache__/
 # macOS
 .DS_Store
 
-# Local runtime artifacts (keep training reports and audit results)
-results/
+# ---------------------------------------------------------------------------
+# results/ — selective sharing for research collaboration
+# ---------------------------------------------------------------------------
+# Default: ignore all direct children of results/
+results/*
+
+# Keep these subdirectories entirely
 !results/training/
+!results/eval/
+!results/fidelity-coverage/
+
+# But ignore large PPO checkpoints (failed models, 1.3MB each)
 results/training/*/checkpoint.pt
+
+# Selectively include trajectories (only high-quality LLM data)
+!results/trajectories/
+results/trajectories/*
+!results/trajectories/llm_claude_code/
+
+# Specific files at results/ root (high-value)
+!results/fidelity-coverage.json
+!results/source-oracle.json
+!results/simulator-gap-report.md
+!results/fidelity-suite-report.md
+
+# Replay fidelity (same-seed determinism proof)
+!results/replay-fidelity-a.json
+!results/replay-fidelity-b.json
+!results/replay-fidelity-a.behavior_log.jsonl
+!results/replay-fidelity-b.behavior_log.jsonl
+!results/replay-fidelity.audit.json
+!results/replay-fidelity.diff.json
+!results/replay-fidelity.cli.txt
+
+# Replay proof (audit evidence)
+!results/replay-proof.json
+!results/replay-proof.audit.json
+!results/replay-proof.behavior_log.jsonl
+!results/replay-proof.cli.txt
+
+# ---------------------------------------------------------------------------
+# Other runtime artifacts
+# ---------------------------------------------------------------------------
 checkpoints/
 trajectories/
 runs/
 
-# Local upstream clones (pinned in third_party.lock)
-vendor/
+# ---------------------------------------------------------------------------
+# Upstream clones (pinned in third_party.lock) — mostly ignored
+# ---------------------------------------------------------------------------
+vendor/*
+# Exception: Balatro source is tracked (officially authorized for research)
+!vendor/balatro/
+# But ignore compilation artifacts inside vendor
+vendor/**/target/
+vendor/**/__pycache__/
 
+# ---------------------------------------------------------------------------
 # IDE
+# ---------------------------------------------------------------------------
 .vscode/
 .idea/
 
+# ---------------------------------------------------------------------------
 # Rust
+# ---------------------------------------------------------------------------
 target/

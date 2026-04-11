@@ -1,0 +1,216 @@
+{
+  "source_root": "vendor/balatro/steam-local/extracted",
+  "states": {
+    "stable": [
+      "BLIND_SELECT",
+      "SELECTING_HAND",
+      "ROUND_EVAL",
+      "SHOP",
+      "GAME_OVER"
+    ],
+    "transient": [
+      "NEW_ROUND",
+      "DRAW_TO_HAND",
+      "HAND_PLAYED"
+    ],
+    "trajectory_path": [
+      "BLIND_SELECT",
+      "NEW_ROUND",
+      "DRAW_TO_HAND",
+      "SELECTING_HAND",
+      "HAND_PLAYED",
+      "DRAW_TO_HAND|NEW_ROUND",
+      "ROUND_EVAL",
+      "SHOP",
+      "BLIND_SELECT"
+    ],
+    "refs": [
+      {
+        "file": "vendor/balatro/steam-local/extracted/globals.lua",
+        "line": 285,
+        "snippet": "SELECTING_HAND = 1"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/globals.lua",
+        "line": 286,
+        "snippet": "HAND_PLAYED = 2"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/globals.lua",
+        "line": 287,
+        "snippet": "DRAW_TO_HAND = 3"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/globals.lua",
+        "line": 289,
+        "snippet": "SHOP = 5"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/globals.lua",
+        "line": 291,
+        "snippet": "BLIND_SELECT = 7"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/globals.lua",
+        "line": 292,
+        "snippet": "ROUND_EVAL = 8"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/globals.lua",
+        "line": 303,
+        "snippet": "NEW_ROUND = 19"
+      }
+    ]
+  },
+  "evaluate_play_order": {
+    "phases": [
+      "hand_classification",
+      "joker_before",
+      "blind_modify_hand",
+      "card_repetition_probe",
+      "joker_repetition_probe",
+      "joker_individual_card",
+      "held_in_hand_repetition_probe",
+      "joker_main",
+      "joker_on_joker",
+      "deck_back_final_scoring",
+      "joker_after"
+    ],
+    "refs": [
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 572,
+        "snippet": "local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 630,
+        "snippet": "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 645,
+        "snippet": "mult, hand_chips, modded = G.GAME.blind:modify_hand(G.play.cards, poker_hands, text, mult, hand_chips)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 669,
+        "snippet": "local eval = eval_card(scoring_hand[i], {repetition_only = true,cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, repetition = true})"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 678,
+        "snippet": "local eval = eval_card(G.jokers.cards[j], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], repetition = true})"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 695,
+        "snippet": "local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 813,
+        "snippet": "local eval = eval_card(G.hand.cards[i], {repetition_only = true,cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, repetition = true, card_effects = effects})"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 905,
+        "snippet": "local effects = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true})"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 920,
+        "snippet": "local effect = v:calculate_joker{full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card}"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 946,
+        "snippet": "local nu_chip, nu_mult = G.GAME.selected_back:trigger_effect{context = 'final_scoring_step', chips = hand_chips, mult = mult}"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/state_events.lua",
+        "line": 1070,
+        "snippet": "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})"
+      }
+    ]
+  },
+  "rng_order": {
+    "requirements": [
+      "cashout must shuffle deck before entering shop",
+      "shop reroll must rebuild offers and then trigger reroll_shop joker hooks",
+      "random selection uses pseudorandom/pseudorandom_element, not ad-hoc math.random without seeded context"
+    ],
+    "refs": [
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/misc_functions.lua",
+        "line": 206,
+        "snippet": "function pseudoshuffle(list, seed)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/misc_functions.lua",
+        "line": 253,
+        "snippet": "function pseudorandom_element(_t, seed)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/misc_functions.lua",
+        "line": 315,
+        "snippet": "function pseudorandom(seed, min, max)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/button_callbacks.lua",
+        "line": 2918,
+        "snippet": "G.deck:shuffle('cashout'..G.GAME.round_resets.ante)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/button_callbacks.lua",
+        "line": 2901,
+        "snippet": "G.jokers.cards[i]:calculate_joker({reroll_shop = true})"
+      }
+    ]
+  },
+  "coverage_targets": {
+    "boss": [
+      "select boss blind",
+      "enter boss blind",
+      "defeat boss blind"
+    ],
+    "shop": [
+      "cash_out",
+      "buy_from_shop",
+      "reroll_shop",
+      "sell_card",
+      "next_round"
+    ],
+    "consumable": [
+      "buy consumable in shop",
+      "use consumable"
+    ],
+    "refs": [
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/button_callbacks.lua",
+        "line": 2404,
+        "snippet": "G.FUNCS.buy_from_shop = function(e)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/button_callbacks.lua",
+        "line": 2855,
+        "snippet": "G.FUNCS.reroll_shop = function(e)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/button_callbacks.lua",
+        "line": 2912,
+        "snippet": "G.FUNCS.cash_out = function(e)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/functions/button_callbacks.lua",
+        "line": 2155,
+        "snippet": "G.FUNCS.use_card = function(e, mute, nosave)"
+      },
+      {
+        "file": "vendor/balatro/steam-local/extracted/game.lua",
+        "line": 2205,
+        "snippet": "G.FUNCS.use_card({config = {ref_table = v}}, nil, true)"
+      }
+    ]
+  }
+}

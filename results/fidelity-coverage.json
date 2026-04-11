@@ -1,0 +1,59 @@
+{
+  "ok": false,
+  "targets": {
+    "shop_cashout": {
+      "covered": true,
+      "seed": 1
+    },
+    "shop_buy": {
+      "covered": true,
+      "seed": 1
+    },
+    "shop_reroll": {
+      "covered": true,
+      "seed": 1
+    },
+    "shop_sell": {
+      "covered": true,
+      "seed": 1
+    },
+    "shop_next_round": {
+      "covered": true,
+      "seed": 1
+    },
+    "boss_select": {
+      "covered": true,
+      "seed": 1
+    },
+    "boss_enter": {
+      "covered": true,
+      "seed": 1
+    },
+    "boss_defeat": {
+      "covered": true,
+      "seed": 1
+    },
+    "consumable_visible": {
+      "covered": false,
+      "seed": null
+    },
+    "consumable_slot_enabled": {
+      "covered": false,
+      "seed": null
+    },
+    "consumable_use": {
+      "covered": false,
+      "seed": null
+    }
+  },
+  "artifacts": {
+    "shop_harvest_replay": "results/fidelity-coverage/shop-harvest.replay.json",
+    "boss_rush_replay": "results/fidelity-coverage/boss-rush.replay.json",
+    "boss_clear_replay": "results/fidelity-coverage/boss-clear.replay.json"
+  },
+  "notes": [
+    "engine never surfaced shop_consumables/consumables in snapshots",
+    "engine never enabled use_consumable_* actions",
+    "engine never executed a consumable use path"
+  ]
+}

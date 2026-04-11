@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "summary": {
+    "left_path": "results/replay-fidelity-a.json",
+    "right_path": "results/replay-fidelity-b.json",
+    "mismatch_count": 0,
+    "categories": {},
+    "truncated": false
+  },
+  "mismatches": []
+}

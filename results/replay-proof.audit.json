@@ -1,0 +1,24 @@
+{
+  "ok": false,
+  "hard_invariants_ok": true,
+  "fidelity_ready": false,
+  "issues": [
+    {
+      "severity": "warning",
+      "step": null,
+      "message": "当前 engine 仍未把这些 Lua 中间态建成可观测 snapshot: DRAW_TO_HAND, HAND_PLAYED, NEW_ROUND"
+    }
+  ],
+  "summary": {
+    "transitions": 119,
+    "seen_lua_states": [
+      "BLIND_SELECT",
+      "GAME_OVER",
+      "ROUND_EVAL",
+      "SELECTING_HAND",
+      "SHOP"
+    ],
+    "hard_error_count": 0,
+    "warning_count": 1
+  }
+}

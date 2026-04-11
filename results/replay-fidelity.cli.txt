@@ -1,0 +1,421 @@
+################################################################################################
+Balatro 中文 CLI 回放
+版本: 1.0.1o-FULL | 引擎: balatro_native | Seed: 1 | Policy: simple_rule_v1
+转移数: 24
+################################################################################################
+================================================================================================
+步 001/024 | 动作 select_blind_0 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 0 / 300 | 金钱: $4
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: AC 6S QS 5D 7H QC AD 4C
+已选: -
+Jokers: -
+商店: -
+事件链:
+  - [BlindPrePlay] Selected Small Blind
+行为日志:
+  标题: 选择 Small Blind。
+  原因: Small Blind 是当前线性 blind 路径里唯一可进入的目标，因此直接进入它最能保留本回合 tempo。
+  结果: 已进入 Small Blind，当前有 4 次 Hands、3 次 Discards，过关需要 300 分。
+前态: Stage_PreBlind / BLIND_SELECT -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 002/024 | 动作 select_card_0 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 0 / 300 | 金钱: $4
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: AC 6S QS 5D 7H QC AD 4C
+已选: AC
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 0
+行为日志:
+  标题: 构建 Two Pair 选牌。
+  原因: 这张牌属于目标 Two Pair 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 1/5 张目标选牌，继续朝 Two Pair 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 003/024 | 动作 select_card_2 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 0 / 300 | 金钱: $4
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: AC 6S QS 5D 7H QC AD 4C
+已选: AC QS
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 2
+行为日志:
+  标题: 构建 Two Pair 选牌。
+  原因: 这张牌属于目标 Two Pair 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 2/5 张目标选牌，继续朝 Two Pair 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 004/024 | 动作 select_card_4 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 0 / 300 | 金钱: $4
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: AC 6S QS 5D 7H QC AD 4C
+已选: AC QS 7H
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 4
+行为日志:
+  标题: 构建 Two Pair 选牌。
+  原因: 这张牌属于目标 Two Pair 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 3/5 张目标选牌，继续朝 Two Pair 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 005/024 | 动作 select_card_5 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 0 / 300 | 金钱: $4
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: AC 6S QS 5D 7H QC AD 4C
+已选: AC QS 7H QC
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 5
+行为日志:
+  标题: 构建 Two Pair 选牌。
+  原因: 这张牌属于目标 Two Pair 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 4/5 张目标选牌，继续朝 Two Pair 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 006/024 | 动作 select_card_6 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 0 / 300 | 金钱: $4
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: AC 6S QS 5D 7H QC AD 4C
+已选: AC QS 7H QC AD
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 6
+行为日志:
+  标题: 构建 Two Pair 选牌。
+  原因: 这张牌属于目标 Two Pair 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 5/5 张目标选牌，继续朝 Two Pair 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 007/024 | 动作 play | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 138 / 300 | 金钱: $4
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: 6S 5D 4C 7D 10H 8H JC 8S
+已选: -
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Played Two Pair
+  - [CardScored] Base 69 chips x2 mult
+  - [JokerPostScore] Scored 138 points
+行为日志:
+  标题: 打出 Two Pair。
+  原因: Two Pair 是当前手牌里基础得分最高的可行线路，并且能让本局继续追赶 required score。
+  结果: 本次获得 138 分，距离过关还差 162 分。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 008/024 | 动作 select_card_0 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 138 / 300 | 金钱: $4
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: 6S 5D 4C 7D 10H 8H JC 8S
+已选: 6S
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 0
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 1/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 009/024 | 动作 select_card_1 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 138 / 300 | 金钱: $4
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: 6S 5D 4C 7D 10H 8H JC 8S
+已选: 6S 5D
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 1
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 2/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 010/024 | 动作 select_card_2 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 138 / 300 | 金钱: $4
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: 6S 5D 4C 7D 10H 8H JC 8S
+已选: 6S 5D 4C
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 2
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 3/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 011/024 | 动作 select_card_3 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 138 / 300 | 金钱: $4
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: 6S 5D 4C 7D 10H 8H JC 8S
+已选: 6S 5D 4C 7D
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 3
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 4/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 012/024 | 动作 select_card_5 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 138 / 300 | 金钱: $4
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Current | Big=Upcoming | Boss=Upcoming
+手牌: 6S 5D 4C 7D 10H 8H JC 8S
+已选: 6S 5D 4C 7D 8H
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 5
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 5/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 013/024 | 动作 play | 阶段 结算阶段 | Lua状态 ROUND_EVAL
+------------------------------------------------------------------------------------------------
+盲注: Small Blind | Ante: 1 | Stake: 1 | 分数: 378 / 300 | 金钱: $4
+手数: 2 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 10
+Blind进度: Small=Defeated | Big=Upcoming | Boss=Upcoming
+手牌: 10H JC 8S
+已选: -
+Jokers: -
+商店: -
+事件链:
+  - [OnPlayed] Played Straight
+  - [CardScored] Base 60 chips x4 mult
+  - [JokerPostScore] Scored 240 points
+  - [EndOfHand] Cleared Small Blind
+行为日志:
+  标题: 打出 Straight。
+  原因: Straight 是当前手牌里基础得分最高的可行线路，并且能让本局继续追赶 required score。
+  结果: 本次获得 240 分，距离过关还差 0 分。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_PostBlind / ROUND_EVAL
+================================================================================================
+步 014/024 | 动作 cashout | 阶段 商店阶段 | Lua状态 SHOP
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 378 / 450 | 金钱: $7
+手数: 2 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 10
+Blind进度: Small=Defeated | Big=Select | Boss=Upcoming
+手牌: 10H JC 8S
+已选: -
+Jokers: -
+商店: Golden Joker Smiley Face
+事件链:
+  - [CashOut] Collected $3 and entered Shop
+  - [EndOfRound] Prepared Big Blind
+行为日志:
+  标题: 执行 Cash Out。
+  原因: 清掉 blind 之后，Cash Out 是唯一保持 tempo 的推进动作。
+  结果: 本次 Cash Out 获得 $3，并进入 Shop。
+前态: Stage_PostBlind / ROUND_EVAL -> 后态: Stage_Shop / SHOP
+================================================================================================
+步 015/024 | 动作 buy_shop_item_1 | 阶段 商店阶段 | Lua状态 SHOP
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 378 / 450 | 金钱: $3
+手数: 2 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 10
+Blind进度: Small=Defeated | Big=Select | Boss=Upcoming
+手牌: 10H JC 8S
+已选: -
+Jokers: Smiley Face
+商店: Golden Joker Smiley Face
+事件链:
+  - [Shop] Bought Smiley Face
+行为日志:
+  标题: 购买 Smiley Face。
+  原因: Smiley Face 以 $4 满足本轮的 shop threshold，rarity 为 1。
+  结果: 已购买 Smiley Face；当前 bankroll 为 $3。
+前态: Stage_Shop / SHOP -> 后态: Stage_Shop / SHOP
+================================================================================================
+步 016/024 | 动作 next_round | 阶段 选盲阶段 | Lua状态 BLIND_SELECT
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 0 / 450 | 金钱: $3
+手数: 4 | 弃牌: 3 | 牌库: 0 | 弃牌堆: 0
+Blind进度: Small=Defeated | Big=Select | Boss=Upcoming
+手牌: -
+已选: -
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [EndOfRound] Advanced to Big Blind
+行为日志:
+  标题: 进入下一回合。
+  原因: 当前没有任何剩余 shop 动作能超过直接推进回合的 tempo 价值。
+  结果: 已推进到 Ante 1。
+前态: Stage_Shop / SHOP -> 后态: Stage_PreBlind / BLIND_SELECT
+================================================================================================
+步 017/024 | 动作 select_blind_1 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 0 / 450 | 金钱: $3
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 10D 3D 6S 9C 7S 6C AS 8S
+已选: -
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [BlindPrePlay] Selected Big Blind
+行为日志:
+  标题: 选择 Big Blind。
+  原因: Big Blind 是当前线性 blind 路径里唯一可进入的目标，因此直接进入它最能保留本回合 tempo。
+  结果: 已进入 Big Blind，当前有 4 次 Hands、3 次 Discards，过关需要 450 分。
+前态: Stage_PreBlind / BLIND_SELECT -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 018/024 | 动作 select_card_0 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 0 / 450 | 金钱: $3
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 10D 3D 6S 9C 7S 6C AS 8S
+已选: 10D
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 0
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 1/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 019/024 | 动作 select_card_2 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 0 / 450 | 金钱: $3
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 10D 3D 6S 9C 7S 6C AS 8S
+已选: 10D 6S
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 2
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 2/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 020/024 | 动作 select_card_3 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 0 / 450 | 金钱: $3
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 10D 3D 6S 9C 7S 6C AS 8S
+已选: 10D 6S 9C
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 3
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 3/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 021/024 | 动作 select_card_4 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 0 / 450 | 金钱: $3
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 10D 3D 6S 9C 7S 6C AS 8S
+已选: 10D 6S 9C 7S
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 4
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 4/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 022/024 | 动作 select_card_7 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 0 / 450 | 金钱: $3
+手数: 4 | 弃牌: 3 | 牌库: 44 | 弃牌堆: 0
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 10D 3D 6S 9C 7S 6C AS 8S
+已选: 10D 6S 9C 7S 8S
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 7
+行为日志:
+  标题: 构建 Straight 选牌。
+  原因: 这张牌属于目标 Straight 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 5/5 张目标选牌，继续朝 Straight 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 023/024 | 动作 play | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 280 / 450 | 金钱: $3
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 3D 6C AS 2C 6H 9H QD 3H
+已选: -
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [OnPlayed] Played Straight
+  - [CardScored] Base 70 chips x4 mult
+  - [JokerPostScore] Scored 280 points
+行为日志:
+  标题: 打出 Straight。
+  原因: Straight 是当前手牌里基础得分最高的可行线路，并且能让本局继续追赶 required score。
+  结果: 本次获得 280 分，距离过关还差 170 分。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
+================================================================================================
+步 024/024 | 动作 select_card_1 | 阶段 出牌阶段 | Lua状态 SELECTING_HAND
+------------------------------------------------------------------------------------------------
+盲注: Big Blind | Ante: 1 | Stake: 1 | 分数: 280 / 450 | 金钱: $3
+手数: 3 | 弃牌: 3 | 牌库: 39 | 弃牌堆: 5
+Blind进度: Small=Defeated | Big=Current | Boss=Upcoming
+手牌: 3D 6C AS 2C 6H 9H QD 3H
+已选: 6C
+Jokers: Smiley Face
+商店: -
+事件链:
+  - [OnPlayed] Toggled card slot 1
+行为日志:
+  标题: 构建 Pair 选牌。
+  原因: 这张牌属于目标 Pair 线路，而这条线在当前手牌里拥有最高的基础 heuristic。
+  结果: 当前已完成 1/5 张目标选牌，继续朝 Pair 构建。
+前态: Stage_Blind / SELECTING_HAND -> 后态: Stage_Blind / SELECTING_HAND
