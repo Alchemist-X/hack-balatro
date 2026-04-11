@@ -64,6 +64,141 @@ While subagents are running, the main conversation MUST remain responsive.
 Never block on a subagent when the user asks a question. Use `TaskList` or
 check output files to report progress without waiting for completion.
 
+## Objective vs Subjective — Content Rule (MANDATORY)
+
+**Never mix objective mechanics with subjective strategy in files that
+feed the model** — rule docs, prompts, training context, system messages, etc.
+
+Before adding any content to a model-facing document, ask:
+- Is this a **fact** (always true regardless of model/situation)?
+- Or is this a **judgment** (my opinion on how to play well)?
+
+If it's a judgment, it does **not** belong in the rule doc / prompt. It should
+emerge from training data, not be hard-coded as context.
+
+### Examples
+
+| ✅ Objective (keep) | ❌ Subjective (remove) |
+|---------------------|------------------------|
+| "Pair gives 10 chips × 2 mult base" | "Always prioritize Pair in early Ante" |
+| "Interest: $1 per $5 held, max $5" | "Keep money in $5 multiples to maximize interest" |
+| "Cavendish: X3 mult, 1/1000 destroy chance" | "X Mult jokers are the most valuable purchases" |
+| "plays=0 makes play action illegal" | "Save last play for the best hand" |
+| "Boss The Goad: all Spades don't score" | "Avoid building Spade-heavy decks" |
+
+### Rationale
+
+Hardcoding a single strategy into the model's context forces one playstyle.
+Different models / training regimes may discover better strategies we haven't
+thought of. The rule doc teaches the game; the data teaches how to play it.
+
+### Where to put strategy instead
+
+- **Training trajectories** (CoT reasoning from strong agents)
+- **Evaluation notes** (human analysis, kept separate from model input)
+- **README / research notes** (for collaborators, not for the model)
+- **Agent-specific playbooks** (e.g. `agents/<name>/playbook.md`) — explicitly
+  scoped to one agent, not a global rule
+
+Files like `rules/balatro_guide_for_llm.md` are model-facing and must stay
+100% objective. Audit them periodically by grep-ing for opinion words:
+"should", "best", "prefer", "优先", "最好", "应该".
+
+## Diagnosis-First Debugging (MANDATORY)
+
+**Do not change parameters/code in response to a symptom without first
+writing down a hypothesis and a verification method.**
+
+When a metric stalls, a test fails, or an agent behaves unexpectedly,
+the first action is **diagnosis**, not **tuning**.
+
+### Required ritual before any "fix"
+
+State explicitly (in chat or as a comment):
+
+```
+SYMPTOM:        [what's wrong, with specific numbers]
+HYPOTHESIS:     [specific guess at the cause]
+VERIFICATION:   [exact command/check that confirms or rejects hypothesis]
+```
+
+If you cannot name a verification step, **stop and diagnose first**.
+
+### Standard diagnostic tools (use these before tuning)
+
+For training / agent debugging:
+- **Action distribution** — which actions are being taken? (catches toggle loops, stuck agents)
+- **Reward breakdown** — which reward components dominate? (catches reward hacking)
+- **Episode length distribution** — are episodes too short/long? (catches early termination bugs)
+- **Manual trajectory inspection** — read 5-10 actual trajectories end-to-end (catches anything automated checks miss)
+
+For engine / test failures:
+- **Minimal reproduction** — smallest seed/input that triggers it
+- **State dump before/after** — what changed vs what should have changed
+- **Git bisect** — if it worked yesterday, find the breaking commit
+
+### Anti-patterns (ban these)
+
+- ❌ "Let me try increasing X" without knowing why X matters
+- ❌ Running another experiment with a slightly tweaked hyperparameter when
+  the previous one's failure mode is not yet understood
+- ❌ "Maybe the reward is too small, let me double it"
+- ❌ Multi-parameter tuning without isolating one variable
+- ❌ Copying a fix from another project without verifying the root cause matches
+
+### Real example from 2026-04-11
+
+6 PPO experiments (930K steps) were wasted tuning entropy/reward/play_bonus.
+30 seconds of printing the action distribution would have revealed the agent
+was spending 98% of steps in `select_card` toggle loops — making the entire
+reward-shaping direction irrelevant. The fix was a routing change, not a
+tuning change.
+
+Always diagnose first.
+
+## Workspace Hygiene
+
+Keep experimental artifacts separate from long-term assets.
+
+### File placement rules
+
+- **Long-term code** → `crates/`, `env/`, `agents/`, `training/`, `scripts/`
+- **One-off experiments / throwaway scripts** → `scripts/experimental/`
+  or `.tmp/` (both gitignored by convention)
+- **Documentation** → `rules/`, `docs/`, `todo/`
+- **Generated artifacts** → `results/` (selectively gitignored)
+
+### Before every commit
+
+1. Run `git status` and explicitly account for every untracked file:
+   - **Add it** — if it's a real asset
+   - **Delete it** — if it's a throwaway
+   - **Move it** — if it's in the wrong place
+   - **Gitignore it** — if it's generated output
+
+   Never leave untracked files "for later" — they become stale noise.
+
+2. Stage with specific paths, never `git add -A`. This forces you to think
+   about what's being committed.
+
+### Background processes
+
+When launching a background command or subagent, explicitly decide:
+- **One-shot**: will complete and be discarded → OK to run in background
+- **Long-lived**: needs monitoring → use `TaskList` / output file polling
+- **Legacy**: from previous tasks → kill it with `TaskStop` before starting new work
+
+Old background tasks that are no longer relevant generate notification noise
+and confuse future diagnosis. Clean them up at the end of every task.
+
+### Worktrees
+
+When using `isolation: "worktree"` for parallel subagents:
+- Each worktree = ephemeral. Nothing in it survives beyond the merge.
+- After merging subagent results, **delete the worktree** with
+  `git worktree remove` and the branch with `git branch -D`
+- Never leave worktrees around "just in case" — they compound merge pain
+
 ## Auto Commit & Push
 
 When a task is complete (tests pass, no regressions), **automatically commit and push** without asking:
