@@ -241,7 +241,14 @@ class ClaudeAgent:
 
     def __init__(self, model: str = "claude-sonnet-4-20250514"):
         import anthropic
-        self.client = anthropic.Anthropic()
+        api_key = os.environ.get("ANTHROPIC_AUTH_TOKEN") or os.environ.get("ANTHROPIC_API_KEY")
+        base_url = os.environ.get("ANTHROPIC_BASE_URL")
+        kwargs: dict[str, Any] = {}
+        if api_key:
+            kwargs["api_key"] = api_key
+        if base_url:
+            kwargs["base_url"] = base_url
+        self.client = anthropic.Anthropic(**kwargs)
         self.model = model
         self.total_tokens = 0
 
@@ -397,8 +404,8 @@ def main():
     args = parser.parse_args()
 
     if args.agent == "claude":
-        if not os.environ.get("ANTHROPIC_API_KEY"):
-            sys.exit("Error: ANTHROPIC_API_KEY not set. Use --agent smart for no-API mode.")
+        if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
+            sys.exit("Error: ANTHROPIC_API_KEY or ANTHROPIC_AUTH_TOKEN not set. Use --agent smart for no-API mode.")
         agent = ClaudeAgent(model=args.model)
         agent_name = f"claude_{args.model.split('-')[1]}"
     elif args.agent == "smart":

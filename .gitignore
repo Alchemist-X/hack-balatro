@@ -6,6 +6,9 @@ __pycache__/
 .venv/
 *.egg-info/
 
+# Secrets
+.env
+
 # macOS
 .DS_Store
 
