@@ -339,6 +339,18 @@ That writes `trajectory.canonical.json` next to your raw recording. That file is
 
 We captured one complete Ante 2 loss (seed `4WAX5M4D`, RED deck, WHITE stake): 56 raw events, 20 canonical steps, all 5 hands fully reconstructed with per-card detail. No false-positive discards after the round-boundary bug was fixed. The polling loop is the current bottleneck — very fast inputs (<200 ms) can still slip through.
 
+**The actual recording is checked into the repo** so you can open it without running anything:
+
+```
+results/real-client-trajectories/observer-20260420T223706/
+├── trajectory.canonical.json   ← start here (20 structured steps, human-readable)
+├── events.jsonl                ← raw event stream (56 lines, one event per line)
+├── snapshots/tick-000010.json … tick-000210.json   ← 21 full game-state dumps
+└── meta.json                   ← session metadata
+```
+
+Open `trajectory.canonical.json` to see every play, every shop buy, every tarot use as a single structured step — this is the exact format downstream tools (training, evaluation, the upcoming sim-vs-real diff) will consume. **Note:** this is the only observer session we share by default; future sessions stay local unless we explicitly whitelist them.
+
 ### What comes next (needed from you)
 
 Before we move to Phase P2 (the simulator-vs-real diff tool), we need **5-10 complete games** recorded over the next week. Please try to cover the checklist below across all your sessions combined (you don't need to hit everything in one run):
