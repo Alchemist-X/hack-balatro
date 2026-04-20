@@ -57,8 +57,6 @@ results/trajectories/*
 results/real-client-trajectories/*
 !results/real-client-trajectories/observer-20260420T223706/
 !results/real-client-trajectories/observer-20260420T223706/**
-!results/real-client-trajectories/bootstrap-not-connected/
-!results/real-client-trajectories/bootstrap-not-connected/**
 
 # ---------------------------------------------------------------------------
 # Other runtime artifacts

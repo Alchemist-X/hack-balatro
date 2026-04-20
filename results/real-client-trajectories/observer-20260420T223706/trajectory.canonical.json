@@ -1,0 +1,1249 @@
+{
+  "meta": {
+    "source": "real-client-observer",
+    "captured_at": "2026-04-20T14:53:27.062462+00:00",
+    "seed": "4WAX5M4D",
+    "deck": "RED",
+    "stake": "WHITE",
+    "agent_id": "human",
+    "extra": {
+      "session_dir": "results/real-client-trajectories/observer-20260420T223706",
+      "source_events_count": 56,
+      "source_snapshots_count": 21
+    }
+  },
+  "steps": [
+    {
+      "step_idx": 0,
+      "ts": "2026-04-20T14:37:09.283706+00:00",
+      "state_before": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 231,
+        "money": 12,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 1,
+        "consumables_count": 1,
+        "blind_small": "UPCOMING",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "cash_out",
+        "params": {
+          "delta": 6
+        }
+      },
+      "state_after": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 231,
+        "money": 12,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 1,
+        "consumables_count": 1,
+        "blind_small": "UPCOMING",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "money_change"
+      }
+    },
+    {
+      "step_idx": 1,
+      "ts": "2026-04-20T14:37:18.411597+00:00",
+      "state_before": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 231,
+        "money": 12,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 1,
+        "consumables_count": 1,
+        "blind_small": "UPCOMING",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "buy",
+        "params": {
+          "delta": -6
+        }
+      },
+      "state_after": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "UPCOMING",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "money_change"
+      }
+    },
+    {
+      "step_idx": 2,
+      "ts": "2026-04-20T14:37:18.412520+00:00",
+      "state_before": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "UPCOMING",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "buy",
+        "params": {
+          "kind": "joker"
+        }
+      },
+      "state_after": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "UPCOMING",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "jokers_count_change"
+      }
+    },
+    {
+      "step_idx": 3,
+      "ts": "2026-04-20T14:37:28.550152+00:00",
+      "state_before": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "UPCOMING",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "next_round",
+        "params": {}
+      },
+      "state_after": {
+        "state": "BLIND_SELECT",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "SELECT",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "state_change"
+      }
+    },
+    {
+      "step_idx": 4,
+      "ts": "2026-04-20T14:37:40.733499+00:00",
+      "state_before": {
+        "state": "BLIND_SELECT",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "SELECT",
+        "blind_big": "UPCOMING",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "skip_blind",
+        "params": {
+          "which": "small"
+        }
+      },
+      "state_after": {
+        "state": "BLIND_SELECT",
+        "ante": 2,
+        "round": 3,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "SELECT",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "blind_status_change"
+      }
+    },
+    {
+      "step_idx": 5,
+      "ts": "2026-04-20T14:37:41.744006+00:00",
+      "state_before": {
+        "state": "DRAW_TO_HAND",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "CURRENT",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "select_blind",
+        "params": {
+          "which": "big"
+        }
+      },
+      "state_after": {
+        "state": "DRAW_TO_HAND",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "CURRENT",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "blind_status_change"
+      }
+    },
+    {
+      "step_idx": 6,
+      "ts": "2026-04-20T14:37:54.886634+00:00",
+      "state_before": {
+        "state": "PLAY_TAROT",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [
+          "6S",
+          "TH[enhancement]",
+          "6H",
+          "QD",
+          "JD",
+          "TD",
+          "9D",
+          "8D"
+        ],
+        "hand_ids": [
+          56,
+          51,
+          43,
+          37,
+          35,
+          38,
+          33,
+          32
+        ],
+        "jokers_count": 2,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "CURRENT",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "use_consumable",
+        "params": {}
+      },
+      "state_after": {
+        "state": "PLAY_TAROT",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [
+          "6S",
+          "TH[enhancement]",
+          "6H",
+          "QD",
+          "JD",
+          "TD",
+          "9D",
+          "8D"
+        ],
+        "hand_ids": [
+          56,
+          51,
+          43,
+          37,
+          35,
+          38,
+          33,
+          32
+        ],
+        "jokers_count": 2,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "CURRENT",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "consumables_count_change"
+      }
+    },
+    {
+      "step_idx": 7,
+      "ts": "2026-04-20T14:37:58.953432+00:00",
+      "state_before": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [
+          "6S",
+          "TH[enhancement]",
+          "6H",
+          "QD",
+          "JD",
+          "TD",
+          "9D",
+          "8D"
+        ],
+        "hand_ids": [
+          56,
+          51,
+          43,
+          37,
+          35,
+          38,
+          33,
+          32
+        ],
+        "jokers_count": 2,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "CURRENT",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "play",
+        "params": {
+          "cards": [
+            "QD",
+            "JD",
+            "TD",
+            "9D",
+            "8D"
+          ],
+          "cards_drawn": [],
+          "hands_left_after": 3,
+          "round_chips_after": 0,
+          "reconciled": false
+        }
+      },
+      "state_after": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 3,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 6,
+        "hand_cards": [
+          "6S",
+          "TH[enhancement]",
+          "6H"
+        ],
+        "hand_ids": [
+          56,
+          51,
+          43
+        ],
+        "jokers_count": 2,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "CURRENT",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "hand_played"
+      }
+    },
+    {
+      "step_idx": 8,
+      "ts": "2026-04-20T14:38:07.094231+00:00",
+      "state_before": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 14,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "cash_out",
+        "params": {
+          "delta": 8
+        }
+      },
+      "state_after": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 14,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "money_change"
+      }
+    },
+    {
+      "step_idx": 9,
+      "ts": "2026-04-20T14:38:11.160149+00:00",
+      "state_before": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 14,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 2,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "buy",
+        "params": {
+          "kind": "joker"
+        }
+      },
+      "state_after": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 14,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "jokers_count_change"
+      }
+    },
+    {
+      "step_idx": 10,
+      "ts": "2026-04-20T14:38:18.281242+00:00",
+      "state_before": {
+        "state": "SMODS_BOOSTER_OPENED",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "buy",
+        "params": {
+          "kind": "pack",
+          "delta": -4
+        }
+      },
+      "state_after": {
+        "state": "SMODS_BOOSTER_OPENED",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "money_change"
+      }
+    },
+    {
+      "step_idx": 11,
+      "ts": "2026-04-20T14:38:23.358582+00:00",
+      "state_before": {
+        "state": "SMODS_BOOSTER_OPENED",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "buy",
+        "params": {
+          "kind": "consumable"
+        }
+      },
+      "state_after": {
+        "state": "SMODS_BOOSTER_OPENED",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [
+          "JS",
+          "4S",
+          "3S",
+          "TH[enhancement]",
+          "9C",
+          "3C",
+          "AD",
+          "9D"
+        ],
+        "hand_ids": [
+          61,
+          54,
+          53,
+          51,
+          20,
+          14,
+          34,
+          33
+        ],
+        "jokers_count": 3,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "consumables_count_change"
+      }
+    },
+    {
+      "step_idx": 12,
+      "ts": "2026-04-20T14:38:25.383982+00:00",
+      "state_before": {
+        "state": "SHOP",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "UPCOMING",
+        "won": false
+      },
+      "action": {
+        "type": "next_round",
+        "params": {}
+      },
+      "state_after": {
+        "state": "BLIND_SELECT",
+        "ante": 2,
+        "round": 4,
+        "hands_left": 4,
+        "discards_left": 4,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "SELECT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "state_change"
+      }
+    },
+    {
+      "step_idx": 13,
+      "ts": "2026-04-20T14:38:27.400657+00:00",
+      "state_before": {
+        "state": "BLIND_SELECT",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 4,
+        "discards_left": 0,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "action": {
+        "type": "select_blind",
+        "params": {
+          "which": "boss"
+        }
+      },
+      "state_after": {
+        "state": "BLIND_SELECT",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 4,
+        "discards_left": 0,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [],
+        "hand_ids": [],
+        "jokers_count": 3,
+        "consumables_count": 1,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "blind_status_change"
+      }
+    },
+    {
+      "step_idx": 14,
+      "ts": "2026-04-20T14:38:46.637398+00:00",
+      "state_before": {
+        "state": "PLAY_TAROT",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 4,
+        "discards_left": 0,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [
+          "TS",
+          "9S",
+          "2H",
+          "TC",
+          "9C",
+          "7C",
+          "6C",
+          "TD"
+        ],
+        "hand_ids": [
+          64,
+          59,
+          39,
+          25,
+          20,
+          18,
+          17,
+          38
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "action": {
+        "type": "use_consumable",
+        "params": {}
+      },
+      "state_after": {
+        "state": "PLAY_TAROT",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 4,
+        "discards_left": 0,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [
+          "TS",
+          "9S",
+          "2H",
+          "TC",
+          "9C",
+          "7C",
+          "6C",
+          "TD"
+        ],
+        "hand_ids": [
+          64,
+          59,
+          39,
+          25,
+          20,
+          18,
+          17,
+          38
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "consumables_count_change"
+      }
+    },
+    {
+      "step_idx": 15,
+      "ts": "2026-04-20T14:38:50.686498+00:00",
+      "state_before": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 3,
+        "discards_left": 0,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [
+          "9C[enhancement]",
+          "7C",
+          "6C",
+          "TD"
+        ],
+        "hand_ids": [
+          20,
+          18,
+          17,
+          38
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "action": {
+        "type": "play",
+        "params": {
+          "cards": [
+            "TS",
+            "9S",
+            "2H",
+            "TC"
+          ],
+          "cards_drawn": [],
+          "hands_left_after": 3,
+          "round_chips_after": 0,
+          "reconciled": false
+        }
+      },
+      "state_after": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 3,
+        "discards_left": 0,
+        "round_chips": 0,
+        "money": 10,
+        "hand_cards": [
+          "9C[enhancement]",
+          "7C",
+          "6C",
+          "TD"
+        ],
+        "hand_ids": [
+          20,
+          18,
+          17,
+          38
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "hand_played"
+      }
+    },
+    {
+      "step_idx": 16,
+      "ts": "2026-04-20T14:39:05.858951+00:00",
+      "state_before": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 2,
+        "discards_left": 0,
+        "round_chips": 495,
+        "money": 10,
+        "hand_cards": [
+          "3S",
+          "TH[enhancement]",
+          "9H",
+          "4H",
+          "QC",
+          "9C[enhancement]",
+          "7C",
+          "6C"
+        ],
+        "hand_ids": [
+          53,
+          51,
+          46,
+          41,
+          24,
+          20,
+          18,
+          17
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "action": {
+        "type": "play",
+        "params": {
+          "cards": [
+            "3S",
+            "9H",
+            "4H"
+          ],
+          "cards_drawn": [],
+          "hands_left_after": 2,
+          "round_chips_after": 495,
+          "reconciled": false
+        }
+      },
+      "state_after": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 2,
+        "discards_left": 0,
+        "round_chips": 495,
+        "money": 10,
+        "hand_cards": [
+          "3S",
+          "TH[enhancement]",
+          "9H",
+          "4H",
+          "QC",
+          "9C[enhancement]",
+          "7C",
+          "6C"
+        ],
+        "hand_ids": [
+          53,
+          51,
+          46,
+          41,
+          24,
+          20,
+          18,
+          17
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "hand_played"
+      }
+    },
+    {
+      "step_idx": 17,
+      "ts": "2026-04-20T14:39:15.989906+00:00",
+      "state_before": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 1,
+        "discards_left": 0,
+        "round_chips": 639,
+        "money": 10,
+        "hand_cards": [
+          "TH[enhancement]",
+          "QC",
+          "9C[enhancement]",
+          "7C",
+          "6C"
+        ],
+        "hand_ids": [
+          51,
+          24,
+          20,
+          18,
+          17
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "action": {
+        "type": "play",
+        "params": {
+          "cards": [
+            "8H",
+            "JD",
+            "5D"
+          ],
+          "cards_drawn": [],
+          "hands_left_after": 1,
+          "round_chips_after": 639,
+          "reconciled": false
+        }
+      },
+      "state_after": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 1,
+        "discards_left": 0,
+        "round_chips": 639,
+        "money": 10,
+        "hand_cards": [
+          "TH[enhancement]",
+          "QC",
+          "9C[enhancement]",
+          "7C",
+          "6C"
+        ],
+        "hand_ids": [
+          51,
+          24,
+          20,
+          18,
+          17
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "hand_played"
+      }
+    },
+    {
+      "step_idx": 18,
+      "ts": "2026-04-20T14:39:49.418523+00:00",
+      "state_before": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 0,
+        "discards_left": 0,
+        "round_chips": 785,
+        "money": 10,
+        "hand_cards": [
+          "AS",
+          "KD",
+          "QC",
+          "TH[enhancement]",
+          "9C[enhancement]",
+          "7C",
+          "6C",
+          "5S"
+        ],
+        "hand_ids": [
+          60,
+          36,
+          24,
+          51,
+          20,
+          18,
+          17,
+          55
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "action": {
+        "type": "play",
+        "params": {
+          "cards": [
+            "AS",
+            "KD",
+            "QC"
+          ],
+          "cards_drawn": [],
+          "hands_left_after": 0,
+          "round_chips_after": 785,
+          "reconciled": false
+        }
+      },
+      "state_after": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 0,
+        "discards_left": 0,
+        "round_chips": 785,
+        "money": 10,
+        "hand_cards": [
+          "AS",
+          "KD",
+          "QC",
+          "TH[enhancement]",
+          "9C[enhancement]",
+          "7C",
+          "6C",
+          "5S"
+        ],
+        "hand_ids": [
+          60,
+          36,
+          24,
+          51,
+          20,
+          18,
+          17,
+          55
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "hand_played"
+      }
+    },
+    {
+      "step_idx": 19,
+      "ts": "2026-04-20T14:39:53.479672+00:00",
+      "state_before": {
+        "state": "HAND_PLAYED",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 0,
+        "discards_left": 0,
+        "round_chips": 886,
+        "money": 10,
+        "hand_cards": [
+          "TH[enhancement]",
+          "9C[enhancement]",
+          "7C",
+          "6C",
+          "5S"
+        ],
+        "hand_ids": [
+          51,
+          20,
+          18,
+          17,
+          55
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "action": {
+        "type": "observe",
+        "params": {
+          "reason": "game_over"
+        }
+      },
+      "state_after": {
+        "state": "GAME_OVER",
+        "ante": 2,
+        "round": 5,
+        "hands_left": 0,
+        "discards_left": 0,
+        "round_chips": 958,
+        "money": 10,
+        "hand_cards": [
+          "TH[enhancement]",
+          "9C[enhancement]",
+          "7C",
+          "6C",
+          "5S"
+        ],
+        "hand_ids": [
+          51,
+          20,
+          18,
+          17,
+          55
+        ],
+        "jokers_count": 3,
+        "consumables_count": 0,
+        "blind_small": "SKIPPED",
+        "blind_big": "DEFEATED",
+        "blind_boss": "CURRENT",
+        "won": false
+      },
+      "info": {
+        "source_event_kind": "state_change"
+      }
+    }
+  ]
+}
