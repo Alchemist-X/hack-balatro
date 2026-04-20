@@ -52,12 +52,21 @@ results/trajectories/*
 !results/replay-proof.behavior_log.jsonl
 !results/replay-proof.cli.txt
 
+# Real-client trajectories: whitelist specific captured sessions
+!results/real-client-trajectories/
+results/real-client-trajectories/*
+!results/real-client-trajectories/observer-20260420T223706/
+!results/real-client-trajectories/observer-20260420T223706/**
+!results/real-client-trajectories/bootstrap-not-connected/
+!results/real-client-trajectories/bootstrap-not-connected/**
+
 # ---------------------------------------------------------------------------
 # Other runtime artifacts
 # ---------------------------------------------------------------------------
 checkpoints/
 trajectories/
 runs/
+logs/
 
 # ---------------------------------------------------------------------------
 # Upstream clones (pinned in third_party.lock) — mostly ignored
