@@ -199,6 +199,27 @@ When using `isolation: "worktree"` for parallel subagents:
   `git worktree remove` and the branch with `git branch -D`
 - Never leave worktrees around "just in case" — they compound merge pain
 
+## README-For-Collaborators Update Policy (MANDATORY)
+
+Whenever a **major update** lands — new capability, new integration, breaking
+schema change, or fidelity milestone — append a dated section to `README.md`
+written in **plain language for non-developer collaborators** (game designers,
+analysts, playtesters who may not read Python).
+
+Every such section must cover, in order:
+
+1. **What we did** (1 short paragraph, no jargon)
+2. **Why it matters** (2-3 bullets, business/research value)
+3. **How to try it** (numbered, copy-pasteable, <5 min recipe)
+4. **What we learned** (1 honest paragraph, including limits)
+5. **What we need from you** (explicit asks + coverage checklist)
+6. **Known limitations** (short bullet list)
+7. Pointer line to the architecture/test-plan doc.
+
+Trigger example: "first end-to-end real-client capture works" -> append the
+dated section *before* merging the feature branch. If the update changes how
+collaborators interact with the repo, README must reflect it the same day.
+
 ## Auto Commit & Push
 
 When a task is complete (tests pass, no regressions), **automatically commit and push** without asking:

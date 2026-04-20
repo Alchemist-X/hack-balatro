@@ -299,6 +299,70 @@ Ante 1-8，每层 3 个盲注：Small → Big → Boss
 
 ---
 
+## Real client integration (as of 2026-04-20)
+
+### What we did
+
+We wired the actual Steam Balatro game up to the research tooling. When you play a real game now, we can record every play, discard, shop purchase, and boss encounter as structured data, five times per second. The recording runs quietly alongside the game; nothing about how you play changes. When you're done, one command turns the raw recording into the same shape the simulator and the LLM agents produce, so everything downstream (training, evaluation, sim-vs-real comparison) can treat real games and simulated games identically.
+
+### Why it matters
+
+- **Ground truth for fidelity.** The simulator has been checked only against itself. Real client trajectories let us assert the simulator matches the actual game, chip for chip.
+- **Real human-play data.** A few hours of your play seeds an imitation-learning corpus no scripted policy can match — real decisions under real uncertainty.
+- **Planner-quality evaluation.** Once we can diff real vs simulated, we can evaluate any agent (LLM, RL, scripted) by how closely it reproduces strong human play.
+
+### How to try it (<5 minutes)
+
+Open two terminals in this repo.
+
+**Terminal 1 — start the modded game:**
+```bash
+bash scripts/launch_modded_balatro.sh
+```
+This kills any old Balatro, backs up incompatible save files, launches the game with the observer hooks loaded, and waits until the game is ready. Exits cleanly with the Balatro window open.
+
+**Terminal 2 — start recording, then play:**
+```bash
+python scripts/experimental/observe_real_play.py \
+    --session my-first-session --interval 0.2
+```
+Now just play a normal game in the Balatro window. When you're done (whether you win, lose, or just want to stop), quit Balatro and press `Ctrl-C` in Terminal 2.
+
+**Convert the recording to canonical form:**
+```bash
+python scripts/adapt_observer_to_canonical.py \
+    --session results/real-client-trajectories/my-first-session
+```
+That writes `trajectory.canonical.json` next to your raw recording. That file is the one downstream tools consume.
+
+### What we learned from the first run
+
+We captured one complete Ante 2 loss (seed `4WAX5M4D`, RED deck, WHITE stake): 56 raw events, 20 canonical steps, all 5 hands fully reconstructed with per-card detail. No false-positive discards after the round-boundary bug was fixed. The polling loop is the current bottleneck — very fast inputs (<200 ms) can still slip through.
+
+### What comes next (needed from you)
+
+Before we move to Phase P2 (the simulator-vs-real diff tool), we need **5-10 complete games** recorded over the next week. Please try to cover the checklist below across all your sessions combined (you don't need to hit everything in one run):
+
+- **Hand types played at least once:** High Card, Pair, Two Pair, Three of a Kind, Straight, Flush, Full House, Four of a Kind, Straight Flush.
+- **Consumables used at least once each:** one Tarot, one Planet, one Spectral.
+- **Booster packs:** open at least one of each type — Standard, Buffoon, Arcana, Celestial, Spectral.
+- **Bosses faced:** at least 3 different boss blinds.
+- **Progression:** reach Ante 3 or higher at least once.
+- **Outcomes:** at least one win + at least one loss.
+- **Blind choices:** skip the small blind in one run, play it normally in another.
+
+Keep the default settings (RED deck, WHITE stake) for comparability unless we ask otherwise.
+
+### Limitations to know about
+
+- The polling-based observer can miss rapid inputs shorter than ~200 ms (e.g., instantly reselecting a card).
+- The simulator-vs-real comparison tool isn't built yet — arriving in Phase P2, after the corpus is large enough.
+- The launch + recording scripts currently only work on **macOS Apple Silicon**. Windows support tracked separately.
+
+_Full architecture + test plan: see [`todo/20260420_real_client_integration_plan.md`](./todo/20260420_real_client_integration_plan.md)._
+
+---
+
 ## 下一步 Backlog
 
 见 [todo/20260331_backlog.md](./todo/20260331_backlog.md)
