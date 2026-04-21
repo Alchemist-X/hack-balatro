@@ -539,6 +539,15 @@ pub struct Snapshot {
     pub open_pack: Option<BoosterPackInstance>,
     pub won: bool,
     pub over: bool,
+    /// User-facing seed string (empty if the engine was built from a raw u64 seed only).
+    #[serde(default)]
+    pub seed_str: String,
+    /// Lowercase deck identifier from `RunConfig.deck_key` (e.g. "red").
+    #[serde(default)]
+    pub deck_name: String,
+    /// Uppercase stake name (e.g. "WHITE") derived from `RunConfig.stake`.
+    #[serde(default)]
+    pub stake_name: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -594,6 +603,17 @@ pub struct RunConfig {
     pub ante_start: i32,
     pub stake: i32,
     pub max_ante: i32,
+    /// Deck identifier (e.g. "red", "blue"). Lowercase, matches the run-lobby key.
+    /// Semantics (starting discards, hand size, etc.) are NOT yet applied — this is
+    /// a data-plumbing field used for sim↔real alignment (see P1 in
+    /// `todo/20260421_sim_vs_real_gaps.md`).
+    pub deck_key: String,
+    /// User-facing seed string (e.g. "4WAX5M4D"). Preserved verbatim so the
+    /// snapshot can round-trip through real-client comparisons. Note: the
+    /// simulator currently uses a `u64` seed derived via `balatro_seed_str_to_u64`,
+    /// which is NOT byte-compatible with Balatro's Lua `math.random` sequence.
+    /// A P3 pass may replace this with a Balatro-accurate seeding scheme.
+    pub seed_str: String,
 }
 
 impl Default for RunConfig {
@@ -602,7 +622,39 @@ impl Default for RunConfig {
             ante_start: 1,
             stake: 1,
             max_ante: 8,
+            deck_key: "red".to_string(),
+            seed_str: String::new(),
         }
+    }
+}
+
+/// Stable mapping from string seed to u64 for `ChaCha8Rng`.
+///
+/// This is NOT Balatro-accurate: the real game uses Lua's `math.random` with a
+/// string-seeded RNG. For P0 alignment work we only need determinism per
+/// `seed_str`; trajectory-level parity with the real client is a separate P3
+/// effort.
+pub fn balatro_seed_str_to_u64(seed_str: &str) -> u64 {
+    use std::collections::hash_map::DefaultHasher;
+    use std::hash::{Hash, Hasher};
+    let mut h = DefaultHasher::new();
+    seed_str.hash(&mut h);
+    h.finish()
+}
+
+/// Convert the integer stake (1..=8) into BalatroBot's uppercase stake name.
+/// Returns `"UNKNOWN"` for anything outside that range.
+pub fn stake_int_to_name(stake: i32) -> &'static str {
+    match stake {
+        1 => "WHITE",
+        2 => "RED",
+        3 => "GREEN",
+        4 => "BLACK",
+        5 => "BLUE",
+        6 => "PURPLE",
+        7 => "ORANGE",
+        8 => "GOLD",
+        _ => "UNKNOWN",
     }
 }
 
@@ -617,6 +669,7 @@ pub struct Engine {
     ruleset: RulesetBundle,
     rng: ChaCha8Rng,
     state: EngineState,
+    config: RunConfig,
 }
 
 #[derive(Debug, Clone)]
@@ -702,9 +755,11 @@ impl Engine {
             .find(|blind| blind.boss)
             .expect("boss blind")
             .clone();
+        let stored_config = config.clone();
         let mut engine = Self {
             ruleset,
             rng: ChaCha8Rng::seed_from_u64(seed),
+            config: stored_config,
             state: EngineState {
                 phase: Phase::PreBlind,
                 round: 1,
@@ -765,6 +820,15 @@ impl Engine {
         let mut init_trace = TransitionTrace::default();
         engine.prepare_round_start(&mut init_trace);
         engine
+    }
+
+    /// Build an engine from a user-facing string seed. The `RunConfig.seed_str`
+    /// is set from `seed_str`, and the underlying u64 RNG seed is derived via
+    /// `balatro_seed_str_to_u64` (see that function's doc for caveats).
+    pub fn new_from_str_seed(seed_str: &str, ruleset: RulesetBundle, mut config: RunConfig) -> Self {
+        config.seed_str = seed_str.to_string();
+        let seed_u64 = balatro_seed_str_to_u64(seed_str);
+        Self::new(seed_u64, ruleset, config)
     }
 
     pub fn clone_seeded(&self, seed: Option<u64>) -> Self {
@@ -836,6 +900,9 @@ impl Engine {
             open_pack: self.state.open_pack.clone(),
             won: self.state.won,
             over: self.state.over,
+            seed_str: self.config.seed_str.clone(),
+            deck_name: self.config.deck_key.clone(),
+            stake_name: stake_int_to_name(self.state.stake).to_string(),
         }
     }
 
@@ -6251,6 +6318,20 @@ mod tests {
     }
 
     // ==== Core engine tests (from main) ====
+
+    #[test]
+    fn new_engine_records_deck_and_seed_str_on_snapshot() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut cfg = RunConfig::default();
+        cfg.deck_key = "red".into();
+        cfg.seed_str = "4WAX5M4D".into();
+        cfg.stake = 1;
+        let e = Engine::new(42, bundle, cfg);
+        let snap = e.snapshot();
+        assert_eq!(snap.seed_str, "4WAX5M4D");
+        assert_eq!(snap.deck_name, "red");
+        assert_eq!(snap.stake_name, "WHITE");
+    }
 
     #[test]
     fn engine_is_deterministic_for_same_seed_and_actions() {
