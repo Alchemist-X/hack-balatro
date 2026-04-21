@@ -1,4 +1,4 @@
-use balatro_engine::{action_name, ActionDescriptor, BoosterPackInstance, CardInstance, ConsumableInstance, Engine, JokerInstance, RunConfig, Snapshot, Transition, VoucherInstance};
+use balatro_engine::{action_name, ActionDescriptor, BoosterPackInstance, CardInstance, ConsumableInstance, Engine, JokerInstance, RunConfig, Snapshot, TagInfo, Transition, VoucherInstance};
 use balatro_spec::RulesetBundle;
 use pyo3::exceptions::{PyFileNotFoundError, PyValueError};
 use pyo3::prelude::*;
@@ -156,6 +156,30 @@ impl PyVoucher {
     #[getter]
     fn effect_key(&self) -> &str {
         &self.inner.effect_key
+    }
+
+    #[getter]
+    fn description(&self) -> &str {
+        &self.inner.description
+    }
+}
+
+#[pyclass(name = "Tag")]
+#[derive(Clone)]
+struct PyTag {
+    inner: TagInfo,
+}
+
+#[pymethods]
+impl PyTag {
+    #[getter]
+    fn id(&self) -> &str {
+        &self.inner.id
+    }
+
+    #[getter]
+    fn name(&self) -> &str {
+        &self.inner.name
     }
 
     #[getter]
@@ -386,6 +410,30 @@ impl PySnapshot {
         &self.inner.stake_name
     }
 
+    #[getter]
+    fn small_tag(&self) -> Option<PyTag> {
+        self.inner
+            .small_tag
+            .as_ref()
+            .map(|inner| PyTag { inner: inner.clone() })
+    }
+
+    #[getter]
+    fn big_tag(&self) -> Option<PyTag> {
+        self.inner
+            .big_tag
+            .as_ref()
+            .map(|inner| PyTag { inner: inner.clone() })
+    }
+
+    #[getter]
+    fn boss_tag(&self) -> Option<PyTag> {
+        self.inner
+            .boss_tag
+            .as_ref()
+            .map(|inner| PyTag { inner: inner.clone() })
+    }
+
     fn to_json(&self) -> PyResult<String> {
         serde_json::to_string(&self.inner).map_err(|err| PyValueError::new_err(err.to_string()))
     }
@@ -583,6 +631,7 @@ fn balatro_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyJoker>()?;
     m.add_class::<PyConsumable>()?;
     m.add_class::<PyVoucher>()?;
+    m.add_class::<PyTag>()?;
     m.add_class::<PyBoosterPack>()?;
     m.add_class::<PySnapshot>()?;
     m.add_class::<PyActionDescriptor>()?;

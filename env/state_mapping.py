@@ -150,19 +150,26 @@ def to_real_shape(
     ]
 
     sim_blind_states = sim.get("blind_states") or {}
+    sim_tag_by_slot = {
+        "small": sim.get("small_tag") or {},
+        "big": sim.get("big_tag") or {},
+        "boss": sim.get("boss_tag") or {},
+    }
     blinds_out: dict[str, Any] = {}
     for kind_lc, kind_tc in (("small", "Small"), ("big", "Big"), ("boss", "Boss")):
         status = sim_blind_states.get(kind_tc)
         real_status = BLIND_STATE_TO_REAL.get(status, status)
+        tag = sim_tag_by_slot.get(kind_lc) or {}
+        # Boss slots never carry a tag in vanilla Balatro, matching the real
+        # client's convention of empty strings rather than nulls.
         blinds_out[kind_lc] = {
             "status": real_status,
             "score": blind_target(sim.get("round", 1), sim.get("ante", 1), kind_lc),
             "name": {"small": "Small Blind", "big": "Big Blind", "boss": sim.get("blind_name", "Boss")}[kind_lc],
             "type": kind_lc.upper(),
             "effect": sim.get("boss_effect", "") if kind_lc == "boss" else "",
-            # sim does not model skip tags yet:
-            "tag_name": None,
-            "tag_effect": None,
+            "tag_name": tag.get("name", ""),
+            "tag_effect": tag.get("description", ""),
         }
 
     plays_left = sim.get("plays", 0) or 0

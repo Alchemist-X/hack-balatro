@@ -172,6 +172,22 @@ pub struct VoucherSpec {
     pub description: String,
 }
 
+/// Skip-blind tag metadata. Mirrors the vanilla Balatro `G.P_TAGS` entries
+/// (see `vendor/balatro/steam-local/extracted/game.lua:224-249`).
+///
+/// `effect_key` is a short stable handle (e.g. `"negative_next_joker"`) that
+/// the engine matches on to dispatch the actual run-time effect. `description`
+/// is the display string surfaced on the snapshot; it matches the real-client
+/// Chinese format (`{C:...}` tags stripped, lines joined with spaces) so
+/// sim ↔ real-client diffs compare equal by intent.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct TagSpec {
+    pub id: String,
+    pub name: String,
+    pub effect_key: String,
+    pub description: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct ShopWeights {
     pub common: f32,
@@ -193,6 +209,11 @@ pub struct RulesetBundle {
     pub shop_weights: ShopWeights,
     #[serde(default)]
     pub vouchers: Vec<VoucherSpec>,
+    /// Skip-blind tag catalog. Optional on disk; engines fall back to a
+    /// hand-written default pool (22 vanilla tags) when absent so existing
+    /// bundle JSONs keep working.
+    #[serde(default)]
+    pub tags: Vec<TagSpec>,
 }
 
 impl RulesetBundle {
@@ -222,6 +243,10 @@ impl RulesetBundle {
 
     pub fn consumable_by_id(&self, consumable_id: &str) -> Option<&ConsumableSpec> {
         self.consumables.iter().find(|c| c.id == consumable_id)
+    }
+
+    pub fn tag_by_id(&self, tag_id: &str) -> Option<&TagSpec> {
+        self.tags.iter().find(|t| t.id == tag_id)
     }
 }
 
