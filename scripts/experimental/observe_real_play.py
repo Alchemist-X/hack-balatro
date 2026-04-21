@@ -58,14 +58,29 @@ def card_label(c: dict[str, Any]) -> str:
     return f"{rank}{suit}" + (f"[{mod}]" if mod else "")
 
 
+def _blind_detail(blinds: dict[str, Any], key: str) -> dict[str, Any]:
+    """Extract full blind info (status + name + target score + tag + effect)."""
+    b = blinds.get(key) if isinstance(blinds, dict) else None
+    if not isinstance(b, dict):
+        return {}
+    return {
+        "status": b.get("status"),
+        "name": b.get("name"),
+        "score": b.get("score"),
+        "effect": b.get("effect") or "",
+        "tag_name": b.get("tag_name") or "",
+        "tag_effect": b.get("tag_effect") or "",
+    }
+
+
 def summarize(state: dict[str, Any]) -> dict[str, Any]:
     hand = state.get("hand") or {}
     hand_cards = hand.get("cards") or []
     round_obj = state.get("round") or {}
     blinds = state.get("blinds") or {}
-    def blind_status(key: str) -> str | None:
-        b = blinds.get(key) if isinstance(blinds, dict) else None
-        return b.get("status") if isinstance(b, dict) else None
+    small = _blind_detail(blinds, "small")
+    big = _blind_detail(blinds, "big")
+    boss = _blind_detail(blinds, "boss")
     return {
         "state": state.get("state"),
         "ante": state.get("ante_num"),
@@ -77,9 +92,12 @@ def summarize(state: dict[str, Any]) -> dict[str, Any]:
         "hand_count": len(hand_cards),
         "hand_cards": [card_label(c) for c in hand_cards],
         "hand_ids": [c.get("id") for c in hand_cards],
-        "blind_small": blind_status("small"),
-        "blind_big": blind_status("big"),
-        "blind_boss": blind_status("boss"),
+        # legacy flat status fields (kept for backwards-compat with old diffs/tools)
+        "blind_small": small.get("status"),
+        "blind_big": big.get("status"),
+        "blind_boss": boss.get("status"),
+        # full blind detail — name, target score, skip-tag reward, boss debuff
+        "blinds": {"small": small, "big": big, "boss": boss},
         "won": state.get("won"),
         "jokers": len((state.get("jokers") or {}).get("cards") or []) if isinstance(state.get("jokers"), dict) else None,
         "consumables": (state.get("consumables") or {}).get("count") if isinstance(state.get("consumables"), dict) else None,
