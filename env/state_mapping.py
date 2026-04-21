@@ -121,8 +121,17 @@ def to_real_shape(
     Fields the sim does not yet model are returned with explicit `None` so
     the diff tool can flag them instead of silently omitting.
     """
+    # Prefer explicitly-passed values; fall back to sim-provided ones so sim
+    # output can drive the diff on its own once those fields are plumbed.
+    if seed is None:
+        seed = sim.get("seed_str") or None
+    if deck_name is None:
+        deck_name = sim.get("deck_name") or None
+    # Real-client convention is uppercase deck names ("RED", "BLUE", ...).
+    deck_name = (deck_name or "").upper() or None
+
     stake_int = sim.get("stake")
-    stake_name = STAKE_BY_INT.get(stake_int, str(stake_int) if stake_int else None)
+    stake_name = sim.get("stake_name") or STAKE_BY_INT.get(stake_int, str(stake_int) if stake_int else None)
 
     # hand slice (sim calls it `available`)
     available = sim.get("available") or []

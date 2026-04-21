@@ -371,6 +371,21 @@ impl PySnapshot {
             })
     }
 
+    #[getter]
+    fn seed_str(&self) -> &str {
+        &self.inner.seed_str
+    }
+
+    #[getter]
+    fn deck_name(&self) -> &str {
+        &self.inner.deck_name
+    }
+
+    #[getter]
+    fn stake_name(&self) -> &str {
+        &self.inner.stake_name
+    }
+
     fn to_json(&self) -> PyResult<String> {
         serde_json::to_string(&self.inner).map_err(|err| PyValueError::new_err(err.to_string()))
     }
@@ -440,8 +455,14 @@ struct PyEngine {
 #[pymethods]
 impl PyEngine {
     #[new]
-    #[pyo3(signature = (seed=42, ruleset_path=None, stake=1))]
-    fn new(seed: u64, ruleset_path: Option<String>, stake: i32) -> PyResult<Self> {
+    #[pyo3(signature = (seed=42, ruleset_path=None, stake=1, deck="red", seed_str=""))]
+    fn new(
+        seed: u64,
+        ruleset_path: Option<String>,
+        stake: i32,
+        deck: &str,
+        seed_str: &str,
+    ) -> PyResult<Self> {
         let bundle_path = ruleset_path.unwrap_or_else(default_ruleset_path);
         let bundle = RulesetBundle::load_from_path(&bundle_path)
             .map_err(|err| PyFileNotFoundError::new_err(err.to_string()))?;
@@ -451,6 +472,8 @@ impl PyEngine {
                 bundle,
                 RunConfig {
                     stake,
+                    deck_key: deck.to_lowercase(),
+                    seed_str: seed_str.to_string(),
                     ..RunConfig::default()
                 },
             ),
