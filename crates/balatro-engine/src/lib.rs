@@ -503,6 +503,46 @@ impl TransitionTrace {
     }
 }
 
+/// Per-poker-hand statistics, mirroring BalatroBot's `gamestate.hands.<Name>`
+/// shape (minus `example` which requires sample cards from the ruleset and is
+/// deferred). Kept alongside the legacy `hand_levels` map so callers that only
+/// need the level scalar keep working.
+///
+/// NOTE: `order` has no authoritative source in the ruleset bundle — we use a
+/// descending-strength ranking (Flush Five=1 … High Card=12) to match what the
+/// real client emits. See `balatro_hand_order_for_key`.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
+pub struct HandStats {
+    pub level: i32,
+    pub played: i32,
+    pub played_this_round: i32,
+    pub order: i32,
+    pub chips: i32,
+    pub mult: i32,
+}
+
+/// Descending-strength order: 1 = strongest hand (Flush Five), 12 = weakest
+/// (High Card). Matches the real-client UI ordering observed in
+/// `observer-20260420T223706/snapshots/tick-000010.json`.
+/// TODO: once the ruleset bundle exposes `order`, switch to reading it.
+fn balatro_hand_order_for_key(key: &str) -> i32 {
+    match key {
+        "flush_five" => 1,
+        "flush_house" => 2,
+        "five_of_a_kind" => 3,
+        "straight_flush" => 4,
+        "four_of_a_kind" => 5,
+        "full_house" => 6,
+        "flush" => 7,
+        "straight" => 8,
+        "three_of_kind" => 9,
+        "two_pair" => 10,
+        "pair" => 11,
+        "high_card" => 12,
+        _ => 99,
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Snapshot {
     pub phase: Phase,
@@ -531,6 +571,10 @@ pub struct Snapshot {
     pub shop_consumables: Vec<ConsumableInstance>,
     pub consumable_slot_limit: usize,
     pub hand_levels: BTreeMap<String, i32>,
+    /// Per-hand stats keyed by the **display name** (e.g. "Pair", "Flush"),
+    /// matching BalatroBot's `gamestate.hands`. Populated from `hand_specs`.
+    #[serde(default)]
+    pub hand_stats: BTreeMap<String, HandStats>,
     pub blind_states: BTreeMap<String, String>,
     pub selected_slots: Vec<usize>,
     pub owned_vouchers: Vec<String>,
@@ -705,6 +749,8 @@ struct EngineState {
     shop_consumables: Vec<ConsumableInstance>,
     consumable_slot_limit: usize,
     hand_levels: BTreeMap<String, i32>,
+    /// Per-hand stats keyed by display name; kept in lock-step with `hand_levels`.
+    hand_stats: BTreeMap<String, HandStats>,
     owned_vouchers: Vec<String>,
     shop_voucher: Option<VoucherInstance>,
     shop_packs: Vec<BoosterPackInstance>,
@@ -792,6 +838,7 @@ impl Engine {
                 shop_consumables: Vec::new(),
                 consumable_slot_limit: CONSUMABLE_SLOT_LIMIT,
                 hand_levels: BTreeMap::new(),
+                hand_stats: BTreeMap::new(),
                 owned_vouchers: Vec::new(),
                 shop_voucher: None,
                 shop_packs: Vec::new(),
@@ -817,6 +864,22 @@ impl Engine {
                 boss_manacle_hand_size_reduced: false,
             },
         };
+        // Seed hand_stats from the ruleset. Every hand type starts at level 1
+        // with its base chips/mult and descending-strength order.
+        for spec in engine.ruleset.hand_specs.clone().iter() {
+            engine.state.hand_stats.insert(
+                spec.name.clone(),
+                HandStats {
+                    level: 1,
+                    played: 0,
+                    played_this_round: 0,
+                    order: balatro_hand_order_for_key(&spec.key),
+                    chips: spec.base_chips,
+                    mult: spec.base_mult,
+                },
+            );
+            engine.state.hand_levels.insert(spec.key.clone(), 1);
+        }
         let mut init_trace = TransitionTrace::default();
         engine.prepare_round_start(&mut init_trace);
         engine
@@ -837,6 +900,77 @@ impl Engine {
             clone.rng = ChaCha8Rng::seed_from_u64(seed);
         }
         clone
+    }
+
+    /// Set the level of a hand (by `hand_key`) to `new_level`, keeping
+    /// `hand_levels` and `hand_stats` in lock-step. Recomputes base chips/mult
+    /// from the ruleset's `HandSpec`. Level is clamped to >= 1.
+    fn set_hand_level(&mut self, hand_key: &str, new_level: i32) {
+        let level = new_level.max(1);
+        self.state.hand_levels.insert(hand_key.to_string(), level);
+        let spec = match self
+            .ruleset
+            .hand_specs
+            .iter()
+            .find(|hs| hs.key == hand_key)
+        {
+            Some(s) => s.clone(),
+            None => return,
+        };
+        let bonus = (level - 1).max(0);
+        let chips = spec.base_chips + bonus * spec.level_chips;
+        let mult = spec.base_mult + bonus * spec.level_mult;
+        let order = balatro_hand_order_for_key(&spec.key);
+        let stats = self
+            .state
+            .hand_stats
+            .entry(spec.name.clone())
+            .or_insert_with(|| HandStats {
+                level: 1,
+                played: 0,
+                played_this_round: 0,
+                order,
+                chips: spec.base_chips,
+                mult: spec.base_mult,
+            });
+        stats.level = level;
+        stats.chips = chips;
+        stats.mult = mult;
+        stats.order = order;
+    }
+
+    /// Adjust a hand's level by `delta` (positive or negative), clamped to >= 1.
+    fn bump_hand_level(&mut self, hand_key: &str, delta: i32) -> i32 {
+        let current = self.state.hand_levels.get(hand_key).copied().unwrap_or(1);
+        let new_level = (current + delta).max(1);
+        self.set_hand_level(hand_key, new_level);
+        new_level
+    }
+
+    /// Record that a hand of type `hand_key` was just successfully played —
+    /// increments both the all-time `played` and per-round `played_this_round`
+    /// counters.
+    fn record_hand_played(&mut self, hand_key: &str) {
+        let spec_name = self
+            .ruleset
+            .hand_specs
+            .iter()
+            .find(|hs| hs.key == hand_key)
+            .map(|hs| hs.name.clone());
+        let Some(name) = spec_name else {
+            return;
+        };
+        let order = balatro_hand_order_for_key(hand_key);
+        let stats = self.state.hand_stats.entry(name).or_insert_with(|| HandStats {
+            level: 1,
+            played: 0,
+            played_this_round: 0,
+            order,
+            chips: 0,
+            mult: 0,
+        });
+        stats.played += 1;
+        stats.played_this_round += 1;
     }
 
     pub fn snapshot(&self) -> Snapshot {
@@ -884,6 +1018,7 @@ impl Engine {
             },
             consumable_slot_limit: self.state.consumable_slot_limit,
             hand_levels: self.state.hand_levels.clone(),
+            hand_stats: self.state.hand_stats.clone(),
             blind_states: self.blind_states_snapshot(),
             selected_slots: self.state.selected_slots.iter().copied().collect(),
             owned_vouchers: self.state.owned_vouchers.clone(),
@@ -1342,7 +1477,8 @@ impl Engine {
             .hand_specs
             .iter()
             .find(|spec| spec.key == hand.key)
-            .expect("known hand spec");
+            .expect("known hand spec")
+            .clone();
 
         let hand_level = self.state.hand_levels.get(&hand.key).copied().unwrap_or(1);
         let level_bonus = (hand_level - 1).max(0);
@@ -1374,13 +1510,13 @@ impl Engine {
         // Boss effect: The Arm decreases level of played hand by 1
         if let Some(BossEffect::TheArm) = &self.state.active_boss_effect {
             if !self.state.boss_blind_disabled {
-                let level = self.state.hand_levels.entry(hand.key.clone()).or_insert(1);
-                if *level > 1 {
-                    *level -= 1;
+                let current = self.state.hand_levels.get(&hand.key).copied().unwrap_or(1);
+                if current > 1 {
+                    let new_level = self.bump_hand_level(&hand.key, -1);
                     events.push(event(
                         EventStage::OnPlayed,
                         "boss_effect_scoring",
-                        format!("The Arm: {} level decreased to {}", hand_spec.name, level),
+                        format!("The Arm: {} level decreased to {}", hand_spec.name, new_level),
                     ));
                 }
             }
@@ -1721,6 +1857,11 @@ impl Engine {
         self.state.plays -= 1;
         self.state.hands_played_this_round += 1;
 
+        // Record in per-poker-hand stats (for `Snapshot.hand_stats` / real-client
+        // alignment). Must happen AFTER `The Arm` has potentially mutated the
+        // level so counters reflect the canonical order of events.
+        self.record_hand_played(&hand.key);
+
         // Update scaling joker runtime state after scoring
         self.update_joker_runtime_on_play(&hand.key, &played);
 
@@ -1870,14 +2011,18 @@ impl Engine {
                 // Black Hole levels up ALL hand types
                 if consumable.consumable_id == "c_black_hole" {
                     let mut events = Vec::new();
-                    for hand_spec in &self.ruleset.hand_specs {
-                        let hand_key = hand_spec.key.clone();
-                        let level = self.state.hand_levels.entry(hand_key.clone()).or_insert(1);
-                        *level += 1;
+                    let specs: Vec<(String, String)> = self
+                        .ruleset
+                        .hand_specs
+                        .iter()
+                        .map(|hs| (hs.key.clone(), hs.name.clone()))
+                        .collect();
+                    for (hand_key, hand_name) in specs {
+                        let new_level = self.bump_hand_level(&hand_key, 1);
                         events.push(event(
                             EventStage::Shop,
                             "hand_leveled_up",
-                            format!("{} leveled up to Lv.{}", hand_spec.name, level),
+                            format!("{} leveled up to Lv.{}", hand_name, new_level),
                         ));
                     }
                     return events;
@@ -1886,9 +2031,7 @@ impl Engine {
             }
         };
         let hand_key = hand_type_to_key(&hand_type);
-        let level = self.state.hand_levels.entry(hand_key.to_string()).or_insert(1);
-        *level += 1;
-        let new_level = *level;
+        let new_level = self.bump_hand_level(hand_key, 1);
         vec![event(
             EventStage::Shop,
             "hand_leveled_up",
@@ -2834,14 +2977,18 @@ impl Engine {
             "c_black_hole" => {
                 // Level up every hand type by 1
                 let mut events = Vec::new();
-                for hand_spec in &self.ruleset.hand_specs {
-                    let hand_key = hand_spec.key.clone();
-                    let level = self.state.hand_levels.entry(hand_key.clone()).or_insert(1);
-                    *level += 1;
+                let specs: Vec<(String, String)> = self
+                    .ruleset
+                    .hand_specs
+                    .iter()
+                    .map(|hs| (hs.key.clone(), hs.name.clone()))
+                    .collect();
+                for (hand_key, hand_name) in specs {
+                    let new_level = self.bump_hand_level(&hand_key, 1);
                     events.push(event(
                         EventStage::Shop,
                         "hand_leveled_up",
-                        format!("{} leveled up to Lv.{}", hand_spec.name, level),
+                        format!("{} leveled up to Lv.{}", hand_name, new_level),
                     ));
                 }
                 events
@@ -2918,6 +3065,10 @@ impl Engine {
         self.state.shop_voucher = None;
         self.state.boss_blind_disabled = false;
         self.state.hands_played_this_round = 0;
+        // Per-hand-type `played_this_round` resets alongside the global round counter.
+        for stats in self.state.hand_stats.values_mut() {
+            stats.played_this_round = 0;
+        }
         self.state.active_boss_effect = None;
         self.state.debuffed_cards.clear();
         self.state.boss_hand_types_played.clear();
@@ -3486,18 +3637,13 @@ impl Engine {
                     // 1 in 4 chance to level up the played hand type
                     let hit = self.roll_chance(4, "space_joker", trace);
                     if hit {
-                        let level = self
-                            .state
-                            .hand_levels
-                            .entry(hand_key.to_string())
-                            .or_insert(1);
-                        *level += 1;
+                        let new_level = self.bump_hand_level(hand_key, 1);
                         events.push(event_with_details(
                             EventStage::OnPlayed,
                             "on_played_joker",
                             format!(
                                 "{} leveled up {} to Lv.{}",
-                                info.joker_name, hand_key, level
+                                info.joker_name, hand_key, new_level
                             ),
                             Some(info.slot_index),
                             Some(&info.joker_id),
@@ -6576,6 +6722,70 @@ mod tests {
         engine.step(pair_indices[1]).expect("select card 1");
         let transition = engine.step(8).expect("play pair");
         assert!(transition.events.iter().any(|e| e.kind == "hand_played"));
+    }
+
+    /// P1 parity test: `hand_stats["Pair"].played` tracks total hands played,
+    /// and `played_this_round` resets on round entry while `played` persists.
+    #[test]
+    fn hand_stats_tracks_played_count_across_hands() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(73, bundle, RunConfig::default());
+        let mut trace = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace);
+
+        // Pre-condition: Pair has zero plays, level 1, correct base chips/mult
+        let pre = engine.state.hand_stats.get("Pair").cloned().expect("Pair seeded");
+        assert_eq!(pre.played, 0);
+        assert_eq!(pre.played_this_round, 0);
+        assert_eq!(pre.level, 1);
+        assert_eq!(pre.chips, 10);
+        assert_eq!(pre.mult, 2);
+        assert_eq!(pre.order, 11);
+
+        // Play a Pair: pick two matching-rank cards from the dealt hand.
+        let available = engine.state.available.clone();
+        let mut pair_indices = Vec::new();
+        for (i, c1) in available.iter().enumerate() {
+            for (j, c2) in available.iter().enumerate().skip(i + 1) {
+                if c1.rank_index() == c2.rank_index() {
+                    pair_indices.push(i);
+                    pair_indices.push(j);
+                    break;
+                }
+            }
+            if pair_indices.len() >= 2 { break; }
+        }
+        assert!(pair_indices.len() >= 2, "dealt hand should contain a pair");
+        engine.step(pair_indices[0]).expect("select card 0");
+        engine.step(pair_indices[1]).expect("select card 1");
+        engine.step(8).expect("play pair");
+
+        let after = engine.state.hand_stats.get("Pair").cloned().expect("Pair stats");
+        assert_eq!(after.played, 1, "all-time played count increments");
+        assert_eq!(after.played_this_round, 1, "per-round counter increments");
+
+        // Force a round transition by calling enter_current_blind again; this
+        // should zero played_this_round but leave played untouched.
+        let mut trace2 = TransitionTrace::default();
+        engine.enter_current_blind(&mut trace2);
+        let rolled = engine.state.hand_stats.get("Pair").cloned().expect("Pair stats");
+        assert_eq!(rolled.played, 1, "lifetime counter persists across rounds");
+        assert_eq!(rolled.played_this_round, 0, "per-round counter resets");
+    }
+
+    /// `bump_hand_level` must recompute chips/mult from the ruleset.
+    #[test]
+    fn hand_stats_level_up_recomputes_chips_and_mult() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(79, bundle, RunConfig::default());
+        // Pair: base 10 chips, 2 mult; +15 chips, +1 mult per level bonus.
+        engine.bump_hand_level("pair", 2);
+        let stats = engine.state.hand_stats.get("Pair").cloned().expect("Pair");
+        assert_eq!(stats.level, 3);
+        assert_eq!(stats.chips, 10 + 2 * 15);
+        assert_eq!(stats.mult, 2 + 2 * 1);
+        // Legacy hand_levels stays in sync.
+        assert_eq!(engine.state.hand_levels.get("pair").copied(), Some(3));
     }
 
     // ==== Retrigger tests (from main) ====
