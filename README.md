@@ -371,6 +371,24 @@ Keep the default settings (RED deck, WHITE stake) for comparability unless we as
 - The simulator-vs-real comparison tool isn't built yet — arriving in Phase P2, after the corpus is large enough.
 - The launch + recording scripts currently only work on **macOS Apple Silicon**. Windows support tracked separately.
 
+### TODO — Decision-divergence annotation (planned)
+
+After a session is recorded, we want to go through each **meaningful human decision point** and annotate it with the AI's own choice + reasoning, so the delta becomes training signal, not just an audit trail.
+
+Scope per decision point (for each play / discard / shop buy / blind skip / tarot target):
+
+1. **What the human did** — the action as captured by the observer.
+2. **What the AI would have done** — an explicit alternative (or "same"), produced by replaying the pre-decision state into a policy.
+3. **Reasoning trade-off** — short prose: the pros and cons of each branch, grounded in current game state (score needed, hands/discards left, joker synergies, upcoming boss). Written from the AI's point of view so the model can learn the weighing.
+4. **Retrospective label** — after the session ends, mark whose choice looked correct in hindsight (human / AI / ambiguous / either works).
+
+Deliverable when built:
+- `scripts/annotate_divergence.py` — reads a canonical trajectory, produces `divergence.jsonl` with one row per decision point.
+- A curated page per session in `results/real-client-trajectories/<session>/divergence.md` for human review.
+- Feeds into training: divergent-choice + CoT reasoning is high-signal supervised data.
+
+Dependencies: canonical trajectory adapter (done), simulator-vs-real diff (P2, pending), a first-pass policy (P3). First version can be hand-written for 1-2 sessions to pin down the schema before automating.
+
 _Full architecture + test plan: see [`todo/20260420_real_client_integration_plan.md`](./todo/20260420_real_client_integration_plan.md)._
 
 ---
