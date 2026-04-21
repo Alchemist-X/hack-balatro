@@ -8,9 +8,9 @@
 
 | Status | Count | % |
 |---|---:|---:|
-| `aligned` | 92 | 62.2% |
+| `aligned` | 94 | 63.5% |
 | `value_mismatch` | 34 | 23.0% |
-| `missing_in_sim` | 22 | 14.9% |
+| `missing_in_sim` | 20 | 13.5% |
 | `missing_in_real` | 0 | 0.0% |
 | `shape_mismatch` | 0 | 0.0% |
 
@@ -53,7 +53,7 @@
 | `vouchers.cards` | `list[1]` | `list[0]` |
 | `vouchers.count` | `1` | `0` |
 
-## Missing in simulator (real has it, sim doesn't) — 22
+## Missing in simulator (real has it, sim doesn't) — 20
 
 | Path | Real | Sim |
 |---|---|---|
@@ -63,8 +63,6 @@
 | `blinds.boss.tag_name` | `''` | `None` |
 | `blinds.small.tag_effect` | `'商店里的下一张 基础版本小丑牌 将会免费且变为负片'` | `None` |
 | `blinds.small.tag_name` | `'Negative Tag'` | `None` |
-| `cards.highlighted_limit` | `5` | `None` |
-| `cards.limit` | `52` | `None` |
 | `hands.Five of a Kind.example` | `[['S_A', True], ['H_A', True], ['H_A', True], ['C_A', True]…` | `None` |
 | `hands.Flush.example` | `[['H_A', True], ['H_K', True], ['H_T', True], ['H_5', True]…` | `None` |
 | `hands.Flush Five.example` | `[['S_A', True], ['S_A', True], ['S_A', True], ['S_A', True]…` | `None` |
@@ -99,6 +97,8 @@ _none_
 - `blinds.small.effect`
 - `blinds.small.name`
 - `blinds.small.type`
+- `cards.highlighted_limit`
+- `cards.limit`
 - `consumables.highlighted_limit`
 - `consumables.limit`
 - `deck`
@@ -128,6 +128,4 @@ _none_
 - `hands.Flush House.order`
 - `hands.Flush House.played`
 - `hands.Flush House.played_this_round`
-- `hands.Four of a Kind.chips`
-- `hands.Four of a Kind.level`
-- … and 52 more
+- … and 54 more

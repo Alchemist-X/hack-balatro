@@ -227,14 +227,20 @@ def to_real_shape(
         "cards": {
             "cards": sim.get("deck") or [],
             "count": len(sim.get("deck") or []),
-            "limit": None,
-            "highlighted_limit": None,
+            # sim `deck_limit` == total owned cards (deck+hand+discarded);
+            # matches BalatroBot `gamestate.cards.limit` which starts at 52
+            # and shifts with card-adding/destroying effects.
+            "limit": sim.get("deck_limit"),
+            # sim `play_card_limit` == max cards per play (5 in vanilla).
+            "highlighted_limit": sim.get("play_card_limit"),
         },
         "packs": {
             "cards": [sim.get("open_pack")] if sim.get("open_pack") else [],
             "count": 1 if sim.get("open_pack") else 0,
-            "limit": None,
-            "highlighted_limit": None,
+            # Only populated while a booster pack is open. Real client
+            # exposes pack_size / picks_allowed for the currently open pack.
+            "limit": sim.get("pack_limit"),
+            "highlighted_limit": sim.get("pack_highlighted_limit"),
         },
         # Engine's `hand_stats` matches the real-client `hands` shape field-
         # for-field (sans `example`, which is not modeled yet). Keys are the

@@ -386,6 +386,26 @@ impl PySnapshot {
         &self.inner.stake_name
     }
 
+    #[getter]
+    fn deck_limit(&self) -> i32 {
+        self.inner.deck_limit
+    }
+
+    #[getter]
+    fn play_card_limit(&self) -> i32 {
+        self.inner.play_card_limit
+    }
+
+    #[getter]
+    fn pack_limit(&self) -> Option<i32> {
+        self.inner.pack_limit
+    }
+
+    #[getter]
+    fn pack_highlighted_limit(&self) -> Option<i32> {
+        self.inner.pack_highlighted_limit
+    }
+
     fn to_json(&self) -> PyResult<String> {
         serde_json::to_string(&self.inner).map_err(|err| PyValueError::new_err(err.to_string()))
     }

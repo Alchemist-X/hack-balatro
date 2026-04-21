@@ -391,7 +391,7 @@ impl PackType {
         }
     }
 
-    fn card_count(&self) -> usize {
+    pub fn card_count(&self) -> usize {
         match self {
             Self::Arcana => 3,
             Self::Celestial => 3,
@@ -402,11 +402,27 @@ impl PackType {
         }
     }
 
-    fn picks_allowed(&self) -> u32 {
+    pub fn picks_allowed(&self) -> u32 {
         match self {
             Self::MegaArcana => 2,
             _ => 1,
         }
+    }
+
+    /// Resolve a pack name string (the form stored on
+    /// `BoosterPackInstance.pack_type`) back to its typed enum. Returns
+    /// `None` when the name is unrecognised so callers can decide whether
+    /// to fall back or warn.
+    pub fn from_pack_name(name: &str) -> Option<Self> {
+        Some(match name {
+            "Arcana Pack" => Self::Arcana,
+            "Celestial Pack" => Self::Celestial,
+            "Spectral Pack" => Self::Spectral,
+            "Standard Pack" => Self::Standard,
+            "Buffoon Pack" => Self::Buffoon,
+            "Mega Arcana Pack" => Self::MegaArcana,
+            _ => return None,
+        })
     }
 
     fn shop_cost(&self) -> i32 {
@@ -592,6 +608,23 @@ pub struct Snapshot {
     /// Uppercase stake name (e.g. "WHITE") derived from `RunConfig.stake`.
     #[serde(default)]
     pub stake_name: String,
+    /// Full deck size (starts at 52, adjusted by card-adding/destroying
+    /// effects). Matches BalatroBot `gamestate.cards.limit`.
+    #[serde(default)]
+    pub deck_limit: i32,
+    /// Max cards per play. Matches BalatroBot `gamestate.cards.highlighted_limit`.
+    #[serde(default)]
+    pub play_card_limit: i32,
+    /// Cards shown inside an open booster pack (2 for normal packs, 4 for
+    /// Mega). Only set while a pack is open. Matches BalatroBot
+    /// `gamestate.packs.limit` during pack-open states.
+    #[serde(default)]
+    pub pack_limit: Option<i32>,
+    /// Picks allowed from an open booster pack (1 for normal, 2 for Mega).
+    /// Only set while a pack is open. Matches BalatroBot
+    /// `gamestate.packs.highlighted_limit` during pack-open states.
+    #[serde(default)]
+    pub pack_highlighted_limit: Option<i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -975,6 +1008,35 @@ impl Engine {
 
     pub fn snapshot(&self) -> Snapshot {
         let selected = self.selected_cards();
+        // deck_limit: total cards still owned by the run. Reuses the
+        // identity used by `ScoringContext.full_deck_size` (deck + hand +
+        // discarded); `selected` is a view into `available` and must not
+        // be double-counted. At construction time the deck is not yet
+        // materialized (`reset_deck` runs on first blind select), so fall
+        // back to the vanilla 52 for pre-blind snapshots — this matches
+        // the real client which always exposes the full deck composition.
+        let live_total = (self.state.deck.len()
+            + self.state.available.len()
+            + self.state.discarded.len()) as i32;
+        let deck_limit = if live_total > 0 { live_total } else { 52 };
+        // play_card_limit: max cards per play. Vanilla Balatro exposes this
+        // as 5 regardless of hand size (Polychrome jokers etc. don't raise
+        // it in 1.0.1o). Sim has no runtime modifier today, so use the
+        // fixed constant; promote to a state field when we ship one.
+        let play_card_limit = 5;
+        let (pack_limit, pack_highlighted_limit) = match &self.state.open_pack {
+            Some(pack) => match PackType::from_pack_name(&pack.pack_type) {
+                Some(pt) => (
+                    Some(pt.card_count() as i32),
+                    // picks_remaining tracks the *current* picks left; the
+                    // "highlighted_limit" semantic is the pack's initial
+                    // capacity, which is the typed enum's picks_allowed().
+                    Some(pt.picks_allowed() as i32),
+                ),
+                None => (None, None),
+            },
+            None => (None, None),
+        };
         Snapshot {
             phase: self.state.phase.clone(),
             stage: self.state.phase.as_stage_name().to_string(),
@@ -1038,6 +1100,10 @@ impl Engine {
             seed_str: self.config.seed_str.clone(),
             deck_name: self.config.deck_key.clone(),
             stake_name: stake_int_to_name(self.state.stake).to_string(),
+            deck_limit,
+            play_card_limit,
+            pack_limit,
+            pack_highlighted_limit,
         }
     }
 
