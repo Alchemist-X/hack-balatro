@@ -28,13 +28,47 @@ Sim is fresh (Ante 1 / Round 1 / PreBlind), real is mid-game (Ante 2 / Round 3 /
 ### B. Missing engine features — **real modeling gaps** — **24 rows** ⚠️
 These are the **actual simulator modeling gaps** that need work.
 
-#### B1. Skip-Blind Tag System — **6 rows**
-Real: every blind carries a `tag_name` + `tag_effect` drawn from a fixed pool (Negative Tag, Voucher Tag, Coupon Tag, etc.) that activates if the player skips the blind.
-Sim: not modeled at all.
+#### B1. Skip-Blind Tag System — **DONE (Layer A) + partial (Layer B)** ✅
+_Update 2026-04-20_: tags are now modeled end-to-end.
 
-Paths: `blinds.small.tag_name`, `blinds.small.tag_effect`, `blinds.big.tag_name`, `blinds.big.tag_effect`, `blinds.boss.tag_name`, `blinds.boss.tag_effect`
+**Layer A — metadata visibility — shipped**
+- `balatro-spec::TagSpec` added, `RulesetBundle.tags` populated (24 vanilla
+  entries migrated from `vendor/balatro/steam-local/extracted/game.lua` +
+  zh_CN localization).
+- Engine rolls a tag per round for Small and Big slots (`tag.small.pick` /
+  `tag.big.pick` RNG domains); Boss slot is always `None` per vanilla.
+- `Snapshot.small_tag` / `big_tag` / `boss_tag` (`Option<TagInfo>`) exposed.
+- `PySnapshot` getters added; `env/state_mapping.to_real_shape` populates
+  `blinds.{small,big,boss}.tag_name` + `tag_effect` using the description
+  string from the catalog.
 
-Engine work: (1) add Tag type + pool, (2) RNG-roll tag per blind at round start, (3) apply effect on skip.
+**Layer B — effect semantics — 6 of 24 implemented, rest stubbed**
+
+| Status | Tag | Effect |
+|--------|-----|--------|
+| ✅ | Economy Tag | `money += min(money, 40)` |
+| ✅ | Investment Tag | Queues `$25` payout, paid in `handle_post_blind` after boss clear |
+| ✅ | Voucher Tag | `refresh_shop` guarantees a voucher slot and sets its cost to `$0` |
+| ✅ | Coupon Tag | `refresh_shop` zeros `buy_cost` on initial jokers, consumables, and packs |
+| ✅ | D6 Tag | Next shop entry resets `shop_current_reroll_cost` to `$0` |
+| ✅ | Juggle Tag | `enter_current_blind` applies `+3` to `hand_size` for next blind only (reverted in `handle_post_blind`) |
+| ✅ | Speed Tag | `$5 * prior_skip_count` paid immediately on trigger |
+| ✅ | Handy Tag | `$1 * total_hands_played` (sum across `hand_stats.played`) paid immediately |
+| 🔲 stub | Negative / Foil / Holographic / Polychrome / Rare / Uncommon Tags | Requires shop-joker modification hook (next base joker becomes …) |
+| 🔲 stub | Standard / Charm / Meteor / Buffoon / Ethereal Tags | Requires free booster-pack spawn infrastructure |
+| 🔲 stub | Garbage Tag | Requires global unused-discard tally across the run |
+| 🔲 stub | Boss / Double / Top-up / Orbital Tags | Niche mechanics |
+
+All stubbed tags emit `unimplemented_tag` events on skip — no silent drops.
+
+**Result on the diff report**:
+- `blinds.{small,big,boss}.tag_name` and `blinds.{small,big,boss}.tag_effect`
+  are now **present** in sim (no longer missing_in_sim).
+- Boss rows are `aligned` (both empty strings).
+- Small/Big rows are `value_mismatch` (different tag rolled because the sim
+  seed differs from the recorded run's Lua seed) — expected.
+
+Aligned/missing diff: **28→94 aligned, 22→16 missing_in_sim**.
 
 #### B2. Per-Poker-Hand Statistics — **11 rows**
 Real: `hands.*` is a full dict keyed by hand name ("Pair", "Flush", …) with `{level, played, played_this_round, order, chips, mult, example}` per entry. Used for both UI (hand list on right) and scoring (level → chips/mult).

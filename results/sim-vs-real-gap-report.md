@@ -8,23 +8,27 @@
 
 | Status | Count | % |
 |---|---:|---:|
-| `aligned` | 92 | 62.2% |
-| `value_mismatch` | 34 | 23.0% |
-| `missing_in_sim` | 22 | 14.9% |
+| `aligned` | 94 | 63.5% |
+| `value_mismatch` | 38 | 25.7% |
+| `missing_in_sim` | 16 | 10.8% |
 | `missing_in_real` | 0 | 0.0% |
 | `shape_mismatch` | 0 | 0.0% |
 
-## Value mismatches (same field, different value) — 34
+## Value mismatches (same field, different value) — 38
 
 | Path | Real | Sim |
 |---|---|---|
 | `ante_num` | `2` | `1` |
 | `blinds.big.score` | `1200` | `450` |
+| `blinds.big.tag_effect` | `'添加一张优惠券 到下一个商店'` | `'获得一个免费的 幻灵包'` |
+| `blinds.big.tag_name` | `'Voucher Tag'` | `'Ethereal Tag'` |
 | `blinds.boss.effect` | `'初始弃牌 次数为0'` | `'None'` |
 | `blinds.boss.name` | `'The Water'` | `'Small Blind'` |
 | `blinds.boss.score` | `1600` | `600` |
 | `blinds.small.score` | `800` | `300` |
 | `blinds.small.status` | `'UPCOMING'` | `'SELECT'` |
+| `blinds.small.tag_effect` | `'商店里的下一张 基础版本小丑牌 将会免费且变为负片'` | `'获得一个免费的 超级秘术包'` |
+| `blinds.small.tag_name` | `'Negative Tag'` | `'Charm Tag'` |
 | `cards.cards` | `list[52]` | `list[0]` |
 | `cards.count` | `52` | `0` |
 | `consumables.cards` | `list[1]` | `list[0]` |
@@ -53,16 +57,10 @@
 | `vouchers.cards` | `list[1]` | `list[0]` |
 | `vouchers.count` | `1` | `0` |
 
-## Missing in simulator (real has it, sim doesn't) — 22
+## Missing in simulator (real has it, sim doesn't) — 16
 
 | Path | Real | Sim |
 |---|---|---|
-| `blinds.big.tag_effect` | `'添加一张优惠券 到下一个商店'` | `None` |
-| `blinds.big.tag_name` | `'Voucher Tag'` | `None` |
-| `blinds.boss.tag_effect` | `''` | `None` |
-| `blinds.boss.tag_name` | `''` | `None` |
-| `blinds.small.tag_effect` | `'商店里的下一张 基础版本小丑牌 将会免费且变为负片'` | `None` |
-| `blinds.small.tag_name` | `'Negative Tag'` | `None` |
 | `cards.highlighted_limit` | `5` | `None` |
 | `cards.limit` | `52` | `None` |
 | `hands.Five of a Kind.example` | `[['S_A', True], ['H_A', True], ['H_A', True], ['C_A', True]…` | `None` |
@@ -95,6 +93,8 @@ _none_
 - `blinds.big.status`
 - `blinds.big.type`
 - `blinds.boss.status`
+- `blinds.boss.tag_effect`
+- `blinds.boss.tag_name`
 - `blinds.boss.type`
 - `blinds.small.effect`
 - `blinds.small.name`
@@ -128,6 +128,4 @@ _none_
 - `hands.Flush House.order`
 - `hands.Flush House.played`
 - `hands.Flush House.played_this_round`
-- `hands.Four of a Kind.chips`
-- `hands.Four of a Kind.level`
-- … and 52 more
+- … and 54 more
