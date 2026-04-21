@@ -58,6 +58,8 @@ results/trajectories/*
 results/real-client-trajectories/*
 !results/real-client-trajectories/observer-20260420T223706/
 !results/real-client-trajectories/observer-20260420T223706/**
+!results/real-client-trajectories/round2/
+!results/real-client-trajectories/round2/**
 
 # ---------------------------------------------------------------------------
 # Other runtime artifacts
