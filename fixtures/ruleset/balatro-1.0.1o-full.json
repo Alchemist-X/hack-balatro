@@ -3005,8 +3005,8 @@
       "source_refs": {
         "wiki_raw": "https://balatrowiki.org/w/Module:Jokers/data?action=raw",
         "wiki_table_page": "https://balatrowiki.org/w/Uncommon_Jokers",
-        "wiki_page": "https://balatrowiki.org/w/S\u00e9ance",
-        "wiki_display_name": "S\u00e9ance"
+        "wiki_page": "https://balatrowiki.org/w/Séance",
+        "wiki_display_name": "Séance"
       },
       "unlocked": true,
       "blueprint_compat": true,
@@ -7182,5 +7182,151 @@
     "uncommon": 25.0,
     "rare": 5.0,
     "legendary": 0.0
-  }
+  },
+  "tags": [
+    {
+      "id": "tag_uncommon",
+      "name": "Uncommon Tag",
+      "effect_key": "store_free_uncommon_joker",
+      "description": "商店会有一张免费的 罕见小丑牌"
+    },
+    {
+      "id": "tag_rare",
+      "name": "Rare Tag",
+      "effect_key": "store_free_rare_joker",
+      "description": "商店会有一张免费的 稀有小丑牌"
+    },
+    {
+      "id": "tag_negative",
+      "name": "Negative Tag",
+      "effect_key": "negative_next_joker",
+      "description": "商店里的下一张 基础版本小丑牌 将会免费且变为负片"
+    },
+    {
+      "id": "tag_foil",
+      "name": "Foil Tag",
+      "effect_key": "foil_next_joker",
+      "description": "商店里的下一张 基础版本小丑牌 将会免费且变为闪箔"
+    },
+    {
+      "id": "tag_holo",
+      "name": "Holographic Tag",
+      "effect_key": "holo_next_joker",
+      "description": "商店里的下一张 基础版本小丑牌 将会免费且变为镭射"
+    },
+    {
+      "id": "tag_polychrome",
+      "name": "Polychrome Tag",
+      "effect_key": "polychrome_next_joker",
+      "description": "商店里的下一张 基础版本小丑牌 将会免费且变为多彩"
+    },
+    {
+      "id": "tag_investment",
+      "name": "Investment Tag",
+      "effect_key": "investment_25_after_boss",
+      "description": "击败 Boss盲注后 获得$25"
+    },
+    {
+      "id": "tag_voucher",
+      "name": "Voucher Tag",
+      "effect_key": "voucher_next_shop",
+      "description": "添加一张优惠券 到下一个商店"
+    },
+    {
+      "id": "tag_boss",
+      "name": "Boss Tag",
+      "effect_key": "reroll_boss_blind",
+      "description": "重掷 Boss盲注"
+    },
+    {
+      "id": "tag_standard",
+      "name": "Standard Tag",
+      "effect_key": "free_standard_mega_pack",
+      "description": "获得一个免费的 超级标准包"
+    },
+    {
+      "id": "tag_charm",
+      "name": "Charm Tag",
+      "effect_key": "free_arcana_mega_pack",
+      "description": "获得一个免费的 超级秘术包"
+    },
+    {
+      "id": "tag_meteor",
+      "name": "Meteor Tag",
+      "effect_key": "free_celestial_mega_pack",
+      "description": "获得一个免费的 超级天体包"
+    },
+    {
+      "id": "tag_buffoon",
+      "name": "Buffoon Tag",
+      "effect_key": "free_buffoon_mega_pack",
+      "description": "获得一个免费的 超级小丑包"
+    },
+    {
+      "id": "tag_handy",
+      "name": "Handy Tag",
+      "effect_key": "dollars_per_hand_played",
+      "description": "本赛局每打出过一次手牌 获得$1"
+    },
+    {
+      "id": "tag_garbage",
+      "name": "Garbage Tag",
+      "effect_key": "dollars_per_unused_discard",
+      "description": "本赛局每一次 未使用的弃牌得到$1"
+    },
+    {
+      "id": "tag_ethereal",
+      "name": "Ethereal Tag",
+      "effect_key": "free_spectral_pack",
+      "description": "获得一个免费的 幻灵包"
+    },
+    {
+      "id": "tag_coupon",
+      "name": "Coupon Tag",
+      "effect_key": "coupon_next_shop",
+      "description": "下一家店内的 初始卡牌和补充包 均为免费"
+    },
+    {
+      "id": "tag_double",
+      "name": "Double Tag",
+      "effect_key": "double_next_tag",
+      "description": "下一次选定的标签 会额外获得一个复制品 双倍标签除外"
+    },
+    {
+      "id": "tag_juggle",
+      "name": "Juggle Tag",
+      "effect_key": "juggle_hand_size_next_round",
+      "description": "下一回合 +3手牌上限"
+    },
+    {
+      "id": "tag_d_six",
+      "name": "D6 Tag",
+      "effect_key": "d6_reroll_start_zero",
+      "description": "下一个商店的 重掷起价为$0"
+    },
+    {
+      "id": "tag_top_up",
+      "name": "Top-up Tag",
+      "effect_key": "spawn_common_jokers",
+      "description": "生成最多2张 普通小丑牌"
+    },
+    {
+      "id": "tag_skip",
+      "name": "Speed Tag",
+      "effect_key": "dollars_per_skip",
+      "description": "本赛局中每跳过 一次盲注，可获得$5"
+    },
+    {
+      "id": "tag_orbital",
+      "name": "Orbital Tag",
+      "effect_key": "orbital_level_up_hand",
+      "description": "升级 3个等级"
+    },
+    {
+      "id": "tag_economy",
+      "name": "Economy Tag",
+      "effect_key": "economy_double_money",
+      "description": "资金翻倍 （最高$40）"
+    }
+  ]
 }

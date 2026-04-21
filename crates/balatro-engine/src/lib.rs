@@ -1,4 +1,4 @@
-use balatro_spec::{BlindSpec, JokerSpec, RulesetBundle, Seal, VoucherSpec};
+use balatro_spec::{BlindSpec, JokerSpec, RulesetBundle, Seal, TagSpec, VoucherSpec};
 use rand::prelude::SliceRandom;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -369,6 +369,26 @@ pub struct VoucherInstance {
     pub description: String,
 }
 
+/// Snapshot-facing tag descriptor. Attached to each skippable blind slot
+/// (small / big / boss) when a tag has been rolled for that slot. Boss slots
+/// never have a tag (they cannot be skipped in vanilla Balatro).
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct TagInfo {
+    pub id: String,
+    pub name: String,
+    pub description: String,
+}
+
+impl TagInfo {
+    fn from_spec(spec: &TagSpec) -> Self {
+        Self {
+            id: spec.id.clone(),
+            name: spec.name.clone(),
+            description: spec.description.clone(),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum PackType {
     Arcana,
@@ -625,6 +645,16 @@ pub struct Snapshot {
     /// `gamestate.packs.highlighted_limit` during pack-open states.
     #[serde(default)]
     pub pack_highlighted_limit: Option<i32>,
+    /// Tag rolled for the Small blind this round (None on boss-only rounds).
+    #[serde(default)]
+    pub small_tag: Option<TagInfo>,
+    /// Tag rolled for the Big blind this round.
+    #[serde(default)]
+    pub big_tag: Option<TagInfo>,
+    /// Tag rolled for the Boss blind. Always `None` in vanilla rules because
+    /// boss blinds cannot be skipped; reserved for modded/future use.
+    #[serde(default)]
+    pub boss_tag: Option<TagInfo>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -824,6 +854,28 @@ struct EngineState {
     boss_forced_hand_type: Option<String>,
     /// Original hand size before Manacle reduction (to restore later)
     boss_manacle_hand_size_reduced: bool,
+    /// Tag rolled for the Small blind slot this round (TagSpec.id).
+    small_tag_id: Option<String>,
+    /// Tag rolled for the Big blind slot this round.
+    big_tag_id: Option<String>,
+    /// Tag rolled for the Boss slot. Always `None` in vanilla rules; reserved.
+    boss_tag_id: Option<String>,
+    /// Pending Investment-tag payout ($25 after next boss defeat).
+    /// Stack of pending awards (multiple Investment tags could queue up).
+    pending_investment_payouts: i32,
+    /// Pending Voucher-tag bonus: add N extra vouchers to next shop entry.
+    pending_voucher_tags: i32,
+    /// Pending Coupon-tag flag: next shop's initial jokers+consumables+packs are free.
+    pending_coupon_shop: bool,
+    /// Pending D6-tag flag: next shop's reroll cost starts at $0.
+    pending_d6_shop: bool,
+    /// Pending Juggle-tag hand-size bonus: +N to hand_size for next round only.
+    pending_juggle_hand_size: usize,
+    /// Active Juggle bonus applied to hand_size — tracked so we can revert at
+    /// round end. Accumulates when multiple Juggles land in the same round.
+    active_juggle_hand_size: usize,
+    /// Number of blinds skipped this run (for Speed Tag reward calculation).
+    skipped_blind_count: i32,
 }
 
 impl Engine {
@@ -895,6 +947,16 @@ impl Engine {
                 boss_hand_types_played: BTreeSet::new(),
                 boss_forced_hand_type: None,
                 boss_manacle_hand_size_reduced: false,
+                small_tag_id: None,
+                big_tag_id: None,
+                boss_tag_id: None,
+                pending_investment_payouts: 0,
+                pending_voucher_tags: 0,
+                pending_coupon_shop: false,
+                pending_d6_shop: false,
+                pending_juggle_hand_size: 0,
+                active_juggle_hand_size: 0,
+                skipped_blind_count: 0,
             },
         };
         // Seed hand_stats from the ruleset. Every hand type starts at level 1
@@ -1104,7 +1166,44 @@ impl Engine {
             play_card_limit,
             pack_limit,
             pack_highlighted_limit,
+            small_tag: self.tag_info_for(self.state.small_tag_id.as_deref()),
+            big_tag: self.tag_info_for(self.state.big_tag_id.as_deref()),
+            boss_tag: self.tag_info_for(self.state.boss_tag_id.as_deref()),
         }
+    }
+
+    /// Look up a `TagInfo` from either the ruleset's tag catalog or the
+    /// built-in `default_tag_pool()` fallback. Returns `None` for unknown IDs.
+    fn tag_info_for(&self, tag_id: Option<&str>) -> Option<TagInfo> {
+        let id = tag_id?;
+        if let Some(spec) = self.ruleset.tag_by_id(id) {
+            return Some(TagInfo::from_spec(spec));
+        }
+        default_tag_pool()
+            .iter()
+            .find(|spec| spec.id == id)
+            .map(TagInfo::from_spec)
+    }
+
+    /// Return the effective tag pool, preferring the bundle's `tags` list and
+    /// falling back to the built-in default when empty.
+    fn tag_pool(&self) -> Vec<TagSpec> {
+        if self.ruleset.tags.is_empty() {
+            default_tag_pool()
+        } else {
+            self.ruleset.tags.clone()
+        }
+    }
+
+    /// Roll one tag id from the pool (uniform over the full catalog).
+    fn roll_tag_id(&mut self, domain: &str, trace: &mut TransitionTrace) -> Option<String> {
+        let pool = self.tag_pool();
+        if pool.is_empty() {
+            return None;
+        }
+        let candidates: Vec<String> = pool.iter().map(|t| t.id.clone()).collect();
+        let idx = self.choose_index(pool.len(), domain, candidates, trace);
+        Some(pool[idx].id.clone())
     }
 
     pub fn legal_actions(&self) -> Vec<ActionDescriptor> {
@@ -1314,20 +1413,145 @@ impl Engine {
 
         if action_index == 85 && self.state.current_blind_slot != BlindSlot::Boss {
             let skipped_name = self.state.blind_name.clone();
+            let tag_id = match self.state.current_blind_slot {
+                BlindSlot::Small => self.state.small_tag_id.clone(),
+                BlindSlot::Big => self.state.big_tag_id.clone(),
+                BlindSlot::Boss => None,
+            };
             // Update scaling jokers on blind skip (Throwback, Red Card)
             self.update_joker_runtime_on_skip();
             self.mark_current_blind_progress(BlindProgress::Skipped);
-            if self.advance_to_next_blind_slot() {
-                self.prepare_preblind_state();
-            }
-            return vec![event(
+            let mut events = vec![event(
                 EventStage::BlindPrePlay,
                 "blind_skipped",
                 format!("Skipped {}", skipped_name),
             )];
+            // Apply the tag effect BEFORE incrementing skipped_blind_count so
+            // Speed Tag's self-payout uses the pre-skip tally (matches Lua's
+            // `G.GAME.skips` being post-incremented elsewhere).
+            if let Some(id) = tag_id.as_deref() {
+                let tag_events = self.apply_tag_on_skip(id);
+                events.extend(tag_events);
+            }
+            self.state.skipped_blind_count += 1;
+            if self.advance_to_next_blind_slot() {
+                self.prepare_preblind_state();
+            }
+            return events;
         }
 
         Vec::new()
+    }
+
+    /// Apply the effect of a tag when the owning blind is skipped. Returns an
+    /// event list describing what happened (or a stub `unimplemented_tag`
+    /// event for tags whose full effect is not yet modeled).
+    fn apply_tag_on_skip(&mut self, tag_id: &str) -> Vec<Event> {
+        let spec = self
+            .ruleset
+            .tag_by_id(tag_id)
+            .cloned()
+            .or_else(|| default_tag_pool().into_iter().find(|t| t.id == tag_id));
+        let Some(spec) = spec else {
+            return vec![event(
+                EventStage::BlindPrePlay,
+                "unimplemented_tag",
+                format!("Unknown tag id {} — effect not modeled", tag_id),
+            )];
+        };
+        let name = spec.name.clone();
+        match spec.effect_key.as_str() {
+            "economy_double_money" => {
+                // Double money, capped at +$40. Only pays when money > 0.
+                if self.state.money > 0 {
+                    let bonus = self.state.money.min(40);
+                    self.state.money += bonus;
+                    vec![event(
+                        EventStage::BlindPrePlay,
+                        "tag_effect",
+                        format!("{} doubled money by ${}", name, bonus),
+                    )]
+                } else {
+                    vec![event(
+                        EventStage::BlindPrePlay,
+                        "tag_effect",
+                        format!("{} had no effect (money <= 0)", name),
+                    )]
+                }
+            }
+            "investment_25_after_boss" => {
+                self.state.pending_investment_payouts += 25;
+                vec![event(
+                    EventStage::BlindPrePlay,
+                    "tag_effect",
+                    format!("{} queued $25 payout for next boss defeat", name),
+                )]
+            }
+            "voucher_next_shop" => {
+                self.state.pending_voucher_tags += 1;
+                vec![event(
+                    EventStage::BlindPrePlay,
+                    "tag_effect",
+                    format!("{} will add a voucher to the next shop", name),
+                )]
+            }
+            "coupon_next_shop" => {
+                self.state.pending_coupon_shop = true;
+                vec![event(
+                    EventStage::BlindPrePlay,
+                    "tag_effect",
+                    format!("{} — initial items in next shop will be free", name),
+                )]
+            }
+            "d6_reroll_start_zero" => {
+                self.state.pending_d6_shop = true;
+                vec![event(
+                    EventStage::BlindPrePlay,
+                    "tag_effect",
+                    format!("{} — next shop reroll starts at $0", name),
+                )]
+            }
+            "juggle_hand_size_next_round" => {
+                self.state.pending_juggle_hand_size += 3;
+                vec![event(
+                    EventStage::BlindPrePlay,
+                    "tag_effect",
+                    format!("{} — +3 hand size for the next blind selected", name),
+                )]
+            }
+            "dollars_per_skip" => {
+                // Speed Tag: $5 per blind already skipped this run
+                // (skipped_blind_count has NOT yet been incremented for this skip).
+                let bonus = 5 * self.state.skipped_blind_count;
+                if bonus > 0 {
+                    self.state.money += bonus;
+                }
+                vec![event(
+                    EventStage::BlindPrePlay,
+                    "tag_effect",
+                    format!("{} paid out ${} ({} prior skips)", name, bonus, self.state.skipped_blind_count),
+                )]
+            }
+            "dollars_per_hand_played" => {
+                // Handy Tag: $1 per hand played across the whole run so far.
+                // Aggregate over `hand_stats.played` (tracks all hand types).
+                let total_hands: i32 =
+                    self.state.hand_stats.values().map(|s| s.played).sum();
+                if total_hands > 0 {
+                    self.state.money += total_hands;
+                }
+                vec![event(
+                    EventStage::BlindPrePlay,
+                    "tag_effect",
+                    format!("{} paid out ${} ({} hands played)", name, total_hands, total_hands),
+                )]
+            }
+            _ => vec![event(
+                EventStage::BlindPrePlay,
+                "unimplemented_tag",
+                format!("{} skipped — effect not yet modeled", name),
+            )],
+        }
     }
 
     fn handle_blind(&mut self, action_index: usize, trace: &mut TransitionTrace) -> Vec<Event> {
@@ -1368,6 +1592,18 @@ impl Engine {
         self.state.money += self.state.reward;
         let reward = self.state.reward;
         let cleared_boss = self.state.current_blind_slot == BlindSlot::Boss;
+        // Pay out any pending Investment-Tag rewards for this boss defeat
+        // (stacked across multiple investment skips).
+        if cleared_boss && self.state.pending_investment_payouts > 0 {
+            let payout = self.state.pending_investment_payouts;
+            self.state.money += payout;
+            self.state.pending_investment_payouts = 0;
+            events.push(event(
+                EventStage::EndOfRound,
+                "tag_effect",
+                format!("Investment Tag paid out ${}", payout),
+            ));
+        }
         if !cleared_boss {
             self.advance_to_next_blind_slot();
             self.set_active_preblind_progress();
@@ -1379,6 +1615,24 @@ impl Engine {
         self.state.boss_hand_types_played.clear();
         self.state.boss_forced_hand_type = None;
         self.state.boss_manacle_hand_size_reduced = false;
+        // Juggle Tag: revert the one-round hand_size bump now that the blind
+        // is over. `active_juggle_hand_size` can't underflow `hand_size`
+        // because it was added in `enter_current_blind` in the same run.
+        if self.state.active_juggle_hand_size > 0 {
+            self.state.hand_size =
+                self.state.hand_size.saturating_sub(self.state.active_juggle_hand_size);
+            self.state.active_juggle_hand_size = 0;
+        }
+        // D6 Tag: force the next shop's reroll cost to $0 for this visit only.
+        if self.state.pending_d6_shop {
+            self.state.shop_current_reroll_cost = 0;
+            self.state.pending_d6_shop = false;
+            events.push(event(
+                EventStage::Shop,
+                "tag_effect",
+                "D6 Tag — shop reroll starts at $0".to_string(),
+            ));
+        }
         self.shuffle_deck("deck.shuffle.cashout", trace);
         self.refresh_shop(trace, "cashout_shop_refresh");
 
@@ -3097,6 +3351,11 @@ impl Engine {
         self.state.big_progress = BlindProgress::Upcoming;
         self.state.boss_progress = BlindProgress::Upcoming;
         self.state.boss_blind = self.pick_boss_blind(trace);
+        // Roll a fresh tag for each skippable blind slot. Boss blinds don't
+        // carry tags in vanilla (boss is unskippable) so we leave it as None.
+        self.state.small_tag_id = self.roll_tag_id("tag.small.pick", trace);
+        self.state.big_tag_id = self.roll_tag_id("tag.big.pick", trace);
+        self.state.boss_tag_id = None;
         self.prepare_preblind_state();
     }
 
@@ -3165,6 +3424,21 @@ impl Engine {
         self.apply_blind_select_jokers(&mut blind_select_events, trace);
 
         self.reset_deck(trace);
+        // Juggle Tag: consume pending +hand-size-this-round bonus. Applied as a
+        // one-shot delta to `hand_size` for this blind's draw and held for the
+        // duration of the blind, then reset on next round start.
+        let juggle_bonus = self.state.pending_juggle_hand_size;
+        if juggle_bonus > 0 {
+            self.state.hand_size = self.state.hand_size.saturating_add(juggle_bonus);
+            self.state.active_juggle_hand_size =
+                self.state.active_juggle_hand_size.saturating_add(juggle_bonus);
+            self.state.pending_juggle_hand_size = 0;
+            blind_select_events.push(event(
+                EventStage::BlindPrePlay,
+                "tag_effect",
+                format!("Juggle Tag — +{} hand size this blind", juggle_bonus),
+            ));
+        }
         let hand_size = self.state.hand_size;
         self.draw_to_hand(hand_size);
 
@@ -3539,7 +3813,11 @@ impl Engine {
             }
         }
 
-        // Generate 1 voucher (not already owned)
+        // Generate 1 voucher (not already owned). Voucher-Tag boosts add
+        // additional vouchers beyond the base one; for now we model that as
+        // replacing the single voucher slot so the shop always offers *some*
+        // voucher (even if the player already owns all of them, one extra
+        // Voucher Tag still guarantees a slot).
         self.state.shop_voucher = None;
         let voucher_pool = default_voucher_pool();
         let available_vouchers: Vec<&VoucherSpec> = voucher_pool
@@ -3564,6 +3842,32 @@ impl Engine {
                 description: spec.description.clone(),
             });
         }
+        // Voucher-Tag: a pending tag guarantees the shop carries a voucher
+        // (even if the pool above was empty), and drops the cost to $0.
+        if self.state.pending_voucher_tags > 0 {
+            if self.state.shop_voucher.is_none() && !voucher_pool.is_empty() {
+                // Fallback: pick any voucher from the full pool.
+                let candidates: Vec<String> =
+                    voucher_pool.iter().map(|v| v.id.clone()).collect();
+                let chosen = self.choose_index(
+                    candidates.len(),
+                    format!("{domain}.voucher_tag.pick"),
+                    candidates,
+                    trace,
+                );
+                let spec = &voucher_pool[chosen];
+                self.state.shop_voucher = Some(VoucherInstance {
+                    voucher_id: spec.id.clone(),
+                    name: spec.name.clone(),
+                    cost: 0,
+                    effect_key: spec.effect_key.clone(),
+                    description: spec.description.clone(),
+                });
+            } else if let Some(v) = self.state.shop_voucher.as_mut() {
+                v.cost = 0;
+            }
+            self.state.pending_voucher_tags -= 1;
+        }
 
         // Generate 1-2 booster packs
         self.state.shop_packs.clear();
@@ -3587,6 +3891,21 @@ impl Engine {
         let discount = self.state.shop_discount;
         for shop_slot in self.state.shop.iter_mut() {
             shop_slot.joker.buy_cost = apply_discount(shop_slot.joker.cost, discount);
+        }
+        // Coupon Tag: zero the buy cost on the initial batch of shop jokers,
+        // consumables, and booster packs. Applies once per shop entry —
+        // consumed at the first refresh so rerolls pay full price.
+        if self.state.pending_coupon_shop {
+            for shop_slot in self.state.shop.iter_mut() {
+                shop_slot.joker.buy_cost = 0;
+            }
+            for item in self.state.shop_consumables.iter_mut() {
+                item.buy_cost = 0;
+            }
+            for pack in self.state.shop_packs.iter_mut() {
+                pack.cost = 0;
+            }
+            self.state.pending_coupon_shop = false;
         }
     }
 
@@ -5177,6 +5496,162 @@ fn default_voucher_pool() -> Vec<VoucherSpec> {
             cost: 10,
             effect_key: "planet_merchant".to_string(),
             description: "Planet cards appear 2x more in shop".to_string(),
+        },
+    ]
+}
+
+/// Hand-written vanilla tag pool (mirrors `G.P_TAGS` in
+/// `vendor/balatro/steam-local/extracted/game.lua:224-249`). Descriptions
+/// follow the real-client Chinese format seen in observer captures so the
+/// `state_mapping.to_real_shape` normalizer produces matching strings.
+///
+/// Used as a fallback when `RulesetBundle.tags` is empty (i.e. older bundle
+/// JSONs that pre-date the tag catalog migration).
+fn default_tag_pool() -> Vec<TagSpec> {
+    vec![
+        TagSpec {
+            id: "tag_uncommon".to_string(),
+            name: "Uncommon Tag".to_string(),
+            effect_key: "store_free_uncommon_joker".to_string(),
+            description: "商店会有一张免费的 罕见小丑牌".to_string(),
+        },
+        TagSpec {
+            id: "tag_rare".to_string(),
+            name: "Rare Tag".to_string(),
+            effect_key: "store_free_rare_joker".to_string(),
+            description: "商店会有一张免费的 稀有小丑牌".to_string(),
+        },
+        TagSpec {
+            id: "tag_negative".to_string(),
+            name: "Negative Tag".to_string(),
+            effect_key: "negative_next_joker".to_string(),
+            description: "商店里的下一张 基础版本小丑牌 将会免费且变为负片".to_string(),
+        },
+        TagSpec {
+            id: "tag_foil".to_string(),
+            name: "Foil Tag".to_string(),
+            effect_key: "foil_next_joker".to_string(),
+            description: "商店里的下一张 基础版本小丑牌 将会免费且变为闪箔".to_string(),
+        },
+        TagSpec {
+            id: "tag_holo".to_string(),
+            name: "Holographic Tag".to_string(),
+            effect_key: "holo_next_joker".to_string(),
+            description: "商店里的下一张 基础版本小丑牌 将会免费且变为镭射".to_string(),
+        },
+        TagSpec {
+            id: "tag_polychrome".to_string(),
+            name: "Polychrome Tag".to_string(),
+            effect_key: "polychrome_next_joker".to_string(),
+            description: "商店里的下一张 基础版本小丑牌 将会免费且变为多彩".to_string(),
+        },
+        TagSpec {
+            id: "tag_investment".to_string(),
+            name: "Investment Tag".to_string(),
+            effect_key: "investment_25_after_boss".to_string(),
+            description: "击败 Boss盲注后 获得$25".to_string(),
+        },
+        TagSpec {
+            id: "tag_voucher".to_string(),
+            name: "Voucher Tag".to_string(),
+            effect_key: "voucher_next_shop".to_string(),
+            description: "添加一张优惠券 到下一个商店".to_string(),
+        },
+        TagSpec {
+            id: "tag_boss".to_string(),
+            name: "Boss Tag".to_string(),
+            effect_key: "reroll_boss_blind".to_string(),
+            description: "重掷 Boss盲注".to_string(),
+        },
+        TagSpec {
+            id: "tag_standard".to_string(),
+            name: "Standard Tag".to_string(),
+            effect_key: "free_standard_mega_pack".to_string(),
+            description: "获得一个免费的 超级标准包".to_string(),
+        },
+        TagSpec {
+            id: "tag_charm".to_string(),
+            name: "Charm Tag".to_string(),
+            effect_key: "free_arcana_mega_pack".to_string(),
+            description: "获得一个免费的 超级秘术包".to_string(),
+        },
+        TagSpec {
+            id: "tag_meteor".to_string(),
+            name: "Meteor Tag".to_string(),
+            effect_key: "free_celestial_mega_pack".to_string(),
+            description: "获得一个免费的 超级天体包".to_string(),
+        },
+        TagSpec {
+            id: "tag_buffoon".to_string(),
+            name: "Buffoon Tag".to_string(),
+            effect_key: "free_buffoon_mega_pack".to_string(),
+            description: "获得一个免费的 超级小丑包".to_string(),
+        },
+        TagSpec {
+            id: "tag_handy".to_string(),
+            name: "Handy Tag".to_string(),
+            effect_key: "dollars_per_hand_played".to_string(),
+            description: "本赛局每打出过一次手牌 获得$1".to_string(),
+        },
+        TagSpec {
+            id: "tag_garbage".to_string(),
+            name: "Garbage Tag".to_string(),
+            effect_key: "dollars_per_unused_discard".to_string(),
+            description: "本赛局每一次 未使用的弃牌得到$1".to_string(),
+        },
+        TagSpec {
+            id: "tag_ethereal".to_string(),
+            name: "Ethereal Tag".to_string(),
+            effect_key: "free_spectral_pack".to_string(),
+            description: "获得一个免费的 幻灵包".to_string(),
+        },
+        TagSpec {
+            id: "tag_coupon".to_string(),
+            name: "Coupon Tag".to_string(),
+            effect_key: "coupon_next_shop".to_string(),
+            description: "下一家店内的 初始卡牌和补充包 均为免费".to_string(),
+        },
+        TagSpec {
+            id: "tag_double".to_string(),
+            name: "Double Tag".to_string(),
+            effect_key: "double_next_tag".to_string(),
+            description: "下一次选定的标签 会额外获得一个复制品 双倍标签除外".to_string(),
+        },
+        TagSpec {
+            id: "tag_juggle".to_string(),
+            name: "Juggle Tag".to_string(),
+            effect_key: "juggle_hand_size_next_round".to_string(),
+            description: "下一回合 +3手牌上限".to_string(),
+        },
+        TagSpec {
+            id: "tag_d_six".to_string(),
+            name: "D6 Tag".to_string(),
+            effect_key: "d6_reroll_start_zero".to_string(),
+            description: "下一个商店的 重掷起价为$0".to_string(),
+        },
+        TagSpec {
+            id: "tag_top_up".to_string(),
+            name: "Top-up Tag".to_string(),
+            effect_key: "spawn_common_jokers".to_string(),
+            description: "生成最多2张 普通小丑牌".to_string(),
+        },
+        TagSpec {
+            id: "tag_skip".to_string(),
+            name: "Speed Tag".to_string(),
+            effect_key: "dollars_per_skip".to_string(),
+            description: "本赛局中每跳过 一次盲注，可获得$5".to_string(),
+        },
+        TagSpec {
+            id: "tag_orbital".to_string(),
+            name: "Orbital Tag".to_string(),
+            effect_key: "orbital_level_up_hand".to_string(),
+            description: "升级 3个等级".to_string(),
+        },
+        TagSpec {
+            id: "tag_economy".to_string(),
+            name: "Economy Tag".to_string(),
+            effect_key: "economy_double_money".to_string(),
+            description: "资金翻倍 （最高$40）".to_string(),
         },
     ]
 }
@@ -8390,5 +8865,227 @@ mod tests {
         // Expect ~97% none, ~3% sealed
         assert!(none_count > 9400, "Expected >9400 none, got {}", none_count);
         assert!(sealed_count > 100, "Expected >100 sealed, got {}", sealed_count);
+    }
+
+    // ============== Skip-Blind Tag System Tests ==============
+
+    fn force_small_tag(engine: &mut Engine, tag_id: &str) {
+        engine.state.small_tag_id = Some(tag_id.to_string());
+    }
+
+    #[test]
+    fn boss_blind_never_has_tag() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let engine = Engine::new(101, bundle, RunConfig::default());
+        let snap = engine.snapshot();
+        assert!(snap.boss_tag.is_none(), "boss tag must be None");
+        assert!(snap.small_tag.is_some(), "small tag must be rolled");
+        assert!(snap.big_tag.is_some(), "big tag must be rolled");
+    }
+
+    #[test]
+    fn same_seed_rolls_same_tags() {
+        let bundle1 = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let bundle2 = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let a = Engine::new(42, bundle1, RunConfig::default());
+        let b = Engine::new(42, bundle2, RunConfig::default());
+        let sa = a.snapshot();
+        let sb = b.snapshot();
+        assert_eq!(sa.small_tag.as_ref().map(|t| t.id.clone()), sb.small_tag.as_ref().map(|t| t.id.clone()));
+        assert_eq!(sa.big_tag.as_ref().map(|t| t.id.clone()), sb.big_tag.as_ref().map(|t| t.id.clone()));
+    }
+
+    #[test]
+    fn tag_catalog_is_full_from_fixture() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        // 24 tags mirrors vanilla G.P_TAGS.
+        assert_eq!(bundle.tags.len(), 24, "expected 24 vanilla tags");
+        assert!(bundle.tags.iter().any(|t| t.id == "tag_economy"));
+        assert!(bundle.tags.iter().any(|t| t.id == "tag_investment"));
+    }
+
+    #[test]
+    fn skip_small_with_economy_tag_doubles_money_capped_at_plus_40() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        // Under-cap: money=10 should become 20 (doubled, +10 <= 40).
+        let mut engine = Engine::new(7, bundle.clone(), RunConfig::default());
+        engine.state.money = 10;
+        force_small_tag(&mut engine, "tag_economy");
+        engine.step(85).expect("skip small with economy tag");
+        assert_eq!(engine.state.money, 20);
+
+        // Over-cap: money=100 should bump by only +40 (capped).
+        let mut engine = Engine::new(8, bundle.clone(), RunConfig::default());
+        engine.state.money = 100;
+        force_small_tag(&mut engine, "tag_economy");
+        engine.step(85).expect("skip small with economy tag cap");
+        assert_eq!(engine.state.money, 140);
+
+        // Zero money: no payout.
+        let mut engine = Engine::new(9, bundle, RunConfig::default());
+        engine.state.money = 0;
+        force_small_tag(&mut engine, "tag_economy");
+        engine.step(85).expect("skip small with economy tag zero");
+        assert_eq!(engine.state.money, 0);
+    }
+
+    #[test]
+    fn skip_small_with_investment_tag_pays_25_after_boss() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(11, bundle, RunConfig::default());
+        let money_before = engine.state.money;
+        force_small_tag(&mut engine, "tag_investment");
+        engine.step(85).expect("skip small");
+        // Payout queued, not yet applied.
+        assert_eq!(engine.state.money, money_before);
+        assert_eq!(engine.state.pending_investment_payouts, 25);
+
+        // Simulate clearing boss and entering cashout → post-blind should pay out.
+        engine.state.current_blind_slot = BlindSlot::Boss;
+        engine.state.phase = Phase::PostBlind;
+        engine.state.reward = 0; // isolate investment effect
+        let mut trace = TransitionTrace::default();
+        engine.handle_post_blind(13, &mut trace);
+        assert_eq!(engine.state.money, money_before + 25);
+        assert_eq!(engine.state.pending_investment_payouts, 0);
+    }
+
+    #[test]
+    fn skip_small_with_voucher_tag_next_shop_offers_voucher() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(13, bundle, RunConfig::default());
+        force_small_tag(&mut engine, "tag_voucher");
+        engine.step(85).expect("skip small with voucher tag");
+        assert_eq!(engine.state.pending_voucher_tags, 1);
+
+        // Trigger a shop refresh; pending counter should decrement and the
+        // shop voucher cost should be 0.
+        engine.state.phase = Phase::Shop;
+        let mut trace = TransitionTrace::default();
+        engine.refresh_shop(&mut trace, "test_refresh_voucher_tag");
+        assert_eq!(engine.state.pending_voucher_tags, 0);
+        let v = engine.state.shop_voucher.as_ref().expect("voucher present");
+        assert_eq!(v.cost, 0, "Voucher Tag should zero the voucher cost");
+    }
+
+    #[test]
+    fn skip_with_coupon_tag_next_shop_initial_items_free() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(17, bundle, RunConfig::default());
+        force_small_tag(&mut engine, "tag_coupon");
+        engine.step(85).expect("skip small with coupon tag");
+        assert!(engine.state.pending_coupon_shop);
+
+        engine.state.phase = Phase::Shop;
+        let mut trace = TransitionTrace::default();
+        engine.refresh_shop(&mut trace, "test_refresh_coupon_tag");
+        // All initial shop items (jokers, consumables, packs) must be free.
+        for slot in engine.state.shop.iter() {
+            assert_eq!(slot.joker.buy_cost, 0, "joker cost should be 0");
+        }
+        for c in engine.state.shop_consumables.iter() {
+            assert_eq!(c.buy_cost, 0, "consumable cost should be 0");
+        }
+        for p in engine.state.shop_packs.iter() {
+            assert_eq!(p.cost, 0, "pack cost should be 0");
+        }
+        assert!(!engine.state.pending_coupon_shop, "flag consumed");
+    }
+
+    #[test]
+    fn skip_with_d6_tag_next_shop_reroll_starts_at_zero() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(19, bundle, RunConfig::default());
+        force_small_tag(&mut engine, "tag_d_six");
+        engine.step(85).expect("skip small with d6 tag");
+        assert!(engine.state.pending_d6_shop);
+
+        // Simulate a boss defeat → cashout path: flip to PostBlind and advance.
+        engine.state.current_blind_slot = BlindSlot::Boss;
+        engine.state.phase = Phase::PostBlind;
+        engine.state.reward = 0;
+        let mut trace = TransitionTrace::default();
+        engine.handle_post_blind(13, &mut trace);
+        assert_eq!(engine.state.shop_current_reroll_cost, 0);
+        assert!(!engine.state.pending_d6_shop, "flag consumed");
+    }
+
+    #[test]
+    fn skip_with_juggle_tag_adds_hand_size_for_next_blind_only() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(23, bundle, RunConfig::default());
+        let base_hand_size = engine.state.hand_size;
+        force_small_tag(&mut engine, "tag_juggle");
+        engine.step(85).expect("skip small with juggle tag");
+        assert_eq!(engine.state.pending_juggle_hand_size, 3);
+
+        // Selecting the Big blind (action 11) should apply the +3 bonus.
+        engine.step(11).expect("select big blind");
+        assert_eq!(engine.state.hand_size, base_hand_size + 3);
+        assert_eq!(engine.state.active_juggle_hand_size, 3);
+
+        // After clearing the blind (force defeated), post_blind reverts bonus.
+        engine.mark_current_blind_progress(BlindProgress::Defeated);
+        engine.state.phase = Phase::PostBlind;
+        engine.state.reward = 0;
+        let mut trace = TransitionTrace::default();
+        engine.handle_post_blind(13, &mut trace);
+        assert_eq!(engine.state.hand_size, base_hand_size);
+        assert_eq!(engine.state.active_juggle_hand_size, 0);
+    }
+
+    #[test]
+    fn skip_with_speed_tag_pays_5_per_prior_skip() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(29, bundle, RunConfig::default());
+        // Simulate 2 prior skips already logged.
+        engine.state.skipped_blind_count = 2;
+        let money_before = engine.state.money;
+        force_small_tag(&mut engine, "tag_skip");
+        engine.step(85).expect("skip small with speed tag");
+        // Payout = $5 * 2 = $10 (prior skips, BEFORE incrementing this skip).
+        assert_eq!(engine.state.money, money_before + 10);
+        assert_eq!(engine.state.skipped_blind_count, 3);
+    }
+
+    #[test]
+    fn skip_with_handy_tag_pays_per_hand_played() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(31, bundle, RunConfig::default());
+        // Forge 4 hands played across two types.
+        if let Some(stats) = engine.state.hand_stats.values_mut().next() {
+            stats.played = 4;
+        }
+        let money_before = engine.state.money;
+        force_small_tag(&mut engine, "tag_handy");
+        engine.step(85).expect("skip small with handy tag");
+        assert_eq!(engine.state.money, money_before + 4);
+    }
+
+    #[test]
+    fn unimplemented_tag_logs_event_without_crashing() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let mut engine = Engine::new(37, bundle, RunConfig::default());
+        force_small_tag(&mut engine, "tag_negative");
+        let transition = engine.step(85).expect("skip with stubbed tag");
+        let logged = transition
+            .events
+            .iter()
+            .any(|e| e.kind == "unimplemented_tag");
+        assert!(logged, "expected unimplemented_tag event for Negative Tag");
+    }
+
+    #[test]
+    fn snapshot_exposes_tag_info_for_small_and_big_but_not_boss() {
+        let bundle = RulesetBundle::load_from_path(fixture_bundle()).expect("bundle");
+        let engine = Engine::new(41, bundle, RunConfig::default());
+        let snap = engine.snapshot();
+        let small = snap.small_tag.as_ref().expect("small tag present");
+        assert!(!small.id.is_empty());
+        assert!(!small.name.is_empty());
+        // Description is the Chinese rendered string; non-empty for all 24 tags.
+        assert!(!small.description.is_empty());
+        assert!(snap.big_tag.is_some());
+        assert!(snap.boss_tag.is_none());
     }
 }
