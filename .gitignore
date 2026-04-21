@@ -36,6 +36,7 @@ results/trajectories/*
 !results/source-oracle.json
 !results/simulator-gap-report.md
 !results/fidelity-suite-report.md
+!results/sim-vs-real-gap-report.md
 
 # Replay fidelity (same-seed determinism proof)
 !results/replay-fidelity-a.json
