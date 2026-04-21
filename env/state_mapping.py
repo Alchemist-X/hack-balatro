@@ -236,7 +236,11 @@ def to_real_shape(
             "limit": None,
             "highlighted_limit": None,
         },
-        "hands": {},  # sim's hand_levels is a simple dict; real is per-type stats object
+        # Engine's `hand_stats` matches the real-client `hands` shape field-
+        # for-field (sans `example`, which is not modeled yet). Keys are the
+        # human display name ("Pair", "Flush", ...). Fall back to an empty dict
+        # for snapshots produced by older sim builds that don't emit it.
+        "hands": sim.get("hand_stats") or {},
     }
 
 

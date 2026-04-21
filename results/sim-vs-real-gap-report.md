@@ -2,19 +2,19 @@
 
 - **real source**: `results/real-client-trajectories/observer-20260420T223706/snapshots/tick-000010.json`
 - **sim build**: seed=42 stake=1
-- **total fields compared**: 76
+- **total fields compared**: 148
 
 ## Summary
 
 | Status | Count | % |
 |---|---:|---:|
-| `aligned` | 28 | 36.8% |
-| `value_mismatch` | 26 | 34.2% |
-| `missing_in_sim` | 22 | 28.9% |
+| `aligned` | 92 | 62.2% |
+| `value_mismatch` | 34 | 23.0% |
+| `missing_in_sim` | 22 | 14.9% |
 | `missing_in_real` | 0 | 0.0% |
 | `shape_mismatch` | 0 | 0.0% |
 
-## Value mismatches (same field, different value) — 26
+## Value mismatches (same field, different value) — 34
 
 | Path | Real | Sim |
 |---|---|---|
@@ -29,6 +29,14 @@
 | `cards.count` | `52` | `0` |
 | `consumables.cards` | `list[1]` | `list[0]` |
 | `consumables.count` | `1` | `0` |
+| `hands.Flush.played` | `3` | `0` |
+| `hands.Flush.played_this_round` | `2` | `0` |
+| `hands.Full House.played` | `1` | `0` |
+| `hands.High Card.played` | `1` | `0` |
+| `hands.Pair.played` | `2` | `0` |
+| `hands.Pair.played_this_round` | `2` | `0` |
+| `hands.Straight.played` | `1` | `0` |
+| `hands.Two Pair.played` | `1` | `0` |
 | `jokers.cards` | `list[1]` | `list[0]` |
 | `jokers.count` | `1` | `0` |
 | `money` | `12` | `4` |
@@ -57,18 +65,18 @@
 | `blinds.small.tag_name` | `'Negative Tag'` | `None` |
 | `cards.highlighted_limit` | `5` | `None` |
 | `cards.limit` | `52` | `None` |
-| `hands.Five of a Kind` | `{'played': 0, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Flush` | `{'played': 3, 'played_this_round': 2, 'level': 1, 'order': …` | `None` |
-| `hands.Flush Five` | `{'played': 0, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Flush House` | `{'played': 0, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Four of a Kind` | `{'played': 0, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Full House` | `{'played': 1, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.High Card` | `{'played': 1, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Pair` | `{'played': 2, 'played_this_round': 2, 'level': 1, 'order': …` | `None` |
-| `hands.Straight` | `{'played': 1, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Straight Flush` | `{'played': 0, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Three of a Kind` | `{'played': 0, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
-| `hands.Two Pair` | `{'played': 1, 'played_this_round': 0, 'level': 1, 'order': …` | `None` |
+| `hands.Five of a Kind.example` | `[['S_A', True], ['H_A', True], ['H_A', True], ['C_A', True]…` | `None` |
+| `hands.Flush.example` | `[['H_A', True], ['H_K', True], ['H_T', True], ['H_5', True]…` | `None` |
+| `hands.Flush Five.example` | `[['S_A', True], ['S_A', True], ['S_A', True], ['S_A', True]…` | `None` |
+| `hands.Flush House.example` | `[['D_7', True], ['D_7', True], ['D_7', True], ['D_4', True]…` | `None` |
+| `hands.Four of a Kind.example` | `[['S_J', True], ['H_J', True], ['C_J', True], ['D_J', True]…` | `None` |
+| `hands.Full House.example` | `[['H_K', True], ['C_K', True], ['D_K', True], ['S_2', True]…` | `None` |
+| `hands.High Card.example` | `[['S_A', True], ['D_Q', False], ['D_9', False], ['C_4', Fal…` | `None` |
+| `hands.Pair.example` | `[['S_K', False], ['S_9', True], ['D_9', True], ['H_6', Fals…` | `None` |
+| `hands.Straight.example` | `[['D_J', True], ['C_T', True], ['C_9', True], ['S_8', True]…` | `None` |
+| `hands.Straight Flush.example` | `[['S_Q', True], ['S_J', True], ['S_T', True], ['S_9', True]…` | `None` |
+| `hands.Three of a Kind.example` | `[['S_T', True], ['C_T', True], ['D_T', True], ['H_6', False…` | `None` |
+| `hands.Two Pair.example` | `[['H_A', True], ['D_A', True], ['C_Q', False], ['H_4', True…` | `None` |
 | `packs.highlighted_limit` | `1` | `None` |
 | `packs.limit` | `2` | `None` |
 
@@ -98,15 +106,28 @@ _none_
 - `hand.count`
 - `hand.highlighted_limit`
 - `hand.limit`
-- `jokers.highlighted_limit`
-- `jokers.limit`
-- `round.chips`
-- `round.hands_left`
-- `seed`
-- `shop.highlighted_limit`
-- `shop.limit`
-- `stake`
-- `used_vouchers`
-- `vouchers.highlighted_limit`
-- `vouchers.limit`
-- `won`
+- `hands.Five of a Kind.chips`
+- `hands.Five of a Kind.level`
+- `hands.Five of a Kind.mult`
+- `hands.Five of a Kind.order`
+- `hands.Five of a Kind.played`
+- `hands.Five of a Kind.played_this_round`
+- `hands.Flush.chips`
+- `hands.Flush.level`
+- `hands.Flush.mult`
+- `hands.Flush.order`
+- `hands.Flush Five.chips`
+- `hands.Flush Five.level`
+- `hands.Flush Five.mult`
+- `hands.Flush Five.order`
+- `hands.Flush Five.played`
+- `hands.Flush Five.played_this_round`
+- `hands.Flush House.chips`
+- `hands.Flush House.level`
+- `hands.Flush House.mult`
+- `hands.Flush House.order`
+- `hands.Flush House.played`
+- `hands.Flush House.played_this_round`
+- `hands.Four of a Kind.chips`
+- `hands.Four of a Kind.level`
+- … and 52 more
