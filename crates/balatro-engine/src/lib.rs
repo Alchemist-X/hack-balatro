@@ -1086,19 +1086,13 @@ impl Engine {
         // it in 1.0.1o). Sim has no runtime modifier today, so use the
         // fixed constant; promote to a state field when we ship one.
         let play_card_limit = 5;
-        let (pack_limit, pack_highlighted_limit) = match &self.state.open_pack {
-            Some(pack) => match PackType::from_pack_name(&pack.pack_type) {
-                Some(pt) => (
-                    Some(pt.card_count() as i32),
-                    // picks_remaining tracks the *current* picks left; the
-                    // "highlighted_limit" semantic is the pack's initial
-                    // capacity, which is the typed enum's picks_allowed().
-                    Some(pt.picks_allowed() as i32),
-                ),
-                None => (None, None),
-            },
-            None => (None, None),
-        };
+        // Shop pack slots: BalatroBot's `gamestate.packs.limit` +
+        // `.highlighted_limit` stay populated across SHOP and pack-open phases.
+        // `limit` = total shop pack slots (vanilla = 2),
+        // `highlighted_limit` = packs the player may purchase per shop (vanilla = 1).
+        // TODO: plumb voucher-based pack slot modifiers (Overstock etc.) when added.
+        let pack_limit = Some(2i32);
+        let pack_highlighted_limit = Some(1i32);
         Snapshot {
             phase: self.state.phase.clone(),
             stage: self.state.phase.as_stage_name().to_string(),

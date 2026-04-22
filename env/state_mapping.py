@@ -244,8 +244,9 @@ def to_real_shape(
         "packs": {
             "cards": [sim.get("open_pack")] if sim.get("open_pack") else [],
             "count": 1 if sim.get("open_pack") else 0,
-            # Only populated while a booster pack is open. Real client
-            # exposes pack_size / picks_allowed for the currently open pack.
+            # Shop pack slot capacity. Populated in all phases (SHOP and
+            # pack-open) to match BalatroBot's gamestate shape. Vanilla
+            # values: limit=2, highlighted_limit=1.
             "limit": sim.get("pack_limit"),
             "highlighted_limit": sim.get("pack_highlighted_limit"),
         },

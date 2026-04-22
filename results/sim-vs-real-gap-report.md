@@ -8,9 +8,9 @@
 
 | Status | Count | % |
 |---|---:|---:|
-| `aligned` | 96 | 64.9% |
+| `aligned` | 98 | 66.2% |
 | `value_mismatch` | 38 | 25.7% |
-| `missing_in_sim` | 14 | 9.5% |
+| `missing_in_sim` | 12 | 8.1% |
 | `missing_in_real` | 0 | 0.0% |
 | `shape_mismatch` | 0 | 0.0% |
 
@@ -57,7 +57,7 @@
 | `vouchers.cards` | `list[1]` | `list[0]` |
 | `vouchers.count` | `1` | `0` |
 
-## Missing in simulator (real has it, sim doesn't) — 14
+## Missing in simulator (real has it, sim doesn't) — 12
 
 | Path | Real | Sim |
 |---|---|---|
@@ -73,8 +73,6 @@
 | `hands.Straight Flush.example` | `[['S_Q', True], ['S_J', True], ['S_T', True], ['S_9', True]…` | `None` |
 | `hands.Three of a Kind.example` | `[['S_T', True], ['C_T', True], ['D_T', True], ['H_6', False…` | `None` |
 | `hands.Two Pair.example` | `[['H_A', True], ['D_A', True], ['C_Q', False], ['H_4', True…` | `None` |
-| `packs.highlighted_limit` | `1` | `None` |
-| `packs.limit` | `2` | `None` |
 
 ## Missing in real (sim-only extension) — 0
 
@@ -126,4 +124,4 @@ _none_
 - `hands.Flush House.level`
 - `hands.Flush House.mult`
 - `hands.Flush House.order`
-- … and 56 more
+- … and 58 more
