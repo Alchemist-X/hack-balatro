@@ -393,6 +393,103 @@ _Full architecture + test plan: see [`todo/20260420_real_client_integration_plan
 
 ---
 
+## LLM / RL 训练环境接口
+
+仓里已经为智能体搭好 3 层 API。**默认都是英文输出**，LLM 训练数据保持语种不变；人类调试想看中文另外切。
+
+### 1. Gym 风格（`env/balatro_gym_wrapper.py`）—— 给 RL 用
+
+```python
+from env import BalatroEnv
+
+env = BalatroEnv(seed=42, deck="red")
+obs, info = env.reset()                         # obs = numpy 向量 (OBS_DIM 维)
+obs, reward, done, _, info = env.step(action_idx)   # action_idx ∈ [0, 85]
+```
+
+- state → **numpy 数值向量**（`env/state_encoder.py::encode_pylatro_state`）
+- action → **86 维离散**（见 §3）
+- reward / done / info → 标准 Gymnasium 约定
+
+### 2. 文本化状态（`env/state_serializer.py`）—— 给 LLM 读
+
+```python
+from env.state_serializer import serialize_state
+text = serialize_state(snapshot, legal_actions)   # 默认英文
+text = serialize_state(snapshot, legal_actions, lang="zh")   # 中文（需要 fixtures/locale/zh_CN.json）
+```
+
+输出样例（英文默认）：
+```
+[STAGE] PreBlind | Small Blind
+[ANTE] 1 | Round 1
+[RESOURCES] Plays: 4 | Discards: 3 | Money: $4
+[HAND] 5S | KH | 9C | ...
+[JOKERS] Walkie Talkie | To Do List | ...
+[SHOP JOKERS] Swashbuckler($4) | Space Joker($5) ...
+[LEGAL ACTIONS] select_card_0, select_card_1, play, discard, ...
+```
+
+`lang="zh"` 会把所有标签和 joker/tag/blind/牌型/consumable 名翻成中文。
+
+### 3. 86 维离散动作空间（`env/action_space.py`）
+
+```
+ 0..7    select_card_0 .. select_card_7     (选/取消选卡)
+ 8       play                               (出牌)
+ 9       discard                            (弃牌)
+10..12   select_blind_0/1/2                 (选 small/big/boss)
+13       cashout                            (领奖)
+14..23   buy_shop_item_0 .. 9               (买商店)
+24..46   move_left_0 .. 22                  (reorder 手牌)
+47..69   move_right_0 .. 22
+70       next_round                         (出 shop)
+71..78   use_consumable_0 .. 7
+79       reroll_shop
+80..84   sell_joker_0 .. 4
+85       skip_blind
+```
+
+### LLM 交互一轮的完整链路
+
+```
+┌──────────────────────────────────┐
+│ 1. Engine.snapshot()             │  Rust sim 出原始 state
+└──────────────┬───────────────────┘
+               ▼
+┌──────────────────────────────────┐
+│ 2. serialize_state(snap, legal)  │  → 文本 + 合法动作列表
+└──────────────┬───────────────────┘
+               ▼
+   LLM prompt: 文本 + 推理指令
+               │
+               ▼
+       "{reasoning, action: 'play'}"   ← LLM 输出动作名
+               │
+               ▼
+┌──────────────────────────────────┐
+│ 3. action_name → action_idx      │  `env.action_space` 反向查
+│ 4. Engine.step(idx)              │  Rust 推进 → Transition
+└──────────────────────────────────┘
+               │
+               ▼
+       记 {step, state_text, reasoning, action,
+           score_before, score_after} → trajectory
+```
+
+每把游戏结束，trajectory 落盘到 `results/trajectories/llm_claude_code/game_NNNN.json`，作为下游训练数据。
+
+### 交互式 CLI（人类测试用）
+
+```bash
+python scripts/sim_repl.py --seed 42 --deck red --stake 1 --lang en
+# --lang zh 切中文；其他参数：--seed-str DEMO42 / --max-steps 500
+```
+
+启动后每步打印状态 + 枚举合法动作；输入序号推进。用来验证仿真环境端到端能跑——用的就是 LLM 的同一条接口，玩一局 = 校验一次 LLM 交互链。
+
+---
+
 ## 下一步 Backlog
 
 见 [todo/20260331_backlog.md](./todo/20260331_backlog.md)
