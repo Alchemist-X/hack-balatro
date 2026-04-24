@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "real-client-observer",
-    "captured_at": "2026-04-24T06:06:01.298450+00:00",
+    "captured_at": "2026-04-24T06:44:35.461340+00:00",
     "seed": null,
     "deck": "RED",
     "stake": "WHITE",
@@ -33,7 +33,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        10,
+        85
+      ],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -70,7 +73,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -93,7 +96,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        10,
+        85
+      ],
       "requested_action": "sell",
       "parsed_action": null,
       "executed_action": null,
@@ -129,7 +135,7 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -152,7 +158,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        10,
+        85
+      ],
       "requested_action": "use_consumable",
       "parsed_action": null,
       "executed_action": null,
@@ -186,7 +195,7 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -209,10 +218,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 10,
+      "executed_action": 10,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -245,7 +254,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -286,10 +295,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -343,7 +352,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -384,10 +394,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -451,7 +461,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -474,10 +485,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -510,7 +523,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -533,10 +546,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -569,7 +584,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -592,10 +608,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -628,7 +647,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -651,10 +671,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -685,7 +708,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -708,10 +731,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 11,
+      "executed_action": 11,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -744,7 +767,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -783,10 +806,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -835,7 +858,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -876,10 +900,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -940,7 +964,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -981,10 +1006,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1048,7 +1073,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -1071,10 +1097,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1107,7 +1136,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -1130,10 +1159,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1164,7 +1196,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -1187,10 +1219,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1223,7 +1255,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -1264,10 +1296,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1327,7 +1359,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -1364,10 +1397,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1421,7 +1454,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -1458,10 +1492,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1509,7 +1543,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -1548,10 +1583,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1606,7 +1641,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -1629,10 +1665,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1665,7 +1704,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -1688,10 +1727,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1725,7 +1764,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -1748,10 +1788,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1784,7 +1824,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -1807,10 +1848,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1841,7 +1886,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -1864,10 +1909,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 10,
+      "executed_action": 10,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -1900,7 +1945,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -1941,10 +1986,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2003,7 +2048,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2044,7 +2090,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -2093,7 +2139,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -2134,10 +2180,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2197,7 +2243,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2238,10 +2285,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2298,7 +2345,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2339,7 +2387,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -2392,7 +2440,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -2427,10 +2475,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2477,7 +2525,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2514,10 +2563,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2566,7 +2615,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2605,10 +2655,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2657,7 +2707,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2698,10 +2749,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2765,7 +2816,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2788,10 +2840,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2824,7 +2880,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -2847,10 +2903,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2884,7 +2940,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -2907,10 +2964,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -2941,7 +3002,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -2964,10 +3025,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        11,
+        85
+      ],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 11,
+      "executed_action": 11,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3000,7 +3064,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -3041,10 +3105,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3103,7 +3167,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -3144,7 +3209,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -3193,7 +3258,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -3234,10 +3299,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3301,7 +3366,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -3342,7 +3408,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -3391,7 +3457,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -3414,10 +3480,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3450,7 +3520,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -3473,10 +3543,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3509,7 +3583,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -3532,10 +3607,15 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3568,7 +3648,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -3591,10 +3672,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3628,7 +3709,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -3651,10 +3733,15 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3685,7 +3772,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -3708,10 +3795,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3744,7 +3831,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -3781,10 +3868,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3833,7 +3920,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -3874,10 +3962,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -3941,7 +4029,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -3982,7 +4071,7 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -4029,7 +4118,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -4052,10 +4141,15 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4088,7 +4182,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -4111,10 +4205,15 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4147,7 +4246,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -4170,10 +4270,16 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4206,7 +4312,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -4229,10 +4336,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4266,7 +4373,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -4289,10 +4397,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4343,7 +4451,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -4366,10 +4475,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4403,7 +4512,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -4426,10 +4536,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4460,7 +4577,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -4483,10 +4600,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 10,
+      "executed_action": 10,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4519,7 +4636,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -4556,10 +4673,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4607,7 +4724,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -4648,10 +4766,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4715,7 +4833,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -4756,7 +4875,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -4801,7 +4920,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -4824,10 +4943,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4860,7 +4986,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -4883,7 +5009,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -4920,7 +5046,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -4943,10 +5069,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -4979,7 +5112,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5002,10 +5136,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5038,7 +5180,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5061,10 +5204,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5098,7 +5241,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5121,10 +5265,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5158,7 +5302,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5181,10 +5326,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5235,7 +5380,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5258,10 +5404,19 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        72,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5292,7 +5447,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -5315,10 +5470,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 11,
+      "executed_action": 11,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5351,7 +5506,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -5392,10 +5547,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5454,7 +5609,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5495,7 +5651,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -5544,7 +5700,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -5585,10 +5741,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5647,7 +5803,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5688,7 +5845,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -5737,7 +5894,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -5778,10 +5935,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5830,7 +5987,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5867,10 +6025,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -5919,7 +6077,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -5954,10 +6113,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6004,7 +6163,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6043,10 +6203,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6101,7 +6261,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6124,10 +6285,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6160,7 +6329,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -6183,10 +6352,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6220,7 +6389,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6243,10 +6413,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6280,7 +6450,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6303,10 +6474,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6337,7 +6516,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -6360,10 +6539,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6396,7 +6575,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -6437,10 +6616,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6503,7 +6682,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6544,7 +6724,7 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -6585,7 +6765,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -6622,10 +6802,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6673,7 +6853,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6710,10 +6891,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6762,7 +6943,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6803,10 +6985,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6870,7 +7052,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -6893,10 +7076,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6929,7 +7120,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -6952,10 +7143,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -6988,7 +7187,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7011,10 +7211,19 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        72,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7047,7 +7256,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7070,7 +7280,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -7107,7 +7317,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -7130,10 +7340,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7167,7 +7377,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7190,10 +7401,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7227,7 +7438,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7250,10 +7462,19 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        72,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7284,7 +7505,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -7307,10 +7528,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 10,
+      "executed_action": 10,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7343,7 +7564,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -7384,10 +7605,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7436,7 +7657,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7477,10 +7699,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7529,7 +7751,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7570,10 +7793,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7628,7 +7851,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7667,7 +7891,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -7712,7 +7936,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -7735,10 +7959,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7771,7 +8002,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -7794,10 +8025,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7831,7 +8062,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7854,10 +8086,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7891,7 +8123,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -7914,10 +8147,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -7948,7 +8188,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -7971,10 +8211,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 11,
+      "executed_action": 11,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8007,7 +8247,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -8048,10 +8288,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8102,7 +8342,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8143,10 +8384,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8193,7 +8434,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8234,10 +8476,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8286,7 +8528,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8325,10 +8568,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8379,7 +8622,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8420,10 +8664,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8477,7 +8721,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8500,10 +8745,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8536,7 +8788,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -8559,10 +8811,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8596,7 +8848,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8619,10 +8872,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8656,7 +8909,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8679,10 +8933,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8713,7 +8974,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -8736,10 +8997,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8772,7 +9033,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -8809,10 +9070,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8860,7 +9121,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8899,10 +9161,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -8951,7 +9213,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -8990,10 +9253,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9048,7 +9311,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -9087,7 +9351,7 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -9132,7 +9396,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -9155,10 +9419,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9191,7 +9462,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -9214,10 +9485,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9250,7 +9528,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -9273,10 +9551,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "sell",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 80,
+      "executed_action": 80,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9309,7 +9594,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -9332,10 +9618,16 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9368,7 +9660,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -9391,10 +9684,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9427,7 +9727,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -9450,10 +9751,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9487,7 +9788,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -9510,10 +9812,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9544,7 +9853,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -9567,10 +9876,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "skip_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 85,
+      "executed_action": 85,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9603,7 +9912,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -9626,7 +9935,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        11,
+        85
+      ],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -9663,7 +9975,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -9686,10 +9998,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 11,
+      "executed_action": 11,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9722,7 +10034,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -9763,10 +10075,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9818,7 +10130,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -9859,10 +10172,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -9923,7 +10236,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -9962,10 +10276,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10014,7 +10328,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10049,10 +10364,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10103,7 +10418,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10144,10 +10460,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10211,7 +10527,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10242,10 +10559,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10286,7 +10603,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10309,10 +10627,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10345,7 +10671,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -10368,10 +10694,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10402,7 +10728,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10425,10 +10752,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10462,7 +10789,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10485,10 +10813,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10539,7 +10867,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10580,10 +10909,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10632,7 +10961,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10655,10 +10985,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10692,7 +11022,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10715,10 +11046,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10749,7 +11088,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -10772,10 +11111,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10808,7 +11147,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -10843,10 +11182,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -10893,7 +11232,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -10934,10 +11274,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11001,7 +11341,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11032,10 +11373,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11076,7 +11417,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11099,10 +11441,19 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        72,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11135,7 +11486,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -11158,10 +11509,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11192,7 +11543,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11215,10 +11567,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11252,7 +11604,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11275,10 +11628,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11312,7 +11665,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11335,10 +11689,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11369,7 +11731,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -11392,10 +11754,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        10,
+        85
+      ],
       "requested_action": "skip_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 85,
+      "executed_action": 85,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11428,7 +11793,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -11451,10 +11816,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        11,
+        85
+      ],
       "requested_action": "skip_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 85,
+      "executed_action": 85,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11487,7 +11855,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -11510,7 +11878,9 @@
         "blind_boss": "SELECT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        12
+      ],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -11547,7 +11917,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -11570,10 +11940,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11606,7 +11976,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -11647,10 +12017,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11711,7 +12081,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11752,10 +12123,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11806,7 +12177,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11847,10 +12219,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11899,7 +12271,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -11936,10 +12309,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -11991,7 +12364,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12032,10 +12406,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12080,7 +12454,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12119,10 +12494,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12177,7 +12552,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12218,10 +12594,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12270,7 +12646,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12311,10 +12688,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12378,7 +12755,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12401,10 +12779,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12437,7 +12823,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -12460,10 +12846,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12496,7 +12890,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -12519,10 +12913,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "sell",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 80,
+      "executed_action": 80,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12555,7 +12957,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12578,10 +12981,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12612,7 +13015,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12635,10 +13039,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12671,7 +13075,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12694,10 +13099,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12730,7 +13142,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -12753,10 +13165,16 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83
+      ],
       "requested_action": "sell",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 80,
+      "executed_action": 80,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12789,7 +13207,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12812,10 +13231,16 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83
+      ],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12848,7 +13273,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12871,7 +13297,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -12908,7 +13334,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -12931,10 +13357,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -12968,7 +13394,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -12991,10 +13418,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13025,7 +13459,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -13048,10 +13482,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 10,
+      "executed_action": 10,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13084,7 +13518,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -13121,10 +13555,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13172,7 +13606,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13213,10 +13648,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13267,7 +13702,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13308,10 +13744,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13363,7 +13799,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13404,10 +13841,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13456,7 +13893,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13495,10 +13933,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13560,7 +13998,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13591,7 +14030,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -13636,7 +14075,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -13667,10 +14106,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13711,7 +14150,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13734,10 +14174,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13768,7 +14208,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13791,10 +14232,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13827,7 +14275,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -13850,10 +14298,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13887,7 +14335,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13910,10 +14359,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -13947,7 +14396,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -13970,10 +14420,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14004,7 +14461,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -14027,10 +14484,13 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        11,
+        85
+      ],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 11,
+      "executed_action": 11,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14063,7 +14523,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -14104,10 +14564,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14158,7 +14618,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14199,10 +14660,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14250,7 +14711,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14291,10 +14753,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14343,7 +14805,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14380,10 +14843,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14432,7 +14895,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14471,10 +14935,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14527,7 +14991,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14566,10 +15031,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14620,7 +15085,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14661,10 +15127,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14728,7 +15194,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14759,10 +15226,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -14803,7 +15270,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -14834,7 +15302,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -14879,7 +15347,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -14910,7 +15378,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -14955,7 +15423,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -14978,10 +15446,18 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15014,7 +15490,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -15037,10 +15513,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15071,7 +15547,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15094,10 +15571,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15131,7 +15608,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15154,10 +15632,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15188,7 +15673,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -15211,10 +15696,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15247,7 +15732,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -15288,10 +15773,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15352,7 +15837,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15389,10 +15875,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15441,7 +15927,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15482,10 +15969,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15549,7 +16036,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15572,10 +16060,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15608,7 +16103,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -15631,7 +16126,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -15668,7 +16163,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -15691,10 +16186,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15728,7 +16223,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15751,10 +16247,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15805,7 +16301,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15846,10 +16343,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15900,7 +16397,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -15923,10 +16421,19 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        71,
+        72,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -15957,7 +16464,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -15980,10 +16487,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 10,
+      "executed_action": 10,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16016,7 +16523,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -16057,10 +16564,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16109,7 +16616,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -16150,10 +16658,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16202,7 +16710,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -16243,10 +16752,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16297,7 +16806,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -16338,10 +16848,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "use_consumable",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 71,
+      "executed_action": 71,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16390,7 +16900,8 @@
       "info": {
         "source_event_kind": "consumables_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -16427,10 +16938,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16479,7 +16990,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -16518,10 +17030,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16576,7 +17088,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -16607,7 +17120,7 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -16652,7 +17165,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -16675,10 +17188,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "cash_out",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 13,
+      "executed_action": 13,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16711,7 +17231,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -16734,10 +17254,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "buy",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 14,
+      "executed_action": 14,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16771,7 +17291,8 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -16794,10 +17315,17 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        70,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
       "requested_action": "next_round",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 70,
+      "executed_action": 70,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16828,7 +17356,7 @@
       "info": {
         "source_event_kind": "state_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -16851,10 +17379,10 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "skip_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 85,
+      "executed_action": 85,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -16887,7 +17415,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -16910,7 +17438,9 @@
         "blind_boss": "SELECT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        12
+      ],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -16947,7 +17477,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -16970,10 +17500,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "select_blind",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 12,
+      "executed_action": 12,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -17006,7 +17536,7 @@
       "info": {
         "source_event_kind": "blind_status_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -17047,7 +17577,18 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
       "requested_action": "observe",
       "parsed_action": null,
       "executed_action": null,
@@ -17102,7 +17643,7 @@
       "info": {
         "source_event_kind": "money_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true
       }
     },
     {
@@ -17143,10 +17684,21 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
       "requested_action": "sell",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 80,
+      "executed_action": 80,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -17197,7 +17749,8 @@
       "info": {
         "source_event_kind": "jokers_count_change",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -17234,10 +17787,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "discard",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 9,
+      "executed_action": 9,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -17289,7 +17842,8 @@
       "info": {
         "source_event_kind": "discard",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     },
     {
@@ -17330,10 +17884,10 @@
         "blind_boss": "CURRENT",
         "won": false
       },
-      "legal_actions": null,
+      "legal_actions": [],
       "requested_action": "play",
-      "parsed_action": null,
-      "executed_action": null,
+      "parsed_action": 8,
+      "executed_action": 8,
       "fallback_used": {
         "used": false,
         "reason": null
@@ -17397,7 +17951,8 @@
       "info": {
         "source_event_kind": "hand_played",
         "reconstructed": true,
-        "legal_actions_known": false
+        "legal_actions_known": true,
+        "action_approximate": true
       }
     }
   ]
