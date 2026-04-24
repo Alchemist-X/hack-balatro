@@ -22,6 +22,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from env.action_inference import infer_executed_action, infer_legal_actions
 from env.canonical_trajectory import (
     CanonicalAction,
     CanonicalMeta,
@@ -229,24 +230,41 @@ def build_trajectory(session_dir: Path) -> CanonicalTrajectory:
 
         terminal = (sa.get("state") == "GAME_OVER") or (i == len(events) - 1 and action.type == "observe" and action.params.get("reason") == "game_over")
 
+        # Prefer legal_actions captured live in the summary (new sessions);
+        # otherwise retrofit by running inference over the pre-event summary.
+        legal: list[int] | None = None
+        if isinstance(before, dict) and isinstance(before.get("legal_actions"), list):
+            legal = list(before["legal_actions"])
+        else:
+            try:
+                legal = infer_legal_actions(before) if isinstance(before, dict) else None
+            except Exception:  # noqa: BLE001 — never break the adapter on inference errors
+                legal = None
+
+        exec_idx, approx = infer_executed_action(kind, ev, before if isinstance(before, dict) else {})
+
+        info = {
+            "source_event_kind": kind,
+            "reconstructed": True,
+            "legal_actions_known": legal is not None,
+        }
+        if approx:
+            info["action_approximate"] = True
+
         steps.append(CanonicalStep(
             step_idx=step_idx,
             ts=ev.get("ts", ""),
             state_before=before_state,
-            legal_actions=None,  # observer did not capture
+            legal_actions=legal,
             requested_action=action.type,  # best inference from event stream
-            parsed_action=None,  # no discrete index available
-            executed_action=None,  # no discrete index available
+            parsed_action=exec_idx,
+            executed_action=exec_idx,
             fallback_used=FallbackInfo(used=False, reason=None),
             action=action,
             state_after=after_state,
             reward=reward,
             terminal=terminal,
-            info={
-                "source_event_kind": kind,
-                "reconstructed": True,
-                "legal_actions_known": False,
-            },
+            info=info,
         ))
         step_idx += 1
         last_summary = sa

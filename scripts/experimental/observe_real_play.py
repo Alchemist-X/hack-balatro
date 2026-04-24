@@ -24,6 +24,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+from env.action_inference import infer_legal_actions  # noqa: E402
+
 
 HOST = "127.0.0.1"
 PORT = 12346
@@ -81,7 +85,8 @@ def summarize(state: dict[str, Any]) -> dict[str, Any]:
     small = _blind_detail(blinds, "small")
     big = _blind_detail(blinds, "big")
     boss = _blind_detail(blinds, "boss")
-    return {
+    shop_obj = state.get("shop") or {}
+    summary: dict[str, Any] = {
         "state": state.get("state"),
         "ante": state.get("ante_num"),
         "round": state.get("round_num"),
@@ -101,7 +106,22 @@ def summarize(state: dict[str, Any]) -> dict[str, Any]:
         "won": state.get("won"),
         "jokers": len((state.get("jokers") or {}).get("cards") or []) if isinstance(state.get("jokers"), dict) else None,
         "consumables": (state.get("consumables") or {}).get("count") if isinstance(state.get("consumables"), dict) else None,
+        # shop size (count of buyable items) — needed for legal-action inference
+        "shop_count": shop_obj.get("count") if isinstance(shop_obj, dict) else None,
+        # reroll cost surfaced for legal-action inference
+        "reroll_cost": round_obj.get("reroll_cost") if isinstance(round_obj, dict) else None,
     }
+    # live legal-action inference (86-dim indices that would be legal at this tick)
+    try:
+        summary["legal_actions"] = infer_legal_actions({
+            **summary,
+            # also pass nested round so inference can read reroll_cost without a summary field
+            "round": round_obj if isinstance(round_obj, dict) else {},
+            "shop": shop_obj if isinstance(shop_obj, dict) else {},
+        })
+    except Exception:  # noqa: BLE001 — never crash the observer on inference errors
+        summary["legal_actions"] = None
+    return summary
 
 
 # states where "play a hand" or "discard" are meaningful actions
