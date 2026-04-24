@@ -2,7 +2,23 @@
 
 _起草_: 2026-04-24  
 _触发_: 朋友给的 review（见会话 / 主张单主接口 + 废弃 BalatroEnv）  
-_状态_: 执行中（2026-04-24 批注完成）
+_状态_: 完成（2026-04-24 所有 A/B/C/D/E 决策已落地）
+
+## 执行后记（2026-04-24）
+
+| 段 | commit | 状态 |
+|---|---|---|
+| A1 / A2（主接口 + 废弃 Gym）| `9c6265b` → merge `cd52918` | ✅ `env/legacy/` 等目录就位，DeprecationWarning 生效 |
+| B1（拆 serializer + 归档策略）| `7797cea` `560842b` → merge `b67fbf5` | ✅ 5 条硬编码策略已归档到 `docs/archived_strategy_hints_20260424.md` |
+| B2（canonical trajectory 扩字段）| `8b5d962` `7cd2460` → merge `2314efe` | ✅ 向后兼容，两份已提交 canonical JSON 重新生成通过 |
+| B3 + C（README 收口 + 三层对齐口径）| `f84da21` | ✅ "尚未实现" 更新，新增 schema / value / semantic 三层说明 |
+
+风险记录（由 B2 subagent 报告）：
+- 3 份旧 `game_*.json` trajectory 未迁移（shape 不同）。迁移脚本 `scripts/migrate_llm_trajectories_to_canonical.py` 已就位但未运行——等具体使用需求再迁。
+- Observer session 的 `legal_actions / parsed_action / executed_action` 为 `None`（录的时候没抓），已标 `info.reconstructed = true` 供下游区分。
+- `crates/balatro-py/src/lib.rs:619` 有一句 `py.import("env.state_encoder")`，只有在 `legacy_86x454` observe profile 下被触发。没有主路径依赖它，留作将来复活 legacy 时的已知 TODO。
+
+cargo test: **120 / 120 全绿**；`import env / env.legacy / sim_repl / llm_play_game` 全部 smoke 通过。
 
 ## 批注摘要（给 subagent 用作执行规约）
 
