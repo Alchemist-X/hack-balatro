@@ -220,6 +220,79 @@ Trigger example: "first end-to-end real-client capture works" -> append the
 dated section *before* merging the feature branch. If the update changes how
 collaborators interact with the repo, README must reflect it the same day.
 
+## Annotatable-Plan Decision Capture (MANDATORY)
+
+**When a decision is non-trivial, don't just propose it in chat and wait for a
+yes/no. Drop a structured markdown file into `todo/` with explicit annotation
+slots, then stop and let the user mark it up.**
+
+### When this triggers
+
+- Architectural forks (deprecate vs refactor, split vs merge, rewrite vs patch).
+- Interface decisions (which API becomes the main one; schema changes).
+- Scope decisions where a subagent dispatch isn't obviously right.
+- Any "should I do X or Y?" where the answer shapes the next 2+ hours of work.
+- Third-party feedback / review that touches multiple subsystems.
+
+Trivially: if the next step is "write code", don't do this. If the next step
+is "decide what to write", do this.
+
+### File format
+
+Path: `todo/<YYYYMMDD>_<short_topic>_plan.md`
+
+Required structure (sections, in order):
+
+1. **Metadata header** — date, trigger (what prompted the plan), status (`草案，等批阅` / `批阅完成` / `执行中` / `完成`).
+2. **How to annotate** — one paragraph explaining the slot conventions so the
+   reader knows they can write directly in the file.
+3. **Core decision(s)** — each as its own section with:
+   - the proposal (one sentence)
+   - reasoning (bullet list, 2-5 points)
+   - opposing option(s) with honest trade-off
+   - my recommendation + why
+   - an annotation block:
+     ```
+     **批注格**:
+     - [ ] 同意 / 不同意
+     - 修改意见:
+     ```
+4. **Execution checklist** — the literal step sequence if the decision goes the
+   recommended way. Each step 1 line, with checkboxes.
+5. **Open questions** — explicit unknowns with slots.
+6. **Free-text footer** — a "你的整体结论 / 备注格子" section the user can write
+   long prose into.
+7. **References** — links to the original trigger (feedback doc, code, prior
+   todo entry) so future-you can reconstruct context.
+
+### Rules after the file exists
+
+- **Don't execute the plan before the user annotates it.** Same rule as
+  ExitPlanMode: once the plan is out, shut up and wait.
+- Check the file before each subagent dispatch: use the user's literal
+  annotations as the spec. Don't paraphrase "YES" into "mostly YES".
+- If the user writes `改成xxx` in a slot, that overrides your recommendation.
+- After execution, update the plan file's status line (`草案 → 完成`) and
+  optionally add a brief "what actually happened vs the plan" note at the
+  bottom — turns it into a durable decision record.
+
+### Why this pattern wins
+
+- Captures the *why*, not just the *what*. Six months later, git log tells
+  you a file moved to `legacy/`; the plan file tells you which alternative
+  was considered and rejected and on whose authority.
+- Surfaces ambiguity early. Reading a structured file forces the user to
+  discover which slots they don't actually have opinions on.
+- Parallelizes review. The user can annotate asynchronously; you don't block
+  the chat waiting.
+
+### Example
+
+`todo/20260424_interface_consolidation_plan.md` — the Gym deprecation decision
+was routed through this pattern. A 5-item checklist in `[ ]` form captured
+the user's yes/no per sub-decision; the execution subagent used the marked
+file as its spec.
+
 ## Auto Commit & Push
 
 When a task is complete (tests pass, no regressions), **automatically commit and push** without asking:
