@@ -615,8 +615,12 @@ impl PyEngine {
                     Ok(raw.into_pyobject(py)?.unbind().into())
                 }
                 "legacy_86x454" => {
+                    // env.state_encoder was moved to env/legacy/ as of 2026-04-24.
+                    // This observe profile is unreachable from the primary path;
+                    // only legacy Gym code would trigger it. Kept working in case
+                    // someone resurrects BalatroEnv from env/legacy/.
                     let module = py.import("numpy")?;
-                    let state_encoder = py.import("env.state_encoder")?;
+                    let state_encoder = py.import("env.legacy.state_encoder")?;
                     let mask = self.inner.gen_action_space();
                     let py_mask = module
                         .call_method1("array", (mask,))?
