@@ -31,7 +31,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import balatro_native
-from env.state_serializer import serialize_state, serialize_for_llm_prompt
+from env.state_serializer import serialize_state
+from env.prompt_builder import build_prompt
 
 # ---------------------------------------------------------------------------
 # Card / hand utilities
@@ -253,7 +254,7 @@ class ClaudeAgent:
         self.total_tokens = 0
 
     def decide(self, snapshot_dict: dict, legal_actions: list[str]) -> tuple[str, str]:
-        prompt = serialize_for_llm_prompt(snapshot_dict, legal_actions)
+        prompt = build_prompt(snapshot_dict, legal_actions)
 
         response = self.client.messages.create(
             model=self.model,

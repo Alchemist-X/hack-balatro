@@ -53,7 +53,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import balatro_native
-from env.state_serializer import serialize_state, serialize_for_llm_prompt
+from env.state_serializer import serialize_state
 
 
 # ---------------------------------------------------------------------------
