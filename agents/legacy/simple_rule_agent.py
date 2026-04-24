@@ -6,7 +6,7 @@ from typing import Any
 
 import numpy as np
 
-from env.action_space import action_name
+from env.legacy.action_space import action_name
 
 from scripts.behavior_log import plan_simple_rule_action
 

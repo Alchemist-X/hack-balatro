@@ -3,8 +3,8 @@ from __future__ import annotations
 import numpy as np
 
 from agents.greedy_agent import GreedyAgent
-from env.action_space import ACTION_DIM, DISCARD_INDEX, PLAY_INDEX
-from env.state_encoder import (
+from env.legacy.action_space import ACTION_DIM, DISCARD_INDEX, PLAY_INDEX
+from env.legacy.state_encoder import (
     HAND_CARD_FEATURES,
     HAND_SLOTS,
     NUM_SCALARS,

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from env.balatro_gym_wrapper import BalatroEnv
+from env.legacy.balatro_gym_wrapper import BalatroEnv
 
 
 def test_invalid_action_fallback_executes_legal_action() -> None:

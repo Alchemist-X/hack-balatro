@@ -7,7 +7,7 @@ from typing import Any
 
 import numpy as np
 
-from env.action_space import ACTION_DIM
+from env.legacy.action_space import ACTION_DIM
 
 # Layout constants
 ACTION_MASK_SIZE = ACTION_DIM

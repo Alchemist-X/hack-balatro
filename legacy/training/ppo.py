@@ -5,7 +5,7 @@ from typing import Any
 
 import torch
 
-from training.rollout import RolloutBatch
+from legacy.training.rollout import RolloutBatch
 
 
 @dataclass

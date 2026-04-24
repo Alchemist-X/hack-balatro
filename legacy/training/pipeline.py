@@ -10,9 +10,9 @@ import numpy as np
 
 from agents.greedy_agent import GreedyAgent
 from agents.random_agent import RandomAgent
-from env.action_space import ACTION_DIM
-from env.balatro_gym_wrapper import BalatroEnv, make_vec_env
-from env.state_encoder import OBS_DIM
+from env.legacy.action_space import ACTION_DIM
+from env.legacy.balatro_gym_wrapper import BalatroEnv, make_vec_env
+from env.legacy.state_encoder import OBS_DIM
 from eval.compare_baselines import compare_agents
 from eval.eval_policy import evaluate_agent
 from scripts.doctor import run_doctor
@@ -220,10 +220,10 @@ def run_phase2(
         raise RuntimeError("phase2 requires torch installed") from exc
 
     from agents.ppo_agent import PPOAgent
-    from training.behavior_clone import BehaviorCloner, collect_greedy_trajectories
-    from training.curriculum import CurriculumScheduler
-    from training.ppo import PPOConfig, PPOTrainer
-    from training.rollout import RolloutBuffer
+    from legacy.training.behavior_clone import BehaviorCloner, collect_greedy_trajectories
+    from legacy.training.curriculum import CurriculumScheduler
+    from legacy.training.ppo import PPOConfig, PPOTrainer
+    from legacy.training.rollout import RolloutBuffer
 
     run_id = run_id or _timestamp_run_id(f"phase2_{strategy_name}")
     out_dir = ensure_dir(Path(config.get("report", {}).get("results_dir", "results")) / run_id)

@@ -14,15 +14,15 @@ from pathlib import Path
 
 import numpy as np
 
-from env.action_space import ACTION_DIM
-from env.balatro_gym_wrapper import BalatroEnv
-from env.state_encoder import OBS_DIM
+from env.legacy.action_space import ACTION_DIM
+from env.legacy.balatro_gym_wrapper import BalatroEnv
+from env.legacy.state_encoder import OBS_DIM
 from utils.config import load_yaml, with_strategy
 from utils.reporting import write_json
 
 
 def run_doctor(
-    config_path: str = "configs/repro.yaml",
+    config_path: str = "configs/legacy/repro.yaml",
     output_path: str | None = None,
     config: dict | None = None,
 ) -> dict:
@@ -117,7 +117,7 @@ def run_doctor(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run environment doctor checks")
-    parser.add_argument("--config", default="configs/repro.yaml")
+    parser.add_argument("--config", default="configs/legacy/repro.yaml")
     parser.add_argument("--output", default=None)
     args = parser.parse_args()
 

@@ -6,8 +6,8 @@ from typing import Any
 
 import numpy as np
 
-from env.action_space import ACTION_DIM
-from env.state_encoder import OBS_DIM, unpack_obs_to_structured
+from env.legacy.action_space import ACTION_DIM
+from env.legacy.state_encoder import OBS_DIM, unpack_obs_to_structured
 
 try:
     import torch

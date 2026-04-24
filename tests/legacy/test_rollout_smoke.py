@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import torch
 
-from training.rollout import RolloutBuffer
+from legacy.training.rollout import RolloutBuffer
 
 
 def test_rollout_buffer_shapes_and_batches() -> None:

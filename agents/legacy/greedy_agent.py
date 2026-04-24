@@ -6,7 +6,7 @@ from typing import Any
 
 import numpy as np
 
-from env.action_space import (
+from env.legacy.action_space import (
     BUY_JOKER_COUNT,
     BUY_JOKER_START,
     CASHOUT_INDEX,
@@ -19,7 +19,7 @@ from env.action_space import (
     SELECT_CARD_COUNT,
     SELECT_CARD_START,
 )
-from env.state_encoder import (
+from env.legacy.state_encoder import (
     ACTION_MASK_SIZE,
     HAND_CARD_FEATURES,
     HAND_SLOTS,
