@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "real-client-observer",
-    "captured_at": "2026-04-20T14:53:27.062462+00:00",
+    "captured_at": "2026-04-24T06:06:01.185143+00:00",
     "seed": "4WAX5M4D",
     "deck": "RED",
     "stake": "WHITE",
@@ -33,6 +33,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "legal_actions": null,
+      "requested_action": "cash_out",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
+      },
       "action": {
         "type": "cash_out",
         "params": {
@@ -56,8 +64,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "money_change"
+        "source_event_kind": "money_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -79,6 +91,14 @@
         "blind_big": "UPCOMING",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "buy",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "buy",
@@ -103,8 +123,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": -231.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "money_change"
+        "source_event_kind": "money_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -126,6 +150,14 @@
         "blind_big": "UPCOMING",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "buy",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "buy",
@@ -150,8 +182,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "jokers_count_change"
+        "source_event_kind": "jokers_count_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -174,6 +210,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "legal_actions": null,
+      "requested_action": "next_round",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
+      },
       "action": {
         "type": "next_round",
         "params": {}
@@ -195,8 +239,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "state_change"
+        "source_event_kind": "state_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -218,6 +266,14 @@
         "blind_big": "UPCOMING",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "skip_blind",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "skip_blind",
@@ -242,8 +298,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "blind_status_change"
+        "source_event_kind": "blind_status_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -265,6 +325,14 @@
         "blind_big": "CURRENT",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "select_blind",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "select_blind",
@@ -289,8 +357,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "blind_status_change"
+        "source_event_kind": "blind_status_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -331,6 +403,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "legal_actions": null,
+      "requested_action": "use_consumable",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
+      },
       "action": {
         "type": "use_consumable",
         "params": {}
@@ -370,8 +450,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "consumables_count_change"
+        "source_event_kind": "consumables_count_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -411,6 +495,14 @@
         "blind_big": "CURRENT",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "play",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "play",
@@ -453,8 +545,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "hand_played"
+        "source_event_kind": "hand_played",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -476,6 +572,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "cash_out",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "cash_out",
@@ -500,8 +604,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "money_change"
+        "source_event_kind": "money_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -523,6 +631,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "buy",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "buy",
@@ -547,8 +663,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "jokers_count_change"
+        "source_event_kind": "jokers_count_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -570,6 +690,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "buy",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "buy",
@@ -595,8 +723,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "money_change"
+        "source_event_kind": "money_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -618,6 +750,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "UPCOMING",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "buy",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "buy",
@@ -660,8 +800,12 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "consumables_count_change"
+        "source_event_kind": "consumables_count_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -684,6 +828,14 @@
         "blind_boss": "UPCOMING",
         "won": false
       },
+      "legal_actions": null,
+      "requested_action": "next_round",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
+      },
       "action": {
         "type": "next_round",
         "params": {}
@@ -705,8 +857,12 @@
         "blind_boss": "SELECT",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "state_change"
+        "source_event_kind": "state_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -728,6 +884,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "CURRENT",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "select_blind",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "select_blind",
@@ -752,8 +916,12 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "blind_status_change"
+        "source_event_kind": "blind_status_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -794,6 +962,14 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "legal_actions": null,
+      "requested_action": "use_consumable",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
+      },
       "action": {
         "type": "use_consumable",
         "params": {}
@@ -833,8 +1009,12 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "consumables_count_change"
+        "source_event_kind": "consumables_count_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -866,6 +1046,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "CURRENT",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "play",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "play",
@@ -909,8 +1097,12 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "hand_played"
+        "source_event_kind": "hand_played",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -950,6 +1142,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "CURRENT",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "play",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "play",
@@ -1000,8 +1200,12 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "hand_played"
+        "source_event_kind": "hand_played",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -1035,6 +1239,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "CURRENT",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "play",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "play",
@@ -1079,8 +1291,12 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "hand_played"
+        "source_event_kind": "hand_played",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -1120,6 +1336,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "CURRENT",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "play",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "play",
@@ -1170,8 +1394,12 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "reward": 0.0,
+      "terminal": false,
       "info": {
-        "source_event_kind": "hand_played"
+        "source_event_kind": "hand_played",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     },
     {
@@ -1205,6 +1433,14 @@
         "blind_big": "DEFEATED",
         "blind_boss": "CURRENT",
         "won": false
+      },
+      "legal_actions": null,
+      "requested_action": "observe",
+      "parsed_action": null,
+      "executed_action": null,
+      "fallback_used": {
+        "used": false,
+        "reason": null
       },
       "action": {
         "type": "observe",
@@ -1241,8 +1477,12 @@
         "blind_boss": "CURRENT",
         "won": false
       },
+      "reward": 72.0,
+      "terminal": true,
       "info": {
-        "source_event_kind": "state_change"
+        "source_event_kind": "state_change",
+        "reconstructed": true,
+        "legal_actions_known": false
       }
     }
   ]
