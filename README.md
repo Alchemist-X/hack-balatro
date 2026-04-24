@@ -61,9 +61,21 @@ Joker count check:    5/5   passed
 
 | 缺失项 | 影响 |
 |--------|------|
-| 真实客户端 trajectory 录制 | 所有验证仍是 engine 自对照 |
 | ~14 个复杂 Boss Blind (Crimson Heart, Amber Acorn 等) | 这些 Boss 出现时退化为普通 Blind |
 | chips/mult trace 对比 | 审计有框架但 engine 尚未输出 final_chips/final_mult |
+| 16 / 24 跳盲注 Tag 的真实效果 | Tag 元数据已暴露，8 种常用效果已实现；其余 16 种（改 joker / 送包 / 特殊）是 stub，触发只记 `unimplemented_tag` 事件 |
+
+### sim↔real 对齐分三层理解
+
+当前报告里"98/148 aligned"只说明**第一层**。下面解释清楚每层含义，避免"对齐"被过度解读：
+
+| 层级 | 含义 | 当前状态 |
+|------|------|----------|
+| **schema 对齐** | 字段名、类型、嵌套形状对得上（sim 输出的 key 在 real 输出里也存在，反之亦然）| ✅ 98/148（66.2%），剩 12 条纯 UI 装饰故意不做 |
+| **value 对齐** | 同 seed 同动作序列下，逐字段**数值**相等（sim 的 money、sim 的 round_chips、sim 的 joker list 都和 real 对上）| ❌ 待做——需要① engine 能用**字符串 seed**复现 Balatro 的 Lua RNG；② 录一把从 start 到 game_over 的完整带动作序列真实轨迹 |
+| **semantic 对齐** | 跳盲注的 tag 奖励、voucher 效果、joker 交互等**动态游戏行为**真实模拟（不是占位）| ❌ 部分——P1-a Tag 系统有 8/24 效果真实落地，其余 16 种是 stub；voucher 和 joker 的多数交互还是基础版 |
+
+真正宣称"**sim 能忠实重放真实客户端**"需要三层全绿。现在只有 schema 一层过了。
 
 ---
 
