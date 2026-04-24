@@ -28,6 +28,7 @@ from env.canonical_trajectory import (
     CanonicalState,
     CanonicalStep,
     CanonicalTrajectory,
+    FallbackInfo,
     now_iso,
 )
 
@@ -214,13 +215,38 @@ def build_trajectory(session_dir: Path) -> CanonicalTrajectory:
             last_summary = sa
             continue
 
+        # Observer is a retrofit: we did not capture legal_actions at
+        # real-time, nor do we have discrete action indices. Mark the step
+        # as reconstructed so downstream tools can distinguish retrofits
+        # from genuinely-captured decisions.
+        before_state = summary_to_state(before)
+        after_state = summary_to_state(sa)
+        before_chips = before_state.round_chips
+        after_chips = after_state.round_chips
+        reward: float | None = None
+        if isinstance(before_chips, (int, float)) and isinstance(after_chips, (int, float)):
+            reward = float(after_chips) - float(before_chips)
+
+        terminal = (sa.get("state") == "GAME_OVER") or (i == len(events) - 1 and action.type == "observe" and action.params.get("reason") == "game_over")
+
         steps.append(CanonicalStep(
             step_idx=step_idx,
             ts=ev.get("ts", ""),
-            state_before=summary_to_state(before),
+            state_before=before_state,
+            legal_actions=None,  # observer did not capture
+            requested_action=action.type,  # best inference from event stream
+            parsed_action=None,  # no discrete index available
+            executed_action=None,  # no discrete index available
+            fallback_used=FallbackInfo(used=False, reason=None),
             action=action,
-            state_after=summary_to_state(sa),
-            info={"source_event_kind": kind},
+            state_after=after_state,
+            reward=reward,
+            terminal=terminal,
+            info={
+                "source_event_kind": kind,
+                "reconstructed": True,
+                "legal_actions_known": False,
+            },
         ))
         step_idx += 1
         last_summary = sa
