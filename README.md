@@ -69,19 +69,23 @@ Joker count check:    5/5   passed
 
 ## 实验进度
 
-### PPO 训练管道
+### PPO 训练管道 🚧 legacy (retired 2026-04-24)
 
-训练基础设施已完整搭建并跑通端到端验证：
+> 本路线已退役。主接口见下文「LLM 训练环境接口」。历史代码 frozen 在
+> `env/legacy/` / `legacy/training/` / `scripts/legacy/` / `agents/legacy/`，
+> 复活指引：[`env/legacy/README.md`](./env/legacy/README.md)。
+
+训练基础设施曾完整搭建并跑通端到端验证：
 
 | 组件 | 状态 |
 |------|------|
-| Gym Wrapper (`BalatroEnv`) | ✅ 支持 balatro_native 后端 |
-| State Encoder | ✅ **576-dim** obs (含 enhancement/edition/boss/voucher/consumable) |
-| PPO Agent (MLP / Transformer) | ✅ 334K params (MLP-256) |
-| Rollout Buffer + GAE | ✅ |
-| PPO Trainer | ✅ |
-| Reward Shaping | ✅ blind clear +1, boss +3, ante +2, win +10, loss -1, 经济 +0.01/$ |
-| 实验报告系统 | ✅ `results/training/<exp>/report.json` + `metrics.csv` |
+| Gym Wrapper (`BalatroEnv`) | 🚧 legacy (`env/legacy/balatro_gym_wrapper.py`) |
+| State Encoder | 🚧 legacy **576-dim** obs (`env/legacy/state_encoder.py`) |
+| PPO Agent (MLP / Transformer) | 🚧 legacy 334K params (`agents/legacy/ppo_agent.py`) |
+| Rollout Buffer + GAE | 🚧 legacy (`legacy/training/rollout.py`) |
+| PPO Trainer | 🚧 legacy (`legacy/training/ppo.py`) |
+| Reward Shaping | 🚧 legacy blind clear +1, boss +3, ante +2, win +10, loss -1, 经济 +0.01/$ |
+| 实验报告系统 | 🚧 legacy `results/training/<exp>/report.json` + `metrics.csv` |
 
 ### 首次实验：smoke_test_v1
 
@@ -215,11 +219,11 @@ python scripts/record_replay.py --seed 42 --policy simple_rule_v1 --max-steps 50
 python scripts/audit_replay.py --replay results/replay.json --output results/audit.json
 ```
 
-### 4. 跑一次 PPO 训练
+### 4. 交互式跑一局 (LLM 主接口)
 
 ```bash
-python scripts/train_smoke.py --num-envs 4 --num-updates 50 --exp-name my_first_run --save-checkpoint
-# 结果输出到 results/training/my_first_run/
+python scripts/sim_repl.py --seed 42 --deck red --stake 1 --lang en
+# 每步打印状态 + 合法动作；输入序号推进，用于验证仿真端到端
 ```
 
 ## 仓库结构
@@ -230,25 +234,29 @@ crates/
   balatro-engine/     结构化 snapshot / action / transition engine (8K lines, 104 tests)
   balatro-py/         PyO3 绑定 → balatro_native
 env/
-  balatro_gym_wrapper.py    Gym wrapper
-  state_encoder.py          576-dim observation encoder
-  action_space.py           86-dim action space
+  state_serializer.py       文本化 state (LLM 主接口)
+  canonical_trajectory.py   统一 trajectory schema (LLM / sim REPL / real client)
+  locale.py                 英/中文翻译
+  state_mapping.py          snapshot 字段映射
+  legacy/                   🚧 已退役的 Gym wrapper + encoder + action_space
 agents/
-  simple_rule_agent.py      Rule-based baseline (reaches Ante 4)
-  ppo_agent.py              PPO agent (MLP / Transformer)
-training/
-  ppo.py                    PPO trainer
-  rollout.py                Rollout buffer + GAE
-  pipeline.py               Full training pipeline
+  base.py                   Agent Protocol
+  random_agent.py           Random baseline
+  legacy/                   🚧 已退役的 simple_rule / greedy / PPO agents
+legacy/
+  training/                 🚧 已退役的 PPO trainer / rollout / BC pipeline
 scripts/
-  train_smoke.py            PPO 训练 + 实验报告
+  sim_repl.py               交互式 REPL（人类 / LLM 主接口验证）
+  llm_play_game.py          LLM 自动跑 trajectory
   record_replay.py          录制 replay
   audit_replay.py           结构 + 数值审计
   diff_replays.py           同 seed 确定性 diff
+  legacy/                   🚧 已退役的 train_smoke / train_ppo / eval_run 等
+configs/
+  legacy/                   🚧 已退役的 PPO yaml
 fixtures/
   ruleset/                  生成的 ruleset bundle (150 Jokers)
 results/
-  training/                 实验报告 (report.json + metrics.csv)
   replay-fidelity.audit.json  最新审计结果
 ```
 
@@ -393,25 +401,15 @@ _Full architecture + test plan: see [`todo/20260420_real_client_integration_plan
 
 ---
 
-## LLM / RL 训练环境接口
+## LLM 训练环境接口
 
-仓里已经为智能体搭好 3 层 API。**默认都是英文输出**，LLM 训练数据保持语种不变；人类调试想看中文另外切。
+仓里已经为 LLM 智能体搭好 2 层 API。**默认都是英文输出**，LLM 训练数据保持语种不变；人类调试想看中文另外切。
 
-### 1. Gym 风格（`env/balatro_gym_wrapper.py`）—— 给 RL 用
+> 历史的 Gym 风格接口（`BalatroEnv`、576-dim state encoder、PPO trainer）已于 2026-04-24 退役，
+> 移至 `env/legacy/` / `legacy/training/` / `scripts/legacy/` / `agents/legacy/`。
+> 复活指引：[`env/legacy/README.md`](./env/legacy/README.md)。
 
-```python
-from env import BalatroEnv
-
-env = BalatroEnv(seed=42, deck="red")
-obs, info = env.reset()                         # obs = numpy 向量 (OBS_DIM 维)
-obs, reward, done, _, info = env.step(action_idx)   # action_idx ∈ [0, 85]
-```
-
-- state → **numpy 数值向量**（`env/state_encoder.py::encode_pylatro_state`）
-- action → **86 维离散**（见 §3）
-- reward / done / info → 标准 Gymnasium 约定
-
-### 2. 文本化状态（`env/state_serializer.py`）—— 给 LLM 读
+### 1. 文本化状态（`env/state_serializer.py`）—— 给 LLM 读
 
 ```python
 from env.state_serializer import serialize_state
@@ -432,7 +430,10 @@ text = serialize_state(snapshot, legal_actions, lang="zh")   # 中文（需要 f
 
 `lang="zh"` 会把所有标签和 joker/tag/blind/牌型/consumable 名翻成中文。
 
-### 3. 86 维离散动作空间（`env/action_space.py`）
+### 2. 86 维离散动作空间 🚧 legacy (`env/legacy/action_space.py`)
+
+> 常量保留作为 action-index 的历史参考，RL 路线已退役；主接口通过
+> `engine.handle_action_index(idx)` 直接接受同一套索引。
 
 ```
  0..7    select_card_0 .. select_card_7     (选/取消选卡)
@@ -468,7 +469,7 @@ text = serialize_state(snapshot, legal_actions, lang="zh")   # 中文（需要 f
                │
                ▼
 ┌──────────────────────────────────┐
-│ 3. action_name → action_idx      │  `env.action_space` 反向查
+│ 3. action_name → action_idx      │  `balatro_native.action_label` 反向查
 │ 4. Engine.step(idx)              │  Rust 推进 → Transition
 └──────────────────────────────────┘
                │

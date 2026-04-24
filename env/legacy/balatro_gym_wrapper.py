@@ -9,7 +9,7 @@ from typing import Any, Callable
 
 import numpy as np
 
-from env.action_space import (
+from env.legacy.action_space import (
     ACTION_DIM,
     BUY_JOKER_COUNT,
     BUY_JOKER_START,
@@ -27,7 +27,7 @@ from env.action_space import (
     SKIP_BLIND_INDEX,
     action_name,
 )
-from env.state_encoder import OBS_DIM, encode_pylatro_state
+from env.legacy.state_encoder import OBS_DIM, encode_pylatro_state
 
 try:
     import gymnasium as gym
@@ -701,7 +701,7 @@ class BalatroEnv(gym.Env if hasattr(gym, "Env") else object):  # type: ignore[mi
             reward += float(self.reward_cfg.get("ante_advance_reward", 2.0))
 
         # Score-proportional reward: big reward when play scores, penalty for zero-score plays
-        from env.action_space import PLAY_INDEX, DISCARD_INDEX
+        from env.legacy.action_space import PLAY_INDEX, DISCARD_INDEX
         if action == PLAY_INDEX:
             if score_delta > 0 and required > 0:
                 # Strong reward proportional to fraction of blind beaten

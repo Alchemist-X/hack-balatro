@@ -12,14 +12,14 @@ import argparse
 import json
 
 from agents.greedy_agent import GreedyAgent
-from env.balatro_gym_wrapper import BalatroEnv
+from env.legacy.balatro_gym_wrapper import BalatroEnv
 from eval.eval_policy import evaluate_agent
 from utils.config import load_yaml, with_strategy
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="configs/repro.yaml")
+    parser.add_argument("--config", default="configs/legacy/repro.yaml")
     parser.add_argument("--strategy", default=None)
     parser.add_argument("--num-games", type=int, default=200)
     parser.add_argument("--until-win", action="store_true")

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from env.action_space import ACTION_DIM
-from env.state_encoder import (
+from env.legacy.action_space import ACTION_DIM
+from env.legacy.state_encoder import (
     BOSS_DIM,
     CONSUMABLE_DIM,
     HAND_CARD_FEATURES,

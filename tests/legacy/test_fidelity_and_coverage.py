@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from agents.simple_rule_agent import SimpleRuleAgent
-from env.balatro_gym_wrapper import ParallelBalatroEnvs
+from env.legacy.balatro_gym_wrapper import ParallelBalatroEnvs
 
 
 def load_bundle() -> dict:

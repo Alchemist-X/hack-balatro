@@ -15,9 +15,9 @@ from typing import Any
 
 from agents.greedy_agent import GreedyAgent
 from agents.random_agent import RandomAgent
-from env.balatro_gym_wrapper import BalatroEnv
+from env.legacy.balatro_gym_wrapper import BalatroEnv
 from eval.compare_baselines import compare_agents
-from training.pipeline import run_phase1, run_phase2
+from legacy.training.pipeline import run_phase1, run_phase2
 from utils.config import load_yaml, with_strategy
 from utils.reporting import write_csv, write_json
 
@@ -139,27 +139,27 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     p1 = sub.add_parser("phase1", help="Run phase1 doctor + baseline evaluation")
-    p1.add_argument("--config", default="configs/repro.yaml")
+    p1.add_argument("--config", default="configs/legacy/repro.yaml")
     p1.add_argument("--strategy", default=None)
     p1.add_argument("--run-id", default=None)
     p1.set_defaults(func=cmd_phase1)
 
     p2 = sub.add_parser("phase2", help="Run BC + PPO pipeline")
-    p2.add_argument("--config", default="configs/repro.yaml")
+    p2.add_argument("--config", default="configs/legacy/repro.yaml")
     p2.add_argument("--strategy", default=None)
     p2.add_argument("--run-id", default=None)
     p2.add_argument("--resume", default=None)
     p2.set_defaults(func=cmd_phase2)
 
     resume = sub.add_parser("resume", help="Alias of phase2 with resume checkpoint")
-    resume.add_argument("--config", default="configs/repro.yaml")
+    resume.add_argument("--config", default="configs/legacy/repro.yaml")
     resume.add_argument("--strategy", default=None)
     resume.add_argument("--run-id", default=None)
     resume.add_argument("--resume", required=True)
     resume.set_defaults(func=cmd_phase2)
 
     pe = sub.add_parser("eval", help="Evaluate agents and generate report files")
-    pe.add_argument("--config", default="configs/repro.yaml")
+    pe.add_argument("--config", default="configs/legacy/repro.yaml")
     pe.add_argument("--strategy", default=None)
     pe.add_argument("--episodes", type=int, default=100)
     pe.add_argument("--ppo-checkpoint", default=None)
@@ -167,7 +167,7 @@ def build_parser() -> argparse.ArgumentParser:
     pe.set_defaults(func=cmd_eval)
 
     pr = sub.add_parser("report", help="Render CSV report from metrics JSON")
-    pr.add_argument("--config", default="configs/repro.yaml")
+    pr.add_argument("--config", default="configs/legacy/repro.yaml")
     pr.add_argument("--metrics", required=True)
     pr.add_argument("--output", default="results/report.csv")
     pr.set_defaults(func=cmd_report)

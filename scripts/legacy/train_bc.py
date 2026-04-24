@@ -14,13 +14,13 @@ from pathlib import Path
 import torch
 
 from agents.ppo_agent import PPOAgent
-from training.behavior_clone import BehaviorCloner
+from legacy.training.behavior_clone import BehaviorCloner
 from utils.config import load_yaml, with_strategy
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="configs/repro.yaml")
+    parser.add_argument("--config", default="configs/legacy/repro.yaml")
     parser.add_argument("--strategy", default=None)
     parser.add_argument("--trajectories", required=True)
     parser.add_argument("--epochs", type=int, default=50)

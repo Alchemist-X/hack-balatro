@@ -27,10 +27,10 @@ if str(ROOT) not in sys.path:
 
 import numpy as np
 
-from env.action_space import ACTION_DIM
-from env.balatro_gym_wrapper import BalatroEnv
-from env.state_encoder import OBS_DIM
-from training.rollout import RolloutBuffer
+from env.legacy.action_space import ACTION_DIM
+from env.legacy.balatro_gym_wrapper import BalatroEnv
+from env.legacy.state_encoder import OBS_DIM
+from legacy.training.rollout import RolloutBuffer
 
 try:
     import torch
@@ -38,7 +38,7 @@ except ImportError:
     sys.exit("torch is required -- install it first (pip install torch)")
 
 from agents.ppo_agent import PPOAgent
-from training.ppo import PPOConfig, PPOTrainer
+from legacy.training.ppo import PPOConfig, PPOTrainer
 
 try:
     import psutil

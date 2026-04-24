@@ -9,11 +9,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from utils.config import load_yaml, with_strategy
-from training.pipeline import run_phase1, run_phase2
+from legacy.training.pipeline import run_phase1, run_phase2
 
 
 def main() -> None:
-    config = with_strategy(load_yaml("configs/repro.yaml"))
+    config = with_strategy(load_yaml("configs/legacy/repro.yaml"))
     phase1 = run_phase1(config)
     print("phase1", phase1)
     if not phase1.ok:

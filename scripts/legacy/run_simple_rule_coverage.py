@@ -19,7 +19,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from agents.simple_rule_agent import SimpleRuleAgent
-from env.balatro_gym_wrapper import ParallelBalatroEnvs
+from env.legacy.balatro_gym_wrapper import ParallelBalatroEnvs
 from scripts.behavior_log import (
     LOG_METADATA,
     TEST_FOCUS,

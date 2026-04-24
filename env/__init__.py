@@ -1,5 +1,8 @@
-from __future__ import annotations
+"""Primary interface modules.
 
-from env.balatro_gym_wrapper import BalatroEnv, ParallelBalatroEnvs, make_vec_env
-
-__all__ = ["BalatroEnv", "ParallelBalatroEnvs", "make_vec_env"]
+Historical Gym/PPO wrapper lives in ``env.legacy``; it is deprecated as
+of 2026-04-24. See ``todo/20260424_interface_consolidation_plan.md`` for
+the decision + revival recipe.
+"""
+# Intentionally no auto-exports; consumers should import from specific
+# submodules (state_serializer, locale, canonical_trajectory, state_mapping).

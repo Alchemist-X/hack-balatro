@@ -10,13 +10,13 @@ if str(ROOT) not in sys.path:
 
 import argparse
 
-from training.pipeline import run_phase2
+from legacy.training.pipeline import run_phase2
 from utils.config import load_yaml, with_strategy
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="configs/repro.yaml")
+    parser.add_argument("--config", default="configs/legacy/repro.yaml")
     parser.add_argument("--strategy", default=None)
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--resume", default=None)
